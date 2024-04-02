@@ -1,7 +1,10 @@
 import ProductCard from "@/components/products/ProductCard";
 
 async function getProducts() {
-  const res = await fetch("https://dummyjson.com/products");
+  await new Promise((res) => setTimeout(res, 1500));
+  const res = await fetch("https://dummyjson.com/products", {
+    cache: "no-store",
+  });
   const products = await res.json();
   return products.products;
 }
