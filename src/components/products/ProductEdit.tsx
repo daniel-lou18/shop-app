@@ -16,9 +16,7 @@ import { Label } from "@/components/ui/label";
 import {
   Select,
   SelectContent,
-  SelectGroup,
   SelectItem,
-  SelectLabel,
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
@@ -34,6 +32,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
 import { db } from "@/db";
 import { notFound, redirect } from "next/navigation";
+import ProductDynamicSelect from "./ProductDynamicSelect";
 
 async function ProductEdit({ id }: { id: string }) {
   const product = await db.product.findFirst({
@@ -41,25 +40,25 @@ async function ProductEdit({ id }: { id: string }) {
     include: { brand: true, category: true },
   });
 
-  if (!product) notFound();
+  if (!product) return notFound();
 
   async function editProduct(formData: FormData) {
     "use server";
-    const name = formData.get("name") as string;
-    const description = formData.get("description") as string;
-    const price = formData.get("price") as string;
-    const imagePath = formData.get("imagePath") as string;
-    const brand = formData.get("brand") as string;
-    const category = formData.get("category") as string;
+    const data = {
+      name: formData.get("name") as string,
+      description: formData.get("description") as string,
+      price: formData.get("price") as string,
+      imagePath: formData.get("imagePath") as string,
+      brand: formData.get("brand") as string,
+      category: formData.get("category") as string,
+    };
     await db.product.update({
       where: { id },
       data: {
-        name,
-        description,
-        price: parseInt(price),
-        imagePath,
-        brand: { connect: { id: brand } },
-        category: { connect: { id: category } },
+        ...data,
+        price: parseInt(data.price),
+        brand: { connect: { id: data.brand } },
+        category: { connect: { id: data.category } },
       },
     });
     redirect("/admin/products");
@@ -138,29 +137,19 @@ async function ProductEdit({ id }: { id: string }) {
                         name="imagePath"
                       />
                     </div>
-                    <div className="grid gap-3">
-                      <Label htmlFor="brand">Marque</Label>
-                      <Select name="brand" defaultValue={product.brand.name}>
-                        <SelectTrigger className="w-[180px]" id="brand">
-                          <SelectValue />
-                        </SelectTrigger>
-                        <SelectContent>
-                          <SelectGroup>
-                            <SelectItem value="8b0d5954-0e45-4d0a-aff6-8858a1f00543">
-                              Adidas
-                            </SelectItem>
-                            <SelectItem value="7f7fa6af-3daf-426f-b572-1b3fd4c9e7ca">
-                              Nike
-                            </SelectItem>
-                          </SelectGroup>
-                        </SelectContent>
-                      </Select>
-                    </div>
-                    <div className="grid gap-3">
-                      <DynamicSelect
-                        tableName="category"
-                        currentValue={product.category.name}
-                      />
+                    <div className="grid gap-6 sm:grid-cols-3">
+                      <div className="grid gap-3">
+                        <ProductDynamicSelect
+                          tableName="brand"
+                          currentValue={product.brand.id}
+                        />
+                      </div>
+                      <div className="grid gap-3">
+                        <ProductDynamicSelect
+                          tableName="category"
+                          currentValue={product.category.id}
+                        />
+                      </div>
                     </div>
                   </div>
                 </CardContent>
@@ -287,44 +276,6 @@ async function ProductEdit({ id }: { id: string }) {
                 </Button>
               </CardFooter>
             </Card>
-            <Card>
-              <CardHeader>
-                <CardTitle>Product Category</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="grid gap-6 sm:grid-cols-3">
-                  <div className="grid gap-3">
-                    <Label htmlFor="category">Category</Label>
-                    <Select>
-                      <SelectTrigger id="category" aria-label="Select category">
-                        <SelectValue placeholder="Select category" />
-                      </SelectTrigger>
-                      <SelectContent>
-                        <SelectItem value="clothing">Clothing</SelectItem>
-                        <SelectItem value="electronics">Electronics</SelectItem>
-                        <SelectItem value="accessories">Accessories</SelectItem>
-                      </SelectContent>
-                    </Select>
-                  </div>
-                  <div className="grid gap-3">
-                    <Label htmlFor="subcategory">Subcategory (optional)</Label>
-                    <Select>
-                      <SelectTrigger
-                        id="subcategory"
-                        aria-label="Select subcategory"
-                      >
-                        <SelectValue placeholder="Select subcategory" />
-                      </SelectTrigger>
-                      <SelectContent>
-                        <SelectItem value="t-shirts">T-Shirts</SelectItem>
-                        <SelectItem value="hoodies">Hoodies</SelectItem>
-                        <SelectItem value="sweatshirts">Sweatshirts</SelectItem>
-                      </SelectContent>
-                    </Select>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
           </div>
           <div className="grid auto-rows-max items-start gap-4 lg:gap-8">
             <Card>
@@ -362,7 +313,7 @@ async function ProductEdit({ id }: { id: string }) {
                     alt="Product image"
                     className="aspect-square w-full rounded-md object-cover"
                     height="300"
-                    src="/placeholder.svg"
+                    src={product.imagePath}
                     width="300"
                   />
                   <div className="grid grid-cols-3 gap-2">
@@ -416,35 +367,6 @@ async function ProductEdit({ id }: { id: string }) {
         </div>
       </div>
     </main>
-  );
-}
-
-type DynamicSelectProps = {
-  tableName: "brand" | "category";
-  currentValue: string;
-};
-
-async function DynamicSelect({ tableName, currentValue }: DynamicSelectProps) {
-  const results = await db[tableName].findMany();
-  console.log(results);
-  return (
-    <>
-      <Label htmlFor={tableName}>Catégorie</Label>
-      <Select name={tableName} defaultValue={currentValue}>
-        <SelectTrigger className="w-[180px]" id={tableName}>
-          <SelectValue />
-        </SelectTrigger>
-        <SelectContent>
-          <SelectGroup>
-            {results.map((result) => (
-              <SelectItem value={result.id} key={result.id}>
-                {result.name}
-              </SelectItem>
-            ))}
-          </SelectGroup>
-        </SelectContent>
-      </Select>
-    </>
   );
 }
 

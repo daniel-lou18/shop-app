@@ -1,7 +1,5 @@
-import Image from "next/image";
 import Link from "next/link";
-import { File, ListFilter, MoreHorizontal, PlusCircle } from "lucide-react";
-import { Badge } from "@/components/ui/badge";
+import { File, ListFilter, PlusCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -15,7 +13,6 @@ import {
   DropdownMenu,
   DropdownMenuCheckboxItem,
   DropdownMenuContent,
-  DropdownMenuItem,
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
@@ -23,13 +20,13 @@ import {
 import {
   Table,
   TableBody,
-  TableCell,
   TableHead,
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { db } from "@/db";
+import ProductsTableItem from "./ProductsTableItem";
 
 export default async function ProductsTable() {
   const products = await db.product.findMany({
@@ -124,7 +121,7 @@ export default async function ProductsTable() {
                     <TableBody>
                       {products.length > 0 &&
                         products.map((product) => (
-                          <ProductRow {...product} key={product.id} />
+                          <ProductsTableItem {...product} key={product.id} />
                         ))}
                     </TableBody>
                   </Table>
@@ -141,54 +138,5 @@ export default async function ProductsTable() {
         </main>
       </div>
     </div>
-  );
-}
-
-type ProductRowProps = {
-  id: string;
-  name: string;
-  brand: object;
-  category: object;
-  price: number;
-};
-
-function ProductRow({ id, name, brand, category, price }: ProductRowProps) {
-  return (
-    <TableRow>
-      <TableCell className="hidden sm:table-cell">
-        <Image
-          alt="Product image"
-          className="aspect-square rounded-md object-cover"
-          height="64"
-          src="/placeholder.svg"
-          width="64"
-        />
-      </TableCell>
-      <TableCell className="font-medium">{name}</TableCell>
-      <TableCell>{brand.name}</TableCell>
-      <TableCell>{category.name}</TableCell>
-      <TableCell>
-        <Badge variant="outline">Draft</Badge>
-      </TableCell>
-      <TableCell className="hidden md:table-cell">{price} €</TableCell>
-      <TableCell className="hidden md:table-cell">25</TableCell>
-      <TableCell>
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button aria-haspopup="true" size="icon" variant="ghost">
-              <MoreHorizontal className="h-4 w-4" />
-              <span className="sr-only">Toggle menu</span>
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="end">
-            <DropdownMenuLabel>Actions</DropdownMenuLabel>
-            <DropdownMenuItem asChild>
-              <Link href={`/admin/products/${id}`}>Modifier</Link>
-            </DropdownMenuItem>
-            <DropdownMenuItem>Delete</DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
-      </TableCell>
-    </TableRow>
   );
 }
