@@ -1,13 +1,7 @@
-import ProductForm from "@/components/products/ProductForm";
-import PageHeading1 from "@/components/ui/PageHeading1";
+import ProductCreate from "@/components/products/ProductCreate";
 
 function NewProduct() {
-  return (
-    <>
-      <PageHeading1>Ajouter produit</PageHeading1>
-      <ProductForm />
-    </>
-  );
+  return <ProductCreate />;
 }
 
 export default NewProduct;

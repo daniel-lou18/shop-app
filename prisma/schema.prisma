@@ -13,12 +13,49 @@ model Product {
   price Int
   imagePath String
   description String
+  brandId String
+  brand Brand @relation(fields: [brandId], references: [id], onDelete: Restrict)
+  categoryId String
+  category Category @relation(fields: [categoryId], references: [id], onDelete: Restrict)
   isAvailable Boolean @default(true)
   isSpecialOffer Boolean @default(false)
   isNewProduct Boolean @default(false)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   orders Order[]
+  variants ProductVariant[]
+}
+
+model ProductVariant {
+  id String @id @default(uuid())
+  productId String
+  product Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+  size String
+  color String
+  sku String @unique
+  stockQuantity Int
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  @@unique([productId, size, color])
+}
+
+model Brand {
+  id String @id @default(uuid())
+  name String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  products Product[]
+}
+
+model Category {
+  id String @id @default(uuid())
+  name String
+  parentCategoryId String? @map("parent_category_id")
+  parentCategory Category? @relation("ChildCategories", fields: [parentCategoryId], references: [id])
+  children Category[] @relation("ChildCategories")
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  products Product[]
 }
 
 model User {

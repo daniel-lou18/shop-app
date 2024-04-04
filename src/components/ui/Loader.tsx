@@ -1,6 +1,6 @@
 import { Loader2 } from "lucide-react";
 
-function ShopLoading() {
+function Loader() {
   return (
     <div className="flex justify-center items-center w-full h-full">
       <Loader2 className="size-24 animate-spin" />
@@ -8,4 +8,4 @@ function ShopLoading() {
   );
 }
 
-export default ShopLoading;
+export default Loader;
