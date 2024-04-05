@@ -1,20 +1,13 @@
 import ProductCard from "@/components/products/ProductCard";
 import { db } from "@/db";
 
-async function getProducts() {
-  await new Promise((res) => setTimeout(res, 1500));
-  return await db.product.findMany();
-}
-
 async function ProductList() {
-  const products = await getProducts();
+  const products = await db.product.findMany({ include: { brand: true } });
 
   return (
-    <ul className="grid grid-cols-3">
+    <ul className="grid grid-cols-3 gap-4">
       {products.map((product) => (
-        <li key={product.id}>
-          <ProductCard {...product} />
-        </li>
+        <ProductCard {...product} key={product.id} />
       ))}
     </ul>
   );

@@ -1,4 +1,4 @@
-import ProductCreate from "@/components/products/ProductCreate";
+import ProductCreate from "@/components/product/ProductCreate";
 
 function NewProduct() {
   return <ProductCreate />;

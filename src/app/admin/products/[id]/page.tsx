@@ -1,4 +1,4 @@
-import ProductEdit from "@/components/products/ProductEdit";
+import ProductEdit from "@/components/product/ProductEdit";
 
 type ProductDetailsProps = {
   params: {

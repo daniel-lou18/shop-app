@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Inter as FontSans } from "next/font/google";
 import { cn } from "@/lib/utils";
+import { Toaster } from "@/components/ui/toaster";
 import "./globals.css";
 
 const fontSans = FontSans({
@@ -27,6 +28,7 @@ export default function RootLayout({
         )}
       >
         <div className="container px-16">{children}</div>
+        <Toaster />
       </body>
     </html>
   );

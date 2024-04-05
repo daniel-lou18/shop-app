@@ -27,6 +27,7 @@ import {
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { db } from "@/db";
 import ProductsTableItem from "./ProductsTableItem";
+import PageItemsCounter from "../ui/PageItemsCounter";
 
 export default async function ProductsTable() {
   const products = await db.product.findMany({
@@ -127,10 +128,11 @@ export default async function ProductsTable() {
                   </Table>
                 </CardContent>
                 <CardFooter>
-                  <div className="text-xs text-muted-foreground">
-                    Showing <strong>1-10</strong> of <strong>32</strong>{" "}
-                    products
-                  </div>
+                  <PageItemsCounter
+                    currentPage={1}
+                    itemsPerPage={10}
+                    totalItems={products.length}
+                  />
                 </CardFooter>
               </Card>
             </TabsContent>

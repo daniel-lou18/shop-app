@@ -1,9 +1,10 @@
 import ProductList from "@/components/products/ProductList";
+import PageHeading1 from "@/components/ui/PageHeading1";
 
 function CustomerProducts() {
   return (
     <>
-      <h2>CustomerProducts</h2>
+      <PageHeading1>Tous nos produits</PageHeading1>
       <ProductList />
     </>
   );

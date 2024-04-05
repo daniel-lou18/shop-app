@@ -12,6 +12,7 @@ import { MoreHorizontal } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
 import { Brand, Category, Product } from "@prisma/client";
+import ProductsTableItemDelete from "./ProductsTableItemDelete";
 
 type ProductsTableItemProps = Product & { brand: Brand } & {
   category: Category;
@@ -57,7 +58,7 @@ function ProductsTableItem({
             <DropdownMenuItem asChild>
               <Link href={`/admin/products/${id}`}>Modifier</Link>
             </DropdownMenuItem>
-            <DropdownMenuItem>Delete</DropdownMenuItem>
+            <ProductsTableItemDelete id={id} />
           </DropdownMenuContent>
         </DropdownMenu>
       </TableCell>

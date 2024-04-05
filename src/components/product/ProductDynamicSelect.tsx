@@ -25,7 +25,9 @@ async function ProductDynamicSelect({
       <Label htmlFor={tableName}>{tableName}</Label>
       <Select name={tableName} defaultValue={currentValue}>
         <SelectTrigger className="w-[180px]" id={tableName}>
-          <SelectValue placeholder={currentValue} />
+          <SelectValue
+            placeholder={currentValue || `Choisissez la ${tableName}`}
+          />
         </SelectTrigger>
         <SelectContent>
           <SelectGroup>
