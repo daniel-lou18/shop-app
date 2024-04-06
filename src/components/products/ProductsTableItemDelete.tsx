@@ -3,7 +3,6 @@
 import * as actions from "@/actions";
 import { DropdownMenuItem } from "../ui/dropdown-menu";
 import { useToast } from "../ui/use-toast";
-import { error } from "console";
 
 function ProductsTableItemDelete({ id }: { id: string }) {
   const { toast } = useToast();

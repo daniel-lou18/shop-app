@@ -27,6 +27,7 @@ export async function editProduct(id: string, formData: FormData) {
 }
 
 export async function addProduct(formData: FormData) {
+  await new Promise((res) => setTimeout(res, 1500));
   const data = {
     name: formData.get("name") as string,
     description: formData.get("description") as string,

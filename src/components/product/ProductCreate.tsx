@@ -31,6 +31,7 @@ import {
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
 import * as actions from "@/actions";
 import ProductDetails from "./ProductDetails";
+import ButtonSubmit from "../ui/ButtonSubmit";
 
 function ProductCreate() {
   return (
@@ -54,7 +55,7 @@ function ProductCreate() {
               <Button variant="outline" size="sm">
                 Discard
               </Button>
-              <Button size="sm">Save Product</Button>
+              <ButtonSubmit>Créer produit</ButtonSubmit>
             </div>
           </div>
           <div className="grid gap-4 md:grid-cols-[1fr_250px] lg:grid-cols-3 lg:gap-8">
