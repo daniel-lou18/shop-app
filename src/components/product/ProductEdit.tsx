@@ -29,19 +29,10 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
-import { db } from "@/db";
-import { notFound } from "next/navigation";
 import ProductDetails from "./ProductDetails";
 import * as actions from "@/actions";
 
 async function ProductEdit({ id }: { id: string }) {
-  const product = await db.product.findFirst({
-    where: { id },
-    include: { brand: true, category: true },
-  });
-
-  if (!product) return notFound();
-
   const editProductAction = actions.editProduct.bind(null, id);
 
   return (

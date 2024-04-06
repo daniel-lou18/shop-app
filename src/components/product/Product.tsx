@@ -1,26 +1,25 @@
-import ProductForm from "@/components/product/ProductForm";
+import { ReactElement, ReactNode, cloneElement } from "react";
 import { db } from "@/db";
 import { notFound } from "next/navigation";
 
-type ProductDetailsProps = {
-  params: {
-    id: string;
-  };
-};
-
-async function ProductDetailsAdmin({ params }: ProductDetailsProps) {
+async function Product({
+  children,
+  id,
+}: {
+  children: ReactElement;
+  id: string;
+}) {
   const product = await db.product.findFirst({
-    where: { id: params.id },
+    where: { id },
     include: { brand: true, category: true },
   });
 
   if (!product) return notFound();
-
   return (
     <main className="grid flex-1 items-start gap-4 p-4 sm:px-6 sm:py-0 md:gap-8">
-      <ProductForm id={params.id} product={product} />
+      {cloneElement(children, { product })}
     </main>
   );
 }
 
-export default ProductDetailsAdmin;
+export default Product;

@@ -4,6 +4,18 @@ import { db } from "@/db";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 
+export async function getProduct(id: string) {
+  try {
+    const product = await db.product.findFirst({
+      where: { id },
+      include: { brand: true, category: true },
+    });
+    return product;
+  } catch (err) {
+    return { error: "Échec lors de la récupération du produit" };
+  }
+}
+
 export async function editProduct(id: string, formData: FormData) {
   const data = {
     name: formData.get("name") as string,
@@ -14,16 +26,19 @@ export async function editProduct(id: string, formData: FormData) {
     category: formData.get("category") as string,
   };
 
-  await db.product.update({
-    where: { id },
-    data: {
-      ...data,
-      price: parseInt(data.price),
-      brand: { connect: { id: data.brand } },
-      category: { connect: { id: data.category } },
-    },
-  });
-  redirect("/admin/products");
+  try {
+    const res = await db.product.update({
+      where: { id },
+      data: {
+        ...data,
+        price: parseInt(data.price),
+        brand: { connect: { id: data.brand } },
+        category: { connect: { id: data.category } },
+      },
+    });
+  } catch (err: unknown) {
+    return { error: "Échec lors de la modification du produit" };
+  }
 }
 
 export async function addProduct(formData: FormData) {
