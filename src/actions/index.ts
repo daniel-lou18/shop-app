@@ -1,6 +1,7 @@
 "use server";
 
 import { db } from "@/db";
+import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 
 export async function editProduct(id: string, formData: FormData) {
@@ -47,6 +48,11 @@ export async function addProduct(formData: FormData) {
 }
 
 export async function deleteProduct(id: string) {
-  await db.product.delete({ where: { id } });
-  redirect("/admin/products");
+  try {
+    const res = await db.product.delete({ where: { id } });
+    console.log(res);
+    revalidatePath("/admin/products");
+  } catch (err: unknown) {
+    return { error: "Échec lors de la suppression du produit" };
+  }
 }
