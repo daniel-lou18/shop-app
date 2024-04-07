@@ -1,3 +1,5 @@
+"use client";
+
 import Image from "next/image";
 import Link from "next/link";
 import { ChevronLeft, PlusCircle, Upload } from "lucide-react";
@@ -32,18 +34,29 @@ import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
 import ProductDetails from "./ProductDetails";
 import * as actions from "@/actions";
 import { Brand, Category, Product } from "@prisma/client";
+import ButtonSubmit from "../ui/ButtonSubmit";
+import { useToast } from "../ui/use-toast";
 
 function ProductForm({
   id,
   product,
+  brands,
+  categories,
 }: {
   id: string;
   product: Product & { brand: Brand; category: Category };
+  brands: Brand[];
+  categories: Category[];
 }) {
-  const editProductAction = actions.editProduct.bind(null, id);
+  const { toast } = useToast();
+  async function editProductAction(id: string, formData: FormData) {
+    const res = await actions.editProduct(id, formData);
+    if (res?.error) toast({ description: res.error });
+    else toast({ description: "Le produit a été modifié" });
+  }
 
   return (
-    <form action={editProductAction}>
+    <form action={editProductAction.bind(null, id)}>
       <div className="mx-auto grid max-w-[59rem] flex-1 auto-rows-max gap-4">
         <div className="flex items-center gap-4">
           <Button variant="outline" size="icon" className="h-7 w-7">
@@ -62,14 +75,16 @@ function ProductForm({
             <Button type="button" variant="outline" size="sm">
               Annuler
             </Button>
-            <Button type="submit" size="sm">
-              Sauvegarder
-            </Button>
+            <ButtonSubmit>Sauvegarder</ButtonSubmit>
           </div>
         </div>
         <div className="grid gap-4 md:grid-cols-[1fr_250px] lg:grid-cols-3 lg:gap-8">
           <div className="grid auto-rows-max items-start gap-4 lg:col-span-2 lg:gap-8">
-            <ProductDetails product={product} />
+            <ProductDetails
+              product={product}
+              brands={brands}
+              categories={categories}
+            />
             <Card>
               <CardHeader>
                 <CardTitle>Variants</CardTitle>

@@ -39,6 +39,7 @@ export async function editProduct(id: string, formData: FormData) {
   } catch (err: unknown) {
     return { error: "Échec lors de la modification du produit" };
   }
+  redirect("/admin/products");
 }
 
 export async function addProduct(formData: FormData) {

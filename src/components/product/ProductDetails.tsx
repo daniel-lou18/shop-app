@@ -14,12 +14,19 @@ import { Brand, Category, Product } from "@prisma/client";
 
 type ProductDetailsProps = {
   type?: "edit" | "add";
+  brands: Brand[];
+  categories: Category[];
 } & (
   | { type: "add"; product?: never }
   | { type?: "edit"; product: Product & { brand: Brand; category: Category } }
 );
 
-async function ProductDetails({ type = "edit", product }: ProductDetailsProps) {
+async function ProductDetails({
+  type = "edit",
+  product,
+  brands,
+  categories,
+}: ProductDetailsProps) {
   if (type === "edit" && !product) return notFound();
 
   return (
@@ -80,12 +87,14 @@ async function ProductDetails({ type = "edit", product }: ProductDetailsProps) {
               <ProductDynamicSelect
                 tableName="brand"
                 currentValue={product?.brand.id || ""}
+                values={brands}
               />
             </div>
             <div className="grid gap-3">
               <ProductDynamicSelect
                 tableName="category"
                 currentValue={product?.category.id || ""}
+                values={categories}
               />
             </div>
           </div>

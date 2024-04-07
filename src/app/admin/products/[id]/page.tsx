@@ -1,5 +1,6 @@
 import ProductForm from "@/components/product/ProductForm";
 import { db } from "@/db";
+import { Brand, Category } from "@prisma/client";
 import { notFound } from "next/navigation";
 
 type ProductDetailsProps = {
@@ -14,11 +15,19 @@ async function ProductDetailsAdmin({ params }: ProductDetailsProps) {
     include: { brand: true, category: true },
   });
 
+  const brands: Brand[] = await db.brand.findMany();
+  const categories: Category[] = await db.category.findMany();
+
   if (!product) return notFound();
 
   return (
     <main className="grid flex-1 items-start gap-4 p-4 sm:px-6 sm:py-0 md:gap-8">
-      <ProductForm id={params.id} product={product} />
+      <ProductForm
+        id={params.id}
+        product={product}
+        brands={brands}
+        categories={categories}
+      />
     </main>
   );
 }

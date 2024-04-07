@@ -7,19 +7,19 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { db } from "@/db";
 import { Brand, Category } from "@prisma/client";
 
 type ProductDynamicSelectProps = {
   tableName: "brand" | "category";
   currentValue: string;
+  values: (Brand | Category)[];
 };
 
 async function ProductDynamicSelect({
   tableName,
   currentValue,
+  values,
 }: ProductDynamicSelectProps) {
-  const results: (Brand | Category)[] = await db[tableName].findMany();
   return (
     <>
       <Label htmlFor={tableName}>{tableName}</Label>
@@ -31,9 +31,9 @@ async function ProductDynamicSelect({
         </SelectTrigger>
         <SelectContent>
           <SelectGroup>
-            {results.map((result) => (
-              <SelectItem value={result.id} key={result.id}>
-                {result.name}
+            {values.map((value) => (
+              <SelectItem value={value.id} key={value.id}>
+                {value.name}
               </SelectItem>
             ))}
           </SelectGroup>
