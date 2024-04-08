@@ -1,4 +1,4 @@
-import ProductList from "@/components/products/ProductList";
+import ProductList from "@/components/shop-products/ProductList";
 import PageHeading1 from "@/components/ui/PageHeading1";
 
 function CustomerProducts() {

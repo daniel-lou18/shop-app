@@ -26,6 +26,7 @@ function ProductsTableItem({
   category,
   price,
 }: ProductsTableItemProps) {
+  const image = imagePath.split(" ").at(0);
   return (
     <TableRow>
       <TableCell className="hidden sm:table-cell">
@@ -33,7 +34,7 @@ function ProductsTableItem({
           alt="Product image"
           className="aspect-square rounded-md object-cover"
           height="64"
-          src={imagePath}
+          src={image || "/placeholder.svg"}
           width="64"
         />
       </TableCell>

@@ -10,24 +10,22 @@ import {
 import { Brand, Category } from "@prisma/client";
 
 type ProductDynamicSelectProps = {
-  tableName: "brand" | "category";
+  menuName: "Marque" | "Catégorie";
   currentValue: string;
   values: (Brand | Category)[];
 };
 
 async function ProductDynamicSelect({
-  tableName,
+  menuName,
   currentValue,
   values,
 }: ProductDynamicSelectProps) {
   return (
     <>
-      <Label htmlFor={tableName}>{tableName}</Label>
-      <Select name={tableName} defaultValue={currentValue}>
-        <SelectTrigger className="w-[180px]" id={tableName}>
-          <SelectValue
-            placeholder={currentValue || `Choisissez la ${tableName}`}
-          />
+      <Label htmlFor={menuName}>{menuName}</Label>
+      <Select name={menuName} defaultValue={currentValue}>
+        <SelectTrigger className="w-[180px]" id={menuName}>
+          <SelectValue placeholder={currentValue || "Sélectionnez"} />
         </SelectTrigger>
         <SelectContent>
           <SelectGroup>

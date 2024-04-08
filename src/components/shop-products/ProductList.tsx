@@ -1,4 +1,4 @@
-import ProductCard from "@/components/products/ProductCard";
+import ProductCard from "./ProductCard";
 import { db } from "@/db";
 
 async function ProductList() {

@@ -52,15 +52,18 @@ export async function addProduct(formData: FormData) {
     brand: formData.get("brand") as string,
     category: formData.get("category") as string,
   };
-
-  await db.product.create({
-    data: {
-      ...data,
-      price: parseInt(data.price),
-      brand: { connect: { id: data.brand } },
-      category: { connect: { id: data.category } },
-    },
-  });
+  try {
+    await db.product.create({
+      data: {
+        ...data,
+        price: parseInt(data.price),
+        brand: { connect: { id: data.brand } },
+        category: { connect: { id: data.category } },
+      },
+    });
+  } catch (err: unknown) {
+    return { error: "Échec lors de la création du produit" };
+  }
   redirect("/admin/products");
 }
 

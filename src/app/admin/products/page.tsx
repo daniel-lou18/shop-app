@@ -1,4 +1,4 @@
-import ProductsTable from "@/components/products/ProductsTable";
+import ProductsTable from "@/components/admin-products/ProductsTable";
 
 function AdminProducts() {
   return <ProductsTable />;

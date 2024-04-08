@@ -36,30 +36,54 @@ import * as actions from "@/actions";
 import { Brand, Category, Product } from "@prisma/client";
 import ButtonSubmit from "../ui/ButtonSubmit";
 import { useToast } from "../ui/use-toast";
+import ProductImages from "./ProductImages";
 
 function ProductForm({
+  type,
   id,
   product,
   brands,
   categories,
 }: {
-  id: string;
-  product: Product & { brand: Brand; category: Category };
+  type: "add" | "edit";
   brands: Brand[];
   categories: Category[];
-}) {
+} & (
+  | {
+      type: "edit";
+      id: string;
+      product: Product & { brand: Brand; category: Category };
+    }
+  | { type: "add"; id?: never; product?: never }
+)) {
   const { toast } = useToast();
   async function editProductAction(id: string, formData: FormData) {
     const res = await actions.editProduct(id, formData);
-    if (res?.error) toast({ description: res.error });
-    else toast({ description: "Le produit a été modifié" });
+    if (res?.error) toast({ variant: "red", description: `🚨 ${res.error}` });
+    else
+      toast({ variant: "green", description: "✅ Le produit a été modifié" });
+  }
+
+  async function addProductAction(formData: FormData) {
+    const res = await actions.addProduct(formData);
+    if (res?.error) toast({ variant: "red", description: `🚨 ${res.error}` });
+    else toast({ variant: "green", description: "✅ Le produit a été créé" });
   }
 
   return (
-    <form action={editProductAction.bind(null, id)}>
+    <form
+      action={
+        type === "edit" ? editProductAction.bind(null, id) : addProductAction
+      }
+    >
       <div className="mx-auto grid max-w-[59rem] flex-1 auto-rows-max gap-4">
         <div className="flex items-center gap-4">
-          <Button variant="outline" size="icon" className="h-7 w-7">
+          <Button
+            type="button"
+            variant="outline"
+            size="icon"
+            className="h-7 w-7"
+          >
             <Link href="/admin/products">
               <ChevronLeft className="h-4 w-4" />
               <span className="sr-only">Retourner</span>
@@ -80,11 +104,20 @@ function ProductForm({
         </div>
         <div className="grid gap-4 md:grid-cols-[1fr_250px] lg:grid-cols-3 lg:gap-8">
           <div className="grid auto-rows-max items-start gap-4 lg:col-span-2 lg:gap-8">
-            <ProductDetails
-              product={product}
-              brands={brands}
-              categories={categories}
-            />
+            {type === "edit" ? (
+              <ProductDetails
+                type={type}
+                product={product}
+                brands={brands}
+                categories={categories}
+              />
+            ) : (
+              <ProductDetails
+                type={type}
+                brands={brands}
+                categories={categories}
+              />
+            )}
             <Card>
               <CardHeader>
                 <CardTitle>Variants</CardTitle>
@@ -232,52 +265,7 @@ function ProductForm({
                 </div>
               </CardContent>
             </Card>
-            <Card className="overflow-hidden">
-              <CardHeader>
-                <CardTitle>Product Images</CardTitle>
-                <CardDescription>
-                  Lipsum dolor sit amet, consectetur adipiscing elit
-                </CardDescription>
-              </CardHeader>
-              <CardContent>
-                <div className="grid gap-2">
-                  <Image
-                    alt="Product image"
-                    className="aspect-square w-full rounded-md object-cover"
-                    height="300"
-                    src={product.imagePath}
-                    width="300"
-                  />
-                  <div className="grid grid-cols-3 gap-2">
-                    <button type="button">
-                      <Image
-                        alt="Product image"
-                        className="aspect-square w-full rounded-md object-cover"
-                        height="84"
-                        src="/placeholder.svg"
-                        width="84"
-                      />
-                    </button>
-                    <button type="button">
-                      <Image
-                        alt="Product image"
-                        className="aspect-square w-full rounded-md object-cover"
-                        height="84"
-                        src="/placeholder.svg"
-                        width="84"
-                      />
-                    </button>
-                    <button
-                      type="button"
-                      className="flex aspect-square w-full items-center justify-center rounded-md border border-dashed"
-                    >
-                      <Upload className="h-4 w-4 text-muted-foreground" />
-                      <span className="sr-only">Upload</span>
-                    </button>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
+            <ProductImages imagePath={product?.imagePath} />
             <Card>
               <CardHeader>
                 <CardTitle>Archive Product</CardTitle>

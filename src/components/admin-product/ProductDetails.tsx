@@ -12,13 +12,18 @@ import { notFound } from "next/navigation";
 import ProductDynamicSelect from "./ProductDynamicSelect";
 import { Brand, Category, Product } from "@prisma/client";
 
+export type ProductWithBrandCategory = Product & {
+  brand: Brand;
+  category: Category;
+};
+
 type ProductDetailsProps = {
-  type?: "edit" | "add";
+  type: "edit" | "add";
   brands: Brand[];
   categories: Category[];
 } & (
   | { type: "add"; product?: never }
-  | { type?: "edit"; product: Product & { brand: Brand; category: Category } }
+  | { type: "edit"; product: ProductWithBrandCategory }
 );
 
 async function ProductDetails({
@@ -34,7 +39,8 @@ async function ProductDetails({
       <CardHeader>
         <CardTitle>Détails du produit</CardTitle>
         <CardDescription>
-          Lipsum dolor sit amet, consectetur adipiscing elit
+          Saisissez ou modifiez ci-dessous toutes les informations sur le
+          produit
         </CardDescription>
       </CardHeader>
       <CardContent>
@@ -73,26 +79,29 @@ async function ProductDetails({
             />
           </div>
           <div className="grid gap-3">
-            <Label htmlFor="imagePath">Image</Label>
+            <Label htmlFor="imagePath">Image(s)</Label>
             <Input
               id="imagePath"
               type="text"
               className="w-full"
-              defaultValue={product?.imagePath}
+              defaultValue={product?.imagePath
+                .replaceAll("/", "")
+                .split(" ")
+                .join(", ")}
               name="imagePath"
             />
           </div>
           <div className="grid gap-6 sm:grid-cols-3">
             <div className="grid gap-3">
               <ProductDynamicSelect
-                tableName="brand"
+                menuName="Marque"
                 currentValue={product?.brand.id || ""}
                 values={brands}
               />
             </div>
             <div className="grid gap-3">
               <ProductDynamicSelect
-                tableName="category"
+                menuName="Catégorie"
                 currentValue={product?.category.id || ""}
                 values={categories}
               />
