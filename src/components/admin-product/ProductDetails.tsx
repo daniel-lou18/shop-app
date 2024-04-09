@@ -84,10 +84,7 @@ async function ProductDetails({
               id="imagePath"
               type="text"
               className="w-full"
-              defaultValue={product?.imagePath
-                .replaceAll("/", "")
-                .split(" ")
-                .join(", ")}
+              defaultValue={product?.imagePath}
               name="imagePath"
             />
           </div>

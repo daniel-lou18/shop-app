@@ -23,7 +23,10 @@ async function ProductDynamicSelect({
   return (
     <>
       <Label htmlFor={menuName}>{menuName}</Label>
-      <Select name={menuName} defaultValue={currentValue}>
+      <Select
+        name={menuName === "Marque" ? "brand" : "category"}
+        defaultValue={currentValue}
+      >
         <SelectTrigger className="w-[180px]" id={menuName}>
           <SelectValue placeholder={currentValue || "Sélectionnez"} />
         </SelectTrigger>

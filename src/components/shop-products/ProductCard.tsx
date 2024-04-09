@@ -8,7 +8,7 @@ import {
 import Image from "next/image";
 import { Brand, Product } from "@prisma/client";
 import Link from "next/link";
-import { centsToEuros } from "@/lib/helpers";
+import { centsToEuros } from "@/helpers/helpers";
 
 type ProductCardProps = Product & { brand: Brand };
 
