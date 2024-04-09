@@ -28,10 +28,12 @@ export default function RootLayout({
           fontSans.variable
         )}
       >
-        <Providers>
-          <div className="container px-16">{children}</div>
-          <Toaster />
-        </Providers>
+        <div className="container px-4 mx-auto max-w-7xl min-h-screen">
+          <Providers>
+            {children}
+            <Toaster />
+          </Providers>
+        </div>
       </body>
     </html>
   );

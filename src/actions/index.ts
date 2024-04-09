@@ -1,13 +1,6 @@
-"use server";
-
-import { db } from "@/db";
-import { revalidatePath } from "next/cache";
-import * as auth from "@/auth";
-
-export async function signIn() {
-  return auth.signIn("github");
-}
-
-export async function signOut() {
-  return auth.signOut();
-}
+export { addProduct } from "./add-product";
+export { editProduct } from "./edit-product";
+export { deleteProduct } from "./delete-product";
+export { getProduct } from "./get-product";
+export { signIn } from "./sign-in";
+export { signOut } from "./sign-out";

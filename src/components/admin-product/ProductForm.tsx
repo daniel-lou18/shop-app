@@ -31,12 +31,11 @@ import {
 } from "@/components/ui/table";
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
 import ProductDetails from "./ProductDetails";
+import * as actions from "@/actions";
 import { Brand, Category, Product } from "@prisma/client";
 import ButtonSubmit from "../ui/ButtonSubmit";
 import { useToast } from "../ui/use-toast";
 import ProductImages from "./ProductImages";
-import { addProduct } from "@/actions/add-product";
-import { editProduct } from "@/actions/edit-product";
 
 function ProductForm({
   type,
@@ -58,14 +57,14 @@ function ProductForm({
 )) {
   const { toast } = useToast();
   async function editProductAction(id: string, formData: FormData) {
-    const res = await editProduct(id, formData);
+    const res = await actions.editProduct(id, formData);
     if (res?.error) toast({ variant: "red", description: `🚨 ${res.error}` });
     else
       toast({ variant: "green", description: "✅ Le produit a été modifié" });
   }
 
   async function addProductAction(formData: FormData) {
-    const res = await addProduct(formData);
+    const res = await actions.addProduct(formData);
     if (res?.error) toast({ variant: "red", description: `🚨 ${res.error}` });
     else toast({ variant: "green", description: "✅ Le produit a été créé" });
   }
