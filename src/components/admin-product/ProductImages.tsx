@@ -5,8 +5,8 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { Upload } from "lucide-react";
 import Image from "next/image";
+import FileUpload from "../ui/FileUpload";
 
 function ProductImages({ imagePath }: { imagePath: string | undefined }) {
   const images = imagePath?.split(" ");
@@ -42,13 +42,7 @@ function ProductImages({ imagePath }: { imagePath: string | undefined }) {
                   />
                 </button>
               ))}
-            <button
-              type="button"
-              className="flex aspect-square w-full items-center justify-center rounded-md border border-dashed"
-            >
-              <Upload className="h-4 w-4 text-muted-foreground" />
-              <span className="sr-only">Upload</span>
-            </button>
+            <FileUpload />
           </div>
         </div>
       </CardContent>

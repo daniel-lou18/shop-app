@@ -13,6 +13,7 @@ import { Label } from "@/components/ui/label";
 import * as actions from "@/actions";
 import { auth } from "@/auth";
 import Profile from "./_components/Profile";
+import ButtonSubmit from "@/components/ui/ButtonSubmit";
 
 async function LoginForm() {
   const session = await auth();
@@ -44,9 +45,7 @@ async function LoginForm() {
               <Input id="password" type="password" />
             </div>
             <form action={actions.signIn}>
-              <Button type="submit" className="w-full">
-                Login
-              </Button>
+              <ButtonSubmit className="w-full">Login</ButtonSubmit>
             </form>
             <form action={actions.signOut}>
               <Button type="submit" variant="outline" className="w-full">
