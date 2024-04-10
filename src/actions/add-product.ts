@@ -4,6 +4,8 @@ import { db } from "@/db";
 import { paths } from "@/helpers/helpers";
 import { redirect } from "next/navigation";
 
+const sizes = ["XS", "S", "M", "L", "XL"];
+
 export async function addProduct(formData: FormData) {
   await new Promise((res) => setTimeout(res, 1500));
   const data = {
@@ -14,14 +16,26 @@ export async function addProduct(formData: FormData) {
     brand: formData.get("brand") as string,
     category: formData.get("category") as string,
   };
+  console.log(data);
   try {
-    await db.product.create({
+    const product = await db.product.create({
       data: {
         ...data,
         price: parseInt(data.price),
         brand: { connect: { id: data.brand } },
         category: { connect: { id: data.category } },
       },
+    });
+    sizes.forEach(async (size) => {
+      await db.productVariant.create({
+        data: {
+          productId: product.id,
+          size,
+          stockQuantity: 100,
+          color: "base",
+          sku: `${size}-${Date.now().toString()}`,
+        },
+      });
     });
   } catch (err: unknown) {
     console.error(err);

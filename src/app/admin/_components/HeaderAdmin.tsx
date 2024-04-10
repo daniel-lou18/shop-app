@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Menu, Package2, Search } from "lucide-react";
+import { Menu, Package2, Search, ShoppingBasket } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 import { Input } from "@/components/ui/input";
@@ -15,8 +15,8 @@ function HeaderAdmin() {
           href="#"
           className="flex items-center gap-2 text-lg font-semibold md:text-base"
         >
-          <Package2 className="h-6 w-6" />
-          <span className="sr-only">Acme Inc</span>
+          <ShoppingBasket className="h-6 w-6" />
+          <span className="sr-only">Shop App</span>
         </Link>
         <Link
           href="#"
@@ -28,7 +28,7 @@ function HeaderAdmin() {
           href="#"
           className="text-muted-foreground transition-colors hover:text-foreground"
         >
-          Orders
+          Commandes
         </Link>
         <Link
           href={paths.adminProducts()}
@@ -40,13 +40,7 @@ function HeaderAdmin() {
           href="#"
           className="text-muted-foreground transition-colors hover:text-foreground"
         >
-          Customers
-        </Link>
-        <Link
-          href="#"
-          className="text-muted-foreground transition-colors hover:text-foreground"
-        >
-          Analytics
+          Clients
         </Link>
       </nav>
       <Sheet>
@@ -63,7 +57,7 @@ function HeaderAdmin() {
               className="flex items-center gap-2 text-lg font-semibold"
             >
               <Package2 className="h-6 w-6" />
-              <span className="sr-only">Acme Inc</span>
+              <span className="sr-only">Shop App</span>
             </Link>
             <Link href="#" className="hover:text-foreground">
               Dashboard
@@ -72,25 +66,19 @@ function HeaderAdmin() {
               href="#"
               className="text-muted-foreground hover:text-foreground"
             >
-              Orders
+              Commandes
             </Link>
             <Link
               href="#"
               className="text-muted-foreground hover:text-foreground"
             >
-              Products
+              Produits
             </Link>
             <Link
               href="#"
               className="text-muted-foreground hover:text-foreground"
             >
-              Customers
-            </Link>
-            <Link
-              href="#"
-              className="text-muted-foreground hover:text-foreground"
-            >
-              Analytics
+              Clients
             </Link>
           </nav>
         </SheetContent>

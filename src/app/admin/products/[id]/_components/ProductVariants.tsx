@@ -23,6 +23,7 @@ import {
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
 import { ProductVariant } from "@prisma/client";
 import { useToast } from "@/components/ui/use-toast";
+import ProductDynamicSelect from "./ProductDynamicSelect";
 
 function ProductVariants({
   variants,
@@ -48,51 +49,30 @@ function ProductVariants({
   return (
     <Card>
       <CardHeader>
-        <CardTitle>Variants</CardTitle>
+        <CardTitle>Variantes</CardTitle>
         <CardDescription>
-          Ajouter des variants dans cette rubrique
+          Gestion des stocks et des prix des variantes
         </CardDescription>
       </CardHeader>
       <CardContent>
         <Table>
           <TableHeader>
             <TableRow>
-              <TableHead className="w-[100px]">Couleur</TableHead>
+              <TableHead>SKU</TableHead>
+              <TableHead>Couleur</TableHead>
               <TableHead>Stock</TableHead>
               <TableHead>Prix</TableHead>
-              <TableHead className="w-[100px]">Taille</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
-            <TableRow>
-              <TableCell className="font-semibold">GGPC-001</TableCell>
-              <TableCell>
-                <Label htmlFor="stock-1" className="sr-only">
-                  Stock
-                </Label>
-                <Input id="stock-1" type="number" defaultValue="100" />
-              </TableCell>
-              <TableCell>
-                <Label htmlFor="price-1" className="sr-only">
-                  Price
-                </Label>
-                <Input id="price-1" type="number" defaultValue="99.99" />
-              </TableCell>
-              <TableCell>
-                <ToggleGroup type="single" defaultValue="s" variant="outline">
-                  <ToggleGroupItem value="s">S</ToggleGroupItem>
-                  <ToggleGroupItem value="m">M</ToggleGroupItem>
-                  <ToggleGroupItem value="l">L</ToggleGroupItem>
-                </ToggleGroup>
-              </TableCell>
-            </TableRow>
             {variants &&
               variants.length > 0 &&
               variants.map((variant) => (
                 <TableRow key={variant.id}>
-                  <TableCell className="font-semibold">
-                    {variant.color}
+                  <TableCell className="font-semibold text-xs">
+                    {variant.sku}
                   </TableCell>
+                  <TableCell>{variant.color}</TableCell>
                   <TableCell>
                     <Label htmlFor="stock-2" className="sr-only">
                       Stock
@@ -101,6 +81,7 @@ function ProductVariants({
                       id="stock-2"
                       type="number"
                       defaultValue={variant.stockQuantity}
+                      disabled
                     />
                   </TableCell>
                   <TableCell>
@@ -108,19 +89,6 @@ function ProductVariants({
                       Price
                     </Label>
                     <Input id="price-2" type="number" defaultValue="99.99" />
-                  </TableCell>
-                  <TableCell>
-                    <ToggleGroup
-                      type="single"
-                      defaultValue="m"
-                      variant="outline"
-                    >
-                      <ToggleGroupItem value="xs">XS</ToggleGroupItem>
-                      <ToggleGroupItem value="s">S</ToggleGroupItem>
-                      <ToggleGroupItem value="m">M</ToggleGroupItem>
-                      <ToggleGroupItem value="l">L</ToggleGroupItem>
-                      <ToggleGroupItem value="xl">XL</ToggleGroupItem>
-                    </ToggleGroup>
                   </TableCell>
                 </TableRow>
               ))}
