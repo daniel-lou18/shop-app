@@ -36,7 +36,7 @@ type ProductFormProps = {
       type: "edit";
       id: string;
       product: Product & { brand: Brand; category: Category };
-      variants: ProductVariant[];
+      variants: ProductVariant[] | null | { error: string };
     }
   | { type: "add"; id?: never; product?: never; variants?: never }
 );
@@ -76,6 +76,7 @@ function ProductForm({
             variant="outline"
             size="icon"
             className="h-7 w-7"
+            asChild
           >
             <Link href="/admin/products">
               <ChevronLeft className="h-4 w-4" />
@@ -138,7 +139,7 @@ function ProductForm({
                 </div>
               </CardContent>
             </Card>
-            <ProductImages imagePath={product?.imagePath} />
+            <ProductImages id={id} imagePath={product?.imagePath} />
             <Card>
               <CardHeader>
                 <CardTitle>Archive Product</CardTitle>

@@ -1,18 +1,11 @@
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
-import { Upload } from "lucide-react";
+import { Card, CardContent } from "@/components/ui/card";
 import Image from "next/image";
 
 function ProductImages({ imagePath }: { imagePath: string | undefined }) {
   const images = imagePath?.split(" ");
 
   return (
-    <Card className="overflow-hidden border-none shadow-none">
+    <Card className="overflow-hidden border-none shadow-none flex-1">
       <CardContent>
         <div className="grid gap-2">
           <Image
@@ -22,10 +15,10 @@ function ProductImages({ imagePath }: { imagePath: string | undefined }) {
             src={imagePath ? images?.at(0) || "" : "/placeholder.svg"}
             width="300"
           />
-          <div className="grid grid-cols-3 gap-2">
+          {/* <div className="grid grid-cols-3 gap-2">
             {images &&
               images.length > 1 &&
-              images.slice(1).map((imageUrl, idx) => (
+              images.map((imageUrl, idx) => (
                 <button type="button" key={idx}>
                   <Image
                     alt="Product image"
@@ -36,7 +29,7 @@ function ProductImages({ imagePath }: { imagePath: string | undefined }) {
                   />
                 </button>
               ))}
-          </div>
+          </div> */}
         </div>
       </CardContent>
     </Card>

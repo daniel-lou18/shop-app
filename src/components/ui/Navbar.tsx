@@ -16,11 +16,11 @@ import {
 
 export function Navbar({ children }: { children: React.ReactNode }) {
   return (
-    <div className="flex justify-center py-4">
+    <header className="sticky top-0 flex h-16 items-center gap-4 bg-background justify-center p-4 sm:px-16 sm:py-0">
       <NavigationMenu>
         <NavigationMenuList>{children}</NavigationMenuList>
       </NavigationMenu>
-    </div>
+    </header>
   );
 }
 

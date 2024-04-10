@@ -9,7 +9,7 @@ function ProductDetailsCustomer({
 }) {
   return (
     <main>
-      <div className="flex">
+      <div className="flex gap-12">
         <ProductImages imagePath={product.imagePath} />
         <ProductCard product={product} />
       </div>

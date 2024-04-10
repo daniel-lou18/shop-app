@@ -18,7 +18,6 @@ async function ProductDetailsAdmin({ params }: ProductDetailsProps) {
   const brands: Brand[] = await db.brand.findMany();
   const categories: Category[] = await db.category.findMany();
   const variants = await actions.getAllVariants({ id: params.id });
-  console.log(variants);
 
   if (!product || brands.length === 0 || categories.length === 0)
     return notFound();

@@ -28,7 +28,7 @@ function CustomerLayout({ children }: { children: ReactNode }) {
         <NavLinkMenu data={navLinkMenu} />
         <NavLink href="/cart">Mon panier</NavLink>
       </Navbar>
-      {children}
+      <div className="p-4 sm:px-16 sm:py-4 min-h-screen">{children}</div>
     </>
   );
 }

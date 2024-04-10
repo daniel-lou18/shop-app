@@ -14,11 +14,23 @@ import { Label } from "@/components/ui/label";
 import { Upload } from "lucide-react";
 import * as actions from "@/actions";
 import ButtonSubmit from "./ButtonSubmit";
+import { useState } from "react";
 
-function FileUpload() {
+function FileUpload({
+  id,
+  currentImagePath,
+}: {
+  id: string | undefined;
+  currentImagePath: string | undefined;
+}) {
+  const [isOpen, setIsOpen] = useState<boolean>(false);
+  async function handleUpload(formData: FormData) {
+    setIsOpen(false);
+    actions.uploadImage(id, currentImagePath, formData);
+  }
   return (
-    <Dialog>
-      <DialogTrigger asChild>
+    <Dialog open={isOpen} onOpenChange={setIsOpen}>
+      <DialogTrigger asChild disabled={id ? false : true}>
         <button
           type="button"
           className="flex aspect-square w-full items-center justify-center rounded-md border border-dashed"
@@ -28,7 +40,7 @@ function FileUpload() {
         </button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-md">
-        <form action={actions.uploadImage} className="grid gap-4">
+        <form action={handleUpload} className="grid gap-4">
           <DialogHeader>
             <DialogTitle>Envoyer une image</DialogTitle>
             <DialogDescription>
@@ -43,7 +55,7 @@ function FileUpload() {
           </div>
           <DialogFooter className="sm:justify-end">
             <DialogClose asChild>
-              <Button type="button" variant="secondary">
+              <Button type="button" variant="secondary" size="sm">
                 Annuler
               </Button>
             </DialogClose>

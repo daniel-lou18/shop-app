@@ -9,8 +9,10 @@ import { cn } from "@/lib/utils";
 function ButtonSubmit({
   children,
   className,
+  size = "sm",
 }: {
   children: ReactNode;
+  size?: "sm" | "lg";
   className?: string;
 }) {
   const { pending } = useFormStatus();
@@ -18,7 +20,7 @@ function ButtonSubmit({
   return (
     <Button
       type="submit"
-      size="sm"
+      size={size}
       className={cn("inline-flex items-center", className)}
     >
       {pending && <Loader2 className="size-4 animate-spin w-full absolute" />}

@@ -2,7 +2,8 @@
 
 import { db } from "@/db";
 
-export async function getAllVariants({ id }: { id: string }) {
+export async function getAllVariants({ id }: { id: string | undefined }) {
+  if (!id) return null;
   try {
     const variants = await db.productVariant.findMany({
       where: { productId: id },

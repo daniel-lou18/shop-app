@@ -1,3 +1,5 @@
+"use client";
+
 import { PlusCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
@@ -20,8 +22,29 @@ import {
 } from "@/components/ui/table";
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
 import { ProductVariant } from "@prisma/client";
+import { useToast } from "@/components/ui/use-toast";
 
-function ProductVariants({ variants }: { variants?: ProductVariant[] }) {
+function ProductVariants({
+  variants,
+}: {
+  variants: ProductVariant[] | { error: string } | null | undefined;
+}) {
+  const { toast } = useToast();
+  if (variants === null) {
+    toast({
+      variant: "red",
+      description: `🚨 Erreur lors du chargement des variantes`,
+    });
+    return null;
+  }
+  if (variants && "error" in variants) {
+    toast({
+      variant: "red",
+      description: `🚨 ${variants.error}`,
+    });
+    return null;
+  }
+
   return (
     <Card>
       <CardHeader>
