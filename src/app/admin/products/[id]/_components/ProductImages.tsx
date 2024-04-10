@@ -6,7 +6,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import Image from "next/image";
-import FileUpload from "../ui/FileUpload";
+import FileUpload from "../../../../../components/ui/FileUpload";
 
 function ProductImages({ imagePath }: { imagePath: string | undefined }) {
   const images = imagePath?.split(" ");

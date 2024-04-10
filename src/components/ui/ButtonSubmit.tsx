@@ -16,7 +16,11 @@ function ButtonSubmit({
   const { pending } = useFormStatus();
 
   return (
-    <Button type="submit" className={cn("relative", className)}>
+    <Button
+      type="submit"
+      size="sm"
+      className={cn("inline-flex items-center", className)}
+    >
       {pending && <Loader2 className="size-4 animate-spin w-full absolute" />}
       <span className={`${pending ? "opacity-0" : ""}`}>{children}</span>
     </Button>

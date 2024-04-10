@@ -37,10 +37,12 @@ async function ProductDetails({
   return (
     <Card>
       <CardHeader>
-        <CardTitle>Détails du produit</CardTitle>
+        <CardTitle>Details du produit</CardTitle>
         <CardDescription>
-          Saisissez ou modifiez ci-dessous toutes les informations sur le
-          produit
+          {`${
+            type === "edit" ? "Modifiez" : "Saisissez"
+          } ci-dessous toutes les informations sur le
+          produit`}
         </CardDescription>
       </CardHeader>
       <CardContent>

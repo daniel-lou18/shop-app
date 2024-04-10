@@ -28,7 +28,7 @@ export default function RootLayout({
           fontSans.variable
         )}
       >
-        <div className="container px-4 mx-auto max-w-7xl min-h-screen">
+        <div className="min-h-screen">
           <Providers>
             {children}
             <Toaster />

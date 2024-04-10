@@ -9,9 +9,9 @@ import {
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
 import Image from "next/image";
 import Link from "next/link";
-import { ProductWithBrandCategory } from "../admin-product/ProductDetails";
+import { ProductWithBrandCategory } from "../../../../admin/products/[id]/_components/ProductDetails";
 import { centsToEuros } from "@/helpers/helpers";
-import ButtonSubmit from "../ui/ButtonSubmit";
+import ButtonSubmit from "../../../../../components/ui/ButtonSubmit";
 
 function ProductCard({ product }: { product: ProductWithBrandCategory }) {
   const sizes = ["XS", "S", "M", "L", "XL"];

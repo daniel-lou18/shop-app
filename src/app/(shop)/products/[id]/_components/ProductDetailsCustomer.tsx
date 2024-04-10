@@ -1,4 +1,4 @@
-import { ProductWithBrandCategory } from "../admin-product/ProductDetails";
+import { ProductWithBrandCategory } from "../../../../admin/products/[id]/_components/ProductDetails";
 import ProductCard from "./ProductCard";
 import ProductImages from "./ProductImages";
 

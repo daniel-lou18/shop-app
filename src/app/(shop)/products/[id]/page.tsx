@@ -1,4 +1,4 @@
-import ProductDetailsCustomer from "@/components/shop-product/ProductDetailsCustomer";
+import ProductDetailsCustomer from "./_components/ProductDetailsCustomer";
 import { db } from "@/db";
 import { notFound } from "next/navigation";
 

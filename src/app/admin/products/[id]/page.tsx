@@ -1,4 +1,4 @@
-import ProductForm from "@/components/admin-product/ProductForm";
+import ProductForm from "./_components/ProductForm";
 import { db } from "@/db";
 import { Brand, Category } from "@prisma/client";
 import { notFound } from "next/navigation";
