@@ -2,6 +2,7 @@ import ProductForm from "./_components/ProductForm";
 import { db } from "@/db";
 import { Brand, Category } from "@prisma/client";
 import { notFound } from "next/navigation";
+import * as actions from "@/actions/variant";
 
 type ProductDetailsProps = {
   params: {
@@ -16,6 +17,8 @@ async function ProductDetailsAdmin({ params }: ProductDetailsProps) {
   });
   const brands: Brand[] = await db.brand.findMany();
   const categories: Category[] = await db.category.findMany();
+  const variants = await actions.getAllVariants({ id: params.id });
+  console.log(variants);
 
   if (!product || brands.length === 0 || categories.length === 0)
     return notFound();
@@ -28,6 +31,7 @@ async function ProductDetailsAdmin({ params }: ProductDetailsProps) {
         product={product}
         brands={brands}
         categories={categories}
+        variants={variants}
       />
     </main>
   );

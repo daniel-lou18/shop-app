@@ -1,18 +1,16 @@
 "use client";
 
 import Link from "next/link";
-import { ChevronLeft, PlusCircle, Upload } from "lucide-react";
+import { ChevronLeft } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
   Card,
   CardContent,
   CardDescription,
-  CardFooter,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import {
   Select,
@@ -21,30 +19,15 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
-import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
 import ProductDetails from "./ProductDetails";
 import * as actions from "@/actions";
-import { Brand, Category, Product } from "@prisma/client";
+import { Brand, Category, Product, ProductVariant } from "@prisma/client";
 import ButtonSubmit from "../../../../../components/ui/ButtonSubmit";
 import { useToast } from "../../../../../components/ui/use-toast";
 import ProductImages from "./ProductImages";
 import ProductVariants from "./ProductVariants";
 
-function ProductForm({
-  type,
-  id,
-  product,
-  brands,
-  categories,
-}: {
+type ProductFormProps = {
   type: "add" | "edit";
   brands: Brand[];
   categories: Category[];
@@ -53,9 +36,19 @@ function ProductForm({
       type: "edit";
       id: string;
       product: Product & { brand: Brand; category: Category };
+      variants: ProductVariant[];
     }
-  | { type: "add"; id?: never; product?: never }
-)) {
+  | { type: "add"; id?: never; product?: never; variants?: never }
+);
+
+function ProductForm({
+  type,
+  id,
+  product,
+  brands,
+  categories,
+  variants,
+}: ProductFormProps) {
   const { toast } = useToast();
   async function editProductAction(id: string, formData: FormData) {
     const res = await actions.editProduct(id, formData);
@@ -120,7 +113,7 @@ function ProductForm({
                 categories={categories}
               />
             )}
-            <ProductVariants />
+            <ProductVariants variants={variants} />
           </div>
           <div className="grid auto-rows-max items-start gap-4 lg:gap-8">
             <Card>
