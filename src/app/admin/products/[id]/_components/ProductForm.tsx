@@ -26,6 +26,8 @@ import ButtonSubmit from "../../../../../components/ui/ButtonSubmit";
 import { useToast } from "../../../../../components/ui/use-toast";
 import ProductImages from "./ProductImages";
 import ProductVariants from "./ProductVariants";
+import { AddProductSchemaType } from "@/actions/add-product";
+import { useState } from "react";
 
 type ProductFormProps = {
   type: "add" | "edit";
@@ -50,6 +52,10 @@ function ProductForm({
   variants,
 }: ProductFormProps) {
   const { toast } = useToast();
+  const [errorObject, setErrorObject] = useState<AddProductSchemaType>({
+    errors: {},
+  });
+
   async function editProductAction(id: string, formData: FormData) {
     const res = await actions.editProduct(id, formData);
     if (res?.error) toast({ variant: "red", description: `🚨 ${res.error}` });
@@ -59,7 +65,8 @@ function ProductForm({
 
   async function addProductAction(formData: FormData) {
     const res = await actions.addProduct(formData);
-    if (res?.error) toast({ variant: "red", description: `🚨 ${res.error}` });
+    // if (res?.error) toast({ variant: "red", description: `🚨 ${res.error}` });
+    if (res.errors) setErrorObject({ ...res });
     else toast({ variant: "green", description: "✅ Le produit a été créé" });
   }
 
@@ -106,12 +113,14 @@ function ProductForm({
                 product={product}
                 brands={brands}
                 categories={categories}
+                errorObject={errorObject}
               />
             ) : (
               <ProductDetails
                 type={type}
                 brands={brands}
                 categories={categories}
+                errorObject={errorObject}
               />
             )}
             <ProductVariants variants={variants} />

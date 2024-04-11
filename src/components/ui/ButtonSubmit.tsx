@@ -4,7 +4,6 @@ import { useFormStatus } from "react-dom";
 import { Button } from "./button";
 import { ReactNode } from "react";
 import { Loader2 } from "lucide-react";
-import { cn } from "@/lib/utils";
 
 function ButtonSubmit({
   children,
@@ -19,12 +18,16 @@ function ButtonSubmit({
 
   return (
     <Button
-      type="submit"
+      type={`${pending ? "button" : "submit"}`}
       size={size}
-      className={cn("inline-flex items-center", className)}
+      className={className}
     >
-      {pending && <Loader2 className="size-4 animate-spin w-full absolute" />}
-      <span className={`${pending ? "opacity-0" : ""}`}>{children}</span>
+      <div className="relative">
+        <span className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
+          {pending && <Loader2 className="size-4 animate-spin" />}
+        </span>
+        <span className={`${pending ? "opacity-0" : ""}`}>{children}</span>
+      </div>
     </Button>
   );
 }

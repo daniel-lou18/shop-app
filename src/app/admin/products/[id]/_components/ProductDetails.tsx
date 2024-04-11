@@ -11,6 +11,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { notFound } from "next/navigation";
 import ProductDynamicSelect from "./ProductDynamicSelect";
 import { Brand, Category, Product } from "@prisma/client";
+import { AddProductSchemaType } from "@/actions/add-product";
 
 export type ProductWithBrandCategory = Product & {
   brand: Brand;
@@ -21,6 +22,7 @@ type ProductDetailsProps = {
   type: "edit" | "add";
   brands: Brand[];
   categories: Category[];
+  errorObject: AddProductSchemaType | null;
 } & (
   | { type: "add"; product?: never }
   | { type: "edit"; product: ProductWithBrandCategory }
@@ -31,6 +33,7 @@ async function ProductDetails({
   product,
   brands,
   categories,
+  errorObject,
 }: ProductDetailsProps) {
   if (type === "edit" && !product) return notFound();
 
@@ -57,6 +60,9 @@ async function ProductDetails({
               placeholder={type !== "edit" ? "Saisissez le nom du produit" : ""}
               name="name"
             />
+            {errorObject && errorObject.errors?.name && (
+              <p className="text-red-500 text-xs">{errorObject.errors.name}</p>
+            )}
           </div>
           <div className="grid gap-3">
             <Label htmlFor="description">Description</Label>
@@ -69,6 +75,11 @@ async function ProductDetails({
               }
               name="description"
             />
+            {errorObject && errorObject.errors?.description && (
+              <p className="text-red-500 text-xs">
+                {errorObject.errors.description}
+              </p>
+            )}
           </div>
           <div className="grid gap-3">
             <Label htmlFor="price">Prix</Label>
@@ -79,6 +90,9 @@ async function ProductDetails({
               defaultValue={product?.price || 0}
               name="price"
             />
+            {errorObject && errorObject.errors?.price && (
+              <p className="text-red-500 text-xs">{errorObject.errors.price}</p>
+            )}
           </div>
           <div className="grid gap-3">
             <Label htmlFor="imagePath">Image(s)</Label>
