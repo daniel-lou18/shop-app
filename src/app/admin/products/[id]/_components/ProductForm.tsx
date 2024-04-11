@@ -65,9 +65,17 @@ function ProductForm({
 
   async function addProductAction(formData: FormData) {
     const res = await actions.addProduct(formData);
-    // if (res?.error) toast({ variant: "red", description: `🚨 ${res.error}` });
-    if (res.errors) setErrorObject({ ...res });
-    else toast({ variant: "green", description: "✅ Le produit a été créé" });
+    if (!res) {
+      console.log("res is undefined");
+      toast({ variant: "green", description: "✅ Le produit a été créé" });
+    }
+    if (res.errors) {
+      toast({
+        variant: "red",
+        description: `🚨 Erreur lors de la création du produit`,
+      });
+      setErrorObject({ ...res });
+    }
   }
 
   return (

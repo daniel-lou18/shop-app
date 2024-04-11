@@ -4,6 +4,8 @@ import { db } from "@/db";
 import { paths } from "@/helpers/helpers";
 import { redirect } from "next/navigation";
 import { z } from "zod";
+import { auth } from "@/auth";
+import { revalidatePath } from "next/cache";
 
 const sizes = ["XS", "S", "M", "L", "XL"];
 const addProductSchema = z.object({
@@ -13,11 +15,11 @@ const addProductSchema = z.object({
     .max(100)
     .regex(/^[A-Za-z0-9'\s-]{2,50}$/, {
       message:
-        "Must be between 2 and 50 characters long, contain only letters, numbers, spaces, hyphens and apostrophes, have at least one letter or number",
+        "must be between 2 and 50 characters long, contain only letters, numbers, spaces, hyphens and apostrophes, have at least one letter or number",
     }),
   description: z.string().min(10).max(1000),
   price: z.coerce.number().int().min(1).max(100000),
-  brand: z.string().min(1),
+  brand: z.string(),
   category: z.string().min(1),
 });
 
@@ -28,6 +30,7 @@ export type AddProductSchemaType = {
     price?: string[];
     brand?: string[];
     category?: string[];
+    _form?: string[];
   };
 };
 
@@ -39,38 +42,52 @@ export async function addProduct(
     name: formData.get("name") as string,
     description: formData.get("description") as string,
     price: formData.get("price") as string,
-    imagePath: formData.get("imagePath") as string,
     brand: formData.get("brand") as string,
     category: formData.get("category") as string,
   });
 
   if (!result.success) {
+    console.log(result.error);
     return { errors: result.error.flatten().fieldErrors };
   }
 
-  return { errors: {} };
-  // try {
-  //   const product = await db.product.create({
-  //     data: {
-  //       ...data,
-  //       brand: { connect: { id: data.brand } },
-  //       category: { connect: { id: data.category } },
-  //     },
-  //   });
-  //   sizes.forEach(async (size) => {
-  //     await db.productVariant.create({
-  //       data: {
-  //         productId: product.id,
-  //         size,
-  //         stockQuantity: 100,
-  //         color: "base",
-  //         sku: `${size}-${Date.now().toString()}`,
-  //       },
-  //     });
-  //   });
-  // } catch (err: unknown) {
-  //   console.error(err);
-  //   return { error: "Échec lors de la création du produit" };
-  // }
-  // redirect(paths.adminProducts());
+  const session = await auth();
+
+  if (!session || !session.user) {
+    return {
+      errors: { _form: ["Vous devez être connecté pour créer un produit"] },
+    };
+  }
+
+  try {
+    const product = await db.product.create({
+      data: {
+        ...result.data,
+        imagePath: formData.get("imagePath") as string,
+        brand: { connect: { id: result.data.brand } },
+        category: { connect: { id: result.data.category } },
+      },
+    });
+    sizes.forEach(async (size) => {
+      await db.productVariant.create({
+        data: {
+          productId: product.id,
+          size,
+          stockQuantity: 100,
+          color: "base",
+          sku: `${size}-${Date.now().toString()}`,
+        },
+      });
+    });
+  } catch (err: unknown) {
+    console.error(err);
+    if (err instanceof Error) {
+      return { errors: { _form: [err.message] } };
+    } else {
+      return { errors: { _form: ["Échec lors de la création du produit"] } };
+    }
+  }
+
+  revalidatePath("/");
+  return redirect(paths.adminProducts());
 }

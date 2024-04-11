@@ -1,3 +1,5 @@
+"use client";
+
 import {
   Card,
   CardContent,
@@ -28,7 +30,7 @@ type ProductDetailsProps = {
   | { type: "edit"; product: ProductWithBrandCategory }
 );
 
-async function ProductDetails({
+function ProductDetails({
   type = "edit",
   product,
   brands,
@@ -47,6 +49,11 @@ async function ProductDetails({
           } ci-dessous toutes les informations sur le
           produit`}
         </CardDescription>
+        {errorObject && errorObject.errors?._form ? (
+          <p className="text-red-500 text-sm">
+            {errorObject.errors._form.join(", ")}
+          </p>
+        ) : null}
       </CardHeader>
       <CardContent>
         <div className="grid gap-6">
@@ -61,7 +68,9 @@ async function ProductDetails({
               name="name"
             />
             {errorObject && errorObject.errors?.name && (
-              <p className="text-red-500 text-xs">{errorObject.errors.name}</p>
+              <p className="text-red-500 text-xs">
+                {errorObject.errors.name.join(", ")}
+              </p>
             )}
           </div>
           <div className="grid gap-3">
@@ -77,7 +86,7 @@ async function ProductDetails({
             />
             {errorObject && errorObject.errors?.description && (
               <p className="text-red-500 text-xs">
-                {errorObject.errors.description}
+                {errorObject.errors.description.join(", ")}
               </p>
             )}
           </div>
@@ -91,7 +100,9 @@ async function ProductDetails({
               name="price"
             />
             {errorObject && errorObject.errors?.price && (
-              <p className="text-red-500 text-xs">{errorObject.errors.price}</p>
+              <p className="text-red-500 text-xs">
+                {errorObject.errors.price.join(", ")}
+              </p>
             )}
           </div>
           <div className="grid gap-3">
