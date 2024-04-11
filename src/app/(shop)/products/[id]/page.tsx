@@ -1,5 +1,4 @@
 import ProductDetailsCustomer from "./_components/ProductDetailsCustomer";
-import { db } from "@/db";
 import { notFound } from "next/navigation";
 
 type ProductDetailsCustomerPageProps = {
@@ -10,13 +9,8 @@ type ProductDetailsCustomerPageProps = {
 async function ProductDetailsCustomerPage({
   params,
 }: ProductDetailsCustomerPageProps) {
-  const product = await db.product.findFirst({
-    where: { id: params.id },
-    include: { brand: true, category: true },
-  });
-
-  if (!product) notFound();
-  return <ProductDetailsCustomer product={product} />;
+  if (!params.id) notFound();
+  return <ProductDetailsCustomer id={params.id} />;
 }
 
 export default ProductDetailsCustomerPage;

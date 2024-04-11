@@ -2,16 +2,14 @@ import { ProductWithBrandCategory } from "../../../../admin/products/[id]/_compo
 import ProductCard from "./ProductCard";
 import ProductImages from "./ProductImages";
 
-function ProductDetailsCustomer({
-  product,
-}: {
-  product: ProductWithBrandCategory;
-}) {
+type ProductDetailsCustomerProps = { id: string };
+
+function ProductDetailsCustomer(props: ProductDetailsCustomerProps) {
   return (
     <main>
       <div className="flex gap-12">
-        <ProductImages imagePath={product.imagePath} />
-        <ProductCard product={product} />
+        <ProductImages {...props} />
+        <ProductCard {...props} />
       </div>
     </main>
   );

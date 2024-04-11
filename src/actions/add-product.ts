@@ -37,7 +37,7 @@ export type AddProductSchemaType = {
 export async function addProduct(
   formData: FormData
 ): Promise<AddProductSchemaType> {
-  await new Promise((res) => setTimeout(res, 1500));
+  await new Promise((res) => setTimeout(res, 500));
   const result = addProductSchema.safeParse({
     name: formData.get("name") as string,
     description: formData.get("description") as string,

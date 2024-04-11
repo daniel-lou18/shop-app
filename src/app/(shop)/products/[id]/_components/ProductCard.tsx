@@ -7,36 +7,41 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
-import { ProductWithBrandCategory } from "../../../../admin/products/[id]/_components/ProductDetails";
 import { centsToEuros } from "@/helpers/helpers";
 import ButtonSubmit from "../../../../../components/ui/ButtonSubmit";
 import Image from "next/image";
+import { db } from "@/db";
 
-function ProductCard({ product }: { product: ProductWithBrandCategory }) {
-  const sizes = ["XS", "S", "M", "L", "XL"];
-  let colors;
-  const { id, name, brand, imagePath, price } = product;
-  const images = imagePath?.split(" ");
+async function ProductCard({ id }: { id: string }) {
+  const result = await db.product.findFirst({
+    where: { id },
+    include: { brand: true, variants: true },
+  });
+  const images = result?.imagePath.split(" ");
+  const uniqueColors = Array.from(
+    new Set(result?.variants.map((variant) => variant.color))
+  );
+  console.log(uniqueColors);
 
   return (
     <Card className="border-0 shadow-none flex-1">
       <CardHeader className="p-0">
-        <CardTitle>{brand.name.toUpperCase()}</CardTitle>
-        <h1 className="text-2xl font-bold">{name}</h1>
+        <CardTitle>{result?.brand.name.toUpperCase()}</CardTitle>
+        <h1 className="text-2xl font-bold">{result?.name}</h1>
       </CardHeader>
       <CardContent className="px-0 py-4 grid grid-cols-1 gap-4">
         <p className="text-xl text-gray-950 font-semibold">
-          {centsToEuros(price)}
+          {result?.price && centsToEuros(result.price)}
         </p>
         <div className="grid grid-cols-1 gap-2">
-          <p>{`${images.length} Couleurs disponibles`}</p>
+          <p>{`${images?.length} Couleurs disponibles`}</p>
           <ToggleGroup
             type="single"
             defaultValue=""
             variant="default"
             className="gap-4 justify-start"
           >
-            {images.map((image) => (
+            {images?.map((image) => (
               <ToggleGroupItem
                 value={image}
                 key={image}
@@ -61,9 +66,14 @@ function ProductCard({ product }: { product: ProductWithBrandCategory }) {
             variant="outline"
             className="gap-4 justify-start"
           >
-            {sizes.map((size) => (
-              <ToggleGroupItem value={size} key={size} className="w-16">
-                {size}
+            {result?.variants.map((variant) => (
+              <ToggleGroupItem
+                value={variant.size}
+                key={variant.id}
+                className="w-16"
+                disabled={variant.stockQuantity === 0}
+              >
+                {variant.size}
               </ToggleGroupItem>
             ))}
           </ToggleGroup>

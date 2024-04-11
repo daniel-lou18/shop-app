@@ -1,8 +1,13 @@
 import { Card, CardContent } from "@/components/ui/card";
+import { db } from "@/db";
 import Image from "next/image";
 
-function ProductImages({ imagePath }: { imagePath: string | undefined }) {
-  const images = imagePath?.split(" ");
+async function ProductImages({ id }: { id: string }) {
+  const result = await db.product.findFirst({
+    where: { id },
+    select: { imagePath: true },
+  });
+  const images = result?.imagePath?.split(" ");
 
   return (
     <Card className="overflow-hidden border-none shadow-none flex-1">
@@ -12,7 +17,11 @@ function ProductImages({ imagePath }: { imagePath: string | undefined }) {
             alt="Product image"
             className="aspect-square w-full rounded-md object-cover"
             height="300"
-            src={imagePath ? images?.at(0) || "" : "/placeholder.svg"}
+            src={
+              images && images.length > 0
+                ? images?.at(0) || ""
+                : "/placeholder.svg"
+            }
             width="300"
           />
           {/* <div className="grid grid-cols-3 gap-2">
