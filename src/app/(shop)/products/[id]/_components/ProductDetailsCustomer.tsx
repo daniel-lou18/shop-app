@@ -1,17 +1,13 @@
-import { ProductWithBrandCategory } from "../../../../admin/products/[id]/_components/ProductDetails";
-import ProductCard from "./ProductCard";
-import ProductImages from "./ProductImages";
+import ProductVariant from "./ProductVariant";
+import ProductImages from "./ProductImage";
 
 type ProductDetailsCustomerProps = { id: string };
 
 function ProductDetailsCustomer(props: ProductDetailsCustomerProps) {
   return (
-    <main>
-      <div className="flex gap-12">
-        <ProductImages {...props} />
-        <ProductCard {...props} />
-      </div>
-    </main>
+    <div className="flex gap-12">
+      <ProductVariant {...props} />
+    </div>
   );
 }
 

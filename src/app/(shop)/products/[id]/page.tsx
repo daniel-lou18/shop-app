@@ -1,16 +1,21 @@
 import ProductDetailsCustomer from "./_components/ProductDetailsCustomer";
 import { notFound } from "next/navigation";
+import ProductVariant from "./_components/ProductVariant";
 
 type ProductDetailsCustomerPageProps = {
   params: {
     id: string;
   };
 };
-async function ProductDetailsCustomerPage({
+function ProductDetailsCustomerPage({
   params,
 }: ProductDetailsCustomerPageProps) {
   if (!params.id) notFound();
-  return <ProductDetailsCustomer id={params.id} />;
+  return (
+    <main>
+      <ProductVariant id={params.id} />
+    </main>
+  );
 }
 
 export default ProductDetailsCustomerPage;
