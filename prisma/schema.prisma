@@ -82,9 +82,9 @@ model ProductVariant {
   product Product @relation(fields: [productId], references: [id], onDelete: Cascade)
   size String
   color String
-  price Int?
+  price Int
   imagePath String?
-  sku String?
+  sku String
   stockQuantity Int
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
