@@ -72,7 +72,16 @@ function ProductVariants({
                   <TableCell className="font-semibold text-xs">
                     {variant.sku}
                   </TableCell>
-                  <TableCell>{variant.color}</TableCell>
+                  <TableCell>
+                    <Label htmlFor="stock-2" className="sr-only">
+                      Couleur
+                    </Label>
+                    <Input
+                      id="stock-2"
+                      type="number"
+                      defaultValue={variant.color}
+                    />
+                  </TableCell>
                   <TableCell>
                     <Label htmlFor="stock-2" className="sr-only">
                       Stock
