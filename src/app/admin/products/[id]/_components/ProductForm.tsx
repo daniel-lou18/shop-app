@@ -21,36 +21,26 @@ import {
 } from "@/components/ui/select";
 import ProductDetails from "./ProductDetails";
 import * as actions from "@/actions";
-import { Brand, Category, Product, ProductVariant } from "@prisma/client";
 import ButtonSubmit from "../../../../../components/ui/ButtonSubmit";
 import { useToast } from "../../../../../components/ui/use-toast";
 import ProductImages from "./ProductImages";
 import ProductVariants from "./ProductVariants";
 import { AddProductSchemaType } from "@/actions/add-product";
 import { useState } from "react";
+import { type AddData, type EditData } from "../page";
 
 type ProductFormProps = {
   type: "add" | "edit";
-  brands: Brand[];
-  categories: Category[];
 } & (
   | {
       type: "edit";
       id: string;
-      product: Product & { brand: Brand; category: Category };
-      variants: ProductVariant[] | null | { error: string };
+      data: EditData;
     }
-  | { type: "add"; id?: never; product?: never; variants?: never }
+  | { type: "add"; id?: never; data: AddData }
 );
 
-function ProductForm({
-  type,
-  id,
-  product,
-  brands,
-  categories,
-  variants,
-}: ProductFormProps) {
+function ProductForm({ type, id, data }: ProductFormProps) {
   const { toast } = useToast();
   const [errorObject, setErrorObject] = useState<AddProductSchemaType>({
     errors: {},
@@ -118,20 +108,17 @@ function ProductForm({
             {type === "edit" ? (
               <ProductDetails
                 type={type}
-                product={product}
-                brands={brands}
-                categories={categories}
+                data={data}
                 errorObject={errorObject}
               />
             ) : (
               <ProductDetails
                 type={type}
-                brands={brands}
-                categories={categories}
+                data={data}
                 errorObject={errorObject}
               />
             )}
-            <ProductVariants variants={variants} />
+            <ProductVariants data={type === "edit" ? data : null} />
           </div>
           <div className="grid auto-rows-max items-start gap-4 lg:gap-8">
             <Card>
@@ -156,7 +143,10 @@ function ProductForm({
                 </div>
               </CardContent>
             </Card>
-            <ProductImages id={id} imagePath={product?.imagePath} />
+            <ProductImages
+              id={id}
+              imagePath={(data as EditData)?.product?.imagePath}
+            />
             <Card>
               <CardHeader>
                 <CardTitle>Archive Product</CardTitle>

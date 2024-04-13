@@ -1,6 +1,6 @@
 import ProductForm from "./_components/ProductForm";
 import { db } from "@/db";
-import { Brand, Category } from "@prisma/client";
+import { Brand, Category, Product, ProductVariant } from "@prisma/client";
 import { notFound } from "next/navigation";
 import * as actions from "@/actions/variant";
 
@@ -8,6 +8,24 @@ type ProductDetailsProps = {
   params: {
     id: string;
   };
+};
+
+export type EditData = {
+  product: Product & { brand: Brand; category: Category };
+  brands: Brand[];
+  categories: Category[];
+  variants: ProductVariant[] | null | { error: string };
+  variantsByColor: {
+    color: string;
+    imagePath: string | null;
+    price: number;
+    _sum: { stockQuantity: number | null };
+  }[];
+};
+
+export type AddData = {
+  brands: Brand[];
+  categories: Category[];
 };
 
 async function ProductDetailsAdmin({ params }: ProductDetailsProps) {
@@ -18,6 +36,11 @@ async function ProductDetailsAdmin({ params }: ProductDetailsProps) {
   const brands: Brand[] = await db.brand.findMany();
   const categories: Category[] = await db.category.findMany();
   const variants = await actions.getAllVariants({ id: params.id });
+  const variantsByColor = await db.productVariant.groupBy({
+    by: ["color", "imagePath", "price"],
+    where: { productId: params.id },
+    _sum: { stockQuantity: true },
+  });
 
   if (!product || brands.length === 0 || categories.length === 0)
     return notFound();
@@ -27,10 +50,7 @@ async function ProductDetailsAdmin({ params }: ProductDetailsProps) {
       <ProductForm
         type="edit"
         id={params.id}
-        product={product}
-        brands={brands}
-        categories={categories}
-        variants={variants}
+        data={{ product, brands, categories, variants, variantsByColor }}
       />
     </main>
   );

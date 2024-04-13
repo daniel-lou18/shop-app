@@ -14,6 +14,7 @@ import { notFound } from "next/navigation";
 import ProductDynamicSelect from "./ProductDynamicSelect";
 import { Brand, Category, Product } from "@prisma/client";
 import { AddProductSchemaType } from "@/actions/add-product";
+import { AddData, EditData } from "../page";
 
 export type ProductWithBrandCategory = Product & {
   brand: Brand;
@@ -22,22 +23,17 @@ export type ProductWithBrandCategory = Product & {
 
 type ProductDetailsProps = {
   type: "edit" | "add";
-  brands: Brand[];
-  categories: Category[];
   errorObject: AddProductSchemaType | null;
-} & (
-  | { type: "add"; product?: never }
-  | { type: "edit"; product: ProductWithBrandCategory }
-);
+} & ({ type: "add"; data: AddData } | { type: "edit"; data: EditData });
 
 function ProductDetails({
   type = "edit",
-  product,
-  brands,
-  categories,
+  data,
   errorObject,
 }: ProductDetailsProps) {
-  if (type === "edit" && !product) return notFound();
+  const editData = data as EditData;
+
+  if (type === "edit" && !editData.product) return notFound();
 
   return (
     <Card>
@@ -63,7 +59,7 @@ function ProductDetails({
               id="name"
               type="text"
               className="w-full"
-              defaultValue={product?.name}
+              defaultValue={type === "edit" ? editData.product?.name : ""}
               placeholder={type !== "edit" ? "Saisissez le nom du produit" : ""}
               name="name"
             />
@@ -78,7 +74,9 @@ function ProductDetails({
             <Textarea
               id="description"
               className="min-h-32"
-              defaultValue={product?.description}
+              defaultValue={
+                type === "edit" ? editData.product?.description : ""
+              }
               placeholder={
                 type !== "edit" ? "Saisissez la description du produit" : ""
               }
@@ -96,7 +94,7 @@ function ProductDetails({
               id="price"
               type="number"
               className="w-full"
-              defaultValue={product?.price || 0}
+              defaultValue={type === "edit" ? editData.product?.price : 0}
               name="price"
             />
             {errorObject && errorObject.errors?.price && (
@@ -111,7 +109,7 @@ function ProductDetails({
               id="imagePath"
               type="text"
               className="w-full"
-              defaultValue={product?.imagePath}
+              defaultValue={type === "edit" ? editData.product?.imagePath : ""}
               name="imagePath"
             />
           </div>
@@ -119,15 +117,17 @@ function ProductDetails({
             <div className="grid gap-3">
               <ProductDynamicSelect
                 menuName="Marque"
-                currentValue={product?.brand.id || ""}
-                values={brands}
+                currentValue={type === "edit" ? editData.product?.brand.id : ""}
+                values={data.brands}
               />
             </div>
             <div className="grid gap-3">
               <ProductDynamicSelect
                 menuName="Catégorie"
-                currentValue={product?.category.id || ""}
-                values={categories}
+                currentValue={
+                  type === "edit" ? editData.product?.category.id : ""
+                }
+                values={data.categories}
               />
             </div>
           </div>

@@ -10,7 +10,7 @@ async function NewProduct() {
 
   return (
     <main className="grid flex-1 items-start gap-4 p-4 sm:px-6 sm:py-0 md:gap-8">
-      <ProductForm type="add" brands={brands} categories={categories} />
+      <ProductForm type="add" data={{ brands, categories }} />
     </main>
   );
 }

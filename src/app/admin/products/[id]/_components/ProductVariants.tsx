@@ -10,8 +10,6 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 import {
   Table,
   TableBody,
@@ -20,28 +18,24 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
-import { ProductVariant } from "@prisma/client";
 import { useToast } from "@/components/ui/use-toast";
-import ProductDynamicSelect from "./ProductDynamicSelect";
+import ProductVariantTrigger from "./ProductVariantTrigger";
+import { EditData } from "../page";
+import ProductVariantPopover from "./ProductVariantPopover";
 
-function ProductVariants({
-  variants,
-}: {
-  variants: ProductVariant[] | { error: string } | null | undefined;
-}) {
+function ProductVariants({ data }: { data: EditData | null }) {
   const { toast } = useToast();
-  if (variants === null) {
+  if (data && data.variants === null) {
     toast({
       variant: "red",
       description: `🚨 Erreur lors du chargement des variantes`,
     });
     return null;
   }
-  if (variants && "error" in variants) {
+  if (data?.variants && "error" in data.variants) {
     toast({
       variant: "red",
-      description: `🚨 ${variants.error}`,
+      description: `🚨 ${data.variants.error}`,
     });
     return null;
   }
@@ -58,48 +52,25 @@ function ProductVariants({
         <Table>
           <TableHeader>
             <TableRow>
-              <TableHead>SKU</TableHead>
               <TableHead>Couleur</TableHead>
               <TableHead>Stock</TableHead>
               <TableHead>Prix</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
-            {variants &&
-              variants.length > 0 &&
-              variants.map((variant) => (
-                <TableRow key={variant.id}>
-                  <TableCell className="font-semibold text-xs">
-                    {variant.sku}
-                  </TableCell>
-                  <TableCell>
-                    <Label htmlFor="stock-2" className="sr-only">
-                      Couleur
-                    </Label>
-                    <Input
-                      id="stock-2"
-                      type="number"
-                      defaultValue={variant.color}
-                    />
-                  </TableCell>
-                  <TableCell>
-                    <Label htmlFor="stock-2" className="sr-only">
-                      Stock
-                    </Label>
-                    <Input
-                      id="stock-2"
-                      type="number"
-                      defaultValue={variant.stockQuantity}
-                      disabled
-                    />
-                  </TableCell>
-                  <TableCell>
-                    <Label htmlFor="price-2" className="sr-only">
-                      Price
-                    </Label>
-                    <Input id="price-2" type="number" defaultValue="99.99" />
-                  </TableCell>
-                </TableRow>
+            {Array.isArray(data?.variantsByColor) &&
+              data.variantsByColor.length > 0 &&
+              data.variantsByColor.map((variant) => (
+                <ProductVariantTrigger key={variant.color} variant={variant}>
+                  <ProductVariantPopover
+                    variants={
+                      Array.isArray(data?.variants) &&
+                      data.variants?.filter(
+                        (item) => item.color === variant.color
+                      )
+                    }
+                  />
+                </ProductVariantTrigger>
               ))}
           </TableBody>
         </Table>
