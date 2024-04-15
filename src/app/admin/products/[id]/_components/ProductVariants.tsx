@@ -22,6 +22,7 @@ import ProductVariantRow from "./ProductVariantRow";
 import { EditData, VariantByColor } from "../page";
 import ProductVariantSizes from "./ProductVariantSizes";
 import { useState } from "react";
+import * as actions from "@/actions";
 
 function ProductVariants({ data }: { data: EditData | null }) {
   const { toast } = useToast();
@@ -57,60 +58,63 @@ function ProductVariants({ data }: { data: EditData | null }) {
   }
 
   return (
-    <Card>
-      <CardHeader>
-        <CardTitle>Variantes</CardTitle>
-        <CardDescription>
-          Gestion des stocks et des prix des variantes
-        </CardDescription>
-      </CardHeader>
-      <CardContent>
-        <Table>
-          <TableHeader>
-            <TableRow>
-              <TableHead></TableHead>
-              <TableHead>Couleur</TableHead>
-              <TableHead>Stock</TableHead>
-              <TableHead>Prix</TableHead>
-              <TableHead></TableHead>
-              <TableHead></TableHead>
-            </TableRow>
-          </TableHeader>
-          <TableBody>
-            {Array.isArray(currentVariants) &&
-              currentVariants?.length > 0 &&
-              currentVariants.map((variant) => (
-                <ProductVariantRow
-                  key={variant.color}
-                  variant={variant}
-                  variants={data.variants}
-                >
-                  <ProductVariantSizes
-                    variants={
-                      Array.isArray(data?.variants) &&
-                      data.variants?.filter(
-                        (item) => item.color === variant.color
-                      )
-                    }
-                  />
-                </ProductVariantRow>
-              ))}
-          </TableBody>
-        </Table>
-      </CardContent>
-      <CardFooter className="justify-center border-t p-4">
-        <Button
-          type="button"
-          size="sm"
-          variant="ghost"
-          className="gap-1"
-          onClick={handleAddVariant}
-        >
-          <PlusCircle className="h-3.5 w-3.5" />
-          Ajouter variante
-        </Button>
-      </CardFooter>
-    </Card>
+    <form action={actions.editVariants}>
+      <Card>
+        <CardHeader>
+          <CardTitle>Variantes</CardTitle>
+          <CardDescription>
+            Gestion des stocks et des prix des variantes
+          </CardDescription>
+        </CardHeader>
+        <CardContent>
+          <Table>
+            <TableHeader>
+              <TableRow>
+                <TableHead></TableHead>
+                <TableHead>Couleur</TableHead>
+                <TableHead>Stock</TableHead>
+                <TableHead>Prix</TableHead>
+                <TableHead></TableHead>
+                <TableHead></TableHead>
+                <TableHead hidden></TableHead>
+              </TableRow>
+            </TableHeader>
+            <TableBody>
+              {Array.isArray(currentVariants) &&
+                currentVariants?.length > 0 &&
+                currentVariants.map((variant) => (
+                  <ProductVariantRow
+                    key={variant.color}
+                    variant={variant}
+                    variants={data.variants}
+                  >
+                    <ProductVariantSizes
+                      variants={
+                        Array.isArray(data?.variants) &&
+                        data.variants?.filter(
+                          (item) => item.color === variant.color
+                        )
+                      }
+                    />
+                  </ProductVariantRow>
+                ))}
+            </TableBody>
+          </Table>
+        </CardContent>
+        <CardFooter className="justify-center border-t p-4">
+          <Button
+            type="button"
+            size="sm"
+            variant="ghost"
+            className="gap-1"
+            onClick={handleAddVariant}
+          >
+            <PlusCircle className="h-3.5 w-3.5" />
+            Ajouter variante
+          </Button>
+        </CardFooter>
+      </Card>
+    </form>
   );
 }
 

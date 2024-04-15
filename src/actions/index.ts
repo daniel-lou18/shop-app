@@ -5,3 +5,4 @@ export { getProduct } from "./get-product";
 export { signIn } from "./sign-in";
 export { signOut } from "./sign-out";
 export { uploadImage } from "./upload-image";
+export { editVariants } from "./edit-variants";

@@ -8,7 +8,7 @@ import { centsToEuros } from "@/helpers/helpers";
 import { ReactNode, useEffect, useRef, useState } from "react";
 import ProductVariantEditImage from "./ProductVariantEditImage";
 import { Button } from "@/components/ui/button";
-import { ChevronLeft, Pencil, Save } from "lucide-react";
+import { ChevronLeft, Pencil, Save, Trash2 } from "lucide-react";
 
 type ProductVariantRowProps = {
   children: ReactNode;
@@ -38,6 +38,7 @@ function ProductVariantRow({
   function handleEdit() {
     setIsDisabled((prev) => !prev);
   }
+
   return (
     <TableRow>
       <ProductVariantEditImage
@@ -92,15 +93,23 @@ function ProductVariantRow({
               <ChevronLeft size={16} strokeWidth={1.5} />
             )}
           </Button>
-          <Button
-            type="button"
-            variant="outline"
-            onClick={handleEdit}
-            disabled={isDisabled}
-          >
-            <Save size={16} strokeWidth={1.5} />
+          <Button type="submit" variant="outline">
+            {isDisabled ? (
+              <Trash2 size={16} strokeWidth={1.5} />
+            ) : (
+              <Save size={16} strokeWidth={1.5} />
+            )}
           </Button>
         </div>
+      </TableCell>
+      <TableCell hidden>
+        <input
+          readOnly
+          hidden
+          name="productId"
+          value={variants?.at(0)?.productId}
+        />
+        <input readOnly hidden name="currentColor" value={variant.color} />
       </TableCell>
     </TableRow>
   );
