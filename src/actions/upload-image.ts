@@ -1,4 +1,5 @@
 "use server";
+
 import { db } from "@/db";
 import { paths } from "@/helpers/helpers";
 import { writeFile } from "fs/promises";
@@ -6,10 +7,11 @@ import { revalidatePath } from "next/cache";
 import path from "path";
 
 export async function uploadImage(
-  id: string | undefined,
-  currentImagePath: string | undefined,
+  ids: string[] | false,
+  productId: string | undefined,
   formData: FormData
 ) {
+  if (!ids) return { errors: { _form: ["Id(s) manquant(s)"] } };
   try {
     const image: File | null = formData.get("image") as unknown as File;
     if (!image) throw new Error("Image manquante !");
@@ -18,17 +20,19 @@ export async function uploadImage(
     const buffer = Buffer.from(bytes);
     const filePath = path.join(process.cwd(), "public", image.name);
     await writeFile(filePath, buffer);
-    await db.product.update({
-      where: { id },
+    await db.productVariant.updateMany({
+      where: { id: { in: ids } },
       data: {
-        imagePath: currentImagePath
-          ? `${currentImagePath} /${image.name}`
-          : `/${image.name}`,
+        imagePath: `/${image.name}`,
       },
     });
-    id && revalidatePath(paths.adminProduct(id));
-    return { message: "Le fichier a été ajouté" };
+    productId && revalidatePath(paths.adminProduct(productId));
   } catch (err) {
-    return { error: "Échec lors de l'ajout du fichier" };
+    console.error(err);
+    if (err instanceof Error) {
+      return { errors: { _form: [err.message] } };
+    } else {
+      return { errors: { _form: ["Échec lors de l'ajout du fichier"] } };
+    }
   }
 }

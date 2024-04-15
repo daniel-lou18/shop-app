@@ -61,7 +61,7 @@ model Product {
   id String @id @default(cuid())
   name String
   price Int
-  imagePath String
+  imagePath String?
   description String
   brandId String
   brand Brand @relation(fields: [brandId], references: [id], onDelete: Restrict)

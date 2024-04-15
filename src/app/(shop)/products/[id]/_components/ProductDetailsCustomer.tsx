@@ -1,5 +1,4 @@
 import ProductVariant from "./ProductVariant";
-import ProductImages from "./ProductImage";
 
 type ProductDetailsCustomerProps = { id: string };
 

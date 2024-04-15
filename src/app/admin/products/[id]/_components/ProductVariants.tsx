@@ -13,18 +13,22 @@ import {
 import {
   Table,
   TableBody,
-  TableCell,
   TableHead,
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
 import { useToast } from "@/components/ui/use-toast";
-import ProductVariantTrigger from "./ProductVariantTrigger";
-import { EditData } from "../page";
-import ProductVariantPopover from "./ProductVariantPopover";
+import ProductVariantRow from "./ProductVariantRow";
+import { EditData, VariantByColor } from "../page";
+import ProductVariantSizes from "./ProductVariantSizes";
+import { useState } from "react";
 
 function ProductVariants({ data }: { data: EditData | null }) {
   const { toast } = useToast();
+  const [currentVariants, setCurrentVariants] = useState<VariantByColor[]>(
+    data?.variantsByColor || []
+  );
+
   if (data && data.variants === null) {
     toast({
       variant: "red",
@@ -40,6 +44,18 @@ function ProductVariants({ data }: { data: EditData | null }) {
     return null;
   }
 
+  function handleAddVariant() {
+    setCurrentVariants([
+      ...currentVariants,
+      {
+        color: "",
+        imagePath: null,
+        price: data?.product?.price || 0,
+        _sum: { stockQuantity: 0 },
+      },
+    ]);
+  }
+
   return (
     <Card>
       <CardHeader>
@@ -52,17 +68,24 @@ function ProductVariants({ data }: { data: EditData | null }) {
         <Table>
           <TableHeader>
             <TableRow>
+              <TableHead></TableHead>
               <TableHead>Couleur</TableHead>
               <TableHead>Stock</TableHead>
               <TableHead>Prix</TableHead>
+              <TableHead></TableHead>
+              <TableHead></TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
-            {Array.isArray(data?.variantsByColor) &&
-              data.variantsByColor.length > 0 &&
-              data.variantsByColor.map((variant) => (
-                <ProductVariantTrigger key={variant.color} variant={variant}>
-                  <ProductVariantPopover
+            {Array.isArray(currentVariants) &&
+              currentVariants?.length > 0 &&
+              currentVariants.map((variant) => (
+                <ProductVariantRow
+                  key={variant.color}
+                  variant={variant}
+                  variants={data.variants}
+                >
+                  <ProductVariantSizes
                     variants={
                       Array.isArray(data?.variants) &&
                       data.variants?.filter(
@@ -70,15 +93,21 @@ function ProductVariants({ data }: { data: EditData | null }) {
                       )
                     }
                   />
-                </ProductVariantTrigger>
+                </ProductVariantRow>
               ))}
           </TableBody>
         </Table>
       </CardContent>
       <CardFooter className="justify-center border-t p-4">
-        <Button type="button" size="sm" variant="ghost" className="gap-1">
+        <Button
+          type="button"
+          size="sm"
+          variant="ghost"
+          className="gap-1"
+          onClick={handleAddVariant}
+        >
           <PlusCircle className="h-3.5 w-3.5" />
-          Add Variant
+          Ajouter variante
         </Button>
       </CardFooter>
     </Card>

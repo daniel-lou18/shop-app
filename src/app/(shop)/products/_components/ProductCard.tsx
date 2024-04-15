@@ -13,7 +13,7 @@ import { centsToEuros } from "@/helpers/helpers";
 type ProductCardProps = Product & { brand: Brand };
 
 function ProductCard({ id, name, brand, imagePath, price }: ProductCardProps) {
-  const image = imagePath.split(" ").at(0);
+  const image = imagePath?.split(" ").at(0);
   return (
     <li>
       <Link href={`/products/${id}`}>

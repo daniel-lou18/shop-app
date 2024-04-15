@@ -26,7 +26,7 @@ function ProductsTableItem({
   category,
   price,
 }: ProductsTableItemProps) {
-  const image = imagePath.split(" ").at(0);
+  const image = imagePath?.split(" ").at(0);
   return (
     <TableRow>
       <TableCell className="hidden sm:table-cell">

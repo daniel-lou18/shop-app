@@ -144,8 +144,14 @@ function ProductForm({ type, id, data }: ProductFormProps) {
               </CardContent>
             </Card>
             <ProductImages
-              id={id}
-              imagePath={(data as EditData)?.product?.imagePath}
+              imagePaths={
+                type === "edit"
+                  ? (data as EditData)?.variantsByColor.map(
+                      (variant) => variant.imagePath
+                    )
+                  : null
+              }
+              type={type}
             />
             <Card>
               <CardHeader>

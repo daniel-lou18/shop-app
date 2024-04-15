@@ -68,17 +68,18 @@ export async function addProduct(
         category: { connect: { id: result.data.category } },
       },
     });
-    sizes.forEach(async (size) => {
+    for (const size of sizes) {
       await db.productVariant.create({
         data: {
           productId: product.id,
           size,
+          price: product.price,
           stockQuantity: 100,
           color: "base",
-          sku: `${size}-${Date.now().toString()}`,
+          sku: `base-${size}-${Date.now().toString()}`,
         },
       });
-    });
+    }
   } catch (err: unknown) {
     console.error(err);
     if (err instanceof Error) {

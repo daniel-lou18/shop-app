@@ -7,23 +7,30 @@ import {
 } from "@/components/ui/card";
 import Image from "next/image";
 import FileUpload from "../../../../../components/ui/FileUpload";
+import { useState } from "react";
 
-function ProductImages({
-  id,
-  imagePath,
-}: {
-  id: string | undefined;
-  imagePath: string | undefined;
-}) {
-  const images = imagePath?.split(" ");
+type ProductImagesProps = {
+  type: "edit" | "add";
+  imagePaths: (string | null)[] | null;
+};
+
+function ProductImages({ type, imagePaths }: ProductImagesProps) {
+  const [selectedImage, setSelectedImage] = useState<string | null | undefined>(
+    imagePaths?.at(0)
+  );
+
+  function handleClick(imageUrl: string | null) {
+    setSelectedImage(imageUrl);
+  }
 
   return (
-    <div className={`${id ? "" : "opacity-30"}`}>
+    <div className={`${type === "edit" ? "" : "opacity-30"}`}>
       <Card className="overflow-hidden">
         <CardHeader>
           <CardTitle>Images du produit</CardTitle>
           <CardDescription>
-            Ajoutez, modifiez ou supprimez des images
+            Ajoutez, modifiez ou supprimez des images dans la rubrique
+            &quot;Variantes&quot;
           </CardDescription>
         </CardHeader>
         <CardContent>
@@ -32,24 +39,28 @@ function ProductImages({
               alt="Product image"
               className="aspect-square w-full rounded-md object-cover"
               height="300"
-              src={imagePath ? images?.at(0) || "" : "/placeholder.svg"}
+              src={selectedImage ? selectedImage : "/placeholder.svg"}
               width="300"
             />
             <div className="grid grid-cols-3 gap-2">
-              {images &&
-                images.length > 1 &&
-                images.slice(1).map((imageUrl, idx) => (
-                  <button type="button" key={idx}>
+              {imagePaths &&
+                imagePaths.length > 1 &&
+                imagePaths.map((imageUrl, idx) => (
+                  <button
+                    type="button"
+                    key={idx}
+                    onClick={() => handleClick(imageUrl)}
+                  >
                     <Image
                       alt="Product image"
                       className="aspect-square w-full rounded-md object-cover"
                       height="84"
-                      src={imageUrl}
+                      src={imageUrl || "/placeholder.svg"}
                       width="84"
                     />
                   </button>
                 ))}
-              <FileUpload id={id} currentImagePath={imagePath} />
+              {/* <FileUpload id={id} currentImagePath={imagePath} /> */}
             </div>
           </div>
         </CardContent>

@@ -6,7 +6,6 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
 import { centsToEuros } from "@/helpers/helpers";
 import ButtonSubmit from "../../../../../components/ui/ButtonSubmit";
 import { ProductVariant } from "@prisma/client";
@@ -74,7 +73,7 @@ function ProductVariantForm({
         </CardHeader>
         <CardContent className="px-0 py-4 grid grid-cols-1 gap-4">
           <p className="text-xl text-gray-950 font-semibold">
-            {centsToEuros(availableSizes.at(0)?.price)}
+            {centsToEuros(availableSizes.at(0)?.price || 0)}
           </p>
           <ProductColors
             value={selectedColor}

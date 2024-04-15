@@ -103,16 +103,6 @@ function ProductDetails({
               </p>
             )}
           </div>
-          <div className="grid gap-3">
-            <Label htmlFor="imagePath">Image(s)</Label>
-            <Input
-              id="imagePath"
-              type="text"
-              className="w-full"
-              defaultValue={type === "edit" ? editData.product?.imagePath : ""}
-              name="imagePath"
-            />
-          </div>
           <div className="grid gap-6 sm:grid-cols-3">
             <div className="grid gap-3">
               <ProductDynamicSelect

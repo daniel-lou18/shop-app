@@ -10,17 +10,19 @@ type ProductDetailsProps = {
   };
 };
 
+export type VariantByColor = {
+  color: string;
+  imagePath: string | null;
+  price: number;
+  _sum: { stockQuantity: number | null };
+};
+
 export type EditData = {
   product: Product & { brand: Brand; category: Category };
   brands: Brand[];
   categories: Category[];
-  variants: ProductVariant[] | null | { error: string };
-  variantsByColor: {
-    color: string;
-    imagePath: string | null;
-    price: number;
-    _sum: { stockQuantity: number | null };
-  }[];
+  variants: ProductVariant[] | null | { errors: ["string"] };
+  variantsByColor: VariantByColor[];
 };
 
 export type AddData = {
