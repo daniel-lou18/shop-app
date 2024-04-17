@@ -5,29 +5,29 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { ProductVariant } from "@prisma/client";
 import { centsToEuros } from "@/helpers/helpers";
-import { ReactNode, useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import ProductVariantEditImage from "./ProductVariantEditImage";
 import { Button } from "@/components/ui/button";
 import { ChevronLeft, Pencil, Save, Trash2 } from "lucide-react";
+import * as actions from "@/actions";
+import ProductVariantSizes from "./ProductVariantSizes";
 
 type ProductVariantRowProps = {
-  children: ReactNode;
   variant: {
     color: string;
     imagePath: string | null;
     price: number;
-    _sum: { stockQuantity: number | null };
+    totalStock: number;
   };
   variants: ProductVariant[] | null;
 };
 
-function ProductVariantRow({
-  children,
-  variant,
-  variants,
-}: ProductVariantRowProps) {
+function ProductVariantRow({ variant, variants }: ProductVariantRowProps) {
   const [isDisabled, setIsDisabled] = useState<boolean>(true);
   const inputRef = useRef<HTMLInputElement>(null);
+  const sameColoredVariants = variants?.filter(
+    (item) => item.color === variant.color
+  );
 
   useEffect(() => {
     if (!isDisabled) {
@@ -36,16 +36,22 @@ function ProductVariantRow({
   }, [isDisabled]);
 
   function handleEdit() {
-    setIsDisabled((prev) => !prev);
+    setIsDisabled(false);
+  }
+
+  function handleCancel() {
+    setIsDisabled(true);
+  }
+
+  async function handleSave(formData: FormData) {
+    setIsDisabled(true);
+    await actions.editVariants(formData);
   }
 
   return (
     <TableRow>
       <ProductVariantEditImage
-        variants={
-          Array.isArray(variants) &&
-          variants?.filter((item) => item.color === variant.color)
-        }
+        variants={Array.isArray(sameColoredVariants) && sameColoredVariants}
       />
       <TableCell>
         <Label htmlFor="variantColor" className="sr-only">
@@ -67,8 +73,9 @@ function ProductVariantRow({
         <Input
           id="variantTotalStock"
           type="number"
-          defaultValue={variant._sum.stockQuantity || ""}
-          disabled
+          defaultValue={variant.totalStock || ""}
+          disabled={isDisabled}
+          readOnly
         />
       </TableCell>
       <TableCell>
@@ -83,23 +90,29 @@ function ProductVariantRow({
           disabled={isDisabled}
         />
       </TableCell>
-      {children}
+      <ProductVariantSizes
+        variants={Array.isArray(sameColoredVariants) && sameColoredVariants}
+      />
       <TableCell>
         <div className="flex gap-2">
-          <Button type="button" variant="outline" onClick={handleEdit}>
-            {isDisabled ? (
+          {isDisabled ? (
+            <Button variant="outline" onClick={handleEdit}>
               <Pencil size={16} strokeWidth={1.5} />
-            ) : (
+            </Button>
+          ) : (
+            <Button variant="outline" onClick={handleCancel}>
               <ChevronLeft size={16} strokeWidth={1.5} />
-            )}
-          </Button>
-          <Button type="submit" variant="outline">
-            {isDisabled ? (
+            </Button>
+          )}
+          {isDisabled ? (
+            <Button variant="outline" formAction={actions.deleteVariants}>
               <Trash2 size={16} strokeWidth={1.5} />
-            ) : (
+            </Button>
+          ) : (
+            <Button variant="outline" formAction={handleSave}>
               <Save size={16} strokeWidth={1.5} />
-            )}
-          </Button>
+            </Button>
+          )}
         </div>
       </TableCell>
       <TableCell hidden>
@@ -109,7 +122,12 @@ function ProductVariantRow({
           name="productId"
           value={variants?.at(0)?.productId}
         />
-        <input readOnly hidden name="currentColor" value={variant.color} />
+        <input
+          readOnly
+          hidden
+          name="variantIds"
+          value={sameColoredVariants?.map((variant) => variant.id)}
+        />
       </TableCell>
     </TableRow>
   );

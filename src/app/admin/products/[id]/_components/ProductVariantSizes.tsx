@@ -77,7 +77,6 @@ function ProductVariantSizes({ variants }: ProductVariantSizesProps) {
                         id="stock-2"
                         type="number"
                         defaultValue={variant.stockQuantity || ""}
-                        disabled
                       />
                     </TableCell>
                   </TableRow>
