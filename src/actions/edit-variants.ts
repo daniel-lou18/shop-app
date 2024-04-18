@@ -4,18 +4,19 @@ import { db } from "@/db";
 import { paths } from "@/helpers/helpers";
 import { revalidatePath } from "next/cache";
 
-export async function editVariants(formData: FormData) {
-  const variantIds = formData.get("variantIds") as string;
-
+export async function editVariants(
+  productId: string | undefined,
+  variantIds: string[],
+  formData: FormData
+) {
   const data = {
-    variantIdsArray: variantIds.split(","),
+    variantIds,
+    productId,
     variantColor: formData.get("variantColor") as string,
     variantPrice: formData.get("variantPrice") as string,
-    productId: formData.get("productId") as string,
   };
-  console.log(data.variantIdsArray);
   try {
-    for (const id of data.variantIdsArray) {
+    for (const id of data.variantIds) {
       const resultFind = await db.productVariant.findFirst({
         where: { id },
       });
@@ -29,7 +30,6 @@ export async function editVariants(formData: FormData) {
           }-${Date.now().toString()}`,
         },
       });
-      console.log(resultUpdate);
     }
   } catch (err) {
     console.error(err);
@@ -41,5 +41,5 @@ export async function editVariants(formData: FormData) {
       };
     }
   }
-  revalidatePath(paths.adminProduct(data.productId));
+  if (data.productId) revalidatePath(paths.adminProduct(data.productId));
 }

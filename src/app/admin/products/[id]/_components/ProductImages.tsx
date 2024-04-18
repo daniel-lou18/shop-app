@@ -13,7 +13,7 @@ import { useState } from "react";
 
 type ProductImagesProps = {
   type: "edit" | "add";
-  imagePaths: (string | null)[] | null;
+  imagePaths?: (string | null)[] | null;
 };
 
 function ProductImages({ type, imagePaths }: ProductImagesProps) {

@@ -6,17 +6,14 @@ import { revalidatePath } from "next/cache";
 
 const sizes = ["XS", "S", "M", "L", "XL"];
 
-export async function addVariants(formData: FormData) {
-  const data = {
-    productId: formData.get("productId") as string,
-    variantColor: formData.get("variantColor") as string,
-    variantPrice: formData.get("variantPrice") as string,
-  };
+export async function addVariants(productId: string | undefined) {
+  if (!productId) return { errors: { _form: ["Id manquant"] } };
+
   try {
     for (const size of sizes) {
       const result = await db.productVariant.create({
         data: {
-          product: { connect: { id: data.productId } },
+          product: { connect: { id: productId } },
           size,
           color: "Nouvelle couleur",
           price: 10000,
@@ -30,5 +27,5 @@ export async function addVariants(formData: FormData) {
     console.error(err);
     return { errors: { _form: ["Échec lors de la création des variantes"] } };
   }
-  revalidatePath(paths.adminProduct(data.productId));
+  revalidatePath(paths.adminProduct(productId));
 }

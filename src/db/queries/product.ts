@@ -1,7 +1,7 @@
 import { db } from "@/db";
 import { Brand, Category, Product, ProductVariant } from "@prisma/client";
 
-type ProductWithVariants = Product & {
+export type ProductWithVariants = Product & {
   brand: Brand;
   category: Category;
   variants: ProductVariant[];

@@ -4,16 +4,16 @@ import { db } from "@/db";
 import { paths } from "@/helpers/helpers";
 import { revalidatePath } from "next/cache";
 
-export async function deleteVariants(formData: FormData) {
-  const data = {
-    variantIds: formData.get("variantIds") as string,
-    productId: formData.get("productId") as string,
-  };
-  console.log(data);
-  if (!data.variantIds) return { errors: { _form: ["Id(s) manquant(s)"] } };
+export async function deleteVariants(
+  productId: string | undefined,
+  variantIds: string[]
+) {
+  if (!productId || !variantIds || variantIds.length === 0)
+    return { errors: { _form: ["Id(s) manquant(s)"] } };
+
   try {
     const result = await db.productVariant.deleteMany({
-      where: { id: { in: data.variantIds.split(",") } },
+      where: { id: { in: variantIds } },
     });
     console.log(result);
   } catch (err) {
@@ -26,5 +26,5 @@ export async function deleteVariants(formData: FormData) {
       };
     }
   }
-  revalidatePath(paths.adminProduct(data.productId));
+  revalidatePath(paths.adminProduct(productId));
 }

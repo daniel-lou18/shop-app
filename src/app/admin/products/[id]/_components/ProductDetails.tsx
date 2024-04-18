@@ -11,27 +11,22 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
-import { notFound } from "next/navigation";
 import ProductDynamicSelect from "./ProductDynamicSelect";
-import { Brand, Category, Product } from "@prisma/client";
+import { Brand, Category } from "@prisma/client";
 import { AddProductSchemaType } from "@/actions/add-product";
 import { useToast } from "@/components/ui/use-toast";
 import { useState } from "react";
 import * as actions from "@/actions";
 import { Button } from "@/components/ui/button";
 import ButtonSubmit from "@/components/ui/ButtonSubmit";
-
-export type ProductWithBrandCategory = Product & {
-  brand: Brand;
-  category: Category;
-};
+import { ProductWithVariants } from "@/db/queries/product";
 
 export type ProductDetailsProps = {
   brands: Brand[];
   categories: Category[];
 } & (
   | { type: "add"; id?: never; product?: never }
-  | { type: "edit"; product: ProductWithBrandCategory; id: string }
+  | { type: "edit"; product: ProductWithVariants; id: string }
 );
 
 function ProductDetails({
@@ -45,7 +40,7 @@ function ProductDetails({
   const [errorObject, setErrorObject] = useState<AddProductSchemaType>({
     errors: {},
   });
-  const productData = product as ProductWithBrandCategory;
+  const productData = product as ProductWithVariants;
   async function editProductAction(id: string, formData: FormData) {
     const res = await actions.editProduct(id, formData);
     if (res?.error) toast({ variant: "red", description: `🚨 ${res.error}` });

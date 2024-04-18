@@ -17,38 +17,45 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { useToast } from "@/components/ui/use-toast";
 import ProductVariantRow from "./ProductVariantRow";
-import { EditData } from "../page";
 import * as actions from "@/actions";
-import { ProductVariant } from "@prisma/client";
-import { ProductVariantsByColor } from "@/db/queries/variants";
+import { ProductWithVariants } from "@/db/queries/product";
+import { getVariantsByColor } from "@/db/queries/variants";
+import { useState } from "react";
 
 type ProductVariantsProps = {
-  variantsByColor: ProductVariantsByColor | null;
+  product?: ProductWithVariants;
 };
 
-function ProductVariants({ variantsByColor }: ProductVariantsProps) {
-  const { toast } = useToast();
+function ProductVariants({ product }: ProductVariantsProps) {
+  const [activeRow, setActiveRow] = useState<number | null>(null);
+  const variantsByColor = product && getVariantsByColor(product.variants);
 
-  if (!variantsByColor) {
-    toast({
-      variant: "red",
-      description: `🚨 Erreur lors du chargement des variantes`,
-    });
-    return null;
+  function handleActiveRow(rowNumber: number | null) {
+    setActiveRow(rowNumber);
   }
-  if (variantsByColor && "error" in variantsByColor) {
-    toast({
-      variant: "red",
-      description: `🚨 ${variantsByColor.error}`,
-    });
-    return null;
+
+  async function handleAddVariant() {
+    await actions.addVariants(product?.id);
+    handleActiveRow(0);
   }
+
+  const content =
+    Array.isArray(variantsByColor) && variantsByColor.length > 0
+      ? variantsByColor.map((variant, idx) => (
+          <ProductVariantRow
+            key={variant.createdAt.getTime()}
+            variant={variant}
+            rowNumber={idx}
+            activeRow={activeRow}
+            handleActiveRow={handleActiveRow}
+          />
+        ))
+      : null;
 
   return (
     <div className="grid auto-rows-max items-start gap-4 lg:col-span-3 lg:gap-8">
-      <form action={actions.editVariants}>
+      <form>
         <Card>
           <CardHeader>
             <CardTitle>Variantes</CardTitle>
@@ -69,17 +76,7 @@ function ProductVariants({ variantsByColor }: ProductVariantsProps) {
                   <TableHead hidden></TableHead>
                 </TableRow>
               </TableHeader>
-              <TableBody>
-                {Array.isArray(variantsByColor) &&
-                  variantsByColor.length > 0 &&
-                  variantsByColor.map((variant) => (
-                    <ProductVariantRow
-                      key={variant.color}
-                      variant={variant}
-                      variants={variant.variants}
-                    />
-                  ))}
-              </TableBody>
+              <TableBody>{content}</TableBody>
             </Table>
           </CardContent>
           <CardFooter className="justify-center border-t p-4">
@@ -87,7 +84,7 @@ function ProductVariants({ variantsByColor }: ProductVariantsProps) {
               size="sm"
               variant="ghost"
               className="gap-1"
-              formAction={actions.addVariants}
+              formAction={handleAddVariant}
             >
               <PlusCircle className="h-3.5 w-3.5" />
               Ajouter variante

@@ -1,7 +1,4 @@
-import { db } from "@/db";
-import { Brand, Category, Product, ProductVariant } from "@prisma/client";
 import { notFound } from "next/navigation";
-import * as actions from "@/actions/variant";
 import { fetchAllBrands } from "@/db/queries/brands";
 import { fetchAllCategories } from "@/db/queries/categories";
 import { fetchProductWithVariants } from "@/db/queries/product";
@@ -17,32 +14,11 @@ type ProductDetailsProps = {
   };
 };
 
-export type VariantByColor = {
-  color: string;
-  imagePath: string | null;
-  price: number;
-  _sum: { stockQuantity: number | null };
-};
-
-export type EditData = {
-  product: Product & { brand: Brand; category: Category };
-  brands: Brand[];
-  categories: Category[];
-  variants: ProductVariant[] | null | { errors: ["string"] };
-  variantsByColor: VariantByColor[];
-};
-
-export type AddData = {
-  brands: Brand[];
-  categories: Category[];
-};
-
 async function ProductDetailsAdmin({ params }: ProductDetailsProps) {
   const product = await fetchProductWithVariants(params.id);
   const brands = await fetchAllBrands();
   const categories = await fetchAllCategories();
   const variantsByColor = await fetchProductVariantsByColor(params.id);
-  console.log(variantsByColor);
 
   if (!product || brands.length === 0 || categories.length === 0)
     return notFound();
@@ -63,7 +39,7 @@ async function ProductDetailsAdmin({ params }: ProductDetailsProps) {
             type="edit"
             imagePaths={variantsByColor.map((variant) => variant.imagePath)}
           />
-          <ProductVariants variantsByColor={variantsByColor} />
+          <ProductVariants product={product} />
         </div>
       </div>
     </main>
