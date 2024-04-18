@@ -7,3 +7,4 @@ export { uploadImage } from "./upload-image";
 export { editVariants } from "./edit-variants";
 export { addVariants } from "./add-variants";
 export { deleteVariants } from "./delete-variants";
+export { editSizes } from "./edit-sizes";

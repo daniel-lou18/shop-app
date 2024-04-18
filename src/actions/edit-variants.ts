@@ -24,7 +24,7 @@ export async function editVariants(
         where: { id },
         data: {
           color: data.variantColor,
-          price: parseInt(data.variantPrice),
+          price: parseInt(data.variantPrice) * 100,
           sku: `${data.variantColor}-${
             resultFind?.size
           }-${Date.now().toString()}`,

@@ -5,15 +5,19 @@ import { Button } from "./button";
 import { ReactNode } from "react";
 import { Loader2 } from "lucide-react";
 
+type ButtonSubmitProps = {
+  children: ReactNode;
+  size?: "sm" | "lg";
+  className?: string;
+  onClick?: () => void;
+};
+
 function ButtonSubmit({
   children,
   className,
   size = "sm",
-}: {
-  children: ReactNode;
-  size?: "sm" | "lg";
-  className?: string;
-}) {
+  onClick,
+}: ButtonSubmitProps) {
   const { pending } = useFormStatus();
 
   return (
@@ -21,6 +25,7 @@ function ButtonSubmit({
       type={`${pending ? "button" : "submit"}`}
       size={size}
       className={className}
+      onClick={onClick}
     >
       <div className="relative">
         <span className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
