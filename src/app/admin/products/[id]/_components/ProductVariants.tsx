@@ -23,13 +23,17 @@ import { ProductWithVariants } from "@/db/queries/product";
 import { getVariantsByColor } from "@/db/queries/variants";
 import { useState } from "react";
 
-type ProductVariantsProps = {
-  product?: ProductWithVariants;
-};
+type ProductVariantsProps =
+  | {
+      type: "edit";
+      product: ProductWithVariants;
+    }
+  | { type: "add"; product?: never };
 
-function ProductVariants({ product }: ProductVariantsProps) {
+function ProductVariants({ product, type }: ProductVariantsProps) {
   const [activeRow, setActiveRow] = useState<number | null>(null);
-  const variantsByColor = product && getVariantsByColor(product.variants);
+  const variantsByColor =
+    type === "edit" ? getVariantsByColor(product.variants) : [];
 
   function handleActiveRow(rowNumber: number | null) {
     setActiveRow(rowNumber);
@@ -54,7 +58,11 @@ function ProductVariants({ product }: ProductVariantsProps) {
       : null;
 
   return (
-    <div className="grid auto-rows-max items-start gap-4 lg:col-span-3 lg:gap-8">
+    <div
+      className={`grid auto-rows-max items-start gap-4 lg:col-span-3 lg:gap-8 ${
+        type === "edit" ? "" : "opacity-30"
+      }`}
+    >
       <form>
         <Card>
           <CardHeader>

@@ -16,31 +16,23 @@ import { Label } from "@/components/ui/label";
 import { Upload } from "lucide-react";
 import * as actions from "@/actions";
 import ButtonSubmit from "./ButtonSubmit";
-import { ReactNode, useState } from "react";
-import { ProductVariant } from "@prisma/client";
+import { useState } from "react";
 import { useToast } from "./use-toast";
-import Image from "next/image";
 
-export type FileUploadProps = {
-  variants: ProductVariant[] | false;
-};
-
-function FileUpload({ variants }: FileUploadProps) {
+function ProductImageUpload({
+  currentImagePath,
+}: {
+  currentImagePath: string | null;
+}) {
   const [isOpen, setIsOpen] = useState<boolean>(false);
-  const ids = variants && variants.map((variant) => variant.id);
   const { toast } = useToast();
+  const [imagePath, setImagePath] = useState<string>(currentImagePath || "");
   async function handleUpload(formData: FormData) {
     try {
-      if (!ids || !variants) {
-        setIsOpen(false);
-        throw new Error("Id(s) manquant(s)");
-      }
-      const result = await actions.uploadImage(
-        ids,
-        variants.at(0)?.productId,
-        formData
-      );
-      if (result?.errors) throw new Error(result.errors._form.join(", "));
+      const result = await actions.uploadImage(formData);
+      if (typeof result !== "string" && result.errors)
+        throw new Error(result.errors._form.join(", "));
+      if (typeof result === "string") setImagePath(result);
       setIsOpen(false);
     } catch (err: unknown) {
       toast({
@@ -55,18 +47,10 @@ function FileUpload({ variants }: FileUploadProps) {
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
       <DialogTrigger asChild>
-        <Image
-          src={
-            variants && variants.length > 0 && variants.at(0)?.imagePath
-              ? variants.at(0).imagePath
-              : "/placeholder.svg"
-          }
-          alt=""
-          width={80}
-          height={80}
-          onClick={() => setIsOpen(true)}
-          className="rounded-md object-cover hover:cursor-pointer"
-        />
+        <Button type="button" variant="outline" size="sm" className="w-16">
+          <Upload className="h-4 w-4 text-muted-foreground" />
+          <span className="sr-only">Upload</span>
+        </Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-md">
         <form action={handleUpload} className="grid gap-4">
@@ -92,8 +76,9 @@ function FileUpload({ variants }: FileUploadProps) {
           </DialogFooter>
         </form>
       </DialogContent>
+      <input type="hidden" name="imagePath" value={imagePath}></input>
     </Dialog>
   );
 }
 
-export default FileUpload;
+export default ProductImageUpload;

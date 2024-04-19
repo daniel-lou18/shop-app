@@ -8,7 +8,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import Image from "next/image";
-import FileUpload from "../../../../../components/ui/FileUpload";
+import FileUpload from "../../../../../components/ui/VariantImageUpload";
 import { useState } from "react";
 
 type ProductImagesProps = {

@@ -39,7 +39,7 @@ async function ProductDetailsAdmin({ params }: ProductDetailsProps) {
             type="edit"
             imagePaths={variantsByColor.map((variant) => variant.imagePath)}
           />
-          <ProductVariants product={product} />
+          <ProductVariants product={product} type="edit" />
         </div>
       </div>
     </main>

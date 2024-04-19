@@ -18,7 +18,7 @@ async function NewProduct() {
         <div className="grid gap-4 md:grid-cols-[1fr_250px] lg:grid-cols-3 lg:gap-8">
           <ProductDetails type="add" brands={brands} categories={categories} />
           <ProductImages type="add" />
-          <ProductVariants />
+          <ProductVariants type="add" />
         </div>
       </div>
     </main>

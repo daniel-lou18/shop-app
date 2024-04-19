@@ -8,9 +8,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Textarea } from "@/components/ui/textarea";
+import InputField from "@/components/ui/InputField";
 import ProductDynamicSelect from "./ProductDynamicSelect";
 import { Brand, Category } from "@prisma/client";
 import { AddProductSchemaType } from "@/actions/add-product";
@@ -20,6 +18,8 @@ import * as actions from "@/actions";
 import { Button } from "@/components/ui/button";
 import ButtonSubmit from "@/components/ui/ButtonSubmit";
 import { ProductWithVariants } from "@/db/queries/product";
+import ProductImageUpload from "@/components/ui/ProductImageUpload";
+import { notFound } from "next/navigation";
 
 export type ProductDetailsProps = {
   brands: Brand[];
@@ -63,7 +63,7 @@ function ProductDetails({
     }
   }
 
-  // if (type === "edit" && !productData) return notFound();
+  if (type === "edit" && !productData) return notFound();
 
   return (
     <div className="grid auto-rows-max items-start gap-4 lg:col-span-2 lg:gap-8">
@@ -89,56 +89,27 @@ function ProductDetails({
           </CardHeader>
           <CardContent>
             <div className="grid gap-6">
-              <div className="grid gap-3">
-                <Label htmlFor="name">Nom</Label>
-                <Input
-                  id="name"
-                  type="text"
-                  className="w-full"
-                  defaultValue={type === "edit" ? productData?.name : ""}
-                  placeholder={
-                    type !== "edit" ? "Saisissez le nom du produit" : ""
-                  }
-                  name="name"
-                />
-                {errorObject && errorObject.errors?.name && (
-                  <p className="text-red-500 text-xs">
-                    {errorObject.errors.name.join(", ")}
-                  </p>
-                )}
-              </div>
-              <div className="grid gap-3">
-                <Label htmlFor="description">Description</Label>
-                <Textarea
-                  id="description"
-                  className="min-h-32"
-                  defaultValue={type === "edit" ? productData?.description : ""}
-                  placeholder={
-                    type !== "edit" ? "Saisissez la description du produit" : ""
-                  }
-                  name="description"
-                />
-                {errorObject && errorObject.errors?.description && (
-                  <p className="text-red-500 text-xs">
-                    {errorObject.errors.description.join(", ")}
-                  </p>
-                )}
-              </div>
-              <div className="grid gap-3">
-                <Label htmlFor="price">Prix</Label>
-                <Input
-                  id="price"
-                  type="number"
-                  className="w-full"
-                  defaultValue={type === "edit" ? productData?.price : 0}
-                  name="price"
-                />
-                {errorObject && errorObject.errors?.price && (
-                  <p className="text-red-500 text-xs">
-                    {errorObject.errors.price.join(", ")}
-                  </p>
-                )}
-              </div>
+              <InputField
+                variant="input"
+                type={type}
+                value={productData?.name}
+                name="name"
+                errorObject={errorObject}
+              />
+              <InputField
+                variant="textarea"
+                type={type}
+                value={productData?.description}
+                name="description"
+                errorObject={errorObject}
+              />
+              <InputField
+                variant="number"
+                type={type}
+                value={productData?.price}
+                name="price"
+                errorObject={errorObject}
+              />
               <div className="grid gap-6 sm:grid-cols-3">
                 <div className="grid gap-3">
                   <ProductDynamicSelect
@@ -161,6 +132,11 @@ function ProductDetails({
           </CardContent>
           <CardFooter>
             <div className="hidden items-center gap-2 md:ml-auto md:flex">
+              <ProductImageUpload
+                currentImagePath={
+                  type === "edit" ? productData.imagePath : null
+                }
+              />
               <Button type="button" variant="outline" size="sm">
                 Annuler
               </Button>

@@ -3,6 +3,7 @@ export { editProduct } from "./edit-product";
 export { deleteProduct } from "./delete-product";
 export { signIn } from "./sign-in";
 export { signOut } from "./sign-out";
+export { uploadImages } from "./upload-images";
 export { uploadImage } from "./upload-image";
 export { editVariants } from "./edit-variants";
 export { addVariants } from "./add-variants";

@@ -42,8 +42,6 @@ function ProductVariantForm({
   );
   const [selectedSize, setSelectedSize] = useState<string>("");
 
-  console.log(selectedColor, selectedSize, availableSizes);
-
   function handleColorChange(value: string) {
     if (value) {
       setSelectedColor(value);

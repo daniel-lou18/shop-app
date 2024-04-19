@@ -73,10 +73,11 @@ export async function addProduct(
         data: {
           productId: product.id,
           size,
-          price: product.price,
+          price: product.price * 100,
           stockQuantity: 100,
           color: "base",
           sku: `base-${size}-${Date.now().toString()}`,
+          imagePath: formData.get("imagePath") as string,
         },
       });
     }

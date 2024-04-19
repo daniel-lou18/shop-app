@@ -1,12 +1,14 @@
 "use client";
 
-import FileUpload, { FileUploadProps } from "@/components/ui/FileUpload";
+import VariantImageUpload, {
+  VariantImageUploadProps,
+} from "@/components/ui/VariantImageUpload";
 import { TableCell } from "@/components/ui/table";
 
-function ProductVariantEditImage(props: FileUploadProps) {
+function ProductVariantEditImage(props: VariantImageUploadProps) {
   return (
     <TableCell className="w-[80px] h-[80px]">
-      <FileUpload {...props} />
+      <VariantImageUpload {...props} />
     </TableCell>
   );
 }

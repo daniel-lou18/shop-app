@@ -1,6 +1,3 @@
-import Link from "next/link";
-import { File, ListFilter, PlusCircle } from "lucide-react";
-import { Button } from "@/components/ui/button";
 import {
   Card,
   CardContent,
@@ -9,77 +6,28 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import {
-  DropdownMenu,
-  DropdownMenuCheckboxItem,
-  DropdownMenuContent,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import {
-  Table,
-  TableBody,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { db } from "@/db";
+
+import { Table, TableBody } from "@/components/ui/table";
+import { Tabs, TabsContent } from "@/components/ui/tabs";
 import ProductsTableItem from "./ProductsTableItem";
 import PageItemsCounter from "../../../../components/ui/PageItemsCounter";
+import ProductsTableHeader from "./ProductsTableHeader";
+import ProductsTableTabsList from "./ProductsTableTabsList";
+import ProductsTableActions from "./ProductsTableActions";
+import {
+  fetchAllProductsWithTotalStock,
+  fetchAllProductsWithVariants,
+} from "@/db/queries/products";
 
 export default async function ProductsTable() {
-  const products = await db.product.findMany({
-    include: { brand: true, category: true },
-  });
+  const products = await fetchAllProductsWithTotalStock();
+
   return (
     <main className="grid flex-1 items-start gap-4 md:gap-8">
       <Tabs defaultValue="all">
         <div className="flex items-center">
-          <TabsList>
-            <TabsTrigger value="all">All</TabsTrigger>
-            <TabsTrigger value="active">Active</TabsTrigger>
-            <TabsTrigger value="draft">Draft</TabsTrigger>
-            <TabsTrigger value="archived" className="hidden sm:flex">
-              Archived
-            </TabsTrigger>
-          </TabsList>
-          <div className="ml-auto flex items-center gap-2">
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                <Button variant="outline" size="sm" className="h-8 gap-1">
-                  <ListFilter className="h-3.5 w-3.5" />
-                  <span className="sr-only sm:not-sr-only sm:whitespace-nowrap">
-                    Filter
-                  </span>
-                </Button>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent align="end">
-                <DropdownMenuLabel>Filter by</DropdownMenuLabel>
-                <DropdownMenuSeparator />
-                <DropdownMenuCheckboxItem checked>
-                  Active
-                </DropdownMenuCheckboxItem>
-                <DropdownMenuCheckboxItem>Draft</DropdownMenuCheckboxItem>
-                <DropdownMenuCheckboxItem>Archived</DropdownMenuCheckboxItem>
-              </DropdownMenuContent>
-            </DropdownMenu>
-            <Button size="sm" variant="outline" className="h-8 gap-1">
-              <File className="h-3.5 w-3.5" />
-              <span className="sr-only sm:not-sr-only sm:whitespace-nowrap">
-                Export
-              </span>
-            </Button>
-            <Button size="sm" className="h-8 gap-1" asChild>
-              <Link href="/admin/products/new">
-                <PlusCircle className="h-3.5 w-3.5" />
-                <span className="sr-only sm:not-sr-only sm:whitespace-nowrap">
-                  Ajouter produit
-                </span>
-              </Link>
-            </Button>
-          </div>
+          <ProductsTableTabsList />
+          <ProductsTableActions />
         </div>
         <TabsContent value="all" className="mt-4">
           <Card>
@@ -91,28 +39,7 @@ export default async function ProductsTable() {
             </CardHeader>
             <CardContent>
               <Table>
-                <TableHeader>
-                  <TableRow>
-                    <TableHead className="hidden w-[100px] sm:table-cell">
-                      <span className="sr-only">Image</span>
-                    </TableHead>
-                    <TableHead>Nom</TableHead>
-                    <TableHead className="hidden md:table-cell">
-                      Marque
-                    </TableHead>
-                    <TableHead className="hidden md:table-cell">
-                      Catégorie
-                    </TableHead>
-                    <TableHead>Statut</TableHead>
-                    <TableHead className="hidden md:table-cell">Prix</TableHead>
-                    <TableHead className="hidden md:table-cell">
-                      Inventaire
-                    </TableHead>
-                    <TableHead>
-                      <span className="sr-only">Actions</span>
-                    </TableHead>
-                  </TableRow>
-                </TableHeader>
+                <ProductsTableHeader />
                 <TableBody>
                   {products.length > 0 &&
                     products.map((product) => (

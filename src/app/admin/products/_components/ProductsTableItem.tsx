@@ -11,11 +11,14 @@ import { Button } from "../../../../components/ui/button";
 import { MoreHorizontal } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
-import { Brand, Category, Product } from "@prisma/client";
+import { ProductVariant } from "@prisma/client";
 import ProductsTableItemDelete from "./ProductsTableItemDelete";
+import { centsToEuros } from "@/helpers/helpers";
+import { ProductWithData } from "@/db/queries/products";
 
-type ProductsTableItemProps = Product & { brand: Brand } & {
-  category: Category;
+type ProductsTableItemProps = ProductWithData & {
+  variants: ProductVariant[];
+  totalStock: number;
 };
 
 function ProductsTableItem({
@@ -25,8 +28,8 @@ function ProductsTableItem({
   brand,
   category,
   price,
+  totalStock,
 }: ProductsTableItemProps) {
-  const image = imagePath?.split(" ").at(0);
   return (
     <TableRow>
       <TableCell className="hidden sm:table-cell">
@@ -34,7 +37,7 @@ function ProductsTableItem({
           alt="Product image"
           className="aspect-square rounded-md object-cover"
           height="64"
-          src={image || "/placeholder.svg"}
+          src={imagePath || "/placeholder.svg"}
           width="64"
         />
       </TableCell>
@@ -44,8 +47,10 @@ function ProductsTableItem({
       <TableCell>
         <Badge variant="outline">Draft</Badge>
       </TableCell>
-      <TableCell className="hidden md:table-cell">{price} €</TableCell>
-      <TableCell className="hidden md:table-cell">25</TableCell>
+      <TableCell className="hidden md:table-cell">
+        {centsToEuros(price)}
+      </TableCell>
+      <TableCell className="hidden md:table-cell">{totalStock}</TableCell>
       <TableCell>
         <DropdownMenu>
           <DropdownMenuTrigger asChild>

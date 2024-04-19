@@ -21,7 +21,6 @@ export async function addVariants(productId: string | undefined) {
           sku: `XXX-${size}-${Date.now().toString()}`,
         },
       });
-      console.log(result);
     }
   } catch (err) {
     console.error(err);
