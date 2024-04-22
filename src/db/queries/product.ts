@@ -7,6 +7,10 @@ export type ProductWithVariants = Product & {
   variants: ProductVariant[];
 };
 
+export type ProductWithStock = ProductWithVariants & {
+  totalStock: number;
+};
+
 export async function fetchProductWithVariants(
   id: string
 ): Promise<ProductWithVariants | null> {
@@ -18,4 +22,21 @@ export async function fetchProductWithVariants(
       variants: true,
     },
   });
+}
+
+export async function fetchProductWithTotalStock(
+  id: string
+): Promise<ProductWithStock> {
+  const product = await fetchProductWithVariants(id);
+  if (!product) throw new Error("Nous n'avons pas trouvé le produit");
+
+  const totalStock = product?.variants.reduce((acc, variant) => {
+    if (!variant.stockQuantity) return acc;
+    return acc + variant.stockQuantity;
+  }, 0);
+
+  return {
+    ...product,
+    totalStock,
+  };
 }

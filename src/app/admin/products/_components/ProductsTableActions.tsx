@@ -18,22 +18,22 @@ function ProductsTableActions() {
           <Button variant="outline" size="sm" className="h-8 gap-1">
             <ListFilter className="h-3.5 w-3.5" />
             <span className="sr-only sm:not-sr-only sm:whitespace-nowrap">
-              Filter
+              Filtrer
             </span>
           </Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent align="end">
-          <DropdownMenuLabel>Filter by</DropdownMenuLabel>
+          <DropdownMenuLabel>Filtrer par</DropdownMenuLabel>
           <DropdownMenuSeparator />
-          <DropdownMenuCheckboxItem checked>Active</DropdownMenuCheckboxItem>
-          <DropdownMenuCheckboxItem>Draft</DropdownMenuCheckboxItem>
-          <DropdownMenuCheckboxItem>Archived</DropdownMenuCheckboxItem>
+          <DropdownMenuCheckboxItem checked>Actif</DropdownMenuCheckboxItem>
+          <DropdownMenuCheckboxItem>Brouillon</DropdownMenuCheckboxItem>
+          <DropdownMenuCheckboxItem>Archivé</DropdownMenuCheckboxItem>
         </DropdownMenuContent>
       </DropdownMenu>
       <Button size="sm" variant="outline" className="h-8 gap-1">
         <File className="h-3.5 w-3.5" />
         <span className="sr-only sm:not-sr-only sm:whitespace-nowrap">
-          Export
+          Exporter
         </span>
       </Button>
       <Button size="sm" className="h-8 gap-1" asChild>

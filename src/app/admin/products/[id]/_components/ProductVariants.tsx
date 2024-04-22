@@ -35,6 +35,8 @@ function ProductVariants({ product, type }: ProductVariantsProps) {
   const variantsByColor =
     type === "edit" ? getVariantsByColor(product.variants) : [];
 
+  if (!product) return null;
+
   function handleActiveRow(rowNumber: number | null) {
     setActiveRow(rowNumber);
   }
@@ -58,11 +60,7 @@ function ProductVariants({ product, type }: ProductVariantsProps) {
       : null;
 
   return (
-    <div
-      className={`grid auto-rows-max items-start gap-4 lg:col-span-3 lg:gap-8 ${
-        type === "edit" ? "" : "opacity-30"
-      }`}
-    >
+    <div className="mx-auto grid max-w-[59rem] flex-1 auto-rows-max gap-4">
       <form>
         <Card>
           <CardHeader>

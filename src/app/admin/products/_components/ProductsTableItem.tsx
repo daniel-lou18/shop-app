@@ -24,11 +24,12 @@ type ProductsTableItemProps = ProductWithData & {
 function ProductsTableItem({
   id,
   name,
-  imagePath,
   brand,
   category,
   price,
   totalStock,
+  variants,
+  isAvailable,
 }: ProductsTableItemProps) {
   return (
     <TableRow>
@@ -37,7 +38,7 @@ function ProductsTableItem({
           alt="Product image"
           className="aspect-square rounded-md object-cover"
           height="64"
-          src={imagePath || "/placeholder.svg"}
+          src={variants.at(0)?.imagePath || "/placeholder.svg"}
           width="64"
         />
       </TableCell>
@@ -45,7 +46,7 @@ function ProductsTableItem({
       <TableCell>{brand.name}</TableCell>
       <TableCell>{category.name}</TableCell>
       <TableCell>
-        <Badge variant="outline">Draft</Badge>
+        <Badge variant="outline">{isAvailable ? "Actif" : "Brouillon"}</Badge>
       </TableCell>
       <TableCell className="hidden md:table-cell">
         {centsToEuros(price)}

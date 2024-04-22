@@ -35,7 +35,7 @@ function ProductVariantSizes({ variants }: ProductVariantSizesProps) {
 
   return (
     <TableCell>
-      <Popover open={isOpen} onOpenChange={setIsOpen}>
+      <Popover open={isOpen} onOpenChange={setIsOpen} modal>
         <PopoverTrigger asChild>
           <Button variant="outline" className="font-semibold">
             Tailles

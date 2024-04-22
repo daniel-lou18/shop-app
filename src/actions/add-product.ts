@@ -21,6 +21,7 @@ const addProductSchema = z.object({
   price: z.coerce.number().int().min(1).max(100000),
   brand: z.string(),
   category: z.string().min(1),
+  status: z.string(),
 });
 
 export type AddProductSchemaType = {
@@ -37,13 +38,13 @@ export type AddProductSchemaType = {
 export async function addProduct(
   formData: FormData
 ): Promise<AddProductSchemaType> {
-  await new Promise((res) => setTimeout(res, 500));
   const result = addProductSchema.safeParse({
     name: formData.get("name") as string,
     description: formData.get("description") as string,
     price: formData.get("price") as string,
     brand: formData.get("brand") as string,
     category: formData.get("category") as string,
+    status: formData.get("status") as string,
   });
 
   if (!result.success) {
@@ -62,7 +63,10 @@ export async function addProduct(
   try {
     const product = await db.product.create({
       data: {
-        ...result.data,
+        name: result.data.name,
+        description: result.data.description,
+        price: result.data.price * 100,
+        isAvailable: result.data.status === "active",
         imagePath: formData.get("imagePath") as string,
         brand: { connect: { id: result.data.brand } },
         category: { connect: { id: result.data.category } },

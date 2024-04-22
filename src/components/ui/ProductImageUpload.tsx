@@ -18,21 +18,23 @@ import * as actions from "@/actions";
 import ButtonSubmit from "./ButtonSubmit";
 import { useState } from "react";
 import { useToast } from "./use-toast";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 
-function ProductImageUpload({
-  currentImagePath,
-}: {
-  currentImagePath: string | null;
-}) {
+function ProductImageUpload() {
   const [isOpen, setIsOpen] = useState<boolean>(false);
+  const [imagePath, setImagePath] = useState<string>("");
   const { toast } = useToast();
-  const [imagePath, setImagePath] = useState<string>(currentImagePath || "");
+  const router = useRouter();
+  const pathname = usePathname();
   async function handleUpload(formData: FormData) {
     try {
       const result = await actions.uploadImage(formData);
-      if (typeof result !== "string" && result.errors)
+      if (typeof result !== "string" && "errors" in result)
         throw new Error(result.errors._form.join(", "));
-      if (typeof result === "string") setImagePath(result);
+      if (typeof result === "string") {
+        setImagePath(result);
+        router.push(`${pathname}?imagePath=${result}`);
+      }
       setIsOpen(false);
     } catch (err: unknown) {
       toast({
@@ -47,8 +49,12 @@ function ProductImageUpload({
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
       <DialogTrigger asChild>
-        <Button type="button" variant="outline" size="sm" className="w-16">
-          <Upload className="h-4 w-4 text-muted-foreground" />
+        <Button
+          type="button"
+          variant="outline"
+          className="aspect-square w-1/4 h-auto"
+        >
+          <Upload className="text-muted-foreground" />
           <span className="sr-only">Upload</span>
         </Button>
       </DialogTrigger>

@@ -72,11 +72,14 @@ function ProductVariantRow({
         variants={Array.isArray(variant.variants) && variant.variants}
       />
       <TableCell>
-        <Label htmlFor="variantColor" className="sr-only">
+        <Label
+          htmlFor={`color-${variant.variants.at(0)?.id}`}
+          className="sr-only"
+        >
           Couleur
         </Label>
         <Input
-          id="variantColor"
+          id={`color-${variant.variants.at(0)?.id}`}
           name="variantColor"
           type="text"
           defaultValue={variant.color}
@@ -85,11 +88,14 @@ function ProductVariantRow({
         />
       </TableCell>
       <TableCell>
-        <Label htmlFor="variantTotalStock" className="sr-only">
+        <Label
+          htmlFor={`stock-${variant.variants.at(0)?.id}`}
+          className="sr-only"
+        >
           Stock
         </Label>
         <Input
-          id="variantTotalStock"
+          id={`stock-${variant.variants.at(0)?.id}`}
           type="number"
           defaultValue={variant.totalStock || ""}
           disabled={isActive}
@@ -97,11 +103,14 @@ function ProductVariantRow({
         />
       </TableCell>
       <TableCell>
-        <Label htmlFor="variantPrice" className="sr-only">
+        <Label
+          htmlFor={`price-${variant.variants.at(0)?.id}`}
+          className="sr-only"
+        >
           Price
         </Label>
         <Input
-          id="variantPrice"
+          id={`price-${variant.variants.at(0)?.id}`}
           name="variantPrice"
           type="text"
           defaultValue={centsToEuros(variant.price)}
