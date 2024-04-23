@@ -4,13 +4,13 @@ const prisma = new PrismaClient();
 const sizes = ["XS", "S", "M", "L", "XL"];
 const brands = ["Adidas", "Puma", "Reebok", "New Balance", "Nike"];
 const categories = [
-  "Chaussures",
-  "Pantalons",
-  "T-Shirts",
-  "Sweatshirts",
-  "Pulls",
+  "chaussures",
+  "pantalons",
+  "t-Shirts",
+  "sweatshirts",
+  "pulls",
 ];
-const colors = ["Blanc", "Bleu", "Beige", "Rose"];
+const colors = ["blanc", "bleu", "beige", "rose"];
 
 async function main() {
   await prisma.productVariant.deleteMany();
@@ -51,7 +51,8 @@ async function main() {
       description:
         "Enfilez-la et entrez dans la légende. Avec sa conception à la croisée de l'art, de la musique et de la culture, cette chaussure de running vedette a contribué à forger le style des années 90. Portée par des présidents, révolutionnée par différentes collaborations et célébrée avec des coloris rares, elle présente des touches visuelles saisissantes, une semelle extérieure gaufrée et un amorti Air visible pour une chaussure qui sait se renouveler et rester stylée des décennies après sa sortie. Le coloris classique lui insuffle un look ultra-tendance, tandis que les renforts réfléchissants intégrés ornés de logos Swoosh dynamiques apportent une touche stylée.",
       price: 25000,
-      imagePath: "/nike_air_max_90_1.png",
+      imagePath: "/nike_air_max_90_1.jpeg",
+      sex: "homme",
       brand: {
         connect: {
           id: nikeBrandId,

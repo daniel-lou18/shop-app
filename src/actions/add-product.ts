@@ -21,6 +21,7 @@ const addProductSchema = z.object({
   price: z.coerce.number().int().min(1).max(100000),
   brand: z.string(),
   category: z.string().min(1),
+  sex: z.string(),
   status: z.string(),
 });
 
@@ -31,6 +32,8 @@ export type AddProductSchemaType = {
     price?: string[];
     brand?: string[];
     category?: string[];
+    sex?: string[];
+    status?: string[];
     _form?: string[];
   };
 };
@@ -44,6 +47,7 @@ export async function addProduct(
     price: formData.get("price") as string,
     brand: formData.get("brand") as string,
     category: formData.get("category") as string,
+    sex: formData.get("sex") as string,
     status: formData.get("status") as string,
   });
 
@@ -66,7 +70,8 @@ export async function addProduct(
         name: result.data.name,
         description: result.data.description,
         price: result.data.price * 100,
-        isAvailable: result.data.status === "active",
+        sex: result.data.sex,
+        isActive: result.data.status === "active",
         imagePath: formData.get("imagePath") as string,
         brand: { connect: { id: result.data.brand } },
         category: { connect: { id: result.data.category } },

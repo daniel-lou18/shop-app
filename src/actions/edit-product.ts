@@ -1,5 +1,6 @@
 "use server";
 
+import { auth } from "@/auth";
 import { db } from "@/db";
 import { paths } from "@/helpers/helpers";
 import { redirect } from "next/navigation";
@@ -18,6 +19,7 @@ const editProductSchema = z.object({
   price: z.coerce.number().int().min(1).max(100000),
   brand: z.string(),
   category: z.string(),
+  sex: z.string(),
   status: z.string(),
 });
 
@@ -28,6 +30,8 @@ export type editProductSchemaType = {
     price?: string[];
     brand?: string[];
     category?: string[];
+    sex?: string[];
+    status?: string[];
     _form?: string[];
   };
 };
@@ -42,12 +46,21 @@ export async function editProduct(id: string | undefined, formData: FormData) {
     price: formData.get("price") as string,
     brand: formData.get("brand") as string,
     category: formData.get("category") as string,
+    sex: formData.get("sex") as string,
     status: formData.get("status") as string,
   });
 
   if (!result.success) {
     console.log(result.error);
     return { errors: result.error.flatten().fieldErrors };
+  }
+
+  const session = await auth();
+
+  if (!session || !session.user) {
+    return {
+      errors: { _form: ["Vous devez être connecté pour créer un produit"] },
+    };
   }
 
   try {
@@ -57,7 +70,8 @@ export async function editProduct(id: string | undefined, formData: FormData) {
         name: result.data.name,
         description: result.data.description,
         price: result.data.price * 100,
-        isAvailable: result.data.status === "active",
+        sex: result.data.sex,
+        isActive: result.data.status === "active",
         brand: { connect: { id: result.data.brand } },
         category: { connect: { id: result.data.category } },
       },

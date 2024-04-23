@@ -1,9 +1,7 @@
+import { AllProductsWithData } from "@/db/queries/products";
 import ProductCard from "./ProductCard";
-import { db } from "@/db";
 
-async function ProductList() {
-  const products = await db.product.findMany({ include: { brand: true } });
-
+async function ProductList({ products }: { products: AllProductsWithData }) {
   return (
     <ul className="grid grid-cols-3 gap-4">
       {products.map((product) => (

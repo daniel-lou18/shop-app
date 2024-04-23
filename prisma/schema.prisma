@@ -67,7 +67,9 @@ model Product {
   brand Brand @relation(fields: [brandId], references: [id], onDelete: Restrict)
   categoryId String
   category Category @relation(fields: [categoryId], references: [id], onDelete: Restrict)
-  isAvailable Boolean @default(true)
+  sex String
+  isActive Boolean @default(true)
+  isArchived Boolean @default(false)
   isSpecialOffer Boolean @default(false)
   isNewProduct Boolean @default(false)
   createdAt DateTime @default(now())

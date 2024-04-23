@@ -2,8 +2,6 @@
 
 import * as React from "react";
 import Link from "next/link";
-
-import { cn } from "@/lib/utils";
 import {
   NavigationMenu,
   NavigationMenuContent,
@@ -13,14 +11,13 @@ import {
   NavigationMenuTrigger,
   navigationMenuTriggerStyle,
 } from "@/components/ui/navigation-menu";
+import { AllCategories } from "@/db/queries/categories";
 
 export function Navbar({ children }: { children: React.ReactNode }) {
   return (
-    <header className="sticky top-0 flex h-16 items-center gap-4 bg-background justify-center p-4 sm:px-16 sm:py-0">
-      <NavigationMenu>
-        <NavigationMenuList>{children}</NavigationMenuList>
-      </NavigationMenu>
-    </header>
+    <NavigationMenu className="w-1/3">
+      <NavigationMenuList className="gap-4">{children}</NavigationMenuList>
+    </NavigationMenu>
   );
 }
 
@@ -43,23 +40,25 @@ export function NavLink({
 }
 
 export function NavLinkMenu({
-  data,
+  children,
+  categories,
 }: {
-  data: { href: string; title: string; description: string }[];
+  children: string;
+  categories: AllCategories;
 }) {
   return (
     <NavigationMenuItem>
-      <NavigationMenuTrigger>Produits</NavigationMenuTrigger>
+      <NavigationMenuTrigger>{children}</NavigationMenuTrigger>
       <NavigationMenuContent>
-        <ul className="grid gap-3 p-6 md:w-[400px] lg:w-[500px] lg:grid-cols-[.75fr_1fr]">
-          <li className="row-span-3">
+        <ul className="grid gap-4 p-6 md:w-[400px] lg:w-[500px] lg:grid-cols-[1fr_1fr]">
+          <li className={`row-span-${categories.length}`}>
             <NavigationMenuLink asChild>
               <a
                 className="flex h-full w-full select-none flex-col justify-end rounded-md bg-gradient-to-b from-muted/50 to-muted p-6 no-underline outline-none focus:shadow-md"
                 href="/products"
               >
                 <div className="mb-2 mt-4 text-lg font-medium">
-                  Nos produits
+                  Tous nos produits
                 </div>
                 <p className="text-sm leading-tight text-muted-foreground">
                   Des produits de qualité à des prix imbattables
@@ -67,39 +66,18 @@ export function NavLinkMenu({
               </a>
             </NavigationMenuLink>
           </li>
-          {data.map((link) => (
-            <ListItem href={link.href} title={link.title} key={link.title}>
-              {link.description}
-            </ListItem>
+          {categories.map((category) => (
+            <li key={category.id}>
+              <Link
+                href={`/products/categories/${category.name.toLowerCase()}-${children.toLowerCase()}`}
+                className="font-medium border-b-2 border-solid border-transparent hover:border-gray-950 w-fit"
+              >
+                {category.name.at(0)?.toUpperCase() + category.name.slice(1)}
+              </Link>
+            </li>
           ))}
         </ul>
       </NavigationMenuContent>
     </NavigationMenuItem>
   );
 }
-
-const ListItem = React.forwardRef<
-  React.ElementRef<"a">,
-  React.ComponentPropsWithoutRef<"a">
->(({ className, title, children, ...props }, ref) => {
-  return (
-    <li>
-      <NavigationMenuLink asChild>
-        <a
-          ref={ref}
-          className={cn(
-            "block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground",
-            className
-          )}
-          {...props}
-        >
-          <div className="text-sm font-medium leading-none">{title}</div>
-          <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
-            {children}
-          </p>
-        </a>
-      </NavigationMenuLink>
-    </li>
-  );
-});
-ListItem.displayName = "ListItem";

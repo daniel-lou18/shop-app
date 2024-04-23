@@ -1,11 +1,14 @@
 import ProductList from "./_components/ProductList";
-import PageHeading1 from "@/components/ui/PageHeading1";
+import { fetchAllProductsWithData } from "@/db/queries/products";
 
-function CustomerProducts() {
+async function CustomerProducts() {
+  const availableProducts = (await fetchAllProductsWithData()).filter(
+    (product) => product.isActive
+  );
+
   return (
     <>
-      <PageHeading1>Tous nos produits</PageHeading1>
-      <ProductList />
+      <ProductList products={availableProducts} />
     </>
   );
 }

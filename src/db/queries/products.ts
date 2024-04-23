@@ -2,11 +2,11 @@ import { Brand, Category, Product, ProductVariant } from "@prisma/client";
 import { db } from "..";
 
 export type ProductWithData = Product & { brand: Brand; category: Category };
-type AllProductsWithData = ProductWithData[];
-type AllProductsWithVariants = (ProductWithData & {
+export type AllProductsWithData = ProductWithData[];
+export type AllProductsWithVariants = (ProductWithData & {
   variants: ProductVariant[];
 })[];
-type AllProductsWithStock = (ProductWithData & {
+export type AllProductsWithStock = (ProductWithData & {
   variants: ProductVariant[];
   totalStock: number;
 })[];
@@ -41,5 +41,18 @@ export async function fetchAllProductsWithTotalStock(): Promise<AllProductsWithS
       ...product,
       totalStock,
     };
+  });
+}
+
+export async function fetchProductsByCategory(
+  slug: string
+): Promise<AllProductsWithData> {
+  const [name, sex] = slug.split("-");
+  return await db.product.findMany({
+    where: { category: { name }, sex },
+    include: {
+      brand: true,
+      category: true,
+    },
   });
 }

@@ -1,23 +1,12 @@
-import { db } from "@/db";
-import { ProductVariant as ProductVariantModel } from "@prisma/client";
 import ProductVariantForm from "./ProductVariantForm";
+import { fetchProductWithVariants } from "@/db/queries/product";
+import { notFound } from "next/navigation";
+import { fetchProductVariantsByColor } from "@/db/queries/variants";
 
 async function ProductVariant({ id }: { id: string }) {
-  const result = await db.product.findFirst({
-    where: { id },
-    include: { brand: true, variants: true },
-  });
-
-  const variantsByColor = result?.variants.reduce((acc, variant) => {
-    const { color, imagePath } = variant;
-    const idx = acc.findIndex((item) => item.color === color);
-    if (idx > -1) {
-      acc.at(idx)?.variants.push(variant);
-    } else {
-      acc.push({ color, imagePath, variants: [{ ...variant }] });
-    }
-    return acc;
-  }, [] as { color: string; imagePath: string | null; variants: ProductVariantModel[] }[]);
+  const result = await fetchProductWithVariants(id);
+  const variantsByColor = await fetchProductVariantsByColor(id);
+  if (!result) return notFound();
 
   const brandName = result?.brand.name.toUpperCase() || null;
   const productName = result?.name || null;

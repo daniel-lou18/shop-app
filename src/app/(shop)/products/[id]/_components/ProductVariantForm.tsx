@@ -1,4 +1,5 @@
 "use client";
+
 import {
   Card,
   CardContent,
@@ -14,6 +15,7 @@ import ProductSizes from "./ProductSizes";
 import ProductColors from "./ProductColors";
 import ProductImage from "./ProductImage";
 import ProductDescription from "./ProductDescription";
+import ProductAccordeon from "./ProductAccordeon";
 
 type ProductVariantFormProps = {
   brandName: string | null;
@@ -89,6 +91,7 @@ function ProductVariantForm({
             Ajouter au panier
           </ButtonSubmit>
           <ProductDescription productDescription={productDescription} />
+          <ProductAccordeon />
         </CardFooter>
       </Card>
     </div>

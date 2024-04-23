@@ -71,7 +71,7 @@ function ProductForm({
           errorObject={errorObject}
         />
         <div className="grid auto-rows-max items-start gap-4 lg:gap-8">
-          <ProductStatus isAvailable={product?.isAvailable} />
+          <ProductStatus isAvailable={product?.isActive} />
           <ProductImages
             type={type}
             imagePaths={variantsByColor?.map((variant) => variant.imagePath)}

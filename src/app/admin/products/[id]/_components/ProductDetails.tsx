@@ -15,6 +15,7 @@ import { ProductWithVariants } from "@/db/queries/product";
 import ProductImageUpload from "@/components/ui/ProductImageUpload";
 import { notFound } from "next/navigation";
 import { AddProductSchemaType } from "@/actions/add-product";
+import SelectMenu from "@/components/ui/SelectMenu";
 
 export type ProductDetailsProps = {
   type: "add" | "edit";
@@ -90,8 +91,16 @@ function ProductDetails({
                   values={categories}
                 />
               </div>
-              {type === "add" && <ProductImageUpload />}
+              <div className="grid gap-3">
+                <SelectMenu
+                  fieldName="sex"
+                  menuName="Sexe"
+                  currentValue={type === "edit" ? productData?.sex : ""}
+                  values={["homme", "femme"]}
+                />
+              </div>
             </div>
+            {type === "add" && <ProductImageUpload />}
           </div>
         </CardContent>
         {/* {type === "add" && (
