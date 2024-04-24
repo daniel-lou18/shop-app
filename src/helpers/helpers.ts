@@ -31,3 +31,8 @@ export const paths = {
     return "/admin/login";
   },
 };
+
+export function splitCapitalizeUri(uri: string) {
+  const [name, sex] = decodeURIComponent(uri).split("-");
+  return name.at(0)?.toUpperCase() + name.slice(1) + " - " + sex;
+}

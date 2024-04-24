@@ -7,7 +7,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-function ProductStatus({ isAvailable }: { isAvailable: boolean | undefined }) {
+function ProductStatus({ isActive }: { isActive: boolean | undefined }) {
   return (
     <Card>
       <CardHeader>
@@ -19,7 +19,7 @@ function ProductStatus({ isAvailable }: { isAvailable: boolean | undefined }) {
             <Label htmlFor="status">Statut</Label>
             <Select
               name="status"
-              defaultValue={isAvailable === true ? "active" : "draft"}
+              defaultValue={isActive === true ? "active" : "draft"}
             >
               <SelectTrigger id="status" aria-label="Select status">
                 <SelectValue placeholder="Select status" />

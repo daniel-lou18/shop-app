@@ -29,7 +29,7 @@ function ProductsTableItem({
   price,
   totalStock,
   variants,
-  isAvailable,
+  isActive,
 }: ProductsTableItemProps) {
   return (
     <TableRow>
@@ -46,7 +46,7 @@ function ProductsTableItem({
       <TableCell>{brand.name}</TableCell>
       <TableCell>{category.name}</TableCell>
       <TableCell>
-        <Badge variant="outline">{isAvailable ? "Actif" : "Brouillon"}</Badge>
+        <Badge variant="outline">{isActive ? "Actif" : "Brouillon"}</Badge>
       </TableCell>
       <TableCell className="hidden md:table-cell">
         {centsToEuros(price)}

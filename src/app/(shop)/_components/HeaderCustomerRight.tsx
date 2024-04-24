@@ -9,16 +9,22 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Button } from "@/components/ui/button";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { useSession } from "next-auth/react";
 import * as actions from "@/actions";
 import { CircleUser, ShoppingBasket } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Search } from "lucide-react";
-import React from "react";
+import React, { useState } from "react";
+import { boolean } from "zod";
+import Example from "./ShoppingCart";
 
 function HeaderCustomerRight() {
+  const [cartOpen, setCartOpen] = useState<boolean>(false);
   const session = useSession();
+
+  function toggleCart() {
+    setCartOpen((prevState) => !prevState);
+  }
 
   return (
     <div className="flex items-center justify-end gap-4 md:gap-2 lg:gap-4 w-[30%]">
@@ -54,28 +60,16 @@ function HeaderCustomerRight() {
           </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
-      <DropdownMenu>
-        <DropdownMenuTrigger asChild>
-          <Button variant="ghost" size="icon" className="rounded-full">
-            <ShoppingBasket strokeWidth={1.25} size={28} />
-            <span className="sr-only">Toggle panier</span>
-          </Button>
-        </DropdownMenuTrigger>
-        <DropdownMenuContent align="end">
-          <DropdownMenuLabel>My Account</DropdownMenuLabel>
-          <DropdownMenuSeparator />
-          <DropdownMenuItem>Settings</DropdownMenuItem>
-          <DropdownMenuItem>Support</DropdownMenuItem>
-          <DropdownMenuSeparator />
-          <DropdownMenuItem>
-            <form action={actions.signOut} className="w-full">
-              <button type="submit" className="w-full flex justify-start">
-                Logout
-              </button>
-            </form>
-          </DropdownMenuItem>
-        </DropdownMenuContent>
-      </DropdownMenu>
+      <Button
+        variant="ghost"
+        size="icon"
+        className="rounded-full"
+        onClick={toggleCart}
+      >
+        <ShoppingBasket strokeWidth={1.25} size={28} />
+        <span className="sr-only">Toggle panier</span>
+      </Button>
+      <Example open={cartOpen} setOpen={setCartOpen} />
     </div>
   );
 }
