@@ -44,11 +44,16 @@ function ProductAccordeon() {
       </AccordionItem>
       <AccordionItem value="item-3">
         <AccordionTrigger className="hover:no-underline">
-          Is it animated?
+          Développement durable
         </AccordionTrigger>
         <AccordionContent>
-          Yes. It&apos;s animated by default, but you can disable it if you
-          prefer.
+          Empreinte carbone : nous nous efforçons de réduire constamment
+          l&apos;empreinte environnementale de nos produits. Les émissions
+          carbone restantes liées à l&apos;ensemble du cycle de vie de ce
+          produit ont été soigneusement calculées, et nous nous engageons à
+          investir les fonds correspondants dans des projets de captation du
+          carbone qui protègent la biodiversité, restaurent les écosystèmes
+          naturels et luttent ainsi contre le changement climatique.
         </AccordionContent>
       </AccordionItem>
     </Accordion>

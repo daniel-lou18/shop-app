@@ -12,10 +12,13 @@ import {
   navigationMenuTriggerStyle,
 } from "@/components/ui/navigation-menu";
 import { AllCategories } from "@/db/queries/categories";
+import { AllBrands } from "@/db/queries/brands";
+import SubNav from "./SubNav";
+import Image from "next/image";
 
 export function Navbar({ children }: { children: React.ReactNode }) {
   return (
-    <NavigationMenu className="w-1/3">
+    <NavigationMenu>
       <NavigationMenuList className="gap-4">{children}</NavigationMenuList>
     </NavigationMenu>
   );
@@ -42,40 +45,39 @@ export function NavLink({
 export function NavLinkMenu({
   children,
   categories,
+  brands,
+  image,
 }: {
   children: string;
   categories: AllCategories;
+  brands: AllBrands;
+  image: string;
 }) {
   return (
     <NavigationMenuItem>
       <NavigationMenuTrigger>{children}</NavigationMenuTrigger>
       <NavigationMenuContent>
-        <ul className="grid gap-4 p-6 md:w-[400px] lg:w-[500px] lg:grid-cols-[1fr_1fr]">
-          <li className={`row-span-${categories.length}`}>
-            <NavigationMenuLink asChild>
-              <a
-                className="flex h-full w-full select-none flex-col justify-end rounded-md bg-gradient-to-b from-muted/50 to-muted p-6 no-underline outline-none focus:shadow-md"
-                href="/products"
-              >
-                <div className="mb-2 mt-4 text-lg font-medium">
-                  Tous nos produits
-                </div>
-                <p className="text-sm leading-tight text-muted-foreground">
-                  Des produits de qualité à des prix imbattables
-                </p>
-              </a>
-            </NavigationMenuLink>
+        <ul className="grid gap-16 p-6 md:w-[400px] lg:w-[800px] lg:grid-cols-[1fr_1fr_1fr]">
+          <li className="row-span-full">
+            <Link
+              href={`/products/${children.toLowerCase()}`}
+              className="h-full"
+            >
+              <Image
+                src={image}
+                width={200}
+                height={500}
+                alt={children}
+                className="h-full object-cover"
+              />
+            </Link>
           </li>
-          {categories.map((category) => (
-            <li key={category.id}>
-              <Link
-                href={`/products/categories/${category.name.toLowerCase()}-${children.toLowerCase()}`}
-                className="font-medium border-b-2 border-solid border-transparent hover:border-gray-950 w-fit"
-              >
-                {category.name.at(0)?.toUpperCase() + category.name.slice(1)}
-              </Link>
-            </li>
-          ))}
+          <SubNav items={categories} title="Catégories">
+            {children}
+          </SubNav>
+          <SubNav items={brands} title="Marques">
+            {children}
+          </SubNav>
         </ul>
       </NavigationMenuContent>
     </NavigationMenuItem>

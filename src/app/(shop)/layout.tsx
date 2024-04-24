@@ -5,7 +5,7 @@ function CustomerLayout({ children }: { children: ReactNode }) {
   return (
     <>
       <HeaderCustomer />
-      <div className="p-4 sm:px-16 sm:py-4 min-h-screen">{children}</div>
+      <div className="p-4 sm:px-16 sm:py-8 min-h-screen">{children}</div>
     </>
   );
 }

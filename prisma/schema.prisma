@@ -96,6 +96,7 @@ model ProductVariant {
 model Brand {
   id String @id @default(cuid())
   name String
+  sex String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   products Product[]
@@ -104,6 +105,7 @@ model Brand {
 model Category {
   id String @id @default(cuid())
   name String
+  sex String
   parentCategoryId String? @map("parent_category_id")
   parentCategory Category? @relation("ChildCategories", fields: [parentCategoryId], references: [id])
   children Category[] @relation("ChildCategories")

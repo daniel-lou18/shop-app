@@ -47,9 +47,22 @@ export async function fetchAllProductsWithTotalStock(): Promise<AllProductsWithS
 export async function fetchProductsByCategory(
   slug: string
 ): Promise<AllProductsWithData> {
-  const [name, sex] = slug.split("-");
+  const [name, sex] = decodeURIComponent(slug).split("-");
   return await db.product.findMany({
-    where: { category: { name }, sex },
+    where: { category: { name, sex: sex === "homme" ? "men" : "women" } },
+    include: {
+      brand: true,
+      category: true,
+    },
+  });
+}
+
+export async function fetchProductsByBrand(
+  slug: string
+): Promise<AllProductsWithData> {
+  const [name, sex] = decodeURIComponent(slug).split("-");
+  return await db.product.findMany({
+    where: { brand: { name, sex: sex === "homme" ? "men" : "women" } },
     include: {
       brand: true,
       category: true,

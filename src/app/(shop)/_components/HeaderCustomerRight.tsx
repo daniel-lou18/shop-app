@@ -21,7 +21,7 @@ function HeaderCustomerRight() {
   const session = useSession();
 
   return (
-    <div className="flex items-center justify-end gap-4 md:gap-2 lg:gap-4 w-1/3">
+    <div className="flex items-center justify-end gap-4 md:gap-2 lg:gap-4 w-[30%]">
       <form className="flex-1 sm:flex-initial hidden xl:block">
         <div className="relative">
           <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
