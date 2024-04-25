@@ -1,8 +1,7 @@
 import { db } from "@/db";
-import { ProductVariant } from "@prisma/client";
+import { Product, ProductVariant } from "@prisma/client";
 
 type ProductVariants = ProductVariant[];
-
 export type ProductVariantByColor = {
   color: string;
   imagePath: string | null;
@@ -11,8 +10,8 @@ export type ProductVariantByColor = {
   variants: ProductVariants;
   createdAt: Date;
 };
-
 export type ProductVariantsByColor = ProductVariantByColor[];
+export type VariantWithProduct = ProductVariant & { product: Product };
 
 export async function fetchProductVariants(
   productId: string
@@ -67,4 +66,21 @@ export function getVariantsByColor(variants: ProductVariants) {
       return acc;
     }, [] as ProductVariantsByColor)
     .sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime());
+}
+
+export async function fetchVariantWithProduct(
+  variantId: string
+): Promise<VariantWithProduct | null> {
+  const variant = await db.productVariant.findFirst({
+    where: { id: variantId },
+  });
+  if (!variant) return null;
+  const product = await db.product.findFirst({
+    where: { id: variant.productId },
+  });
+  if (!product) return null;
+  return {
+    ...variant,
+    product,
+  };
 }

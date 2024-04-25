@@ -6,19 +6,11 @@ import { fetchProductVariantsByColor } from "@/db/queries/variants";
 async function ProductVariant({ id }: { id: string }) {
   const result = await fetchProductWithVariants(id);
   const variantsByColor = await fetchProductVariantsByColor(id);
-  if (!result) return notFound();
-
-  const brandName = result?.brand.name.toUpperCase() || null;
-  const productName = result?.name || null;
-  const productDescription = result?.description || null;
+  if (!result || !variantsByColor || variantsByColor.length === 0)
+    return notFound();
 
   return (
-    <ProductVariantForm
-      variantsByColor={variantsByColor}
-      brandName={brandName}
-      productName={productName}
-      productDescription={productDescription}
-    />
+    <ProductVariantForm variantsByColor={variantsByColor} result={result} />
   );
 }
 

@@ -9,14 +9,14 @@ export async function fetchAllBrands(): Promise<AllBrands> {
 
 export async function fetchMenBrands(): Promise<AllBrands> {
   return await db.brand.findMany({
-    where: { sex: "men" },
+    where: { sex: "homme" },
     orderBy: { name: "asc" },
   });
 }
 
 export async function fetchWomenBrands(): Promise<AllBrands> {
   return await db.brand.findMany({
-    where: { sex: "women" },
+    where: { sex: "femme" },
     orderBy: { name: "asc" },
   });
 }

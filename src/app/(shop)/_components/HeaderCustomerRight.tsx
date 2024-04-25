@@ -11,16 +11,18 @@ import {
 import { Button } from "@/components/ui/button";
 import { useSession } from "next-auth/react";
 import * as actions from "@/actions";
-import { CircleUser, ShoppingBasket } from "lucide-react";
+import { CircleUser } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Search } from "lucide-react";
 import React, { useState } from "react";
-import { boolean } from "zod";
 import Example from "./ShoppingCart";
+import { ShoppingBagIcon } from "@heroicons/react/24/outline";
+import { useCart } from "@/context/cart-context";
 
 function HeaderCustomerRight() {
   const [cartOpen, setCartOpen] = useState<boolean>(false);
   const session = useSession();
+  const { items } = useCart();
 
   function toggleCart() {
     setCartOpen((prevState) => !prevState);
@@ -63,11 +65,14 @@ function HeaderCustomerRight() {
       <Button
         variant="ghost"
         size="icon"
-        className="rounded-full"
+        className="rounded-full relative"
         onClick={toggleCart}
       >
-        <ShoppingBasket strokeWidth={1.25} size={28} />
+        <ShoppingBagIcon strokeWidth={1.25} className="h-7 w-7" />
         <span className="sr-only">Toggle panier</span>
+        {items.length > 0 && (
+          <span className="cart-count bg-primary">{items.length}</span>
+        )}
       </Button>
       <Example open={cartOpen} setOpen={setCartOpen} />
     </div>

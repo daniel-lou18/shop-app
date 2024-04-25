@@ -48,8 +48,15 @@ export async function fetchProductsByCategory(
   slug: string
 ): Promise<AllProductsWithData> {
   const [name, sex] = decodeURIComponent(slug).split("-");
+  if (name === "femme" || name === "homme") {
+    return await db.product.findMany({
+      where: { sex: name },
+      include: { brand: true, category: true },
+    });
+  }
+
   return await db.product.findMany({
-    where: { category: { name, sex: sex === "homme" ? "men" : "women" } },
+    where: { category: { name, sex } },
     include: {
       brand: true,
       category: true,
@@ -62,7 +69,7 @@ export async function fetchProductsByBrand(
 ): Promise<AllProductsWithData> {
   const [name, sex] = decodeURIComponent(slug).split("-");
   return await db.product.findMany({
-    where: { brand: { name, sex: sex === "homme" ? "men" : "women" } },
+    where: { brand: { name, sex } },
     include: {
       brand: true,
       category: true,

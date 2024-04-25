@@ -20,7 +20,7 @@ async function main() {
     const result = await prisma.brand.create({
       data: {
         name: brand,
-        sex: "men",
+        sex: "homme",
       },
     });
     if (result.name === "Balenciaga") {
@@ -32,7 +32,7 @@ async function main() {
     const result = await prisma.brand.create({
       data: {
         name: brand,
-        sex: "women",
+        sex: "femme",
       },
     });
     if (result.name === "Claudie Pierlot") {
@@ -44,7 +44,7 @@ async function main() {
     const result = await prisma.category.create({
       data: {
         name: category,
-        sex: "men",
+        sex: "homme",
       },
     });
     if (result.name === "pulls et gilets") {
@@ -56,7 +56,7 @@ async function main() {
     const result = await prisma.category.create({
       data: {
         name: category,
-        sex: "women",
+        sex: "femme",
       },
     });
     if (result.name === "vestes et manteaux") {
