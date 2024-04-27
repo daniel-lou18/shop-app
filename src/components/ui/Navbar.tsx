@@ -55,14 +55,14 @@ export function NavLinkMenu({
 }) {
   return (
     <NavigationMenuItem>
-      <Link href={`/products/categories/${children.toLowerCase()}`}>
+      <Link href={`/store?sex=${children.toLowerCase()}`}>
         <NavigationMenuTrigger>{children}</NavigationMenuTrigger>
       </Link>
       <NavigationMenuContent>
         <ul className="grid gap-16 p-6 md:w-[400px] lg:w-[700px] lg:grid-cols-[1fr_1fr_1fr]">
           <li className="row-span-full">
             <Link
-              href={`/products/categories/${children.toLowerCase()}`}
+              href={`/store?sex=${children.toLowerCase()}`}
               className="h-full"
             >
               <Image

@@ -40,3 +40,15 @@ export function splitCapitalizeUri(uri: string) {
   if (!sex) return name.at(0)?.toUpperCase() + name.slice(1);
   return name.at(0)?.toUpperCase() + name.slice(1) + " - " + sex;
 }
+
+export function capitalizeString(string: string | undefined) {
+  if (!string) return null;
+  return string.at(0)?.toUpperCase() + string.slice(1);
+}
+
+export const hashMap = {
+  color: "Couleur",
+  size: "Taille",
+  brand: "Marque",
+  category: "Catégorie",
+};

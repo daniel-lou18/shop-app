@@ -1,5 +1,6 @@
 import { Brand, Category, Product, ProductVariant } from "@prisma/client";
 import { db } from "..";
+import { AllBrands } from "./brands";
 
 export type ProductWithData = Product & { brand: Brand; category: Category };
 export type AllProductsWithData = ProductWithData[];
@@ -75,4 +76,121 @@ export async function fetchProductsByBrand(
       category: true,
     },
   });
+}
+
+export type SearchParams = {
+  category?: string;
+  brand?: string;
+  size?: string;
+  color?: string;
+  sex: "homme" | "femme";
+};
+
+export async function fetchProductsWithSearchParams(
+  searchParams: SearchParams
+): Promise<AllProductsWithVariants> {
+  return db.product.findMany({
+    where: {
+      sex: searchParams.sex || undefined,
+      brand: {
+        name: searchParams.brand || undefined,
+        sex: searchParams.sex || undefined,
+      },
+      category: {
+        name: searchParams.category || undefined,
+        sex: searchParams.sex || undefined,
+      },
+      variants: {
+        some: {
+          color: searchParams.color || undefined,
+          size: searchParams.size || undefined,
+        },
+      },
+    },
+    include: {
+      brand: true,
+      category: true,
+      variants: true,
+    },
+  });
+}
+
+export async function fetchBrandsWithSearchParams(
+  searchParams: SearchParams
+): Promise<Brand[]> {
+  const result = await db.product.findMany({
+    where: {
+      sex: searchParams.sex || undefined,
+      brand: {
+        name: searchParams.brand || undefined,
+        sex: searchParams.sex || undefined,
+      },
+      category: {
+        name: searchParams.category || undefined,
+        sex: searchParams.sex || undefined,
+      },
+      variants: {
+        some: {
+          color: searchParams.color || undefined,
+          size: searchParams.size || undefined,
+        },
+      },
+    },
+    distinct: ["brandId"],
+    select: { brand: true },
+  });
+  return result.map((item) => item.brand);
+}
+
+export async function fetchCategoriesWithSearchParams(
+  searchParams: SearchParams
+): Promise<Category[]> {
+  const result = await db.product.findMany({
+    where: {
+      sex: searchParams.sex || undefined,
+      brand: {
+        name: searchParams.brand || undefined,
+        sex: searchParams.sex || undefined,
+      },
+      category: {
+        name: searchParams.category || undefined,
+        sex: searchParams.sex || undefined,
+      },
+      variants: {
+        some: {
+          color: searchParams.color || undefined,
+          size: searchParams.size || undefined,
+        },
+      },
+    },
+    distinct: ["categoryId"],
+    select: { category: true },
+  });
+  return result.map((item) => item.category);
+}
+
+export async function fetchColorsWithProductIds(
+  productIds: string[]
+): Promise<string[]> {
+  const result = await db.productVariant.findMany({
+    where: {
+      productId: { in: productIds },
+    },
+    distinct: ["color"],
+    select: { color: true },
+  });
+  return result.map((item) => item.color);
+}
+
+export async function fetchSizesWithProductIds(
+  productIds: string[]
+): Promise<string[]> {
+  const result = await db.productVariant.findMany({
+    where: {
+      productId: { in: productIds },
+    },
+    distinct: ["size"],
+    select: { size: true },
+  });
+  return result.map((item) => item.size);
 }

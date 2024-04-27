@@ -1,5 +1,6 @@
 import { db } from "@/db";
 import { Brand } from "@prisma/client";
+import { SearchParams } from "./products";
 
 export type AllBrands = Brand[];
 
@@ -18,5 +19,13 @@ export async function fetchWomenBrands(): Promise<AllBrands> {
   return await db.brand.findMany({
     where: { sex: "femme" },
     orderBy: { name: "asc" },
+  });
+}
+
+export async function fetchBrandsWithSearchParams(
+  searchParams: SearchParams
+): Promise<AllBrands> {
+  return await db.product.findMany({
+
   });
 }

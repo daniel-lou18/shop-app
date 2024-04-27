@@ -85,7 +85,6 @@ function reducer(state: CartState, action: Action) {
 
 export function CartContextProvider({ children }: { children: ReactNode }) {
   const [{ items }, dispatch] = useReducer(reducer, initialState);
-  console.log(items);
   const contextValue: ContextValue = {
     items,
     addItem(item) {

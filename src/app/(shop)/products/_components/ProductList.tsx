@@ -1,7 +1,11 @@
-import { AllProductsWithData } from "@/db/queries/products";
+import {
+  SearchParams,
+  fetchProductsWithSearchParams,
+} from "@/db/queries/products";
 import ProductCard from "./ProductCard";
 
-async function ProductList({ products }: { products: AllProductsWithData }) {
+async function ProductList({ searchParams }: { searchParams: SearchParams }) {
+  const products = await fetchProductsWithSearchParams(searchParams);
   if (!products || products.length === 0)
     return <p>Aucun produit à afficher</p>;
 
