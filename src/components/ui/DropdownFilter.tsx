@@ -10,13 +10,11 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { hashMap } from "@/helpers/helpers";
 import { Brand, Category } from "@prisma/client";
+import { useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 
 type SelectFilterProps = {
-  onFilterChange: (
-    type: "brand" | "category" | "color" | "size",
-    value: string
-  ) => void;
+  onFilterChange: (queryString: string) => void;
 } & (
   | {
       type: "brand";
@@ -32,12 +30,21 @@ type SelectFilterProps = {
     }
 );
 
-function DropdownFilter({ type, data, onFilterChange }: SelectFilterProps) {
+function DropdownFilter({ type, onFilterChange, data }: SelectFilterProps) {
   const [value, setValue] = useState<string>("");
+  const currentSearchParams = useSearchParams();
 
   useEffect(() => {
-    onFilterChange(type, value);
-  }, [value, onFilterChange, type]);
+    const newQueryString = new URLSearchParams(currentSearchParams);
+    value && newQueryString.set(type, value);
+    onFilterChange(newQueryString.toString());
+  }, [currentSearchParams, type, value, onFilterChange]);
+
+  // useEffect(() => {
+  //   const newQueryString = new URLSearchParams(currentSearchParams);
+  //   value && newQueryString.set(type, value);
+  //   router.push(`${currentPath}?${newQueryString.toString()}`);
+  // }, [value, type, currentSearchParams, currentPath, router]);
 
   if (!data || data.length === 0) return null;
 
@@ -50,7 +57,7 @@ function DropdownFilter({ type, data, onFilterChange }: SelectFilterProps) {
         <DropdownMenuRadioGroup value={value} onValueChange={setValue}>
           {(type === "brand" || type === "category") &&
             data.map((value) => (
-              <DropdownMenuRadioItem value={value.id} key={value.id}>
+              <DropdownMenuRadioItem value={value.name} key={value.id}>
                 {value.name}
               </DropdownMenuRadioItem>
             ))}

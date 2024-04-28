@@ -9,8 +9,9 @@ import {
 import React from "react";
 import PageHeading1 from "@/components/ui/PageHeading1";
 import { capitalizeString } from "@/helpers/helpers";
-import FilterProductList from "./_components/FilterProductList";
 import ProductList from "../products/_components/ProductList";
+import DropdownFilter from "@/components/ui/DropdownFilter";
+import FilterProductList from "./_components/FilterProductList";
 
 async function ProductsByCategory({
   searchParams,
@@ -28,20 +29,21 @@ async function ProductsByCategory({
   const availableSizes = await fetchSizesWithProductIds(
     products.map((product) => product.id)
   );
-  console.log(availableColors);
-  console.log(availableSizes);
+
   return (
     <>
       <PageHeading1>
         {capitalizeString(Object.values(searchParams).join(" "))}
       </PageHeading1>
       <FilterProductList
-        availableBrands={availableBrands}
-        availableCategories={availableCategories}
-        availableColors={availableColors}
-        availableSizes={availableSizes}
+        {...{
+          products,
+          availableBrands,
+          availableCategories,
+          availableColors,
+          availableSizes,
+        }}
       />
-      <ProductList searchParams={searchParams} />
     </>
   );
 }

@@ -4,8 +4,11 @@ import DropdownFilter from "@/components/ui/DropdownFilter";
 import { useCallback, useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { Brand, Category } from "@prisma/client";
+import ProductList from "../../products/_components/ProductList";
+import { AllProductsWithVariants } from "@/db/queries/products";
 
 type FilterProductListProps = {
+  products: AllProductsWithVariants;
   availableBrands: Brand[];
   availableCategories: Category[];
   availableColors: string[];
@@ -27,29 +30,28 @@ const initialState = {
 };
 
 function FilterProductList({
+  products,
   availableBrands,
   availableCategories,
   availableColors,
   availableSizes,
 }: FilterProductListProps) {
-  const [filterValues, setFilterValues] = useState<FilterValues | {}>(
-    initialState
-  );
-  const router = useRouter();
-
-  const queryString = Object.entries(filterValues)
-    .map(([key, value]) => `${key}=${value}`)
-    .join("&");
+  const [filterValues, setFilterValues] = useState<string>("");
+  const [filteredProducts, setFilteredProducts] =
+    useState<AllProductsWithVariants>(products);
 
   useEffect(() => {
-    router.push(`/store?${queryString}`);
-  }, [router, queryString]);
+    async function updateData() {
+      const result = await fetch(`/api/products?${filterValues}`);
+      const data = await result.json();
+      setFilteredProducts(data.products);
+    }
+    updateData();
+  }, [filterValues]);
 
   const handleFilterChange = useCallback(
-    (type: "color" | "size" | "brand" | "category", value: string) => {
-      setFilterValues((prevState) => {
-        return { ...prevState, [type]: value };
-      });
+    (queryString: string) => {
+      setFilterValues(queryString);
     },
     [setFilterValues]
   );
@@ -78,6 +80,7 @@ function FilterProductList({
           data={availableCategories}
         />
       </div>
+      <ProductList products={filteredProducts} />
     </>
   );
 }

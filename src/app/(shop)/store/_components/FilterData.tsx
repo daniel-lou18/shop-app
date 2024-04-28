@@ -1,14 +1,14 @@
-import { ReactNode } from "react";
+import { FunctionComponentElement, ReactNode, cloneElement } from "react";
 
 async function FilterData({
   children,
   fetchData,
 }: {
-  children: ReactNode;
-  fetchData: () => void;
+  children: FunctionComponentElement<ReactNode>;
+  fetchData: () => Promise<void>;
 }) {
   const data = await fetchData();
-  return <div>FilterData</div>;
+  return <>{cloneElement(children, data)}</>;
 }
 
 export default FilterData;
