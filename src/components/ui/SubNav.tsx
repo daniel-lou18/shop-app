@@ -18,9 +18,9 @@ function SubNav({ children, items, title }: SubNavProps) {
         {items.map((item) => (
           <li key={item.id}>
             <Link
-              href={`/store?${title === "Marques" ? "brand" : "category"}=${
-                item.name
-              }&sex=${children.toLowerCase()}`}
+              href={`/store/${children.toLowerCase()}${
+                title === "Catégories" ? `-${item.name}/all` : ""
+              }${title === "Marques" ? `/${item.name}` : ""}`}
               className="border-b-2 border-solid border-transparent hover:border-gray-950 w-fit"
             >
               {item.name.at(0)?.toUpperCase() + item.name.slice(1)}

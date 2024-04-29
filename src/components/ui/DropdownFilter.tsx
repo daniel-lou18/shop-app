@@ -10,12 +10,10 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { hashMap } from "@/helpers/helpers";
 import { Brand, Category } from "@prisma/client";
-import { useSearchParams } from "next/navigation";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 
-type SelectFilterProps = {
-  onFilterChange: (queryString: string) => void;
-} & (
+type SelectFilterProps =
   | {
       type: "brand";
       data: Brand[];
@@ -27,24 +25,19 @@ type SelectFilterProps = {
   | {
       type: "color" | "size";
       data: string[];
-    }
-);
+    };
 
-function DropdownFilter({ type, onFilterChange, data }: SelectFilterProps) {
+function DropdownFilter({ type, data }: SelectFilterProps) {
   const [value, setValue] = useState<string>("");
-  const currentSearchParams = useSearchParams();
+  const searchParams = useSearchParams();
+  const pathname = usePathname();
+  const router = useRouter();
 
   useEffect(() => {
-    const newQueryString = new URLSearchParams(currentSearchParams);
+    const newQueryString = new URLSearchParams(searchParams);
     value && newQueryString.set(type, value);
-    onFilterChange(newQueryString.toString());
-  }, [currentSearchParams, type, value, onFilterChange]);
-
-  // useEffect(() => {
-  //   const newQueryString = new URLSearchParams(currentSearchParams);
-  //   value && newQueryString.set(type, value);
-  //   router.push(`${currentPath}?${newQueryString.toString()}`);
-  // }, [value, type, currentSearchParams, currentPath, router]);
+    router.push(`${pathname}?${newQueryString.toString()}`);
+  }, [searchParams, type, value, router, pathname]);
 
   if (!data || data.length === 0) return null;
 
