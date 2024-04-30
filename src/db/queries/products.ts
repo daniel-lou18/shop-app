@@ -211,26 +211,89 @@ export async function fetchProductsWithParams({
   });
 }
 
+export async function fetchProductIds({
+  slug,
+  brand,
+}: Params): Promise<string[]> {
+  const [sex, category] = decodeURIComponent(slug).split("-");
+  const brandName = decodeURIComponent(brand);
+  const result = await db.product.findMany({
+    where: {
+      sex,
+      brand: {
+        name: brandName === "all" ? undefined : brandName,
+      },
+      category: {
+        name: category,
+      },
+    },
+    select: { id: true },
+  });
+  return result.map((item) => item.id);
+}
+
+function parseProductsSearchParams(params: Params, searchParams: SearchParams) {
+  const [sex, category] = decodeURIComponent(params.slug).split("-");
+  let brand = decodeURIComponent(params.brand);
+  let categoryNames, brandNames, colorNames, sizeNames;
+
+  if (Array.isArray(searchParams.color)) {
+    colorNames = [...searchParams.color];
+  }
+  if (typeof searchParams.color === "string") {
+    colorNames = [searchParams.color];
+  }
+
+  if (Array.isArray(searchParams.size)) {
+    sizeNames = [...searchParams.size];
+  }
+  if (typeof searchParams.size === "string") {
+    sizeNames = [searchParams.size];
+  }
+
+  if (brand === "all") {
+    if (Array.isArray(searchParams.brand)) {
+      brandNames = [...searchParams.brand];
+    }
+    if (typeof searchParams.brand === "string") {
+      brandNames = [searchParams.brand];
+    }
+    categoryNames = [category];
+  } else {
+    if (Array.isArray(searchParams.category)) {
+      categoryNames = [...searchParams.category];
+    }
+    if (typeof searchParams.category === "string") {
+      categoryNames = [searchParams.category];
+    }
+    brandNames = [brand];
+  }
+  return { sex, categoryNames, brandNames, colorNames, sizeNames };
+}
+
 export async function fetchProductsWithSearchParams(
   params: Params,
   searchParams: SearchParams
 ): Promise<AllProductsWithVariants> {
-  const [sex, category] = decodeURIComponent(params.slug).split("-");
-  const brandName = decodeURIComponent(params.brand);
-  console.log(params, "...", searchParams);
+  const { sex, categoryNames, brandNames, colorNames, sizeNames } =
+    parseProductsSearchParams(params, searchParams);
   return db.product.findMany({
     where: {
       sex,
       category: {
-        name: brandName === "all" ? category : searchParams.category,
+        name: { in: categoryNames },
       },
       brand: {
-        name: brandName === "all" ? searchParams.brand : brandName,
+        name: { in: brandNames },
       },
       variants: {
         some: {
-          color: searchParams.color,
-          size: searchParams.size,
+          color: {
+            in: colorNames,
+          },
+          size: {
+            in: sizeNames,
+          },
         },
       },
     },

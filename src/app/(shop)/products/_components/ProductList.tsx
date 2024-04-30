@@ -1,7 +1,10 @@
-import { AllProductsWithVariants } from "@/db/queries/products";
+import { fetchProducts } from "@/db/queries/products";
 import ProductCard from "./ProductCard";
+import { type StoreProps } from "../../store/[slug]/[brand]/page";
 
-function ProductList({ products }: { products: AllProductsWithVariants }) {
+async function ProductList({ params, searchParams }: StoreProps) {
+  const products = await fetchProducts(params, searchParams);
+
   if (!products || products.length === 0)
     return <p>Aucun produit à afficher</p>;
 

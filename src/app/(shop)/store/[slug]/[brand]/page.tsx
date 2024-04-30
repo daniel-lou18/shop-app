@@ -5,30 +5,26 @@ import {
   fetchBrandsWithSlug,
   fetchCategoriesWithParams,
   fetchColorsWithProductIds,
-  fetchProducts,
+  fetchProductIds,
   fetchSizesWithProductIds,
 } from "@/db/queries/products";
 import React from "react";
 import { capitalizeString } from "@/helpers/helpers";
 import DropdownFilter from "@/components/ui/DropdownFilter";
 import ProductList from "@/app/(shop)/products/_components/ProductList";
+import DropdownCheckbox from "@/components/ui/DropdownCheckbox";
 
-async function ProductsBySlug({
-  params,
-  searchParams,
-}: {
+export type StoreProps = {
   params: Params;
   searchParams: SearchParams;
-}) {
-  const products = await fetchProducts(params, searchParams);
+};
+
+async function ProductsBySlug({ params, searchParams }: StoreProps) {
+  const productIds = await fetchProductIds(params);
   const availableBrands = await fetchBrandsWithSlug(params.slug);
   const availableCategories = await fetchCategoriesWithParams(params);
-  const availableColors = await fetchColorsWithProductIds(
-    products.map((product) => product.id)
-  );
-  const availableSizes = await fetchSizesWithProductIds(
-    products.map((product) => product.id)
-  );
+  const availableColors = await fetchColorsWithProductIds(productIds);
+  const availableSizes = await fetchSizesWithProductIds(productIds);
 
   return (
     <>
@@ -36,16 +32,16 @@ async function ProductsBySlug({
         {capitalizeString(Object.values(params).join(" "))}
       </PageHeading1>
       <div className="flex gap-4 my-6">
-        <DropdownFilter type="color" data={availableColors} />
-        <DropdownFilter type="size" data={availableSizes} />
+        <DropdownCheckbox type="color" data={availableColors} />
+        <DropdownCheckbox type="size" data={availableSizes} />
         {params.brand === "all" && (
-          <DropdownFilter type="brand" data={availableBrands} />
+          <DropdownCheckbox type="brand" data={availableBrands} />
         )}
         {params.brand !== "all" && (
-          <DropdownFilter type="category" data={availableCategories} />
+          <DropdownCheckbox type="category" data={availableCategories} />
         )}
       </div>
-      <ProductList products={products} />
+      <ProductList params={params} searchParams={searchParams} />
     </>
   );
 }
