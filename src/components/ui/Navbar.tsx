@@ -27,14 +27,18 @@ export function Navbar({ children }: { children: React.ReactNode }) {
 export function NavLink({
   href,
   children,
+  className,
 }: {
   href: string;
   children: React.ReactNode;
+  className?: string;
 }) {
   return (
     <NavigationMenuItem>
       <Link href={href} legacyBehavior passHref>
-        <NavigationMenuLink className={navigationMenuTriggerStyle()}>
+        <NavigationMenuLink
+          className={className ? className : navigationMenuTriggerStyle()}
+        >
           {children}
         </NavigationMenuLink>
       </Link>
@@ -55,13 +59,16 @@ export function NavLinkMenu({
 }) {
   return (
     <NavigationMenuItem>
-      <Link href={`/store/${children.toLowerCase()}`}>
-        <NavigationMenuTrigger>{children}</NavigationMenuTrigger>
+      <Link href={`/store/${children.toLowerCase()}-all/all`}>
+        <NavigationMenuTrigger>{children.toUpperCase()}</NavigationMenuTrigger>
       </Link>
       <NavigationMenuContent>
         <ul className="grid gap-16 p-6 md:w-[400px] lg:w-[700px] lg:grid-cols-[1fr_1fr_1fr]">
           <li className="row-span-full">
-            <Link href={`/store/${children.toLowerCase()}`} className="h-full">
+            <Link
+              href={`/store/${children.toLowerCase()}-all/all`}
+              className="h-full"
+            >
               <Image
                 src={image}
                 width={200}
