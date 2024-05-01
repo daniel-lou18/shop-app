@@ -11,7 +11,7 @@ import { Brand, Category } from "@prisma/client";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useState } from "react";
 import CheckboxItem from "./CheckboxItem";
-import { CircleCheck } from "lucide-react";
+import { ChevronDown, ChevronUp, CircleCheck } from "lucide-react";
 
 type SelectFilterProps =
   | {
@@ -53,16 +53,32 @@ function DropdownCheckbox({ type, data }: SelectFilterProps) {
 
   return (
     <DropdownMenu modal={false}>
-      <DropdownMenuTrigger asChild>
-        <Button variant="ghost" className="p-0">
-          <div className="relative py-2 px-4">
-            <span>{hashMap[type]}</span>
-            {checkedValues.length > 0 && (
-              <span className="absolute top-0 right-0">
-                <CircleCheck size={16} strokeWidth={1} />
-              </span>
-            )}
-          </div>
+      <DropdownMenuTrigger asChild className="hover:bg-transparent">
+        <Button variant="ghost" className="font-normal flex items-end gap-2">
+          <span className="border-b border-solid border-transparent hover:border-gray-950 rounded-none">
+            {hashMap[type]}
+          </span>
+
+          <span
+            className={`text-primary ${
+              checkedValues.length > 0 ? "" : "opacity-0"
+            }`}
+          >
+            <CircleCheck
+              size={18}
+              strokeWidth={1.5}
+              fill="currentColor"
+              stroke="white"
+            />
+          </span>
+
+          <span>
+            <ChevronDown
+              size={16}
+              strokeWidth={1}
+              className="checkbox-chevron"
+            />
+          </span>
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent className="w-56">

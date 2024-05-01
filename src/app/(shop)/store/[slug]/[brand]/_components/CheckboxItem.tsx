@@ -38,7 +38,7 @@ function CheckboxItem({
       onCheckedChange={setChecked}
       onSelect={handleSelect}
     >
-      {children}
+      <span className="ml-2">{children}</span>
     </DropdownMenuCheckboxItem>
   );
 }

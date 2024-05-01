@@ -73,3 +73,11 @@
   top: 0;
   right: 0;
 }
+
+.checkbox-chevron {
+  transition: all 0.2s ease-in-out;
+}
+
+button[data-state="open"] .checkbox-chevron {
+  transform: rotate(180deg);
+}
