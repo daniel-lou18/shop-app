@@ -33,6 +33,9 @@ export const paths = {
   cart() {
     return "/cart";
   },
+  store(slug: string) {
+    return `/store/${slug}-all/all`;
+  },
 };
 
 export function splitCapitalizeUri(uri: string) {

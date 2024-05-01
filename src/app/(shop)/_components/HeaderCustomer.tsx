@@ -14,7 +14,7 @@ async function HeaderCustomer() {
   const brandsWomen = await fetchWomenBrands();
 
   return (
-    <header className="sticky top-0 flex h-16 items-center gap-4 border-b border-border/60 bg-background/90 backdrop-blur justify-between p-4 sm:px-16 sm:py-0">
+    <header className="sticky z-10 top-0 flex h-16 items-center gap-4 border-b border-border/60 bg-background/90 backdrop-blur justify-between p-4 sm:px-16 sm:py-0">
       <HeaderCustomerLeft />
       <Navbar>
         <NavLink href="/products/categories/new">Nouveautés</NavLink>

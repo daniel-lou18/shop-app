@@ -32,15 +32,13 @@ function ProductCard({
               />
             </CardContent>
             <CardFooter className="flex-col items-start pt-4 px-2 text-lg">
-              <CardTitle className="text-lg text-gray-950 font-bold">
-                {type === "product"
-                  ? brand.name.toUpperCase()
-                  : name.toUpperCase()}
+              <CardTitle className="text-lg text-gray-950 font-bold uppercase">
+                {type === "product" ? brand.name : name}
               </CardTitle>
               {type === "product" && (
                 <>
-                  <div className="text-lg text-gray-950">{name}</div>
-                  <div className="text-lg font-semibold text-gray-950">
+                  <div className="text-base text-gray-950 mb-2">{name}</div>
+                  <div className="text-base font-semibold text-gray-950">
                     {centsToEuros(price)}
                   </div>
                 </>
