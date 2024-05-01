@@ -77,60 +77,6 @@ export async function fetchProductsByBrand(
   });
 }
 
-// export async function fetchBrandsWithSearchParams(
-//   searchParams: SearchParams
-// ): Promise<Brand[]> {
-//   const result = await db.product.findMany({
-//     where: {
-//       sex: searchParams.sex || undefined,
-//       brand: {
-//         name: searchParams.brand || undefined,
-//         sex: searchParams.sex || undefined,
-//       },
-//       category: {
-//         name: searchParams.category || undefined,
-//         sex: searchParams.sex || undefined,
-//       },
-//       variants: {
-//         some: {
-//           color: searchParams.color || undefined,
-//           size: searchParams.size || undefined,
-//         },
-//       },
-//     },
-//     distinct: ["brandId"],
-//     select: { brand: true },
-//   });
-//   return result.map((item) => item.brand);
-// }
-
-// export async function fetchCategoriesWithSearchParams(
-//   searchParams: SearchParams
-// ): Promise<Category[]> {
-//   const result = await db.product.findMany({
-//     where: {
-//       sex: searchParams.sex || undefined,
-//       brand: {
-//         name: searchParams.brand || undefined,
-//         sex: searchParams.sex || undefined,
-//       },
-//       category: {
-//         name: searchParams.category || undefined,
-//         sex: searchParams.sex || undefined,
-//       },
-//       variants: {
-//         some: {
-//           color: searchParams.color || undefined,
-//           size: searchParams.size || undefined,
-//         },
-//       },
-//     },
-//     distinct: ["categoryId"],
-//     select: { category: true },
-//   });
-//   return result.map((item) => item.category);
-// }
-
 export async function fetchColorsWithProductIds(
   productIds: string[]
 ): Promise<string[]> {

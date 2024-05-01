@@ -21,11 +21,3 @@ export async function fetchWomenBrands(): Promise<AllBrands> {
     orderBy: { name: "asc" },
   });
 }
-
-export async function fetchBrandsWithSearchParams(
-  searchParams: SearchParams
-): Promise<AllBrands> {
-  return await db.product.findMany({
-
-  });
-}

@@ -1,20 +1,24 @@
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardTitle,
-} from "@/components/ui/card";
+import { Card, CardContent, CardFooter, CardTitle } from "@/components/ui/card";
 import Image from "next/image";
 import { Brand, Product } from "@prisma/client";
 import Link from "next/link";
 import { centsToEuros } from "@/helpers/helpers";
 
-type ProductCardProps = Product & { brand: Brand };
+export type ProductCardProps = Product & {
+  type: "product" | "square" | "circle";
+  brand: Brand;
+};
 
-function ProductCard({ id, name, brand, imagePath, price }: ProductCardProps) {
+function ProductCard({
+  type,
+  id,
+  name,
+  brand,
+  imagePath,
+  price,
+}: ProductCardProps) {
   return (
-    <li>
+    <li className="text-decoration-none">
       <Link href={`/products/${id}`}>
         <article className="cols-1">
           <Card className="border-0 shadow-none">
@@ -28,15 +32,19 @@ function ProductCard({ id, name, brand, imagePath, price }: ProductCardProps) {
               />
             </CardContent>
             <CardFooter className="flex-col items-start pt-4 px-2 text-lg">
-              <CardTitle className="text-lg text-gray-950">
-                {brand.name.toUpperCase()}
+              <CardTitle className="text-lg text-gray-950 font-bold">
+                {type === "product"
+                  ? brand.name.toUpperCase()
+                  : name.toUpperCase()}
               </CardTitle>
-              <CardDescription className="text-lg text-gray-950">
-                {name}
-              </CardDescription>
-              <CardDescription className="text-lg font-semibold text-gray-950">
-                {centsToEuros(price)}
-              </CardDescription>
+              {type === "product" && (
+                <>
+                  <div className="text-lg text-gray-950">{name}</div>
+                  <div className="text-lg font-semibold text-gray-950">
+                    {centsToEuros(price)}
+                  </div>
+                </>
+              )}
             </CardFooter>
           </Card>
         </article>
