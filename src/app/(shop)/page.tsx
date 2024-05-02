@@ -1,4 +1,4 @@
-import ProductsCarousel from "@/components/ui/ProductsCarousel";
+import ItemsCarousel from "@/components/ui/ItemsCarousel";
 import { fetchMenBrands, fetchWomenBrands } from "@/db/queries/brands";
 import {
   fetchMenCategories,
@@ -20,30 +20,26 @@ async function MainContent() {
   return (
     <div className="sm:px-8">
       <MainTop />
-      <ProductsCarousel
-        type="product"
-        title="Nos bestsellers"
-        products={products}
-      />
-      <ProductsCarousel
+      <ItemsCarousel type="product" title="Nos bestsellers" items={products} />
+      <ItemsCarousel
         type="square"
         title="Marques hommes incontournables"
-        products={brandsMen}
+        items={brandsMen}
       />
-      <ProductsCarousel
+      <ItemsCarousel
         type="square"
         title="Marques femmes incontournables"
-        products={brandsWomen}
+        items={brandsWomen}
       />
-      <ProductsCarousel
+      <ItemsCarousel
         type="circle"
         title="Catégories femmes populaires"
-        products={categoriesWomen}
+        items={categoriesWomen}
       />
-      <ProductsCarousel
+      <ItemsCarousel
         type="circle"
         title="Catégories hommes populaires"
-        products={categoriesMen}
+        items={categoriesMen}
       />
     </div>
   );

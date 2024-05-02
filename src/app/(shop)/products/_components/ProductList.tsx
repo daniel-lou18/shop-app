@@ -11,7 +11,7 @@ async function ProductList({ params, searchParams }: StoreProps) {
   return (
     <ul className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
       {products.map((product) => (
-        <ProductCard type="product" {...product} key={product.id} />
+        <ProductCard type="product" item={product} key={product.id} />
       ))}
     </ul>
   );

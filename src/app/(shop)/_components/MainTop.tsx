@@ -21,7 +21,7 @@ function MainTop() {
     <div className="flex gap-4 sm:gap-8 justify-around">
       {data.map((item) => (
         <div key={item.id} className="relative w-[30vw] h-[40vw]">
-          <Link href={paths.store(item.name)}>
+          <Link href={paths.storeSex(item.name)}>
             <Image
               src={item.imagePath}
               alt={item.name}

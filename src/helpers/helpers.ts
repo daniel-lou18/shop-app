@@ -33,8 +33,14 @@ export const paths = {
   cart() {
     return "/cart";
   },
-  store(slug: string) {
-    return `/store/${slug}-all/all`;
+  storeSex(sex: string) {
+    return `/store/${sex}-all/all`;
+  },
+  storeBrand(sex: string, brand: string) {
+    return `/store/${sex}/${decodeURIComponent(brand)}`;
+  },
+  storeCategory(sex: string, category: string) {
+    return `/store/${sex}-${decodeURIComponent(category)}/all`;
   },
 };
 
