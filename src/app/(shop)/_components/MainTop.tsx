@@ -18,7 +18,7 @@ const data = [
 
 function MainTop() {
   return (
-    <div className="flex gap-4 sm:gap-8 justify-around">
+    <section className="flex gap-4 sm:gap-8 justify-around">
       {data.map((item) => (
         <div key={item.id} className="relative w-[30vw] h-[40vw]">
           <Link href={paths.storeSex(item.name)}>
@@ -35,7 +35,7 @@ function MainTop() {
           </Link>
         </div>
       ))}
-    </div>
+    </section>
   );
 }
 

@@ -18,7 +18,7 @@ async function MainContent() {
   const categoriesWomen = await fetchWomenCategories();
 
   return (
-    <div className="sm:px-8">
+    <main className="sm:px-8">
       <MainTop />
       <ItemsCarousel type="product" title="Nos bestsellers" items={products} />
       <ItemsCarousel
@@ -41,7 +41,7 @@ async function MainContent() {
         title="Catégories hommes populaires"
         items={categoriesMen}
       />
-    </div>
+    </main>
   );
 }
 
