@@ -109,6 +109,7 @@ export type SearchParams = {
   brand?: string | string[];
   size?: string | string[];
   color?: string | string[];
+  sort?: string;
 };
 
 export async function fetchProducts(
@@ -170,6 +171,10 @@ function parseProductsSearchParams(params: Params, searchParams: SearchParams) {
 
   const colorNames = parseSearchParam(searchParams.color);
   const sizeNames = parseSearchParam(searchParams.size);
+  const sortBy = {
+    [searchParams.sort?.split("-")[0] as string]:
+      searchParams.sort?.split("-")[1],
+  };
 
   if (brand === "all" && category === "all") {
     brandNames = parseSearchParam(searchParams.brand);
@@ -181,14 +186,14 @@ function parseProductsSearchParams(params: Params, searchParams: SearchParams) {
     categoryNames = parseSearchParam(searchParams.category);
     brandNames = [brand];
   }
-  return { sex, categoryNames, brandNames, colorNames, sizeNames };
+  return { sex, categoryNames, brandNames, colorNames, sizeNames, sortBy };
 }
 
 export async function fetchProductsWithSearchParams(
   params: Params,
   searchParams: SearchParams
 ): Promise<AllProductsWithVariants> {
-  const { sex, categoryNames, brandNames, colorNames, sizeNames } =
+  const { sex, categoryNames, brandNames, colorNames, sizeNames, sortBy } =
     parseProductsSearchParams(params, searchParams);
   return db.product.findMany({
     where: {
@@ -215,6 +220,7 @@ export async function fetchProductsWithSearchParams(
       category: true,
       variants: true,
     },
+    orderBy: sortBy,
   });
 }
 
