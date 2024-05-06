@@ -1,10 +1,12 @@
-import { fetchProducts } from "@/db/queries/products";
+import { AllProductsWithVariants, fetchProducts } from "@/db/queries/products";
 import ProductCard from "./ProductCard";
 import { type StoreProps } from "../../store/[slug]/[brand]/page";
 
-async function ProductList({ params, searchParams }: StoreProps) {
-  const products = await fetchProducts(params, searchParams);
-
+async function ProductList({
+  products,
+}: {
+  products: AllProductsWithVariants;
+}) {
   if (!products || products.length === 0)
     return <p>Aucun produit à afficher</p>;
 

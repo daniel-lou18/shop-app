@@ -1,3 +1,5 @@
+import { Params } from "@/db/queries/products";
+
 export function centsToEuros(priceInCents: number) {
   return (priceInCents / 100).toLocaleString("fr-FR", {
     style: "currency",
@@ -61,3 +63,19 @@ export const hashMap = {
   brand: "Marque",
   category: "Catégorie",
 };
+
+export function formatParamsToString(params: Params) {
+  const [slug, brand] = Object.values(params);
+  const [decodedSex, decodedCategory] = decodeURIComponent(slug).split("-");
+  const decodedBrand = decodeURIComponent(brand);
+
+  return `${
+    decodedCategory !== "all" && decodedCategory
+      ? capitalizeString(decodedCategory)
+      : ""
+  } ${decodedBrand !== "all" ? capitalizeString(decodedBrand) : ""} ${
+    decodedCategory === "all" && decodedBrand === "all"
+      ? `Vêtements ${decodedSex}`
+      : decodedSex
+  }`;
+}
