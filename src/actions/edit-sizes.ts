@@ -25,17 +25,20 @@ export type EditSizesSchemaType = {
 };
 
 export async function editSizes(formData: FormData) {
-  const sizesArray = Array.from(formData.entries()).reduce((acc, item) => {
-    const id = item[0].split("-")[1];
-    const field = item[0].split("-")[0];
-    const idx = acc.findIndex((item) => item.id === id);
-    if (idx === -1) {
-      acc.push({ id, [field]: item[1] });
-    } else {
-      acc[idx][field] = item[1];
-    }
-    return acc;
-  }, [] as { id: string; stockQuantity: string; sku: string; size: string }[]);
+  const sizesArray = Array.from(formData.entries()).reduce(
+    (acc, [key, value]) => {
+      const [field, id] = key.split("-");
+      const existingItem = acc.find((item) => item.id === id);
+
+      if (existingItem) {
+        (existingItem as { [key: string]: string })[field] = value as string;
+      } else {
+        acc.push({ id, [field]: value });
+      }
+      return acc;
+    },
+    [] as { id?: string; stockQuantity?: string; sku?: string; size?: string }[]
+  );
 
   const result = editSizesSchema.safeParse(sizesArray);
 

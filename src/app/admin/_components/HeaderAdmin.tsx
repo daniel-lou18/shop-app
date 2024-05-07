@@ -9,7 +9,7 @@ import HeaderAdminDropdown from "./HeaderAdminDropdown";
 
 function HeaderAdmin() {
   return (
-    <header className="sticky top-0 flex h-16 items-center gap-4 border-b bg-background p-4 sm:px-16 sm:py-0">
+    <header className="sticky z-10 top-0 flex h-16 items-center gap-4 border-b bg-background p-4 sm:px-16 sm:py-0">
       <nav className="hidden flex-col gap-6 text-lg font-medium md:flex md:flex-row md:items-center md:gap-5 md:text-sm lg:gap-6">
         <Link
           href="#"
@@ -20,25 +20,25 @@ function HeaderAdmin() {
         </Link>
         <Link
           href="#"
-          className="text-foreground transition-colors hover:text-foreground"
+          className="text-muted-foreground transition-colors hover:text-foreground pointer-events-none"
         >
           Dashboard
         </Link>
         <Link
           href="#"
-          className="text-muted-foreground transition-colors hover:text-foreground"
+          className="text-muted-foreground transition-colors hover:text-foreground pointer-events-none"
         >
           Commandes
         </Link>
         <Link
           href={paths.adminProducts()}
-          className="text-muted-foreground transition-colors hover:text-foreground"
+          className="text-foreground transition-colors hover:text-foreground"
         >
           Produits
         </Link>
         <Link
           href="#"
-          className="text-muted-foreground transition-colors hover:text-foreground"
+          className="text-muted-foreground transition-colors hover:text-foreground pointer-events-none"
         >
           Clients
         </Link>

@@ -13,7 +13,6 @@ import {
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Upload } from "lucide-react";
 import * as actions from "@/actions";
 import ButtonSubmit from "./ButtonSubmit";
 import { useState } from "react";

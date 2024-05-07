@@ -10,8 +10,6 @@ import {
 import Image from "next/image";
 import { useSearchParams } from "next/navigation";
 import { useState } from "react";
-import ProductStatus from "./ProductStatus";
-import ProductArchive from "./ProductArchive";
 
 type ProductImagesProps = {
   type: "edit" | "add";

@@ -8,7 +8,6 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { capitalizeString } from "@/helpers/helpers";
 import { AllProductsWithVariants } from "@/db/queries/products";
 
 type SelectFilterProps = {

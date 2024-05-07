@@ -50,11 +50,12 @@ function ProductsPagination({ take, totalItems }: ProductsPaginationProps) {
   return (
     <Pagination className="mt-16">
       <PaginationContent>
-        {currentPage > 1 && (
-          <PaginationItem onClick={() => handleClick("prev")}>
-            <PaginationPrevious href="#" />
-          </PaginationItem>
-        )}
+        <PaginationItem onClick={() => handleClick("prev")}>
+          <PaginationPrevious
+            href=""
+            className={currentPage > 1 ? "" : "opacity-30 pointer-events-none"}
+          />
+        </PaginationItem>
         {Array.from({ length: totalPages }, (_, idx) => {
           return (
             <PaginationItem key={idx} onClick={() => handleClick(idx + 1)}>
@@ -67,11 +68,14 @@ function ProductsPagination({ take, totalItems }: ProductsPaginationProps) {
         {/* <PaginationItem>
           <PaginationEllipsis />
         </PaginationItem> */}
-        {currentPage < totalPages && (
-          <PaginationItem onClick={() => handleClick("next")}>
-            <PaginationNext href="#" />
-          </PaginationItem>
-        )}
+        <PaginationItem onClick={() => handleClick("next")}>
+          <PaginationNext
+            href=""
+            className={
+              currentPage < totalPages ? "" : "opacity-30 pointer-events-none"
+            }
+          />
+        </PaginationItem>
       </PaginationContent>
     </Pagination>
   );

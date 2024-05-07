@@ -14,10 +14,7 @@ import PageItemsCounter from "../../../../components/ui/PageItemsCounter";
 import ProductsTableHeader from "./ProductsTableHeader";
 import ProductsTableTabsList from "./ProductsTableTabsList";
 import ProductsTableActions from "./ProductsTableActions";
-import {
-  fetchAllProductsWithTotalStock,
-  fetchAllProductsWithVariants,
-} from "@/db/queries/products";
+import { fetchAllProductsWithTotalStock } from "@/db/queries/products";
 
 export default async function ProductsTable() {
   const products = await fetchAllProductsWithTotalStock();

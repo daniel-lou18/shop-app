@@ -11,8 +11,10 @@ import Image from "next/image";
 import Link from "next/link";
 import { paths } from "@/helpers/helpers";
 import { AllCategories } from "@/db/queries/categories";
-import { AllBrands } from "@/db/queries/brands";
-import ProductCard from "@/app/(shop)/products/_components/ProductCard";
+import ProductCard, {
+  Square,
+} from "@/app/(shop)/products/_components/ProductCard";
+import { BrandSquare } from "@/app/(shop)/page";
 
 export type ItemsCarouselProps = { title: string } & (
   | {
@@ -21,7 +23,7 @@ export type ItemsCarouselProps = { title: string } & (
     }
   | {
       type: "square";
-      items: AllBrands;
+      items: BrandSquare[];
     }
   | {
       type: "circle";
@@ -32,7 +34,12 @@ export type ItemsCarouselProps = { title: string } & (
 function ItemsCarousel({ type, title, items }: ItemsCarouselProps) {
   let content;
   content = items.slice(0, 15).map((item, index) => (
-    <CarouselItem key={index} className="md:basis-1/2 lg:basis-1/5">
+    <CarouselItem
+      key={index}
+      className={`md:basis-1/2 ${
+        type === "square" ? "lg:basis-1/3" : "lg:basis-1/5"
+      }`}
+    >
       {type === "circle" ? (
         <Link href={paths.storeCategory(item.sex, item.name)}>
           <div className="p-2 flex flex-col gap-2 items-center">
@@ -57,7 +64,7 @@ function ItemsCarousel({ type, title, items }: ItemsCarouselProps) {
             />
           )}
           {type === "square" && (
-            <ProductCard type={type} item={item as Brand} />
+            <ProductCard type={type} item={item as Square} />
           )}
         </div>
       )}
@@ -65,7 +72,7 @@ function ItemsCarousel({ type, title, items }: ItemsCarouselProps) {
   ));
 
   return (
-    <div className="w-full mt-12">
+    <div className="w-full mt-24">
       <PageHeading1>{title}</PageHeading1>
       <Carousel
         opts={{
@@ -76,8 +83,12 @@ function ItemsCarousel({ type, title, items }: ItemsCarouselProps) {
         <ul>
           <CarouselContent>{content}</CarouselContent>
         </ul>
-        <CarouselPrevious />
-        <CarouselNext />
+        {type !== "square" && (
+          <>
+            <CarouselPrevious />
+            <CarouselNext />
+          </>
+        )}
       </Carousel>
     </div>
   );

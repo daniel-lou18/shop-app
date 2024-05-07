@@ -31,10 +31,10 @@ function HeaderAdminDropdown() {
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end">
-        <DropdownMenuLabel>My Account</DropdownMenuLabel>
+        <DropdownMenuLabel>Mon compte</DropdownMenuLabel>
         <DropdownMenuSeparator />
-        <DropdownMenuItem>Settings</DropdownMenuItem>
-        <DropdownMenuItem>Support</DropdownMenuItem>
+        <DropdownMenuItem>Préférences</DropdownMenuItem>
+        <DropdownMenuItem>Aide</DropdownMenuItem>
         <DropdownMenuSeparator />
         <DropdownMenuItem>
           <form action={actions.signOut} className="w-full">

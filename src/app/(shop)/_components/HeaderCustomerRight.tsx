@@ -18,6 +18,8 @@ import React, { useState } from "react";
 import Example from "./ShoppingCart";
 import { ShoppingBagIcon } from "@heroicons/react/24/outline";
 import { useCart } from "@/context/cart-context";
+import Link from "next/link";
+import { paths } from "@/helpers/helpers";
 
 function HeaderCustomerRight() {
   const [cartOpen, setCartOpen] = useState<boolean>(false);
@@ -48,15 +50,22 @@ function HeaderCustomerRight() {
           </Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent align="end">
-          <DropdownMenuLabel>My Account</DropdownMenuLabel>
+          <DropdownMenuLabel>Mon compte</DropdownMenuLabel>
           <DropdownMenuSeparator />
-          <DropdownMenuItem>Settings</DropdownMenuItem>
-          <DropdownMenuItem>Support</DropdownMenuItem>
+          <DropdownMenuItem>Préférences</DropdownMenuItem>
+          <DropdownMenuItem>Aide</DropdownMenuItem>
+          <DropdownMenuItem asChild>
+            <Link href={paths.login()}>Espace pro</Link>
+          </DropdownMenuItem>
           <DropdownMenuSeparator />
           <DropdownMenuItem>
             <form action={actions.signOut} className="w-full">
-              <button type="submit" className="w-full flex justify-start">
-                Logout
+              <button
+                type="submit"
+                className="w-full flex justify-start opacity-50"
+                disabled
+              >
+                Connexion
               </button>
             </form>
           </DropdownMenuItem>

@@ -29,8 +29,8 @@ export const paths = {
   adminProductAdd() {
     return "/admin/products/new";
   },
-  adminLogin() {
-    return "/admin/login";
+  login() {
+    return "/login";
   },
   cart() {
     return "/cart";

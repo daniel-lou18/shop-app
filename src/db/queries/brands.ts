@@ -1,6 +1,5 @@
 import { db } from "@/db";
 import { Brand } from "@prisma/client";
-import { SearchParams } from "./products";
 
 export type AllBrands = Brand[];
 
