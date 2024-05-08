@@ -13,13 +13,18 @@ import ProductsPagination from "./_components/ProductsPagination";
 import ProductsControls from "./_components/ProductsControls";
 import Loader from "@/components/ui/Loader";
 import ProductsControlsSkeleton from "./_components/ProductsControlsSkeleton";
+import { fetchAllBrands } from "@/db/queries/brands";
+import { fetchAllCategories } from "@/db/queries/categories";
 
 export type StoreProps = {
   params: Params;
   searchParams: SearchParams;
 };
 
-async function ProductsBySlug({ params, searchParams }: StoreProps) {
+export default async function ProductsBySlug({
+  params,
+  searchParams,
+}: StoreProps) {
   const products = await fetchProducts(params, searchParams);
   const productIds = products.map((product) => product.id);
   const count = await countProductsWithSearchParams(params, searchParams);
@@ -35,10 +40,29 @@ async function ProductsBySlug({ params, searchParams }: StoreProps) {
           count={count}
         />
       </Suspense>
-      <ProductsList products={products} />
-      <ProductsPagination take={TAKE} totalItems={count} />
+      <Suspense fallback={<Loader />}>
+        <ProductsList products={products} />
+        <ProductsPagination take={TAKE} totalItems={count} />
+      </Suspense>
     </>
   );
 }
 
-export default ProductsBySlug;
+export async function generateStaticParams() {
+  const brands = await fetchAllBrands();
+  const categories = await fetchAllCategories();
+  const brandsParams = brands.map((brand) => ({
+    slug: brand.sex,
+    brand: brand.name,
+  }));
+  const categoriesParams = categories.map((category) => ({
+    slug: `${category.sex}-${category.name}`,
+    brand: "all",
+  }));
+  return [
+    { slug: "homme-all", brand: "all" },
+    { slug: "femme-all", brand: "all" },
+    ...brandsParams,
+    ...categoriesParams,
+  ];
+}

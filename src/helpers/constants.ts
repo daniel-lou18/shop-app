@@ -28,6 +28,16 @@ export const BRANDS = {
   ],
 };
 
+function getStaticBrands(sex: string, params: string[]) {
+  return params.map((param) => ({
+    slug: sex,
+    brand: param,
+  }));
+}
+
+export const staticBrandsMen = getStaticBrands("homme", BRANDS.men);
+export const staticBrandsWomen = getStaticBrands("femme", BRANDS.women);
+
 export const CATEGORIES = {
   men: [
     "t-shirts et polos",
@@ -57,6 +67,19 @@ export const CATEGORIES = {
     "vestes et manteaux",
   ],
 };
+
+function getStaticCategories(sex: string, params: string[]) {
+  return params.map((param) => ({
+    slug: `${sex}-${param}`,
+    brand: "all",
+  }));
+}
+
+export const staticCategoriesMen = getStaticCategories("homme", CATEGORIES.men);
+export const staticCategoriesWomen = getStaticCategories(
+  "femme",
+  CATEGORIES.women
+);
 
 export const mainHero = {
   name: "JUSQU'À -40% sur une sélection d'articles",
