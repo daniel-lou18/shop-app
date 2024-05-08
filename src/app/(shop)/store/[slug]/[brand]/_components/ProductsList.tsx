@@ -1,4 +1,4 @@
-import { AllProductsWithVariants, fetchProducts } from "@/db/queries/products";
+import { AllProductsWithVariants } from "@/db/queries/products";
 import ProductCard from "../../../../products/_components/ProductCard";
 
 async function ProductsList({
