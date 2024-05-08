@@ -35,9 +35,7 @@ async function ProductsBySlug({ params, searchParams }: StoreProps) {
           count={count}
         />
       </Suspense>
-      <Suspense fallback={<Loader />}>
-        <ProductsList products={products} />
-      </Suspense>
+      <ProductsList products={products} />
       <ProductsPagination take={TAKE} totalItems={count} />
     </>
   );
