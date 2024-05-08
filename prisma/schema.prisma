@@ -77,6 +77,8 @@ model Product {
   updatedAt DateTime @updatedAt
   orders Order[]
   variants ProductVariant[]
+
+  @@index([brandId, categoryId, sex])
 }
 
 model ProductVariant {
@@ -91,7 +93,10 @@ model ProductVariant {
   stockQuantity Int
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+
   @@unique([productId, size, color])
+  @@index([productId, size, color])
+
 }
 
 model Brand {
@@ -101,6 +106,8 @@ model Brand {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   products Product[]
+
+  @@index([name, sex])
 }
 
 model Category {
@@ -113,6 +120,8 @@ model Category {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   products Product[]
+
+  @@index([name, sex])
 }
 
 model Order {
