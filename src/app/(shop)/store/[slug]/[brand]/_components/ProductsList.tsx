@@ -1,8 +1,8 @@
 import { AllProductsWithVariants, fetchProducts } from "@/db/queries/products";
-import ProductCard from "./ProductCard";
-import { type StoreProps } from "../../store/[slug]/[brand]/page";
+import ProductCard from "../../../../products/_components/ProductCard";
+import { type StoreProps } from "../page";
 
-async function ProductList({
+async function ProductsList({
   products,
 }: {
   products: AllProductsWithVariants;
@@ -19,4 +19,4 @@ async function ProductList({
   );
 }
 
-export default ProductList;
+export default ProductsList;

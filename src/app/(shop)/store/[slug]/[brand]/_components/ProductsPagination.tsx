@@ -26,7 +26,6 @@ function ProductsPagination({ take, totalItems }: ProductsPaginationProps) {
   );
   const router = useRouter();
   const totalPages = Math.ceil(totalItems / take);
-  console.log(currentPage);
 
   function handleClick(type: "prev" | "next" | number) {
     const newQueryString = new URLSearchParams(searchParams);
