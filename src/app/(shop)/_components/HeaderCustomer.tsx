@@ -6,6 +6,7 @@ import {
   fetchWomenCategories,
 } from "@/db/queries/categories";
 import { fetchMenBrands, fetchWomenBrands } from "@/db/queries/brands";
+import NavbarMobile from "@/components/ui/NavbarMobile";
 
 async function HeaderCustomer() {
   const categoriesMen = await fetchMenCategories();
@@ -15,6 +16,7 @@ async function HeaderCustomer() {
 
   return (
     <header className="sticky z-10 top-0 flex h-16 items-center gap-4 border-b border-border/60 bg-background/90 backdrop-blur justify-between p-4 sm:px-16 sm:py-0">
+      <NavbarMobile />
       <HeaderCustomerLeft />
       <Navbar>
         <NavLink href="/products/categories/new">Nouveautés</NavLink>

@@ -105,7 +105,7 @@ export const brandsWomen = [
     sex: "femme",
     imagePath: "/Femme_IKKS.jpg",
     description:
-      "IKKS,c’est d’abord une allure. Décomplexée, naturelle et spontanée. Des pièces fortes, des détails boyish et une attitude dont on se souvient.",
+      "IKKS, c’est d’abord une allure. Décomplexée, naturelle et spontanée. Des pièces fortes, des détails boyish et une attitude dont on se souvient.",
   },
   {
     id: 2,

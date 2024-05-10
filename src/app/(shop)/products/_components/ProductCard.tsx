@@ -48,7 +48,13 @@ function ProductCard({ type, item }: ProductCardProps) {
               <CardTitle className="text-lg text-gray-950 font-bold uppercase">
                 {title}
               </CardTitle>
-              <div className="text-base text-gray-950 mb-2">{description}</div>
+              <div
+                className={`${
+                  type === "square" ? "hidden md:block" : ""
+                } text-sm md:text-base text-gray-950 mb-2`}
+              >
+                {description}
+              </div>
               {type === "product" && (
                 <div className="text-base font-semibold text-gray-950">
                   {centsToEuros(item.price)}

@@ -36,7 +36,7 @@ function ItemsCarousel({ type, title, items }: ItemsCarouselProps) {
   content = items.slice(0, 15).map((item, index) => (
     <CarouselItem
       key={index}
-      className={`md:basis-1/2 ${
+      className={`basis-1/2 ${
         type === "square" ? "lg:basis-1/3" : "lg:basis-1/5"
       }`}
     >

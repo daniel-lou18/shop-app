@@ -26,9 +26,9 @@ function MainTop() {
   return (
     <section className="mt-24">
       <PageHeading1>Tous les articles</PageHeading1>
-      <div className="flex gap-6 sm:gap-8 justify-between">
+      <div className="grid gap-6 sm:gap-8 md:grid-cols-3">
         {data.map((item) => (
-          <div key={item.id} className="relative w-[30vw] h-[25vw]">
+          <div key={item.id} className="relative h-60 md:h-[25vw]">
             <Link href={paths.storeSex(item.name)}>
               <Image
                 src={item.imagePath}
