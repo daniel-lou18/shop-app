@@ -26,10 +26,14 @@ type SelectFilterProps =
     };
 
 function DropdownCheckbox({ type, data }: SelectFilterProps) {
-  const [checkedValues, setCheckedValues] = useState<string[]>([]);
   const searchParams = useSearchParams();
   const pathname = usePathname();
   const router = useRouter();
+  const [checkedValues, setCheckedValues] = useState<string[]>([
+    ...searchParams.getAll(type),
+  ]);
+
+  if (!data || data.length === 0) return null;
 
   function handleCheck(type: string, value: string) {
     const newQueryString = new URLSearchParams(searchParams);

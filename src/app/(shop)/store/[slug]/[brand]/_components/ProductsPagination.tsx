@@ -22,8 +22,9 @@ function ProductsPagination({ take, totalItems }: ProductsPaginationProps) {
   const searchParams = useSearchParams();
   const pathname = usePathname();
   const [currentPage, setCurrentPage] = useState<number>(
-    "page" in searchParams ? Number(searchParams.get("page")) : 1
+    Number(searchParams.get("page") || 1)
   );
+  console.log(currentPage);
   const router = useRouter();
   const totalPages = Math.ceil(totalItems / take);
 

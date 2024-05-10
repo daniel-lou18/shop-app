@@ -30,7 +30,7 @@ export default async function ProductsBySlug({
   const count = await countProductsWithSearchParams(params, searchParams);
 
   return (
-    <>
+    <Suspense fallback={<Loader />} key={JSON.stringify(searchParams)}>
       <PageHeading1>{formatParamsToString(params)}</PageHeading1>
       <Suspense fallback={<ProductsControlsSkeleton params={params} />}>
         <ProductsControls
@@ -44,7 +44,7 @@ export default async function ProductsBySlug({
         <ProductsList products={products} />
         <ProductsPagination take={TAKE} totalItems={count} />
       </Suspense>
-    </>
+    </Suspense>
   );
 }
 
