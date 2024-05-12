@@ -7,13 +7,14 @@ export async function GET(request: NextRequest) {
   const parsedParams = parseApiParams(pathname);
   const parsedSearchParams = parseApiSearchParams(searchParams);
 
-  try {
-    const products = await fetchProductsWithSearchParams(
-      parsedParams,
-      parsedSearchParams
-    );
-    return new Response(JSON.stringify(products), { status: 200 });
-  } catch (error) {
-    return new Response(JSON.stringify({ error }), { status: 500 });
-  }
+  const result = await fetchProductsWithSearchParams(
+    parsedParams,
+    parsedSearchParams
+  );
+  if (result.success)
+    return new Response(JSON.stringify(result.data), { status: 200 });
+  else
+    return new Response(JSON.stringify({ error: result.error }), {
+      status: 500,
+    });
 }

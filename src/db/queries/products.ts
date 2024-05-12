@@ -119,6 +119,10 @@ export async function fetchProducts(
   params: Params,
   searchParams: SearchParams
 ) {
+  // return {
+  //   success: false,
+  //   error: "Une erreur est survenue lors de la récupération des produits",
+  // };
   if (Object.keys(searchParams).length === 0) {
     return await fetchProductsWithParams(params);
   } else {
@@ -160,33 +164,60 @@ function parseProductsSearchParams(params: Params, searchParams: SearchParams) {
   };
 }
 
+type FetchResult<T> =
+  | {
+      success: true;
+      data: T;
+    }
+  | {
+      success: false;
+      error: string;
+    };
+
 export async function fetchProductsWithParams({
   slug,
   brand,
-}: Params): Promise<AllProductsWithVariants> {
+}: Params): Promise<FetchResult<AllProductsWithVariants>> {
   const [sex, category] = decodeURIComponent(slug).split("-");
 
   const brandName = decodeURIComponent(brand);
-  return await db.product.findMany({
-    where: {
-      sex,
-      brand: {
-        name: brandName === "all" ? undefined : brandName,
+  try {
+    const data = await db.product.findMany({
+      where: {
+        sex,
+        brand: {
+          name: brandName === "all" ? undefined : brandName,
+        },
+        category: {
+          name: category === "all" ? undefined : category,
+        },
       },
-      category: {
-        name: category === "all" ? undefined : category,
-      },
-    },
-    include: { brand: true, category: true, variants: true },
-    take: TAKE,
-  });
+      include: { brand: true, category: true, variants: true },
+      take: TAKE,
+    });
+    return {
+      success: true,
+      data,
+    };
+  } catch (err) {
+    console.error(err);
+    if (err instanceof Error) return { success: false, error: err.message };
+    else
+      return {
+        success: false,
+        error: "Une erreur est survenue lors de la récupération des produits",
+      };
+  }
 }
 
 export async function fetchProductsWithSearchParams(
   params: Params,
   searchParams: SearchParams
-): Promise<AllProductsWithVariants> {
-  // console.log(params, searchParams);
+): Promise<FetchResult<AllProductsWithVariants>> {
+  // return {
+  //   success: false,
+  //   error: "Une erreur est survenue lors de la récupération des produits.",
+  // };
   const {
     sex,
     categoryNames,
@@ -196,35 +227,49 @@ export async function fetchProductsWithSearchParams(
     sortBy,
     page,
   } = parseProductsSearchParams(params, searchParams);
-  return db.product.findMany({
-    where: {
-      sex,
-      category: {
-        name: { in: categoryNames },
-      },
-      brand: {
-        name: { in: brandNames },
-      },
-      variants: {
-        some: {
-          color: {
-            in: colorNames,
-          },
-          size: {
-            in: sizeNames,
+  try {
+    const data = await db.product.findMany({
+      where: {
+        sex,
+        category: {
+          name: { in: categoryNames },
+        },
+        brand: {
+          name: { in: brandNames },
+        },
+        variants: {
+          some: {
+            color: {
+              in: colorNames,
+            },
+            size: {
+              in: sizeNames,
+            },
           },
         },
       },
-    },
-    include: {
-      brand: true,
-      category: true,
-      variants: true,
-    },
-    orderBy: sortBy,
-    skip: TAKE * page,
-    take: TAKE,
-  });
+      include: {
+        brand: true,
+        category: true,
+        variants: true,
+      },
+      orderBy: sortBy,
+      skip: TAKE * page,
+      take: TAKE,
+    });
+    return {
+      success: true,
+      data,
+    };
+  } catch (err) {
+    console.error(err);
+    if (err instanceof Error) return { success: false, error: err.message };
+    else
+      return {
+        success: false,
+        error: "Une erreur est survenue lors de la récupération des produits",
+      };
+  }
 }
 
 function parseSearchParam(searchParam: string | string[] | undefined) {

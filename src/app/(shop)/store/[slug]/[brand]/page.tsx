@@ -15,6 +15,7 @@ import Loader from "@/components/ui/Loader";
 import ProductsControlsSkeleton from "./_components/ProductsControlsSkeleton";
 import { fetchAllBrands } from "@/db/queries/brands";
 import { fetchAllCategories } from "@/db/queries/categories";
+import { ErrorBoundary } from "next/dist/client/components/error-boundary";
 
 export type StoreProps = {
   params: Params;
@@ -25,12 +26,14 @@ export default async function ProductsBySlug({
   params,
   searchParams,
 }: StoreProps) {
-  const products = await fetchProducts(params, searchParams);
+  const result = await fetchProducts(params, searchParams);
+  if (!result.success) throw new Error(result.error);
+  const products = result.data;
   const productIds = products.map((product) => product.id);
   const count = await countProductsWithSearchParams(params, searchParams);
 
   return (
-    <Suspense fallback={<Loader />} key={JSON.stringify(searchParams)}>
+    <Suspense fallback={<Loader />} key={JSON.stringify(params)}>
       <PageHeading1>{formatParamsToString(params)}</PageHeading1>
       <Suspense fallback={<ProductsControlsSkeleton params={params} />}>
         <ProductsControls
@@ -40,10 +43,8 @@ export default async function ProductsBySlug({
           count={count}
         />
       </Suspense>
-      <Suspense fallback={<Loader />}>
-        <ProductsList products={products} />
-        <ProductsPagination take={TAKE} totalItems={count} />
-      </Suspense>
+      <ProductsList products={products} />
+      <ProductsPagination take={TAKE} totalItems={count} />
     </Suspense>
   );
 }
