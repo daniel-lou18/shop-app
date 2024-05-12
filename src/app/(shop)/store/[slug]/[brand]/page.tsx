@@ -16,8 +16,6 @@ import ProductsControlsSkeleton from "./_components/ProductsControlsSkeleton";
 import { fetchAllBrands } from "@/db/queries/brands";
 import { fetchAllCategories } from "@/db/queries/categories";
 
-export const dynamic = "force-dynamic";
-
 export type StoreProps = {
   params: Params;
   searchParams: SearchParams;

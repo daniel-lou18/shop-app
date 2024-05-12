@@ -186,6 +186,7 @@ export async function fetchProductsWithSearchParams(
   params: Params,
   searchParams: SearchParams
 ): Promise<AllProductsWithVariants> {
+  // console.log(params, searchParams);
   const {
     sex,
     categoryNames,

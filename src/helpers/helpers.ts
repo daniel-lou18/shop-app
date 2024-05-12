@@ -79,3 +79,22 @@ export function formatParamsToString(params: Params) {
       : decodedSex
   }`;
 }
+
+export function parseApiParams(pathname: string) {
+  const parsedParams = { slug: "", brand: "" };
+  parsedParams.slug = pathname.split("/")[3];
+  parsedParams.brand = pathname.split("/")[4];
+  return parsedParams;
+}
+
+export function parseApiSearchParams(searchParams: URLSearchParams) {
+  const parsedSearchParams: { [key: string]: string | string[] } = {};
+  Array.from(searchParams.entries()).forEach(([key, value]) => {
+    if (!parsedSearchParams[key]) parsedSearchParams[key] = value;
+    else if (typeof parsedSearchParams[key] === "string")
+      parsedSearchParams[key] = [parsedSearchParams[key] as string, value];
+    else if (Array.isArray(parsedSearchParams[key]))
+      (parsedSearchParams[key] as string[]).push(value);
+  });
+  return parsedSearchParams;
+}
