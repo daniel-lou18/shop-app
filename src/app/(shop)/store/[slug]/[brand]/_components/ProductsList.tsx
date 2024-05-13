@@ -1,12 +1,18 @@
 "use client";
 
-import { AllProductsWithVariants } from "@/db/queries/products";
+import { AllProductsWithVariants, TAKE } from "@/db/queries/products";
 import ProductCard from "../../../../products/_components/ProductCard";
+import ProductsPagination from "./ProductsPagination";
 import { usePathname, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import Loader from "@/components/ui/Loader";
 
-function ProductsList({ products }: { products: AllProductsWithVariants }) {
+type ProductsListProps = {
+  products: AllProductsWithVariants;
+  count: number;
+};
+
+function ProductsList({ products, count }: ProductsListProps) {
   const searchParams = useSearchParams();
   const path = usePathname();
   const [filteredProducts, setFilteredProducts] =
@@ -44,11 +50,14 @@ function ProductsList({ products }: { products: AllProductsWithVariants }) {
   if (error) return <p>{error}</p>;
 
   return (
-    <ul className="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
-      {filteredProducts.map((product) => (
-        <ProductCard type="product" item={product} key={product.id} />
-      ))}
-    </ul>
+    <>
+      <ul className="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+        {filteredProducts.map((product) => (
+          <ProductCard type="product" item={product} key={product.id} />
+        ))}
+      </ul>
+      <ProductsPagination take={TAKE} totalItems={count} />
+    </>
   );
 }
 

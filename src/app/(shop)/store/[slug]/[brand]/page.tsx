@@ -2,20 +2,16 @@ import PageHeading1 from "@/components/ui/PageHeading1";
 import {
   Params,
   SearchParams,
-  TAKE,
   countProductsWithSearchParams,
-  fetchProducts,
+  fetchProductsWithParams,
 } from "@/db/queries/products";
 import React, { Suspense } from "react";
 import { formatParamsToString } from "@/helpers/helpers";
 import ProductsList from "@/app/(shop)/store/[slug]/[brand]/_components/ProductsList";
-import ProductsPagination from "./_components/ProductsPagination";
 import ProductsControls from "./_components/ProductsControls";
-import Loader from "@/components/ui/Loader";
 import ProductsControlsSkeleton from "./_components/ProductsControlsSkeleton";
 import { fetchAllBrands } from "@/db/queries/brands";
 import { fetchAllCategories } from "@/db/queries/categories";
-import { ErrorBoundary } from "next/dist/client/components/error-boundary";
 
 export type StoreProps = {
   params: Params;
@@ -26,16 +22,23 @@ export default async function ProductsBySlug({
   params,
   searchParams,
 }: StoreProps) {
-  const result = await fetchProducts(params, searchParams);
+  const result = await fetchProductsWithParams(params);
   if (!result.success) throw new Error(result.error);
   const products = result.data;
   const productIds = products.map((product) => product.id);
   const count = await countProductsWithSearchParams(params, searchParams);
 
   return (
-    <Suspense fallback={<Loader />} key={JSON.stringify(params)}>
+    <>
       <PageHeading1>{formatParamsToString(params)}</PageHeading1>
-      <Suspense fallback={<ProductsControlsSkeleton params={params} />}>
+      <Suspense
+        fallback={
+          <ProductsControlsSkeleton
+            params={params}
+            key={searchParams.toString()}
+          />
+        }
+      >
         <ProductsControls
           params={params}
           searchParams={searchParams}
@@ -43,9 +46,8 @@ export default async function ProductsBySlug({
           count={count}
         />
       </Suspense>
-      <ProductsList products={products} />
-      <ProductsPagination take={TAKE} totalItems={count} />
-    </Suspense>
+      <ProductsList products={products} count={count} />
+    </>
   );
 }
 
