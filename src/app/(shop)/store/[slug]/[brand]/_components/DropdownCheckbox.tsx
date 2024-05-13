@@ -7,7 +7,6 @@ import {
 import { hashMap } from "@/helpers/helpers";
 import { Brand, Category } from "@prisma/client";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import { useState } from "react";
 import CheckboxItem from "./CheckboxItem";
 import DropdownTrigger from "./DropdownTrigger";
 
@@ -29,9 +28,6 @@ function DropdownCheckbox({ type, data }: SelectFilterProps) {
   const searchParams = useSearchParams();
   const pathname = usePathname();
   const router = useRouter();
-  // const [checkedValues, setCheckedValues] = useState<string[]>([
-  //   ...searchParams.getAll(type),
-  // ]);
   const checkedValues = searchParams.getAll(type);
 
   if (!data || data.length === 0) return null;
@@ -40,16 +36,12 @@ function DropdownCheckbox({ type, data }: SelectFilterProps) {
     const newQueryString = new URLSearchParams(searchParams);
     newQueryString.append(type, value);
     router.push(`${pathname}?${newQueryString.toString()}`);
-    // setCheckedValues((prevState) => [...prevState, value]);
   }
 
   function handleUncheck(type: string, value: string) {
     const newQueryString = new URLSearchParams(searchParams);
     newQueryString.delete(type, value);
     router.push(`${pathname}?${newQueryString.toString()}`);
-    // setCheckedValues((prevState) =>
-    //   prevState.filter((prevValue) => prevValue !== value)
-    // );
   }
 
   if (!data || data.length === 0) return null;

@@ -11,7 +11,6 @@ import {
 } from "@/components/ui/pagination";
 import { usePathname, useSearchParams } from "next/navigation";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
 
 type ProductsPaginationProps = {
   take: number;
@@ -21,9 +20,7 @@ type ProductsPaginationProps = {
 function ProductsPagination({ take, totalItems }: ProductsPaginationProps) {
   const searchParams = useSearchParams();
   const pathname = usePathname();
-  const [currentPage, setCurrentPage] = useState<number>(
-    Number(searchParams.get("page") || 1)
-  );
+  const currentPage = Number(searchParams.get("page") || 1);
   console.log(currentPage);
   const router = useRouter();
   const totalPages = Math.ceil(totalItems / take);
@@ -43,7 +40,6 @@ function ProductsPagination({ take, totalItems }: ProductsPaginationProps) {
       newValue = type;
     }
     newQueryString.set("page", newValue.toString());
-    setCurrentPage(newValue);
     router.push(`${pathname}?${newQueryString.toString()}`);
   }
 
