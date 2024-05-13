@@ -9,8 +9,9 @@ import { Brand, Category } from "@prisma/client";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import CheckboxItem from "./CheckboxItem";
 import DropdownTrigger from "./DropdownTrigger";
+import { Dispatch, SetStateAction } from "react";
 
-type SelectFilterProps =
+type SelectFilterProps = { setIsLoading: Dispatch<SetStateAction<boolean>> } & (
   | {
       type: "brand";
       data: Brand[];
@@ -22,9 +23,10 @@ type SelectFilterProps =
   | {
       type: "color" | "size";
       data: string[];
-    };
+    }
+);
 
-function DropdownCheckbox({ type, data }: SelectFilterProps) {
+function DropdownCheckbox({ type, data, setIsLoading }: SelectFilterProps) {
   const searchParams = useSearchParams();
   const pathname = usePathname();
   const router = useRouter();
@@ -33,12 +35,14 @@ function DropdownCheckbox({ type, data }: SelectFilterProps) {
   if (!data || data.length === 0) return null;
 
   function handleCheck(type: string, value: string) {
+    setIsLoading(true);
     const newQueryString = new URLSearchParams(searchParams);
     newQueryString.append(type, value);
     router.push(`${pathname}?${newQueryString.toString()}`);
   }
 
   function handleUncheck(type: string, value: string) {
+    setIsLoading(true);
     const newQueryString = new URLSearchParams(searchParams);
     newQueryString.delete(type, value);
     router.push(`${pathname}?${newQueryString.toString()}`);

@@ -1,31 +1,20 @@
 import DropdownCheckbox from "@/app/(shop)/store/[slug]/[brand]/_components/DropdownCheckbox";
 import DropdownFilter from "./DropdownFilter";
 import ProductsTotal from "./ProductsTotal";
-import {
-  fetchBrandsWithSlug,
-  fetchCategoriesWithParams,
-  fetchColorsWithProductIds,
-  fetchSizesWithProductIds,
-} from "@/db/queries/products";
-import { StoreProps } from "../page";
+import { AvailableData } from "./ProductsList";
+import { usePathname } from "next/navigation";
+import { parsePathParams } from "@/helpers/helpers";
 
-type ProductsControlsProps = StoreProps & {
-  productIds: string[];
-  count: number;
-};
+type ProductsControlsProps = AvailableData;
 async function ProductsControls({
-  params,
-  searchParams,
-  productIds,
+  availableBrands,
+  availableCategories,
+  availableColors,
+  availableSizes,
   count,
 }: ProductsControlsProps) {
-  const availableBrands = await fetchBrandsWithSlug(params.slug, searchParams);
-  const availableCategories = await fetchCategoriesWithParams(
-    params,
-    searchParams
-  );
-  const availableColors = await fetchColorsWithProductIds(productIds);
-  const availableSizes = await fetchSizesWithProductIds(productIds);
+  const path = usePathname();
+  const params = parsePathParams(path);
 
   return (
     <div className="flex my-6 justify-between">

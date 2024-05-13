@@ -6,15 +6,35 @@ import ProductsPagination from "./ProductsPagination";
 import { usePathname, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import Loader from "@/components/ui/Loader";
+import DropdownCheckbox from "@/app/(shop)/store/[slug]/[brand]/_components/DropdownCheckbox";
+import DropdownFilter from "./DropdownFilter";
+import ProductsTotal from "./ProductsTotal";
+import { Brand, Category } from "@prisma/client";
+import { parsePathParams } from "@/helpers/helpers";
 
-type ProductsListProps = {
-  products: AllProductsWithVariants;
+export type AvailableData = {
+  availableBrands: Brand[];
+  availableCategories: Category[];
+  availableColors: string[];
+  availableSizes: string[];
   count: number;
 };
 
-function ProductsList({ products, count }: ProductsListProps) {
+type ProductsListProps = {
+  products: AllProductsWithVariants;
+} & AvailableData;
+
+function ProductsList({
+  products,
+  availableBrands,
+  availableCategories,
+  availableColors,
+  availableSizes,
+  count,
+}: ProductsListProps) {
   const searchParams = useSearchParams();
   const path = usePathname();
+  const params = parsePathParams(path);
   const [filteredProducts, setFilteredProducts] =
     useState<AllProductsWithVariants>([...products]);
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -46,12 +66,62 @@ function ProductsList({ products, count }: ProductsListProps) {
   if (!filteredProducts || filteredProducts.length === 0)
     return <p>Aucun produit à afficher</p>;
 
-  if (isLoading) return <Loader />;
   if (error) return <p>{error}</p>;
 
   return (
     <>
-      <ul className="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+      {isLoading && <Loader />}
+      <div className="flex my-6 justify-between">
+        <div className="flex gap-4">
+          <DropdownCheckbox
+            type="color"
+            data={availableColors}
+            setIsLoading={setIsLoading}
+          />
+          <DropdownCheckbox
+            type="size"
+            data={availableSizes}
+            setIsLoading={setIsLoading}
+          />
+          {params.brand === "all" && params.slug.includes("all") && (
+            <>
+              <DropdownCheckbox
+                type="brand"
+                data={availableBrands}
+                setIsLoading={setIsLoading}
+              />
+              <DropdownCheckbox
+                type="category"
+                data={availableCategories}
+                setIsLoading={setIsLoading}
+              />
+            </>
+          )}
+          {params.brand === "all" && !params.slug.includes("all") && (
+            <DropdownCheckbox
+              type="brand"
+              data={availableBrands}
+              setIsLoading={setIsLoading}
+            />
+          )}
+          {params.brand !== "all" && (
+            <DropdownCheckbox
+              type="category"
+              data={availableCategories}
+              setIsLoading={setIsLoading}
+            />
+          )}
+        </div>
+        <div className="flex gap-4">
+          <ProductsTotal total={count} />
+          <DropdownFilter />
+        </div>
+      </div>
+      <ul
+        className={`${
+          isLoading ? "opacity-30" : ""
+        } grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4`}
+      >
         {filteredProducts.map((product) => (
           <ProductCard type="product" item={product} key={product.id} />
         ))}

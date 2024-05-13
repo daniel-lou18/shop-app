@@ -4,12 +4,14 @@ import {
   SearchParams,
   countProductsWithSearchParams,
   fetchProductsWithParams,
+  fetchBrandsWithSlug,
+  fetchCategoriesWithParams,
+  fetchColorsWithProductIds,
+  fetchSizesWithProductIds,
 } from "@/db/queries/products";
-import React, { Suspense } from "react";
+import React from "react";
 import { formatParamsToString } from "@/helpers/helpers";
 import ProductsList from "@/app/(shop)/store/[slug]/[brand]/_components/ProductsList";
-import ProductsControls from "./_components/ProductsControls";
-import ProductsControlsSkeleton from "./_components/ProductsControlsSkeleton";
 import { fetchAllBrands } from "@/db/queries/brands";
 import { fetchAllCategories } from "@/db/queries/categories";
 
@@ -26,27 +28,26 @@ export default async function ProductsBySlug({
   if (!result.success) throw new Error(result.error);
   const products = result.data;
   const productIds = products.map((product) => product.id);
+  const availableBrands = await fetchBrandsWithSlug(params.slug, searchParams);
+  const availableCategories = await fetchCategoriesWithParams(
+    params,
+    searchParams
+  );
+  const availableColors = await fetchColorsWithProductIds(productIds);
+  const availableSizes = await fetchSizesWithProductIds(productIds);
   const count = await countProductsWithSearchParams(params, searchParams);
 
   return (
     <>
       <PageHeading1>{formatParamsToString(params)}</PageHeading1>
-      <Suspense
-        fallback={
-          <ProductsControlsSkeleton
-            params={params}
-            key={searchParams.toString()}
-          />
-        }
-      >
-        <ProductsControls
-          params={params}
-          searchParams={searchParams}
-          productIds={productIds}
-          count={count}
-        />
-      </Suspense>
-      <ProductsList products={products} count={count} />
+      <ProductsList
+        products={products}
+        availableBrands={availableBrands}
+        availableCategories={availableCategories}
+        availableColors={availableColors}
+        availableSizes={availableSizes}
+        count={count}
+      />
     </>
   );
 }

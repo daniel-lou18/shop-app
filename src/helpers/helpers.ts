@@ -87,6 +87,13 @@ export function parseApiParams(pathname: string) {
   return parsedParams;
 }
 
+export function parsePathParams(pathname: string) {
+  const parsedParams = { slug: "", brand: "" };
+  parsedParams.slug = pathname.split("/")[2];
+  parsedParams.brand = pathname.split("/")[3];
+  return parsedParams;
+}
+
 export function parseApiSearchParams(searchParams: URLSearchParams) {
   const parsedSearchParams: { [key: string]: string | string[] } = {};
   Array.from(searchParams.entries()).forEach(([key, value]) => {
