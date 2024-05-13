@@ -8,6 +8,7 @@ import {
   fetchCategoriesWithParams,
   fetchColorsWithProductIds,
   fetchSizesWithProductIds,
+  FetchResult,
 } from "@/db/queries/products";
 import React from "react";
 import { formatParamsToString } from "@/helpers/helpers";
@@ -24,29 +25,42 @@ export default async function ProductsBySlug({
   params,
   searchParams,
 }: StoreProps) {
-  const result = await fetchProductsWithParams(params);
-  if (!result.success) throw new Error(result.error);
-  const products = result.data;
+  const results = await Promise.all([
+    fetchProductsWithParams(params),
+    fetchBrandsWithSlug(params.slug, searchParams),
+    fetchCategoriesWithParams(params, searchParams),
+    countProductsWithSearchParams(params, searchParams),
+  ]);
+
+  const [productsResult, brandsResult, categoriesResult, countResult] = results;
+
+  if (!productsResult.success) throw new Error(productsResult.error);
+  if (!brandsResult.success) throw new Error(brandsResult.error);
+  if (!categoriesResult.success) throw new Error(categoriesResult.error);
+  if (!countResult.success) throw new Error(countResult.error);
+
+  const products = productsResult.data;
   const productIds = products.map((product) => product.id);
-  const availableBrands = await fetchBrandsWithSlug(params.slug, searchParams);
-  const availableCategories = await fetchCategoriesWithParams(
-    params,
-    searchParams
-  );
-  const availableColors = await fetchColorsWithProductIds(productIds);
-  const availableSizes = await fetchSizesWithProductIds(productIds);
-  const count = await countProductsWithSearchParams(params, searchParams);
+
+  const variantsResults = await Promise.all([
+    fetchColorsWithProductIds(productIds),
+    fetchSizesWithProductIds(productIds),
+  ]);
+  const [colorsResult, sizesResult] = variantsResults;
+
+  if (!colorsResult.success) throw new Error(colorsResult.error);
+  if (!sizesResult.success) throw new Error(sizesResult.error);
 
   return (
     <>
       <PageHeading1>{formatParamsToString(params)}</PageHeading1>
       <ProductsList
-        products={products}
-        availableBrands={availableBrands}
-        availableCategories={availableCategories}
-        availableColors={availableColors}
-        availableSizes={availableSizes}
-        count={count}
+        products={productsResult.data}
+        availableBrands={brandsResult.data}
+        availableCategories={categoriesResult.data}
+        availableColors={colorsResult.data}
+        availableSizes={sizesResult.data}
+        count={countResult.data}
       />
     </>
   );
