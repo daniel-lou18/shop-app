@@ -11,21 +11,27 @@ import {
 } from "@/components/ui/pagination";
 import { usePathname, useSearchParams } from "next/navigation";
 import { useRouter } from "next/navigation";
+import { Dispatch, SetStateAction } from "react";
 
 type ProductsPaginationProps = {
   take: number;
   totalItems: number;
+  setIsLoading: Dispatch<SetStateAction<boolean>>;
 };
 
-function ProductsPagination({ take, totalItems }: ProductsPaginationProps) {
+function ProductsPagination({
+  take,
+  totalItems,
+  setIsLoading,
+}: ProductsPaginationProps) {
   const searchParams = useSearchParams();
   const pathname = usePathname();
   const currentPage = Number(searchParams.get("page") || 1);
-  console.log(currentPage);
   const router = useRouter();
   const totalPages = Math.ceil(totalItems / take);
 
   function handleClick(type: "prev" | "next" | number) {
+    setIsLoading(true);
     const newQueryString = new URLSearchParams(searchParams);
     let newValue = 1;
     if (type === "prev") {

@@ -41,7 +41,9 @@ function DropdownFilter() {
 
   return (
     <DropdownMenu modal={false}>
-      <DropdownTrigger style="normal">Trier par</DropdownTrigger>
+      <DropdownTrigger style="normal" variant="chevron">
+        Trier par
+      </DropdownTrigger>
       <DropdownMenuContent className="w-56">
         <DropdownMenuRadioGroup value={value} onValueChange={setValue}>
           {data.map((value, idx) => (

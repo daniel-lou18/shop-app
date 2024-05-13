@@ -8,9 +8,7 @@ import {
   fetchCategoriesWithParams,
   fetchColorsWithProductIds,
   fetchSizesWithProductIds,
-  FetchResult,
 } from "@/db/queries/products";
-import React from "react";
 import { formatParamsToString } from "@/helpers/helpers";
 import ProductsList from "@/app/(shop)/store/[slug]/[brand]/_components/ProductsList";
 import { fetchAllBrands } from "@/db/queries/brands";

@@ -11,6 +11,11 @@ import DropdownFilter from "./DropdownFilter";
 import ProductsTotal from "./ProductsTotal";
 import { Brand, Category } from "@prisma/client";
 import { parsePathParams } from "@/helpers/helpers";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+} from "@/components/ui/dropdown-menu";
+import DropdownTrigger from "./DropdownTrigger";
 
 export type AvailableData = {
   availableBrands: Brand[];
@@ -72,7 +77,7 @@ function ProductsList({
     <>
       {isLoading && <Loader />}
       <div className="flex my-6 justify-between">
-        <div className="flex gap-4">
+        <div className="hidden md:flex lg:gap-4">
           <DropdownCheckbox
             type="color"
             data={availableColors}
@@ -83,28 +88,15 @@ function ProductsList({
             data={availableSizes}
             setIsLoading={setIsLoading}
           />
-          {params.brand === "all" && params.slug.includes("all") && (
-            <>
-              <DropdownCheckbox
-                type="brand"
-                data={availableBrands}
-                setIsLoading={setIsLoading}
-              />
-              <DropdownCheckbox
-                type="category"
-                data={availableCategories}
-                setIsLoading={setIsLoading}
-              />
-            </>
-          )}
-          {params.brand === "all" && !params.slug.includes("all") && (
+          {params.brand === "all" && (
             <DropdownCheckbox
               type="brand"
               data={availableBrands}
               setIsLoading={setIsLoading}
             />
           )}
-          {params.brand !== "all" && (
+          {((params.brand === "all" && params.slug.includes("all")) ||
+            params.brand !== "all") && (
             <DropdownCheckbox
               type="category"
               data={availableCategories}
@@ -112,7 +104,42 @@ function ProductsList({
             />
           )}
         </div>
-        <div className="flex gap-4">
+        <div className="block md:hidden">
+          <DropdownMenu modal={false}>
+            <DropdownTrigger style="normal" variant="chevron">
+              Filters
+            </DropdownTrigger>
+            <DropdownMenuContent className="w-48">
+              <DropdownCheckbox
+                type="color"
+                data={availableColors}
+                setIsLoading={setIsLoading}
+              />
+              <DropdownCheckbox
+                type="size"
+                data={availableSizes}
+                setIsLoading={setIsLoading}
+              />
+              {params.brand === "all" && (
+                <DropdownCheckbox
+                  type="brand"
+                  data={availableBrands}
+                  setIsLoading={setIsLoading}
+                />
+              )}
+              {((params.brand === "all" && params.slug.includes("all")) ||
+                params.brand !== "all") && (
+                <DropdownCheckbox
+                  type="category"
+                  data={availableCategories}
+                  setIsLoading={setIsLoading}
+                />
+              )}
+            </DropdownMenuContent>
+          </DropdownMenu>
+        </div>
+
+        <div className="flex lg:gap-4">
           <ProductsTotal total={count} />
           <DropdownFilter />
         </div>
@@ -126,7 +153,11 @@ function ProductsList({
           <ProductCard type="product" item={product} key={product.id} />
         ))}
       </ul>
-      <ProductsPagination take={TAKE} totalItems={count} />
+      <ProductsPagination
+        take={TAKE}
+        totalItems={count}
+        setIsLoading={setIsLoading}
+      />
     </>
   );
 }

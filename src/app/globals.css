@@ -81,3 +81,7 @@
 button[data-state="open"] .checkbox-chevron {
   transform: rotate(180deg);
 }
+
+.checkbox-arrow-right {
+  transform: rotate(-90deg);
+}
