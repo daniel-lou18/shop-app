@@ -75,28 +75,23 @@ function ProductsList({
 
   return (
     <>
-      {isLoading && <Loader />}
-      <div
-        className={`${isLoading ? "opacity-30" : ""} flex my-6 justify-between`}
-      >
+      <div className={`flex my-6 justify-between`}>
         <div className="hidden md:flex lg:gap-4">
+          {isLoading && <Loader />}
           <DropdownCheckbox
             type="color"
             data={availableColors}
-            isLoading={isLoading}
             setIsLoading={setIsLoading}
           />
           <DropdownCheckbox
             type="size"
             data={availableSizes}
-            isLoading={isLoading}
             setIsLoading={setIsLoading}
           />
           {params.brand === "all" && (
             <DropdownCheckbox
               type="brand"
               data={availableBrands}
-              isLoading={isLoading}
               setIsLoading={setIsLoading}
             />
           )}
@@ -105,7 +100,6 @@ function ProductsList({
             <DropdownCheckbox
               type="category"
               data={availableCategories}
-              isLoading={isLoading}
               setIsLoading={setIsLoading}
             />
           )}
@@ -115,26 +109,21 @@ function ProductsList({
             <DropdownTrigger style="normal" variant="chevron">
               Filters
             </DropdownTrigger>
-            <DropdownMenuContent
-              className={`${isLoading ? "opacity-30" : ""} w-48`}
-            >
+            <DropdownMenuContent className={`w-48`}>
               <DropdownCheckbox
                 type="color"
                 data={availableColors}
-                isLoading={isLoading}
                 setIsLoading={setIsLoading}
               />
               <DropdownCheckbox
                 type="size"
                 data={availableSizes}
-                isLoading={isLoading}
                 setIsLoading={setIsLoading}
               />
               {params.brand === "all" && (
                 <DropdownCheckbox
                   type="brand"
                   data={availableBrands}
-                  isLoading={isLoading}
                   setIsLoading={setIsLoading}
                 />
               )}
@@ -143,7 +132,6 @@ function ProductsList({
                 <DropdownCheckbox
                   type="category"
                   data={availableCategories}
-                  isLoading={isLoading}
                   setIsLoading={setIsLoading}
                 />
               )}

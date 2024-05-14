@@ -16,8 +16,13 @@ async function HeaderCustomer() {
 
   return (
     <header className="sticky z-10 top-0 flex h-16 items-center gap-4 border-b border-border/60 bg-background/90 backdrop-blur justify-between p-4 sm:px-16 sm:py-0">
-      <NavbarMobile />
-      <HeaderCustomerLeft />
+      <NavbarMobile
+        categoriesMen={categoriesMen}
+        categoriesWomen={categoriesWomen}
+        brandsMen={brandsMen}
+        brandsWomen={brandsWomen}
+      />
+      <HeaderCustomerLeft className="w-[30%]" />
       <Navbar>
         <NavLink href="/products/categories/new">Nouveautés</NavLink>
         <NavLinkMenu

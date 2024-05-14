@@ -11,10 +11,7 @@ import CheckboxItem from "./CheckboxItem";
 import DropdownTrigger from "./DropdownTrigger";
 import { Dispatch, SetStateAction } from "react";
 
-type SelectFilterProps = {
-  isLoading: boolean;
-  setIsLoading: Dispatch<SetStateAction<boolean>>;
-} & (
+type SelectFilterProps = { setIsLoading: Dispatch<SetStateAction<boolean>> } & (
   | {
       type: "brand";
       data: Brand[];
@@ -29,12 +26,7 @@ type SelectFilterProps = {
     }
 );
 
-function DropdownCheckbox({
-  type,
-  data,
-  isLoading,
-  setIsLoading,
-}: SelectFilterProps) {
+function DropdownCheckbox({ type, data, setIsLoading }: SelectFilterProps) {
   const searchParams = useSearchParams();
   const pathname = usePathname();
   const router = useRouter();
@@ -64,7 +56,7 @@ function DropdownCheckbox({
         {hashMap[type]}
       </DropdownTrigger>
       <DropdownMenuContent
-        className={`${isLoading ? "opacity-30" : ""} w-48 md:w-56`}
+        className="w-48 md:w-56"
         side={window.innerWidth > 768 ? "bottom" : "right"}
       >
         {data.map((value) => (

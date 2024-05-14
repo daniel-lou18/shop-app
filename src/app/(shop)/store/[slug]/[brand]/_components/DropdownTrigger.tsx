@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
-import { ChevronDown, CircleCheck } from "lucide-react";
+import { ChevronDown, ChevronRight, CircleCheck } from "lucide-react";
 
 type DropdownTriggerProps = {
   children: string;
@@ -52,11 +52,7 @@ function DropdownTrigger({
         <span
           className={`${variant === "chevron" ? "hidden" : "inline"} md:hidden`}
         >
-          <ChevronDown
-            size={16}
-            strokeWidth={1}
-            className="checkbox-arrow-right"
-          />
+          <ChevronRight size={16} strokeWidth={1} />
         </span>
       </Button>
     </DropdownMenuTrigger>

@@ -1,10 +1,11 @@
-import { Shirt, ShoppingBasket } from "lucide-react";
+import { cn } from "@/lib/utils";
+import { Shirt } from "lucide-react";
 import Link from "next/link";
 import React from "react";
 
-function HeaderCustomerLeft() {
+function HeaderCustomerLeft({ className }: { className?: string }) {
   return (
-    <div className="w-[30%] text-primary brightness-75">
+    <div className={cn("text-primary brightness-75", className)}>
       <Link
         href="/"
         className="flex items-center gap-2 font-semibold md:text-lg"
