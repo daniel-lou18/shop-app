@@ -25,12 +25,10 @@ function DropdownTrigger({
   return (
     <DropdownMenuTrigger asChild className="hover:bg-transparent">
       <Button
-        variant="ghost"
+        variant="link"
         className="font-normal w-full flex gap-2 justify-between md:justify-center items-end"
       >
-        <span className="border-b border-solid border-transparent hover:border-gray-950 rounded-none">
-          {children}
-        </span>
+        <span>{children}</span>
         {style === "check" && (
           <span
             className={`text-primary ${
