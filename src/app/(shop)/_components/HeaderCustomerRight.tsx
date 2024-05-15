@@ -19,7 +19,7 @@ import Example from "./ShoppingCart";
 import { ShoppingBagIcon } from "@heroicons/react/24/outline";
 import { useCart } from "@/context/cart-context";
 import Link from "next/link";
-import { paths } from "@/helpers/helpers";
+import { paths } from "@/lib/paths";
 
 function HeaderCustomerRight() {
   const [cartOpen, setCartOpen] = useState<boolean>(false);

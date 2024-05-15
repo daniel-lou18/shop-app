@@ -9,7 +9,7 @@ import {
   fetchColorsWithProductIds,
   fetchSizesWithProductIds,
 } from "@/db/queries/products";
-import { formatParamsToString } from "@/helpers/helpers";
+import { formatParamsToString } from "@/lib/parsers";
 import ProductsList from "@/app/(shop)/store/[slug]/[brand]/_components/ProductsList";
 import { fetchAllBrands } from "@/db/queries/brands";
 import { fetchAllCategories } from "@/db/queries/categories";

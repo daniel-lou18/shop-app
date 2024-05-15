@@ -2,7 +2,8 @@ import { Card, CardContent, CardFooter, CardTitle } from "@/components/ui/card";
 import Image from "next/image";
 import { Brand, Product } from "@prisma/client";
 import Link from "next/link";
-import { centsToEuros, paths } from "@/helpers/helpers";
+import { centsToEuros } from "@/helpers/helpers";
+import { paths } from "@/lib/paths";
 
 export type Square = Brand & { imagePath: string | null; description: string };
 

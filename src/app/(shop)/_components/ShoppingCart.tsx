@@ -5,7 +5,7 @@ import { CartItem as CartItemType, useCart } from "@/context/cart-context";
 import Image from "next/image";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
-import { paths } from "@/helpers/helpers";
+import { paths } from "@/lib/paths";
 import { useToast } from "@/components/ui/use-toast";
 
 type ShoppingCartProps = {

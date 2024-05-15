@@ -10,7 +10,7 @@ import DropdownCheckbox from "@/app/(shop)/store/[slug]/[brand]/_components/Drop
 import DropdownFilter from "./DropdownFilter";
 import ProductsTotal from "./ProductsTotal";
 import { Brand, Category } from "@prisma/client";
-import { parsePathParams } from "@/helpers/helpers";
+import { parsePathParams } from "@/lib/parsers";
 import {
   DropdownMenu,
   DropdownMenuContent,

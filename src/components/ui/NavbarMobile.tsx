@@ -13,7 +13,7 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
-import { capitalizeString } from "@/helpers/helpers";
+import { capitalizeString } from "@/lib/parsers";
 import { useState } from "react";
 
 type NavbarMobileProps = {

@@ -9,7 +9,7 @@ import PageHeading1 from "./PageHeading1";
 import { Brand, Product } from "@prisma/client";
 import Image from "next/image";
 import Link from "next/link";
-import { paths } from "@/helpers/helpers";
+import { paths } from "@/lib/paths";
 import { AllCategories } from "@/db/queries/categories";
 import ProductCard, {
   Square,

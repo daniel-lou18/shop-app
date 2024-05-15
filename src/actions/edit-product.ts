@@ -2,7 +2,7 @@
 
 import { auth } from "@/auth";
 import { db } from "@/db";
-import { paths } from "@/helpers/helpers";
+import { paths } from "@/lib/paths";
 import { redirect } from "next/navigation";
 import { z } from "zod";
 

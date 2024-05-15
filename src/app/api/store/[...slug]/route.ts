@@ -1,5 +1,5 @@
 import { fetchProductsWithSearchParams } from "@/db/queries/products";
-import { parseApiParams, parseApiSearchParams } from "@/helpers/helpers";
+import { parseApiParams, parseApiSearchParams } from "@/lib/parsers";
 import { NextRequest } from "next/server";
 
 export async function GET(request: NextRequest) {

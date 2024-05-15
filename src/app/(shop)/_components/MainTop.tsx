@@ -1,5 +1,5 @@
 import PageHeading1 from "@/components/ui/PageHeading1";
-import { paths } from "@/helpers/helpers";
+import { paths } from "@/lib/paths";
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";

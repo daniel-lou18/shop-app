@@ -3,7 +3,7 @@
 // import ProductsTotal from "./ProductsTotal";
 // import { AvailableData } from "./ProductsList";
 // import { usePathname } from "next/navigation";
-// import { parsePathParams } from "@/helpers/helpers";
+// import { parsePathParams } from "@/lib/paths";
 
 // type ProductsControlsProps = AvailableData;
 // async function ProductsControls({

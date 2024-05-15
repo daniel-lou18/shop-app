@@ -1,7 +1,7 @@
 "use server";
 
 import { db } from "@/db";
-import { paths } from "@/helpers/helpers";
+import { paths } from "@/lib/paths";
 import { writeFile } from "fs/promises";
 import { revalidatePath } from "next/cache";
 import path from "path";

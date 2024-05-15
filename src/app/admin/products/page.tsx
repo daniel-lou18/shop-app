@@ -1,6 +1,6 @@
 import { auth } from "@/auth";
 import { redirect } from "next/navigation";
-import { paths } from "@/helpers/helpers";
+import { paths } from "@/lib/paths";
 import ProductsTable from "./_components/ProductsTable";
 
 async function AdminProducts() {

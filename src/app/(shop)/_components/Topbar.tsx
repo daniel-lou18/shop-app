@@ -1,4 +1,4 @@
-import { paths } from "@/helpers/helpers";
+import { paths } from "@/lib/paths";
 import Link from "next/link";
 import React from "react";
 

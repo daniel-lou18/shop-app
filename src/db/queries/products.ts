@@ -1,5 +1,6 @@
 import { Brand, Category, Product, ProductVariant } from "@prisma/client";
 import { db } from "..";
+import { handleFetchError } from "@/lib/errors";
 
 export type ProductWithData = Product & { brand: Brand; category: Category };
 export type AllProductsWithData = ProductWithData[];
@@ -13,13 +14,36 @@ export type AllProductsWithStock = (ProductWithData & {
 
 export const TAKE = 24;
 
-export async function fetchAllProductsWithData(): Promise<AllProductsWithData> {
-  return await db.product.findMany({
-    include: {
-      brand: true,
-      category: true,
-    },
-  });
+export type FetchResult<T> =
+  | {
+      success: true;
+      data: T;
+    }
+  | {
+      success: false;
+      error: string;
+    };
+
+export async function fetchAllProductsWithData(): Promise<
+  FetchResult<AllProductsWithData>
+> {
+  try {
+    const result = await db.product.findMany({
+      include: {
+        brand: true,
+        category: true,
+      },
+    });
+    return {
+      success: true,
+      data: result,
+    };
+  } catch (err) {
+    return handleFetchError(
+      err,
+      "Une erreur est survenue lors de la récupération des produits"
+    );
+  }
 }
 
 export async function fetchAllProductsWithVariants(): Promise<AllProductsWithVariants> {
@@ -183,16 +207,6 @@ function parseProductsSearchParams(params: Params, searchParams: SearchParams) {
     page,
   };
 }
-
-export type FetchResult<T> =
-  | {
-      success: true;
-      data: T;
-    }
-  | {
-      success: false;
-      error: string;
-    };
 
 export async function fetchProductsWithParams({
   slug,

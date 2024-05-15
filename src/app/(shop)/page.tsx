@@ -20,15 +20,20 @@ export type BrandSquare = {
 };
 
 async function MainContent() {
-  const products = (await fetchAllProductsWithData()).filter(
+  const result = await fetchAllProductsWithData();
+  if (!result.success) {
+    throw new Error(result.error);
+  }
+  const productsMen = result.data.filter((product) => product.sex === "homme");
+  const productsWomen = result.data.filter(
     (product) => product.sex === "femme"
   );
-  const productsMen = (await fetchAllProductsWithData()).filter(
-    (product) => product.sex === "homme"
-  );
-  const productsWomen = (await fetchAllProductsWithData()).filter(
-    (product) => product.sex === "femme"
-  );
+  const productsMixed = [
+    ...productsMen.slice(0, 3),
+    ...productsWomen.slice(0, 3),
+    ...productsMen.slice(3, 8),
+    ...productsWomen.slice(3, 8),
+  ];
 
   return (
     <main className="sm:px-8">
@@ -41,7 +46,11 @@ async function MainContent() {
         </Button>
       </Banner>
       <MainTop />
-      <ItemsCarousel type="product" title="Nos bestsellers" items={products} />
+      <ItemsCarousel
+        type="product"
+        title="Nos bestsellers"
+        items={productsMixed}
+      />
       <Banner data={brandBanner} className="mt-24">
         <Button
           variant="secondary"
