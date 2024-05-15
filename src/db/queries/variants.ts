@@ -1,5 +1,7 @@
 import { db } from "@/db";
 import { Product, ProductVariant } from "@prisma/client";
+import { FetchResult } from "./products";
+import { handleFetchError } from "@/lib/errors";
 
 type ProductVariants = ProductVariant[];
 export type ProductVariantByColor = {
@@ -21,29 +23,36 @@ export async function fetchProductVariants(
 
 export async function fetchProductVariantsByColor(
   productId: string
-): Promise<ProductVariantsByColor> {
-  const variants = await db.productVariant.findMany({
-    where: { productId },
-  });
-  const variantsByColor = variants.reduce((acc, variant) => {
-    const idx = acc.findIndex((item) => item.color === variant.color);
-    if (idx !== -1) {
-      acc[idx].totalStock += variant.stockQuantity;
-      acc[idx].variants.push({ ...variant });
-    } else {
-      acc.push({
-        variants: [{ ...variant }],
-        color: variant.color,
-        imagePath: variant.imagePath,
-        price: variant.price,
-        totalStock: variant.stockQuantity,
-        createdAt: variant.createdAt,
-      });
-    }
-    return acc;
-  }, [] as ProductVariantsByColor);
+): Promise<FetchResult<ProductVariantsByColor>> {
+  try {
+    const variants = await db.productVariant.findMany({
+      where: { productId },
+    });
+    const variantsByColor = variants.reduce((acc, variant) => {
+      const idx = acc.findIndex((item) => item.color === variant.color);
+      if (idx !== -1) {
+        acc[idx].totalStock += variant.stockQuantity;
+        acc[idx].variants.push({ ...variant });
+      } else {
+        acc.push({
+          variants: [{ ...variant }],
+          color: variant.color,
+          imagePath: variant.imagePath,
+          price: variant.price,
+          totalStock: variant.stockQuantity,
+          createdAt: variant.createdAt,
+        });
+      }
+      return acc;
+    }, [] as ProductVariantsByColor);
 
-  return variantsByColor;
+    return { success: true, data: variantsByColor };
+  } catch (err) {
+    return handleFetchError(
+      err,
+      "Une erreur est survenue lors de la récupération des variantes"
+    );
+  }
 }
 
 export function getVariantsByColor(variants: ProductVariants) {

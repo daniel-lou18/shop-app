@@ -116,13 +116,10 @@ export async function fetchColorsWithProductIds(
     });
     return { success: true, data: result.map((item) => item.color) };
   } catch (err) {
-    console.error(err);
-    if (err instanceof Error) return { success: false, error: err.message };
-    else
-      return {
-        success: false,
-        error: "Une erreur est survenue lors de la récupération des produits",
-      };
+    return handleFetchError(
+      err,
+      "Une erreur est survenue lors de la récupération des produits"
+    );
   }
 }
 
@@ -139,13 +136,10 @@ export async function fetchSizesWithProductIds(
     });
     return { success: true, data: result.map((item) => item.size) };
   } catch (err) {
-    console.error(err);
-    if (err instanceof Error) return { success: false, error: err.message };
-    else
-      return {
-        success: false,
-        error: "Une erreur est survenue lors de la récupération des produits",
-      };
+    return handleFetchError(
+      err,
+      "Une erreur est survenue lors de la récupération des produits"
+    );
   }
 }
 
@@ -234,13 +228,10 @@ export async function fetchProductsWithParams({
       data,
     };
   } catch (err) {
-    console.error(err);
-    if (err instanceof Error) return { success: false, error: err.message };
-    else
-      return {
-        success: false,
-        error: "Une erreur est survenue lors de la récupération des produits",
-      };
+    return handleFetchError(
+      err,
+      "Une erreur est survenue lors de la récupération des produits"
+    );
   }
 }
 
@@ -296,13 +287,10 @@ export async function fetchProductsWithSearchParams(
       data,
     };
   } catch (err) {
-    console.error(err);
-    if (err instanceof Error) return { success: false, error: err.message };
-    else
-      return {
-        success: false,
-        error: "Une erreur est survenue lors de la récupération des produits",
-      };
+    return handleFetchError(
+      err,
+      "Une erreur est survenue lors de la récupération des produits"
+    );
   }
 }
 
@@ -346,13 +334,10 @@ export async function fetchCategoriesWithParams(
     });
     return { success: true, data: result.map((item) => item.category) };
   } catch (err) {
-    console.error(err);
-    if (err instanceof Error) return { success: false, error: err.message };
-    else
-      return {
-        success: false,
-        error: "Une erreur est survenue lors de la récupération des produits",
-      };
+    return handleFetchError(
+      err,
+      "Une erreur est survenue lors de la récupération des catégories"
+    );
   }
 }
 
@@ -377,13 +362,10 @@ export async function fetchBrandsWithSlug(
     });
     return { success: true, data: result.map((item) => item.brand) };
   } catch (err) {
-    console.error(err);
-    if (err instanceof Error) return { success: false, error: err.message };
-    else
-      return {
-        success: false,
-        error: "Une erreur est survenue lors de la récupération des produits",
-      };
+    return handleFetchError(
+      err,
+      "Une erreur est survenue lors de la récupération des marques"
+    );
   }
 }
 
@@ -417,12 +399,9 @@ export async function countProductsWithSearchParams(
     });
     return { success: true, data: result };
   } catch (err) {
-    console.error(err);
-    if (err instanceof Error) return { success: false, error: err.message };
-    else
-      return {
-        success: false,
-        error: "Une erreur est survenue lors de la récupération des produits",
-      };
+    return handleFetchError(
+      err,
+      "Une erreur est survenue lors du comptage des produits"
+    );
   }
 }

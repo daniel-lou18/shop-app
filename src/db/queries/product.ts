@@ -1,5 +1,7 @@
 import { db } from "@/db";
+import { handleFetchError } from "@/lib/errors";
 import { Brand, Category, Product, ProductVariant } from "@prisma/client";
+import { FetchResult } from "./products";
 
 export type ProductWithVariants = Product & {
   brand: Brand;
@@ -13,30 +15,55 @@ export type ProductWithStock = ProductWithVariants & {
 
 export async function fetchProductWithVariants(
   id: string
-): Promise<ProductWithVariants | null> {
-  return await db.product.findFirst({
-    where: { id },
-    include: {
-      brand: true,
-      category: true,
-      variants: true,
-    },
-  });
+): Promise<FetchResult<ProductWithVariants | null>> {
+  try {
+    const result = await db.product.findFirst({
+      where: { id },
+      include: {
+        brand: true,
+        category: true,
+        variants: true,
+      },
+    });
+
+    return {
+      success: true,
+      data: result,
+    };
+  } catch (err) {
+    return handleFetchError(
+      err,
+      "Une erreur est survenue lors de la récupération du produit"
+    );
+  }
 }
 
 export async function fetchProductWithTotalStock(
   id: string
-): Promise<ProductWithStock> {
-  const product = await fetchProductWithVariants(id);
-  if (!product) throw new Error("Nous n'avons pas trouvé le produit");
+): Promise<FetchResult<ProductWithStock>> {
+  try {
+    const product = await fetchProductWithVariants(id);
+    if (!product.success || !product.data)
+      throw new Error(
+        "Nous n'avons pas trouvé de produit correspondant à cet ID."
+      );
 
-  const totalStock = product?.variants.reduce((acc, variant) => {
-    if (!variant.stockQuantity) return acc;
-    return acc + variant.stockQuantity;
-  }, 0);
+    const totalStock = (product.data as ProductWithVariants).variants.reduce(
+      (acc, variant) => {
+        if (!variant.stockQuantity) return acc;
+        return acc + variant.stockQuantity;
+      },
+      0
+    );
 
-  return {
-    ...product,
-    totalStock,
-  };
+    return {
+      success: true,
+      data: { ...product.data, totalStock },
+    };
+  } catch (err) {
+    return handleFetchError(
+      err,
+      "Une erreur est survenue lors de la récupération du produit"
+    );
+  }
 }

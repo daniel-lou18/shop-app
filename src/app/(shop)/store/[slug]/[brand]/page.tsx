@@ -11,8 +11,8 @@ import {
 } from "@/db/queries/products";
 import { formatParamsToString } from "@/lib/parsers";
 import ProductsList from "@/app/(shop)/store/[slug]/[brand]/_components/ProductsList";
-import { fetchAllBrands } from "@/db/queries/brands";
-import { fetchAllCategories } from "@/db/queries/categories";
+import { fetchBrands } from "@/db/queries/brands";
+import { fetchCategories } from "@/db/queries/categories";
 
 export type StoreProps = {
   params: Params;
@@ -23,14 +23,13 @@ export default async function ProductsBySlug({
   params,
   searchParams,
 }: StoreProps) {
-  const results = await Promise.all([
-    fetchProductsWithParams(params),
-    fetchBrandsWithSlug(params.slug, searchParams),
-    fetchCategoriesWithParams(params, searchParams),
-    countProductsWithSearchParams(params, searchParams),
-  ]);
-
-  const [productsResult, brandsResult, categoriesResult, countResult] = results;
+  const [productsResult, brandsResult, categoriesResult, countResult] =
+    await Promise.all([
+      fetchProductsWithParams(params),
+      fetchBrandsWithSlug(params.slug, searchParams),
+      fetchCategoriesWithParams(params, searchParams),
+      countProductsWithSearchParams(params, searchParams),
+    ]);
 
   if (!productsResult.success) throw new Error(productsResult.error);
   if (!brandsResult.success) throw new Error(brandsResult.error);
@@ -65,13 +64,18 @@ export default async function ProductsBySlug({
 }
 
 export async function generateStaticParams() {
-  const brands = await fetchAllBrands();
-  const categories = await fetchAllCategories();
-  const brandsParams = brands.map((brand) => ({
+  const [brandsResult, categoriesResult] = await Promise.all([
+    fetchBrands(),
+    fetchCategories(),
+  ]);
+  if (!brandsResult.success) throw new Error(brandsResult.error);
+  if (!categoriesResult.success) throw new Error(categoriesResult.error);
+
+  const brandsParams = brandsResult.data.map((brand) => ({
     slug: brand.sex,
     brand: brand.name,
   }));
-  const categoriesParams = categories.map((category) => ({
+  const categoriesParams = categoriesResult.data.map((category) => ({
     slug: `${category.sex}-${category.name}`,
     brand: "all",
   }));

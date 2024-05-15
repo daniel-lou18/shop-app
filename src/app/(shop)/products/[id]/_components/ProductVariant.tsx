@@ -4,13 +4,24 @@ import { notFound } from "next/navigation";
 import { fetchProductVariantsByColor } from "@/db/queries/variants";
 
 async function ProductVariant({ id }: { id: string }) {
-  const result = await fetchProductWithVariants(id);
-  const variantsByColor = await fetchProductVariantsByColor(id);
-  if (!result || !variantsByColor || variantsByColor.length === 0)
+  const [productResult, variantsResult] = await Promise.all([
+    fetchProductWithVariants(id),
+    fetchProductVariantsByColor(id),
+  ]);
+  if (!productResult.success) throw new Error(productResult.error);
+  if (!variantsResult.success) throw new Error(variantsResult.error);
+  if (
+    !productResult.data ||
+    !variantsResult.data ||
+    variantsResult.data.length === 0
+  )
     return notFound();
 
   return (
-    <ProductVariantForm variantsByColor={variantsByColor} result={result} />
+    <ProductVariantForm
+      variantsByColor={variantsResult.data}
+      result={productResult.data}
+    />
   );
 }
 
