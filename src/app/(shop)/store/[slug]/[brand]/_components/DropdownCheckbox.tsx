@@ -37,6 +37,7 @@ function DropdownCheckbox({ type, data, setIsLoading }: SelectFilterProps) {
   function handleCheck(type: string, value: string) {
     setIsLoading(true);
     const newQueryString = new URLSearchParams(searchParams);
+    newQueryString.delete("page");
     newQueryString.append(type, value);
     router.push(`${pathname}?${newQueryString.toString()}`);
   }
@@ -44,6 +45,7 @@ function DropdownCheckbox({ type, data, setIsLoading }: SelectFilterProps) {
   function handleUncheck(type: string, value: string) {
     setIsLoading(true);
     const newQueryString = new URLSearchParams(searchParams);
+    newQueryString.delete("page");
     newQueryString.delete(type, value);
     router.push(`${pathname}?${newQueryString.toString()}`);
   }

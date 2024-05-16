@@ -32,6 +32,8 @@ export type ItemsCarouselProps = { title: string } & (
 );
 
 function ItemsCarousel({ type, title, items }: ItemsCarouselProps) {
+  if (items.length === 0) return null;
+
   let content;
   content = items.slice(0, 15).map((item, index) => (
     <CarouselItem

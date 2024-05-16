@@ -58,6 +58,11 @@ model VerificationToken {
 
 // Product
 
+enum Sex {
+  homme
+  femme
+}
+
 model Product {
   id String @id @default(cuid())
   name String
@@ -68,7 +73,7 @@ model Product {
   brand Brand @relation(fields: [brandId], references: [id], onDelete: Restrict)
   categoryId String
   category Category @relation(fields: [categoryId], references: [id], onDelete: Restrict)
-  sex String
+  sex Sex
   isActive Boolean @default(true)
   isArchived Boolean @default(false)
   isSpecialOffer Boolean @default(false)
@@ -102,7 +107,7 @@ model ProductVariant {
 model Brand {
   id String @id @default(cuid())
   name String
-  sex String
+  sex Sex
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   products Product[]
@@ -113,7 +118,7 @@ model Brand {
 model Category {
   id String @id @default(cuid())
   name String
-  sex String
+  sex Sex
   parentCategoryId String? @map("parent_category_id")
   parentCategory Category? @relation("ChildCategories", fields: [parentCategoryId], references: [id])
   children Category[] @relation("ChildCategories")

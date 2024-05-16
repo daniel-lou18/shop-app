@@ -69,9 +69,8 @@ function ProductsList({
   }, [path, searchParams]);
 
   if (!filteredProducts || filteredProducts.length === 0)
-    return <p>Aucun produit à afficher</p>;
-
-  if (error) return <p>{error}</p>;
+    throw new Error("Aucun produit à afficher");
+  if (error) throw new Error(error);
 
   return (
     <>

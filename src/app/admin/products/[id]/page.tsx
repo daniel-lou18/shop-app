@@ -14,18 +14,21 @@ type ProductDetailsProps = {
 };
 
 async function ProductDetailsAdmin({ params }: ProductDetailsProps) {
-  const [productResult, brandsResult, categoriesResult, variantsResult] =
-    await Promise.all([
-      fetchProductWithTotalStock(params.id),
-      fetchBrands(),
-      fetchCategories(),
-      fetchProductVariantsByColor(params.id),
-    ]);
+  const [productResult, variantsResult] = await Promise.all([
+    fetchProductWithTotalStock(params.id),
+    fetchProductVariantsByColor(params.id),
+  ]);
 
   if (!productResult.success) throw new Error(productResult.error);
+  if (!variantsResult.success) throw new Error(variantsResult.error);
+
+  const [brandsResult, categoriesResult] = await Promise.all([
+    fetchBrands(productResult.data.sex),
+    fetchCategories(productResult.data.sex),
+  ]);
+
   if (!brandsResult.success) throw new Error(brandsResult.error);
   if (!categoriesResult.success) throw new Error(categoriesResult.error);
-  if (!variantsResult.success) throw new Error(variantsResult.error);
 
   if (
     !productResult.data ||

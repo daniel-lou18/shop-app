@@ -1,7 +1,9 @@
 "use client";
 
-function error({ error }: { error: Error }) {
-  return <div>Products Error : {error.message}</div>;
+import ErrorPage, { ErrorPageProps } from "@/components/ui/ErrorPage";
+
+function ErrorPageStoreProducts(props: ErrorPageProps) {
+  return <ErrorPage {...props} />;
 }
 
-export default error;
+export default ErrorPageStoreProducts;
