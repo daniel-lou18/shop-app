@@ -31,6 +31,11 @@ function ProductsPagination({
   const totalPages = Math.ceil(totalItems / take);
 
   function handleClick(type: "prev" | "next" | number) {
+    if (
+      (type === "prev" && currentPage === 1) ||
+      (type === "next" && currentPage === totalPages)
+    )
+      return;
     setIsLoading(true);
     const newQueryString = new URLSearchParams(searchParams);
     let newValue = 1;
@@ -59,17 +64,38 @@ function ProductsPagination({
           />
         </PaginationItem>
         {Array.from({ length: totalPages }, (_, idx) => {
-          return (
-            <PaginationItem key={idx} onClick={() => handleClick(idx + 1)}>
-              <PaginationLink href="#" isActive={currentPage === idx + 1}>
-                {idx + 1}
-              </PaginationLink>
-            </PaginationItem>
-          );
+          if (
+            (idx <= currentPage && idx >= currentPage - 2) ||
+            (currentPage === totalPages - 3 && idx === totalPages - 2) ||
+            (currentPage === 4 && idx === 1) ||
+            idx === 0 ||
+            idx === totalPages - 1
+          ) {
+            return (
+              <PaginationItem
+                key={idx}
+                onClick={() => handleClick(idx + 1)}
+                className={`${
+                  currentPage !== idx + 1 ? "hidden" : ""
+                } md:inline`}
+              >
+                <PaginationLink href="#" isActive={currentPage === idx + 1}>
+                  {idx + 1}
+                </PaginationLink>
+              </PaginationItem>
+            );
+          }
+          if (
+            idx === 1 ||
+            (idx === totalPages - 2 && currentPage !== totalPages)
+          ) {
+            return (
+              <PaginationItem key={idx} className="hidden md:inline">
+                <PaginationEllipsis />
+              </PaginationItem>
+            );
+          }
         })}
-        {/* <PaginationItem>
-          <PaginationEllipsis />
-        </PaginationItem> */}
         <PaginationItem onClick={() => handleClick("next")}>
           <PaginationNext
             href=""

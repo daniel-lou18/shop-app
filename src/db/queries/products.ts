@@ -12,7 +12,7 @@ export type AllProductsWithStock = (ProductWithData & {
   totalStock: number;
 })[];
 
-export const TAKE = 24;
+export const TAKE = 12;
 
 export type FetchResult<T> =
   | {
