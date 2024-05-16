@@ -46,28 +46,55 @@ export async function fetchAllProductsWithData(): Promise<
   }
 }
 
-export async function fetchAllProductsWithVariants(): Promise<AllProductsWithVariants> {
-  return await db.product.findMany({
-    include: {
-      brand: true,
-      category: true,
-      variants: true,
-    },
-  });
+export async function fetchAllProductsWithVariants(): Promise<
+  FetchResult<AllProductsWithVariants>
+> {
+  try {
+    const result = await db.product.findMany({
+      include: {
+        brand: true,
+        category: true,
+        variants: true,
+      },
+    });
+    return {
+      success: true,
+      data: result,
+    };
+  } catch (err) {
+    return handleFetchError(
+      err,
+      "Une erreur est survenue lors de la récupération des produits"
+    );
+  }
 }
 
-export async function fetchAllProductsWithTotalStock(): Promise<AllProductsWithStock> {
-  const products = await fetchAllProductsWithVariants();
-  return products.map((product) => {
-    const totalStock = product.variants.reduce((acc, variant) => {
-      if (!variant.stockQuantity) return acc;
-      return acc + variant.stockQuantity;
-    }, 0);
+export async function fetchAllProductsWithTotalStock(): Promise<
+  FetchResult<AllProductsWithStock>
+> {
+  try {
+    const result = await fetchAllProductsWithVariants();
+    if (!result.success) throw new Error(result.error);
+    const data = result.data.map((product) => {
+      const totalStock = product.variants.reduce((acc, variant) => {
+        if (!variant.stockQuantity) return acc;
+        return acc + variant.stockQuantity;
+      }, 0);
+      return {
+        ...product,
+        totalStock,
+      };
+    });
     return {
-      ...product,
-      totalStock,
+      success: true,
+      data,
     };
-  });
+  } catch (err) {
+    return handleFetchError(
+      err,
+      "Une erreur est survenue lors de la récupération des produits"
+    );
+  }
 }
 
 export async function fetchProductsByCategory(
@@ -118,7 +145,7 @@ export async function fetchColorsWithProductIds(
   } catch (err) {
     return handleFetchError(
       err,
-      "Une erreur est survenue lors de la récupération des produits"
+      "Une erreur est survenue lors de la récupération des couleurs"
     );
   }
 }
@@ -138,7 +165,7 @@ export async function fetchSizesWithProductIds(
   } catch (err) {
     return handleFetchError(
       err,
-      "Une erreur est survenue lors de la récupération des produits"
+      "Une erreur est survenue lors de la récupération des tailles"
     );
   }
 }

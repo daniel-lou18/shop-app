@@ -17,7 +17,8 @@ import ProductsTableActions from "./ProductsTableActions";
 import { fetchAllProductsWithTotalStock } from "@/db/queries/products";
 
 export default async function ProductsTable() {
-  const products = await fetchAllProductsWithTotalStock();
+  const result = await fetchAllProductsWithTotalStock();
+  if (!result.success) throw new Error(result.error);
 
   return (
     <main className="grid flex-1 items-start gap-4 md:gap-8">
@@ -38,8 +39,8 @@ export default async function ProductsTable() {
               <Table>
                 <ProductsTableHeader />
                 <TableBody>
-                  {products.length > 0 &&
-                    products.map((product) => (
+                  {result.data.length > 0 &&
+                    result.data.map((product) => (
                       <ProductsTableItem {...product} key={product.id} />
                     ))}
                 </TableBody>
@@ -49,7 +50,7 @@ export default async function ProductsTable() {
               <PageItemsCounter
                 currentPage={1}
                 itemsPerPage={10}
-                totalItems={products.length}
+                totalItems={result.data.length}
               />
             </CardFooter>
           </Card>

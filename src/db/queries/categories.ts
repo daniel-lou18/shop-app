@@ -21,37 +21,3 @@ export async function fetchCategories(
     );
   }
 }
-
-// export async function fetchMenCategories(): Promise<
-//   FetchResult<AllCategories>
-// > {
-//   try {
-//     const result = await db.category.findMany({
-//       where: { sex: "homme" },
-//       orderBy: { name: "asc" },
-//     });
-//     return { success: true, data: result };
-//   } catch (err) {
-//     return handleFetchError(
-//       err,
-//       "Une erreur est survenue lors de la récupération des catégories homme"
-//     );
-//   }
-// }
-
-// export async function fetchWomenCategories(): Promise<
-//   FetchResult<AllCategories>
-// > {
-//   try {
-//     const result = await db.category.findMany({
-//       where: { sex: "femme" },
-//       orderBy: { name: "asc" },
-//     });
-//     return { success: true, data: result };
-//   } catch (err) {
-//     return handleFetchError(
-//       err,
-//       "Une erreur est survenue lors de la récupération des catégories femme"
-//     );
-//   }
-// }

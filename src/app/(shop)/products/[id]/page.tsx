@@ -1,4 +1,3 @@
-import ProductDetailsCustomer from "./_components/ProductDetailsCustomer";
 import { notFound } from "next/navigation";
 import ProductVariant from "./_components/ProductVariant";
 

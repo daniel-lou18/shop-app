@@ -43,7 +43,8 @@ export async function fetchProductWithTotalStock(
 ): Promise<FetchResult<ProductWithStock>> {
   try {
     const product = await fetchProductWithVariants(id);
-    if (!product.success || !product.data)
+    if (!product.success) throw new Error(product.error);
+    if (!product.data)
       throw new Error(
         "Nous n'avons pas trouvé de produit correspondant à cet ID."
       );

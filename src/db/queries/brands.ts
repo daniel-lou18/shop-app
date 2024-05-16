@@ -21,33 +21,3 @@ export async function fetchBrands(
     );
   }
 }
-
-// export async function fetchMenBrands(): Promise<FetchResult<AllBrands>> {
-//   try {
-//     const result = await db.brand.findMany({
-//       where: { sex: "homme" },
-//       orderBy: { name: "asc" },
-//     });
-//     return { success: true, data: result };
-//   } catch (err) {
-//     return handleFetchError(
-//       err,
-//       "Une erreur est survenue lors de la récupération des marques homme"
-//     );
-//   }
-// }
-
-// export async function fetchWomenBrands(): Promise<FetchResult<AllBrands>> {
-//   try {
-//     const result = await db.brand.findMany({
-//       where: { sex: "femme" },
-//       orderBy: { name: "asc" },
-//     });
-//     return { success: true, data: result };
-//   } catch (err) {
-//     return handleFetchError(
-//       err,
-//       "Une erreur est survenue lors de la récupération des marques femme"
-//     );
-//   }
-// }
