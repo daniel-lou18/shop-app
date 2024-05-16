@@ -1,4 +1,4 @@
-import { Brand, Category, Product, ProductVariant } from "@prisma/client";
+import { Brand, Category, Product, ProductVariant, Sex } from "@prisma/client";
 import { db } from "..";
 import { handleFetchError } from "@/lib/errors";
 
@@ -100,7 +100,10 @@ export async function fetchAllProductsWithTotalStock(): Promise<
 export async function fetchProductsByCategory(
   slug: string
 ): Promise<AllProductsWithData> {
-  const [name, sex] = decodeURIComponent(slug).split("-");
+  const [name, sex]: [string, Sex] = decodeURIComponent(slug).split("-") as [
+    string,
+    Sex
+  ];
   if (name === "femme" || name === "homme") {
     return await db.product.findMany({
       where: { sex: name },
@@ -120,7 +123,11 @@ export async function fetchProductsByCategory(
 export async function fetchProductsByBrand(
   slug: string
 ): Promise<AllProductsWithData> {
-  const [name, sex] = decodeURIComponent(slug).split("-");
+  const [name, sex]: [string, Sex] = decodeURIComponent(slug).split("-") as [
+    string,
+    Sex
+  ];
+
   return await db.product.findMany({
     where: { brand: { name, sex } },
     include: {
@@ -233,7 +240,9 @@ export async function fetchProductsWithParams({
   slug,
   brand,
 }: Params): Promise<FetchResult<AllProductsWithVariants>> {
-  const [sex, category] = decodeURIComponent(slug).split("-");
+  const [sex, category]: [Sex, string] = decodeURIComponent(slug).split(
+    "-"
+  ) as [Sex, string];
 
   const brandName = decodeURIComponent(brand);
   try {
@@ -279,10 +288,11 @@ export async function fetchProductsWithSearchParams(
     sortBy,
     page,
   } = parseProductsSearchParams(params, searchParams);
+  const typedSex = sex as Sex;
   try {
     const data = await db.product.findMany({
       where: {
-        sex,
+        sex: typedSex,
         category: {
           name: { in: categoryNames },
         },
@@ -330,7 +340,7 @@ export async function fetchCategoriesWithParams(
   params: Params,
   searchParams: SearchParams
 ): Promise<FetchResult<Category[]>> {
-  const [sex] = decodeURIComponent(params.slug).split("-");
+  const [sex]: [Sex] = decodeURIComponent(params.slug).split("-") as [Sex];
   let decodedBrand =
     params.brand === "all" ? undefined : [decodeURIComponent(params.brand)];
 
@@ -372,7 +382,9 @@ export async function fetchBrandsWithSlug(
   slug: string,
   searchParams: SearchParams
 ): Promise<FetchResult<Brand[]>> {
-  const [sex, category] = decodeURIComponent(slug).split("-");
+  const [sex, category]: [Sex, string] = decodeURIComponent(slug).split(
+    "-"
+  ) as [Sex, string];
   const paramsCategory =
     category === "all" || !category ? undefined : [category];
   const searchParamsCategory = parseSearchParam(searchParams.category);
@@ -402,10 +414,12 @@ export async function countProductsWithSearchParams(
 ): Promise<FetchResult<number>> {
   const { sex, categoryNames, brandNames, colorNames, sizeNames } =
     parseProductsSearchParams(params, searchParams);
+  const typedSex = sex as Sex;
+
   try {
     const result = await db.product.count({
       where: {
-        sex,
+        sex: typedSex,
         category: {
           name: { in: categoryNames },
         },

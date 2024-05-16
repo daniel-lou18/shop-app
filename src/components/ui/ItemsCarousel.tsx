@@ -74,7 +74,7 @@ function ItemsCarousel({ type, title, items }: ItemsCarouselProps) {
   ));
 
   return (
-    <div className="w-full mt-24">
+    <div className="px-4 md:px-0 w-full mt-12 md:mt-24">
       <PageHeading1>{title}</PageHeading1>
       <Carousel
         opts={{

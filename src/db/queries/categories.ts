@@ -1,12 +1,12 @@
 import { db } from "@/db";
-import { Category } from "@prisma/client";
+import { Category, Sex } from "@prisma/client";
 import { FetchResult } from "./products";
 import { handleFetchError } from "@/lib/errors";
 
 export type AllCategories = Category[];
 
 export async function fetchCategories(
-  sex?: "homme" | "femme"
+  sex?: Sex
 ): Promise<FetchResult<AllCategories>> {
   try {
     const result = await db.category.findMany({

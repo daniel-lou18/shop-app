@@ -1,13 +1,11 @@
 import { db } from "@/db";
-import { Brand } from "@prisma/client";
+import { Brand, Sex } from "@prisma/client";
 import { FetchResult } from "./products";
 import { handleFetchError } from "@/lib/errors";
 
 export type AllBrands = Brand[];
 
-export async function fetchBrands(
-  sex?: "homme" | "femme"
-): Promise<FetchResult<AllBrands>> {
+export async function fetchBrands(sex?: Sex): Promise<FetchResult<AllBrands>> {
   try {
     const result = await db.brand.findMany({
       where: { sex },

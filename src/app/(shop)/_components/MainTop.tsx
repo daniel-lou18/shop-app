@@ -24,7 +24,7 @@ const data = [
 
 function MainTop() {
   return (
-    <section className="mt-4 md:mt-24">
+    <section className="px-4 md:px-0 mt-8 md:mt-24">
       <PageHeading1>Tous les articles</PageHeading1>
       <div className="grid gap-6 sm:gap-8 md:grid-cols-3">
         {data.map((item) => (
@@ -37,7 +37,7 @@ function MainTop() {
                 height={800}
                 className="w-full h-full object-cover brightness-90 object-top rounded-md"
               />
-              <div className="absolute uppercase sm:text-xl lg:text-3xl xl:text-4xl font-medium top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-white">
+              <div className="absolute uppercase text-3xl sm:text-2xl lg:text-3xl xl:text-4xl font-medium top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-white">
                 {item.name}
               </div>
             </Link>

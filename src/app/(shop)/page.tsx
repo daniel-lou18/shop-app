@@ -51,7 +51,7 @@ async function MainContent() {
         title="Nos bestsellers"
         items={productsMixed}
       />
-      <Banner data={brandBanner} className="mt-24">
+      <Banner data={brandBanner} className="mt-8 md:mt-24">
         <Button
           variant="secondary"
           className="rounded-full text-base absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
