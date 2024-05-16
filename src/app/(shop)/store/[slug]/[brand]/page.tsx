@@ -49,7 +49,7 @@ export default async function ProductsBySlug({
   if (!sizesResult.success) throw new Error(sizesResult.error);
 
   return (
-    <>
+    <div className="px-4 md:px-0 py-6 md:py-0">
       <PageHeading1>{formatParamsToString(params)}</PageHeading1>
       <ProductsList
         products={productsResult.data}
@@ -59,7 +59,7 @@ export default async function ProductsBySlug({
         availableSizes={sizesResult.data}
         count={countResult.data}
       />
-    </>
+    </div>
   );
 }
 

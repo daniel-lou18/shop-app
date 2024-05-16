@@ -80,7 +80,7 @@ function ProductVariantForm({
   }
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
+    <div className="p-4 md:p-0 grid grid-cols-1 md:grid-cols-2 gap-12 max-w-7xl mx-auto">
       <ProductImage image={availableSizes.at(0)?.imagePath || null} />
       <Card className="border-0 shadow-none flex-1">
         <CardHeader className="p-0">

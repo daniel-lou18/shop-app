@@ -36,7 +36,7 @@ async function MainContent() {
   ];
 
   return (
-    <main className="sm:px-8">
+    <div className="sm:px-8">
       <Banner data={mainHero}>
         <Button
           variant="secondary"
@@ -79,7 +79,7 @@ async function MainContent() {
         title="Notre sélection femmes"
         items={productsWomen}
       />
-    </main>
+    </div>
   );
 }
 
