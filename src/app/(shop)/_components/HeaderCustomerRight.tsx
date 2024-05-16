@@ -37,7 +37,7 @@ function HeaderCustomerRight() {
           <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
           <Input
             type="search"
-            placeholder="Search products..."
+            placeholder="Rechercher products..."
             className="pl-8 sm:w-[200px] md:w-[150px] lg:w-[200px]"
           />
         </div>

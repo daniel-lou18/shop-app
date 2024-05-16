@@ -24,7 +24,7 @@ const data = [
 
 function MainTop() {
   return (
-    <section className="mt-24">
+    <section className="mt-4 md:mt-24">
       <PageHeading1>Tous les articles</PageHeading1>
       <div className="grid gap-6 sm:gap-8 md:grid-cols-3">
         {data.map((item) => (

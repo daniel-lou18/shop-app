@@ -19,7 +19,7 @@ const editProductSchema = z.object({
   price: z.coerce.number().int().min(1).max(100000),
   brand: z.string(),
   category: z.string(),
-  sex: z.string(),
+  sex: z.enum(["homme", "femme"]),
   status: z.string(),
 });
 

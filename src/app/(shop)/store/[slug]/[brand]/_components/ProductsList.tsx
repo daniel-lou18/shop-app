@@ -106,7 +106,7 @@ function ProductsList({
         <div className="block md:hidden">
           <DropdownMenu>
             <DropdownTrigger style="normal" variant="chevron">
-              Filters
+              Filtres
             </DropdownTrigger>
             <DropdownMenuContent className={`w-48`}>
               <DropdownCheckbox
