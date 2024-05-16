@@ -1,6 +1,6 @@
 import { Navbar, NavLink, NavLinkMenu } from "@/components/ui/Navbar";
 import HeaderCustomerRight from "./HeaderCustomerRight";
-import HeaderCustomerLeft from "./HeaderCustomerLeft";
+import HeaderLogo from "@/components/ui/HeaderLogo";
 import { fetchCategories } from "@/db/queries/categories";
 import { fetchBrands } from "@/db/queries/brands";
 import NavbarMobile from "@/components/ui/NavbarMobile";
@@ -32,7 +32,7 @@ async function HeaderCustomer() {
         brandsMen={brandsMenResult.data}
         brandsWomen={brandsWomenResult.data}
       />
-      <HeaderCustomerLeft className="w-[30%]" />
+      <HeaderLogo className="w-[30%]" />
       <Navbar>
         <NavLink href="/products/categories/new">Nouveautés</NavLink>
         <NavLinkMenu

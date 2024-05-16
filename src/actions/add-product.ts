@@ -13,9 +13,9 @@ const addProductSchema = z.object({
     .string()
     .min(1)
     .max(100)
-    .regex(/^[A-Za-z0-9'\s-]{2,50}$/, {
+    .regex(/^[A-Za-z0-9'\s-]{2,100}$/, {
       message:
-        "must be between 2 and 50 characters long, contain only letters, numbers, spaces, hyphens and apostrophes, have at least one letter or number",
+        "must be between 2 and 100 characters long, contain only letters, numbers, spaces, hyphens and apostrophes, have at least one letter or number",
     }),
   description: z.string().min(10).max(1000),
   price: z.coerce.number().int().min(1).max(100000),

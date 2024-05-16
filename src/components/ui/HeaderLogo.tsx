@@ -3,11 +3,16 @@ import { Shirt } from "lucide-react";
 import Link from "next/link";
 import React from "react";
 
-function HeaderCustomerLeft({ className }: { className?: string }) {
+type HeaderLogoProps = {
+  className?: string;
+  href?: string;
+};
+
+function HeaderLogo({ href, className }: HeaderLogoProps) {
   return (
     <div className={cn("text-primary brightness-75", className)}>
       <Link
-        href="/"
+        href={href || "/"}
         className="flex items-center gap-2 font-semibold md:text-lg"
       >
         <Shirt strokeWidth={1.5} size={32} />
@@ -17,4 +22,4 @@ function HeaderCustomerLeft({ className }: { className?: string }) {
   );
 }
 
-export default HeaderCustomerLeft;
+export default HeaderLogo;

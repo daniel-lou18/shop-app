@@ -4,7 +4,7 @@ import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import Link from "next/link";
 import { ChevronRight, Menu } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import HeaderCustomerLeft from "@/app/(shop)/_components/HeaderCustomerLeft";
+import HeaderLogo from "@/components/ui/HeaderLogo";
 import { AllBrands } from "@/db/queries/brands";
 import { AllCategories } from "@/db/queries/categories";
 import {
@@ -40,7 +40,7 @@ function NavbarMobile({
       </SheetTrigger>
       <SheetContent side="left">
         <nav className="grid gap-6 text-lg font-medium">
-          <HeaderCustomerLeft className="mb-4" />
+          <HeaderLogo className="mb-4" />
           <Link href="/products/categories/new">NOUVEAUTÉS</Link>
           <Sheet modal={false}>
             <SheetTrigger className="pl-0 text-lg w-full flex gap-2 justify-between md:justify-center items-center">

@@ -37,7 +37,11 @@ function ProductForm({
   });
   async function editProductAction(formData: FormData) {
     const res = await actions.editProduct(product?.id, formData);
-    if (res?.errors) toast({ variant: "red", description: `🚨 ${res.errors}` });
+    if (res?.errors)
+      toast({
+        variant: "red",
+        description: `🚨 ${Object.entries(res.errors).join(" ")}`,
+      });
     else
       toast({ variant: "green", description: "✅ Le produit a été modifié" });
   }
