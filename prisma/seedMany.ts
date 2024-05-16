@@ -1,4 +1,4 @@
-import { capitalizeString } from "@/lib/parsers";
+import { capitalizeString } from "../src/lib/parsers";
 import { BRANDS, CATEGORIES } from "../src/helpers/constants";
 import { PrismaClient } from "@prisma/client";
 const prisma = new PrismaClient();
