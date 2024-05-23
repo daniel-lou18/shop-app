@@ -2,7 +2,7 @@
 
 import { useFormStatus } from "react-dom";
 import { Button } from "./button";
-import { ReactNode } from "react";
+import { FormEventHandler, ReactNode } from "react";
 import { Loader2 } from "lucide-react";
 
 export type ButtonVariantType = {
@@ -20,6 +20,7 @@ type ButtonSubmitProps = {
   size?: "sm" | "lg";
   className?: string;
   onClick?: () => void;
+  formAction?: (formData: FormData) => void;
 } & ButtonVariantType;
 
 function ButtonSubmit({
@@ -28,6 +29,7 @@ function ButtonSubmit({
   size = "sm",
   variant,
   onClick,
+  formAction,
 }: ButtonSubmitProps) {
   const { pending } = useFormStatus();
 
@@ -38,6 +40,7 @@ function ButtonSubmit({
       className={className}
       variant={variant}
       onClick={onClick}
+      formAction={formAction}
     >
       <div className="relative">
         <span className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">

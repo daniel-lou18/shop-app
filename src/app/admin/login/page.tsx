@@ -10,13 +10,10 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import * as actions from "@/actions";
-import { auth } from "@/auth";
 import Profile from "./_components/Profile";
 import ButtonLogin from "./_components/ButtonLogin";
 
 async function LoginForm() {
-  const session = await auth();
-
   return (
     <main className="flex flex-col items-center pt-32 w-full min-h-screen">
       <Card className="mx-auto max-w-sm">
@@ -52,7 +49,7 @@ async function LoginForm() {
             {/* <form>
               <ButtonSubmit className="w-full">Login</ButtonSubmit>
             </form> */}
-            <form action={actions.signIn}>
+            <form action={actions.signInAdmin}>
               <ButtonLogin />
             </form>
           </div>

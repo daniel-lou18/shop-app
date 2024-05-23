@@ -4,7 +4,7 @@ import { db } from "@/db";
 import { paths } from "@/lib/paths";
 import { revalidatePath } from "next/cache";
 
-const sizes = ["XS", "S", "M", "L", "XL"];
+const sizes = ["XS", "S", "M", "L", "XL", "XXL"];
 
 export async function addVariants(productId: string | undefined) {
   if (!productId) return { errors: { _form: ["Id manquant"] } };

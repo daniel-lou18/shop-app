@@ -7,7 +7,7 @@ import { z } from "zod";
 import { auth } from "@/auth";
 import { revalidatePath } from "next/cache";
 
-const sizes = ["XS", "S", "M", "L", "XL"];
+const sizes = ["XS", "S", "M", "L", "XL", "XXL"];
 const addProductSchema = z.object({
   name: z
     .string()
