@@ -52,22 +52,14 @@ function HeaderCustomerRight() {
         <DropdownMenuContent align="end">
           <DropdownMenuLabel>Mon compte</DropdownMenuLabel>
           <DropdownMenuSeparator />
-          <DropdownMenuItem>Préférences</DropdownMenuItem>
-          <DropdownMenuItem>Aide</DropdownMenuItem>
-          <DropdownMenuItem asChild>
-            <Link href={paths.login()}>Espace pro</Link>
+          <DropdownMenuItem disabled>Préférences</DropdownMenuItem>
+          <DropdownMenuItem disabled>Aide</DropdownMenuItem>
+          <DropdownMenuItem asChild className="hover:cursor-pointer">
+            <Link href={paths.adminLogin()}>Espace pro</Link>
           </DropdownMenuItem>
           <DropdownMenuSeparator />
-          <DropdownMenuItem>
-            <form action={actions.signOut} className="w-full">
-              <button
-                type="submit"
-                className="w-full flex justify-start opacity-50"
-                disabled
-              >
-                Connexion
-              </button>
-            </form>
+          <DropdownMenuItem asChild className="hover:cursor-pointer">
+            <Link href={paths.customerLogin()}>Me connecter</Link>
           </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>

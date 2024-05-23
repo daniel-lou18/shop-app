@@ -5,17 +5,28 @@ import { Button } from "./button";
 import { ReactNode } from "react";
 import { Loader2 } from "lucide-react";
 
+export type ButtonVariantType = {
+  variant?:
+    | "default"
+    | "destructive"
+    | "outline"
+    | "secondary"
+    | "ghost"
+    | "link";
+};
+
 type ButtonSubmitProps = {
   children: ReactNode;
   size?: "sm" | "lg";
   className?: string;
   onClick?: () => void;
-};
+} & ButtonVariantType;
 
 function ButtonSubmit({
   children,
   className,
   size = "sm",
+  variant,
   onClick,
 }: ButtonSubmitProps) {
   const { pending } = useFormStatus();
@@ -25,6 +36,7 @@ function ButtonSubmit({
       type={`${pending ? "button" : "submit"}`}
       size={size}
       className={className}
+      variant={variant}
       onClick={onClick}
     >
       <div className="relative">
