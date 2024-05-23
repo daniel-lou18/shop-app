@@ -23,8 +23,14 @@ export const paths = {
   adminLogin() {
     return "admin/login";
   },
+  adminSuper() {
+    return "admin/signup";
+  },
   customerLogin() {
     return "/login";
+  },
+  customerSignup() {
+    return "/signup";
   },
   cart() {
     return "/cart";

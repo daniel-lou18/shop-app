@@ -17,28 +17,30 @@ const ToFrench = {
 
 type InputFieldProps = {
   variant: "input" | "textarea" | "number";
-  type: "add" | "edit";
-  value?: string | number | undefined;
+  type: "add" | "edit" | "custom";
   name: string;
+  value?: string | number | undefined;
   errorObject?: AddProductSchemaType;
 };
 function InputField({
   variant,
   type,
-  value,
   name,
+  value,
   errorObject,
 }: InputFieldProps) {
   return (
     <div className="grid gap-3">
-      <Label htmlFor={name}>{ToFrench[name as keyof typeof ToFrench]}</Label>
+      <Label htmlFor={name}>
+        {ToFrench[name as keyof typeof ToFrench] || name}
+      </Label>
       {variant === "input" && (
         <Input
           id={name}
           type="text"
           className="w-full"
           defaultValue={type === "edit" ? value : ""}
-          placeholder={type !== "edit" ? "Saisissez le nom du produit" : ""}
+          placeholder={type === "add" ? "Saisissez le nom du produit" : ""}
           name={name}
         />
       )}
@@ -48,7 +50,7 @@ function InputField({
           className="min-h-32"
           defaultValue={type === "edit" ? value : ""}
           placeholder={
-            type !== "edit" ? "Saisissez la description du produit" : ""
+            type === "add" ? "Saisissez la description du produit" : ""
           }
           name={name}
         />

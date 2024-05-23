@@ -18,6 +18,7 @@ import ButtonLogin from "./_components/ButtonLogin";
 import ButtonSubmit from "@/components/ui/ButtonSubmit";
 import { useFormState } from "react-dom";
 import FormFieldError from "@/components/ui/FormFieldError";
+import { paths } from "@/lib/paths";
 
 function LoginForm() {
   const [formState, action] = useFormState(actions.signInUser, {});
@@ -70,7 +71,7 @@ function LoginForm() {
             </div>
             <div className="mt-4 text-center text-sm">
               Vous n&apos;avez pas encore de compte professionnel ?{" "}
-              <Link href="#" className="underline pointer-events-none">
+              <Link href={paths.customerSignup()} className="underline">
                 Créer votre compte
               </Link>
             </div>
