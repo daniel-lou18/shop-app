@@ -1,6 +1,7 @@
 "use server";
 
 import { db } from "@/db";
+import { handleActionError } from "@/lib/errors";
 import { paths } from "@/lib/paths";
 import { revalidatePath } from "next/cache";
 
@@ -22,9 +23,11 @@ export async function addVariants(productId: string | undefined) {
         },
       });
     }
-  } catch (err) {
-    console.error(err);
-    return { errors: { _form: ["Échec lors de la création des variantes"] } };
+  } catch (err: unknown) {
+    return handleActionError(
+      err,
+      "Une erreur est survenue lors de la création de la variante"
+    );
   }
   revalidatePath(paths.adminProduct(productId));
 }

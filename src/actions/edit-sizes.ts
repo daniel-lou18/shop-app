@@ -1,6 +1,7 @@
 "use server";
 
 import { db } from "@/db";
+import { handleActionError } from "@/lib/errors";
 import { paths } from "@/lib/paths";
 import { revalidatePath } from "next/cache";
 import { z } from "zod";
@@ -57,15 +58,11 @@ export async function editSizes(formData: FormData) {
           size: size.size,
         },
       });
-    } catch (err) {
-      console.error(err);
-      if (err instanceof Error) {
-        return { errors: { _form: [err.message] } };
-      } else {
-        return {
-          errors: { _form: ["Échec lors de la modification des tailles"] },
-        };
-      }
+    } catch (err: unknown) {
+      return handleActionError(
+        err,
+        "Une erreur est survenue lors de la modification des tailles"
+      );
     }
   }
   revalidatePath(paths.adminProduct(result.data[0].id));

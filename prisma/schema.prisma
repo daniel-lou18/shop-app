@@ -43,6 +43,15 @@ model User {
   email         String?   @unique
   emailVerified DateTime?
   image         String?
+  password      String?
+  passwordConfirmation String?
+  firstName     String?
+  lastName      String?
+  country       String?
+  address       String?
+  city          String?
+  state         String?
+  zip           Int?
   accounts      Account[]
   sessions      Session[]
   orders Order[]

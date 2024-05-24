@@ -6,7 +6,7 @@ import { capitalizeString, strNoAccent } from "@/lib/parsers";
 import { mapToFrench } from "@/helpers/helpers";
 
 type InputFieldProps = {
-  variant: "input" | "textarea" | "number";
+  variant: "input" | "textarea" | "number" | "email" | "password";
   type: "add" | "edit" | "custom";
   name: string;
   value?: string | number | undefined;
@@ -22,7 +22,8 @@ function InputField({
   return (
     <div className="grid gap-3">
       <Label htmlFor={name}>
-        {mapToFrench[name as keyof typeof mapToFrench]}
+        {mapToFrench[name as keyof typeof mapToFrench] ||
+          capitalizeString(name)}
       </Label>
       {variant === "input" && (
         <Input
@@ -56,6 +57,13 @@ function InputField({
           step={0.01}
         />
       )}
+      {variant === "email" && (
+        <Input id={name} type="email" className="w-full" name={name} />
+      )}
+      {variant === "password" && (
+        <Input id={name} type="password" className="w-full" name={name} />
+      )}
+
       {errorObject && errorObject.errors?.name && (
         <p className="text-red-500 text-xs">
           {errorObject.errors.name.join(", ")}

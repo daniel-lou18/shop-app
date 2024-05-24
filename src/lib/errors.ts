@@ -10,3 +10,13 @@ export function handleFetchError(
       error: fallbackMessage || "Une erreur est survenue",
     };
 }
+
+export function handleActionError(error: unknown, fallbackMessage?: string) {
+  console.error(error);
+  if (error instanceof Error) {
+    return { errors: { _form: [error.message] } };
+  }
+  return {
+    errors: { _form: [fallbackMessage || "Une erreur est survenue"] },
+  };
+}

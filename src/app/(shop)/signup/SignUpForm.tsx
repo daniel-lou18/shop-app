@@ -12,8 +12,10 @@ import { toast } from "sonner";
 function SignUpForm() {
   const [formState, action] = useFormState(actions.signUpUser, {});
 
-  if (formState.errors)
-    toast.error("Veuillez corriger les erreurs s'il vous plaît");
+  if (formState.errors) {
+    if (formState.errors._form) toast.error(formState.errors._form.join(", "));
+    else toast.error("Veuillez corriger les erreurs s'il vous plaît");
+  }
 
   return (
     <form action={action} className="mx-auto max-w-[59rem] flex flex-col">
@@ -40,8 +42,26 @@ function SignUpForm() {
         </div>
 
         <div className="sm:col-span-4">
-          <InputField name="email" variant="input" type="custom" />
+          <InputField name="email" variant="email" type="custom" />
           <FormFieldError>{formState.errors?.email?.join(", ")}</FormFieldError>
+        </div>
+
+        <div className="sm:col-span-3">
+          <InputField name="password" variant="password" type="custom" />
+          <FormFieldError>
+            {formState.errors?.password?.join(", ")}
+          </FormFieldError>
+        </div>
+
+        <div className="sm:col-span-3">
+          <InputField
+            name="passwordConfirmation"
+            variant="password"
+            type="custom"
+          />
+          <FormFieldError>
+            {formState.errors?.passwordConfirmation?.join(", ")}
+          </FormFieldError>
         </div>
 
         <div className="sm:col-span-3">

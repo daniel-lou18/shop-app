@@ -27,7 +27,9 @@ function SignInForm() {
   const searchParams = useSearchParams();
 
   if (searchParams.get("success") === "signup") {
-    toast.success("Votre compté a été créé. Vous pouvez vous connecter.");
+    toast.success(
+      "Votre compté a été créé. Vous pouvez vous connecter avec vos identifiants."
+    );
   }
 
   return (

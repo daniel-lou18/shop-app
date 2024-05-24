@@ -1,5 +1,6 @@
 "use server";
 
+import { handleActionError } from "@/lib/errors";
 import { writeFile } from "fs/promises";
 import path from "path";
 
@@ -16,12 +17,10 @@ export async function uploadImage(formData: FormData) {
     await writeFile(filePath, buffer);
     imagePath = `/${image.name}`;
   } catch (err) {
-    console.error(err);
-    if (err instanceof Error) {
-      return { errors: { _form: [err.message] } };
-    } else {
-      return { errors: { _form: ["Échec lors de l'ajout du fichier"] } };
-    }
+    handleActionError(
+      err,
+      "Une erreur est survenue lors de l'ajout du fichier"
+    );
   }
   return imagePath;
 }

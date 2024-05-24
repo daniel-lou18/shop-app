@@ -1,6 +1,7 @@
 "use server";
 
 import { db } from "@/db";
+import { handleActionError } from "@/lib/errors";
 import { paths } from "@/lib/paths";
 import { writeFile } from "fs/promises";
 import { revalidatePath } from "next/cache";
@@ -28,11 +29,9 @@ export async function uploadImages(
     });
     productId && revalidatePath(paths.adminProduct(productId));
   } catch (err) {
-    console.error(err);
-    if (err instanceof Error) {
-      return { errors: { _form: [err.message] } };
-    } else {
-      return { errors: { _form: ["Échec lors de l'ajout du fichier"] } };
-    }
+    handleActionError(
+      err,
+      "Une erreur est survenue lors de l'ajout du fichier"
+    );
   }
 }

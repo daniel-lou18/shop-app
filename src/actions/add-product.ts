@@ -6,6 +6,7 @@ import { redirect } from "next/navigation";
 import { z } from "zod";
 import { auth } from "@/auth";
 import { revalidatePath } from "next/cache";
+import { handleActionError } from "@/lib/errors";
 
 const sizes = ["XS", "S", "M", "L", "XL", "XXL"];
 const addProductSchema = z.object({
@@ -91,12 +92,10 @@ export async function addProduct(
       });
     }
   } catch (err: unknown) {
-    console.error(err);
-    if (err instanceof Error) {
-      return { errors: { _form: [err.message] } };
-    } else {
-      return { errors: { _form: ["Échec lors de la création du produit"] } };
-    }
+    return handleActionError(
+      err,
+      "Une erreur est survenue lors de la création du produit"
+    );
   }
 
   revalidatePath("/");
