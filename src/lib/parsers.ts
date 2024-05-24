@@ -11,6 +11,10 @@ export function capitalizeString(string: string | undefined) {
   return string.at(0)?.toUpperCase() + string.slice(1);
 }
 
+export function strNoAccent(string: string) {
+  return string.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+}
+
 export function formatParamsToString(params: Params) {
   const [slug, brand] = Object.values(params);
   const [decodedSex, decodedCategory] = decodeURIComponent(slug).split("-");

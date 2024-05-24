@@ -21,12 +21,13 @@ export const paths = {
     return "/admin/products/new";
   },
   adminLogin() {
-    return "admin/login";
+    return "/admin/login";
   },
   adminSuper() {
-    return "admin/signup";
+    return "/admin/signup";
   },
-  customerLogin() {
+  customerLogin(queryParams?: string) {
+    if (queryParams) return `/login?${queryParams}`;
     return "/login";
   },
   customerSignup() {

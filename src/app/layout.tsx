@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Inter as FontSans } from "next/font/google";
 import { cn } from "@/lib/utils";
 import { Toaster } from "@/components/ui/toaster";
+import { Toaster as SonnerToaster } from "sonner";
 import "./globals.css";
 import Providers from "@/app/providers";
 
@@ -32,6 +33,7 @@ export default function RootLayout({
           <Providers>
             {children}
             <Toaster />
+            <SonnerToaster />
           </Providers>
         </div>
       </body>

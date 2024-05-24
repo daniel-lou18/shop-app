@@ -11,3 +11,23 @@ export const hashMap = {
   brand: "Marque",
   category: "Catégorie",
 };
+
+export const mapToFrench = {
+  name: "Nom",
+  description: "Description",
+  price: "Prix",
+  quantity: "Quantité",
+  category: "Catégorie",
+  brand: "Marque",
+  color: "Couleur",
+  size: "Taille",
+  image: "Image",
+  firstName: "Prénom",
+  lastName: "Nom",
+  email: "Email",
+  country: "Pays",
+  address: "Adresse",
+  city: "Ville",
+  state: "Département",
+  zip: "Code postal",
+};

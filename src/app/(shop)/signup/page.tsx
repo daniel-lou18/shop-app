@@ -1,30 +1,47 @@
+"use client";
+
 import ButtonSubmit from "@/components/ui/ButtonSubmit";
 import InputField from "@/components/ui/InputField";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
+import { useFormState } from "react-dom";
+import * as actions from "@/actions";
+import FormFieldError from "@/components/ui/FormFieldError";
+import { toast } from "sonner";
 
-async function RegisterPage() {
+function SignUpForm() {
+  const [formState, action] = useFormState(actions.signUpUser, {});
+
+  if (formState.errors)
+    toast.error("Veuillez corriger les erreurs s'il vous plaît");
+
   return (
-    <form className="mx-auto max-w-[59rem] flex flex-col">
-      <h2 className="text-base font-semibold leading-7 text-gray-900">
-        Information personnelles
+    <form action={action} className="mx-auto max-w-[59rem] flex flex-col">
+      <h2 className="text-xl font-semibold leading-7 text-gray-900">
+        Créer mon compte
       </h2>
       <p className="mt-1 text-sm leading-6 text-gray-600">
-        Utilisez une adresse e-mail permanente sur laquelle vous pouvez recevoir
-        et lire des e-mails.
+        Veuillez saisir vos informations personnelles
       </p>
 
       <div className="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
         <div className="sm:col-span-3">
-          <InputField name="Prénom" variant="input" type="custom" />
+          <InputField name="firstName" variant="input" type="custom" />
+          <FormFieldError>
+            {formState.errors?.firstName?.join(", ")}
+          </FormFieldError>
         </div>
 
         <div className="sm:col-span-3">
-          <InputField name="Nom" variant="input" type="custom" />
+          <InputField name="lastName" variant="input" type="custom" />
+          <FormFieldError>
+            {formState.errors?.lastName?.join(", ")}
+          </FormFieldError>
         </div>
 
         <div className="sm:col-span-4">
-          <InputField name="Email" variant="input" type="custom" />
+          <InputField name="email" variant="input" type="custom" />
+          <FormFieldError>{formState.errors?.email?.join(", ")}</FormFieldError>
         </div>
 
         <div className="sm:col-span-3">
@@ -46,32 +63,41 @@ async function RegisterPage() {
               <option>Luxembourg</option>
             </select>
           </div>
+          <FormFieldError>
+            {formState.errors?.country?.join(", ")}
+          </FormFieldError>
         </div>
 
         <div className="col-span-full">
-          <InputField name="Adresse" variant="input" type="custom" />
+          <InputField name="address" variant="input" type="custom" />
+          <FormFieldError>
+            {formState.errors?.address?.join(", ")}
+          </FormFieldError>
         </div>
 
         <div className="sm:col-span-2 sm:col-start-1">
-          <InputField name="Ville" variant="input" type="custom" />
+          <InputField name="city" variant="input" type="custom" />
+          <FormFieldError>{formState.errors?.city?.join(", ")}</FormFieldError>
         </div>
 
         <div className="sm:col-span-2">
-          <InputField name="Département" variant="input" type="custom" />
+          <InputField name="state" variant="input" type="custom" />
+          <FormFieldError>{formState.errors?.state?.join(", ")}</FormFieldError>
         </div>
 
         <div className="sm:col-span-2">
-          <InputField name="Code postal" variant="input" type="custom" />
+          <InputField name="zip" variant="input" type="custom" />
+          <FormFieldError>{formState.errors?.zip?.join(", ")}</FormFieldError>
         </div>
       </div>
       <div className="items-center gap-2 flex mt-8 self-end">
         <Button type="button" variant="outline" size="sm" asChild>
           <Link href="/admin/products">Annuler </Link>
         </Button>
-        <ButtonSubmit>Sauvegarder</ButtonSubmit>
+        <ButtonSubmit>Créer mon compte</ButtonSubmit>
       </div>
     </form>
   );
 }
 
-export default RegisterPage;
+export default SignUpForm;

@@ -19,9 +19,17 @@ import ButtonSubmit from "@/components/ui/ButtonSubmit";
 import { useFormState } from "react-dom";
 import FormFieldError from "@/components/ui/FormFieldError";
 import { paths } from "@/lib/paths";
+import InputField from "@/components/ui/InputField";
+import { useSearchParams } from "next/navigation";
+import { toast } from "sonner";
 
-function LoginForm() {
+function SignInForm() {
   const [formState, action] = useFormState(actions.signInUser, {});
+  const searchParams = useSearchParams();
+
+  if (searchParams.get("success") === "signup") {
+    toast.success("Votre compté a été créé. Vous pouvez vous connecter.");
+  }
 
   return (
     <main className="flex flex-col items-center pt-32 w-full min-h-screen">
@@ -36,13 +44,7 @@ function LoginForm() {
           <CardContent>
             <div className="grid gap-4">
               <div className="grid gap-2">
-                <Label htmlFor="email">Email</Label>
-                <Input
-                  name="email"
-                  id="email"
-                  type="email"
-                  placeholder="m@example.com"
-                />
+                <InputField name="email" variant="input" type="custom" />
                 <FormFieldError>
                   {formState.errors?.email?.join(", ")}
                 </FormFieldError>
@@ -83,4 +85,4 @@ function LoginForm() {
   );
 }
 
-export default LoginForm;
+export default SignInForm;

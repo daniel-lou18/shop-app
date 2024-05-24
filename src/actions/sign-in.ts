@@ -6,8 +6,8 @@ import { redirect } from "next/navigation";
 import { z } from "zod";
 
 const signInSchema = z.object({
-  email: z.string().min(3).email(),
-  password: z.string().min(8),
+  email: z.string().email().min(3).max(50),
+  password: z.string().min(8).max(50),
 });
 
 type signInSchemaType = {

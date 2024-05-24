@@ -2,18 +2,8 @@ import { AddProductSchemaType } from "@/actions/add-product";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "./textarea";
-
-const ToFrench = {
-  name: "Nom",
-  description: "Description",
-  price: "Prix",
-  quantity: "Quantité",
-  category: "Catégorie",
-  brand: "Marque",
-  color: "Couleur",
-  size: "Taille",
-  image: "Image",
-};
+import { capitalizeString, strNoAccent } from "@/lib/parsers";
+import { mapToFrench } from "@/helpers/helpers";
 
 type InputFieldProps = {
   variant: "input" | "textarea" | "number";
@@ -32,7 +22,7 @@ function InputField({
   return (
     <div className="grid gap-3">
       <Label htmlFor={name}>
-        {ToFrench[name as keyof typeof ToFrench] || name}
+        {mapToFrench[name as keyof typeof mapToFrench]}
       </Label>
       {variant === "input" && (
         <Input
