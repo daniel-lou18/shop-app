@@ -29,5 +29,5 @@ export async function addVariants(productId: string | undefined) {
       "Une erreur est survenue lors de la création de la variante"
     );
   }
-  revalidatePath(paths.adminProduct(productId));
+  return revalidatePath(paths.adminProduct(productId));
 }

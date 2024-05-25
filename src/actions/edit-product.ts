@@ -24,8 +24,8 @@ const editProductSchema = z.object({
   status: z.string(),
 });
 
-export type editProductSchemaType = {
-  errors: {
+export type EditProductSchemaType = {
+  errors?: {
     name?: string[];
     description?: string[];
     price?: string[];
@@ -37,10 +37,15 @@ export type editProductSchemaType = {
   };
 };
 
-export async function editProduct(id: string | undefined, formData: FormData) {
+export async function editProduct(
+  id: string | undefined,
+  formState: EditProductSchemaType,
+  formData: FormData
+): Promise<EditProductSchemaType> {
   if (!id) {
     return { errors: { _form: ["Id manquant"] } };
   }
+
   const result = editProductSchema.safeParse({
     name: formData.get("name") as string,
     description: formData.get("description") as string,
@@ -58,11 +63,11 @@ export async function editProduct(id: string | undefined, formData: FormData) {
 
   const session = await auth();
 
-  if (!session || !session.user) {
-    return {
-      errors: { _form: ["Vous devez être connecté pour créer un produit"] },
-    };
-  }
+  // if (!session || !session.user) {
+  //   return {
+  //     errors: { _form: ["Vous devez être connecté pour modifier un produit"] },
+  //   };
+  // }
 
   try {
     const res = await db.product.update({
@@ -83,5 +88,5 @@ export async function editProduct(id: string | undefined, formData: FormData) {
       "Une erreur est survenue lors de la modification du produit"
     );
   }
-  redirect(paths.adminProducts());
+  redirect(paths.adminProducts("edit=success"));
 }

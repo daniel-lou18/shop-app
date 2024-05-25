@@ -27,7 +27,7 @@ const addProductSchema = z.object({
 });
 
 export type AddProductSchemaType = {
-  errors: {
+  errors?: {
     name?: string[];
     description?: string[];
     price?: string[];
@@ -40,6 +40,7 @@ export type AddProductSchemaType = {
 };
 
 export async function addProduct(
+  formState: AddProductSchemaType,
   formData: FormData
 ): Promise<AddProductSchemaType> {
   const result = addProductSchema.safeParse({
@@ -59,11 +60,11 @@ export async function addProduct(
 
   const session = await auth();
 
-  if (!session || !session.user) {
-    return {
-      errors: { _form: ["Vous devez être connecté pour créer un produit"] },
-    };
-  }
+  // if (!session || !session.user) {
+  //   return {
+  //     errors: { _form: ["Vous devez être connecté pour créer un produit"] },
+  //   };
+  // }
 
   try {
     const product = await db.product.create({
@@ -99,5 +100,5 @@ export async function addProduct(
   }
 
   revalidatePath("/");
-  return redirect(paths.adminProducts());
+  return redirect(paths.adminProducts("create=success"));
 }

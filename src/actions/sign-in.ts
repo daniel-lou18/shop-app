@@ -10,7 +10,7 @@ const signInSchema = z.object({
   password: z.string().min(8).max(50),
 });
 
-type signInSchemaType = {
+type SignInSchemaType = {
   errors?: {
     email?: string[];
     password?: string[];
@@ -19,9 +19,9 @@ type signInSchemaType = {
 };
 
 export async function signInUser(
-  formState: signInSchemaType,
+  formState: SignInSchemaType,
   formData: FormData
-): Promise<signInSchemaType> {
+): Promise<SignInSchemaType> {
   const result = signInSchema.safeParse({
     email: formData.get("email") as string,
     password: formData.get("password") as string,

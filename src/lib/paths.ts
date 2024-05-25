@@ -8,7 +8,8 @@ export const paths = {
   customerProducts() {
     return "/products";
   },
-  adminProducts() {
+  adminProducts(queryParams?: string) {
+    if (queryParams) return `/admin/products?${queryParams}`;
     return "/admin/products";
   },
   customerProduct(productId: string) {

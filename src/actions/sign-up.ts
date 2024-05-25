@@ -59,7 +59,6 @@ export async function signUpUser(
   });
 
   if (!result.success) {
-    console.log(result.error);
     return {
       errors: result.error.flatten().fieldErrors,
     };
@@ -85,5 +84,5 @@ export async function signUpUser(
     );
   }
 
-  return redirect(paths.customerLogin("success=signup"));
+  return redirect(paths.customerLogin("signup=success"));
 }

@@ -1,3 +1,5 @@
+"use client";
+
 import {
   DropdownMenu,
   DropdownMenuCheckboxItem,
@@ -9,8 +11,31 @@ import {
 import { File, ListFilter, PlusCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
+import { useSearchParams } from "next/navigation";
+import { toast } from "sonner";
+import { useEffect } from "react";
 
 function ProductsTableActions() {
+  const searchParams = useSearchParams();
+
+  useEffect(() => {
+    if (searchParams.get("create") === "success") {
+      toast.success("Le produit a été créé");
+    }
+  }, [searchParams]);
+
+  useEffect(() => {
+    if (searchParams.get("edit") === "success") {
+      toast.success("Le produit a été modifié");
+    }
+  }, [searchParams]);
+
+  useEffect(() => {
+    if (searchParams.get("delete") === "success") {
+      toast.success("Le produit a été supprimé");
+    }
+  });
+
   return (
     <div className="ml-auto flex items-center gap-2">
       <DropdownMenu>

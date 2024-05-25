@@ -8,9 +8,10 @@ import { Brand, Category, ProductVariant } from "@prisma/client";
 import { ProductVariantsByColor } from "@/db/queries/variants";
 import ProductStatus from "./ProductStatus";
 import { AddProductSchemaType } from "@/actions/add-product";
-import { useToast } from "@/components/ui/use-toast";
-import { useState } from "react";
+import { toast } from "sonner";
+import { useEffect, useState } from "react";
 import * as actions from "@/actions";
+import { useFormState } from "react-dom";
 
 export type ProductFormProps = { brands: Brand[]; categories: Category[] } & (
   | {
@@ -31,38 +32,32 @@ function ProductForm({
   categories,
   variantsByColor,
 }: ProductFormProps) {
-  const { toast } = useToast();
+  const [addFormState, addFormAction] = useFormState(actions.addProduct, {});
+  const [editFormState, editFormAction] = useFormState(
+    actions.editProduct.bind(null, product?.id),
+    {}
+  );
   const [errorObject, setErrorObject] = useState<AddProductSchemaType>({
     errors: {},
   });
-  async function editProductAction(formData: FormData) {
-    const res = await actions.editProduct(product?.id, formData);
-    if (res?.errors)
-      toast({
-        variant: "red",
-        description: `🚨 ${Object.entries(res.errors).join(" ")}`,
-      });
-    else
-      toast({ variant: "green", description: "✅ Le produit a été modifié" });
-  }
 
-  async function addProductAction(formData: FormData) {
-    const res = await actions.addProduct(formData);
-    if (!res) {
-      console.log("res is undefined");
-      toast({ variant: "green", description: "✅ Le produit a été créé" });
+  useEffect(() => {
+    if (editFormState.errors?._form) {
+      toast.error(editFormState.errors?._form.join(", "));
+      setErrorObject(editFormState);
     }
-    if (res.errors) {
-      toast({
-        variant: "red",
-        description: `🚨 Erreur lors de la création du produit`,
-      });
-      setErrorObject({ ...res });
+  }, [editFormState]);
+
+  useEffect(() => {
+    if (addFormState.errors?._form) {
+      toast.error(addFormState.errors?._form.join(", "));
+      setErrorObject(addFormState);
     }
-  }
+  }, [addFormState]);
+
   return (
     <form
-      action={type === "edit" ? editProductAction : addProductAction}
+      action={type === "edit" ? editFormAction : addFormAction}
       className="mx-auto grid max-w-[59rem] flex-1 auto-rows-max gap-4"
     >
       <ProductHeader type={type} totalStock={product?.totalStock} />

@@ -2,19 +2,25 @@
 
 import * as actions from "@/actions";
 import { DropdownMenuItem } from "../../../../components/ui/dropdown-menu";
-import { useToast } from "../../../../components/ui/use-toast";
+import { toast } from "sonner";
+import { useFormState } from "react-dom";
+import { useEffect } from "react";
+import { useSearchParams } from "next/navigation";
 
 function ProductsTableItemDelete({ id }: { id: string }) {
-  const { toast } = useToast();
+  const [formState, action] = useFormState(
+    actions.deleteProduct.bind(null, id),
+    {}
+  );
 
-  async function handleDelete(id: string) {
-    const res = await actions.deleteProduct(id);
-    if (res?.error) toast({ description: res.error });
-    else toast({ description: "Le produit a été supprimé" });
-  }
+  useEffect(() => {
+    if (formState.errors?._form) {
+      toast.error(formState.errors?._form.join(", "));
+    }
+  }, [formState]);
 
   return (
-    <form action={handleDelete.bind(null, id)}>
+    <form action={action}>
       <DropdownMenuItem asChild>
         <button type="submit" className="w-full">
           Delete

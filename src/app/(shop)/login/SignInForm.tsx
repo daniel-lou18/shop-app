@@ -26,7 +26,7 @@ function SignInForm() {
   const [formState, action] = useFormState(actions.signInUser, {});
   const searchParams = useSearchParams();
 
-  if (searchParams.get("success") === "signup") {
+  if (searchParams.get("signup") === "success") {
     toast.success(
       "Votre compté a été créé. Vous pouvez vous connecter avec vos identifiants."
     );
