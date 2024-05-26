@@ -47,7 +47,10 @@ function ProductVariants({ product, type }: ProductVariantsProps) {
     if (addFormState?.errors?._form) {
       toast.error(addFormState.errors._form?.join(", "));
     }
-    if (searchParams.get("create-variant") === "success") {
+    if (
+      !addFormState?.errors?._form &&
+      searchParams.get("create-variant") === "success"
+    ) {
       toast.success("La variante a été ajoutée");
     }
   }, [addFormState, searchParams]);

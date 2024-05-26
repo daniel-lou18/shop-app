@@ -15,6 +15,7 @@ import ProductImageUpload from "@/components/ui/ProductImageUpload";
 import { notFound } from "next/navigation";
 import { AddProductSchemaType } from "@/actions/add-product";
 import SelectMenu from "@/components/ui/SelectMenu";
+import FormFieldError from "@/components/ui/FormFieldError";
 
 export type ProductDetailsProps = {
   type: "add" | "edit";
@@ -46,11 +47,6 @@ function ProductDetails({
             } ci-dessous toutes les informations sur le
           produit`}
           </CardDescription>
-          {errorObject && errorObject.errors?._form ? (
-            <p className="text-red-500 text-sm">
-              {errorObject.errors._form.join(", ")}
-            </p>
-          ) : null}
         </CardHeader>
         <CardContent>
           <div className="grid gap-6">
@@ -61,6 +57,9 @@ function ProductDetails({
               name="name"
               errorObject={errorObject}
             />
+            <FormFieldError>
+              {errorObject?.errors?.name?.join(", ")}
+            </FormFieldError>
             <InputField
               variant="textarea"
               type={type}
@@ -68,6 +67,9 @@ function ProductDetails({
               name="description"
               errorObject={errorObject}
             />
+            <FormFieldError>
+              {errorObject?.errors?.description?.join(", ")}
+            </FormFieldError>
             <InputField
               variant="number"
               type={type}
@@ -75,6 +77,9 @@ function ProductDetails({
               name="price"
               errorObject={errorObject}
             />
+            <FormFieldError>
+              {errorObject?.errors?.price?.join(", ")}
+            </FormFieldError>
             <div className="grid gap-6 sm:grid-cols-3">
               <div className="grid gap-3">
                 <ProductDynamicSelect
@@ -82,6 +87,9 @@ function ProductDetails({
                   currentValue={type === "edit" ? productData?.brand.id : ""}
                   values={brands}
                 />
+                <FormFieldError>
+                  {errorObject?.errors?.brand?.join(", ")}
+                </FormFieldError>
               </div>
               <div className="grid gap-3">
                 <ProductDynamicSelect
@@ -89,6 +97,9 @@ function ProductDetails({
                   currentValue={type === "edit" ? productData?.category.id : ""}
                   values={categories}
                 />
+                <FormFieldError>
+                  {errorObject?.errors?.category?.join(", ")}
+                </FormFieldError>
               </div>
               <div className="grid gap-3">
                 <SelectMenu
@@ -97,6 +108,9 @@ function ProductDetails({
                   currentValue={type === "edit" ? productData?.sex : ""}
                   values={["homme", "femme"]}
                 />
+                <FormFieldError>
+                  {errorObject?.errors?.sex?.join(", ")}
+                </FormFieldError>
               </div>
             </div>
             {type === "add" && <ProductImageUpload />}

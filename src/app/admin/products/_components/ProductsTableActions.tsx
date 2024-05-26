@@ -26,7 +26,7 @@ function ProductsTableActions() {
 
   useEffect(() => {
     if (searchParams.get("edit") === "success") {
-      toast.success("Le produit a été modifié");
+      toast.success("Le produit a été mis à jour");
     }
   }, [searchParams]);
 

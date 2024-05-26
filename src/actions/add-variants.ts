@@ -12,8 +12,8 @@ const addVariantsSchema = z.object({
   productId: z.string().min(5),
   size: z.enum(sizes),
   color: z.string().min(1).max(50),
-  price: z.coerce.number().int().min(0),
-  stockQuantity: z.coerce.number().int().min(1).max(100000),
+  price: z.coerce.number().min(0),
+  stockQuantity: z.coerce.number().min(1).max(100000),
   sku: z.string().min(1).max(100),
 });
 

@@ -12,6 +12,7 @@ import { toast } from "sonner";
 import { useEffect, useState } from "react";
 import * as actions from "@/actions";
 import { useFormState } from "react-dom";
+import { useSearchParams } from "next/navigation";
 
 export type ProductFormProps = { brands: Brand[]; categories: Category[] } & (
   | {
@@ -40,20 +41,21 @@ function ProductForm({
   const [errorObject, setErrorObject] = useState<AddProductSchemaType>({
     errors: {},
   });
+  const searchParams = useSearchParams();
+
+  useEffect(() => {
+    if (editFormState.errors) setErrorObject(editFormState);
+    if (addFormState.errors) setErrorObject(addFormState);
+  }, [addFormState, editFormState]);
 
   useEffect(() => {
     if (editFormState.errors?._form) {
       toast.error(editFormState.errors?._form.join(", "));
-      setErrorObject(editFormState);
     }
-  }, [editFormState]);
-
-  useEffect(() => {
     if (addFormState.errors?._form) {
       toast.error(addFormState.errors?._form.join(", "));
-      setErrorObject(addFormState);
     }
-  }, [addFormState]);
+  }, [editFormState, addFormState, searchParams]);
 
   return (
     <form

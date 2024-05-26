@@ -9,7 +9,7 @@ import { z } from "zod";
 const editSizesSchema = z.array(
   z.object({
     id: z.string(),
-    stockQuantity: z.coerce.number().int().min(0),
+    stockQuantity: z.coerce.number().min(0),
     sku: z.string(),
     size: z.string(),
   })

@@ -3,7 +3,6 @@
 import { TableCell, TableRow } from "@/components/ui/table";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { centsToEuros } from "@/helpers/helpers";
 import { useEffect, useRef } from "react";
 import ProductVariantEditImage from "./ProductVariantEditImage";
 import { Button } from "@/components/ui/button";
@@ -14,6 +13,7 @@ import { ProductVariantByColor } from "@/db/queries/variants";
 import { useFormState, useFormStatus } from "react-dom";
 import { toast } from "sonner";
 import { useSearchParams } from "next/navigation";
+import FormFieldError from "@/components/ui/FormFieldError";
 
 type ProductVariantRowProps = {
   variant: ProductVariantByColor;
@@ -53,8 +53,11 @@ function ProductVariantRow({
     if (editFormState?.errors?._form) {
       toast.error(editFormState.errors._form?.join(", "));
     }
-    if (searchParams.get("edit-variant") === "success") {
-      toast.success("La variante a été modifié");
+    if (
+      !editFormState?.errors &&
+      searchParams.get("edit-variant") === "success"
+    ) {
+      toast.success("La variante a été mise à jour");
     }
   }, [editFormState, searchParams]);
 
@@ -102,6 +105,7 @@ function ProductVariantRow({
           disabled={isActive}
           ref={inputRef}
         />
+        <FormFieldError>{editFormState?.errors?.variantColor}</FormFieldError>
       </TableCell>
       <TableCell>
         <Label
@@ -132,6 +136,7 @@ function ProductVariantRow({
           defaultValue={variant.price}
           disabled={isActive}
         />
+        <FormFieldError>{editFormState?.errors?.variantPrice}</FormFieldError>
       </TableCell>
       <ProductVariantSizes
         variants={Array.isArray(variant.variants) && variant.variants}
