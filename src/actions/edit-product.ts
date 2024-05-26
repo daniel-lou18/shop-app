@@ -17,7 +17,7 @@ const editProductSchema = z.object({
         "must be between 2 and 100 characters long, contain only letters, numbers, spaces, hyphens and apostrophes, have at least one letter or number",
     }),
   description: z.string().min(10).max(1000),
-  price: z.coerce.number().int().min(1).max(100000),
+  price: z.coerce.number().int().min(0),
   brand: z.string(),
   category: z.string(),
   sex: z.enum(["homme", "femme"]),

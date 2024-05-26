@@ -4,14 +4,16 @@ import { TableCell, TableRow } from "@/components/ui/table";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { centsToEuros } from "@/helpers/helpers";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 import ProductVariantEditImage from "./ProductVariantEditImage";
 import { Button } from "@/components/ui/button";
 import { Loader2, Pencil, Save, Trash2, X } from "lucide-react";
 import * as actions from "@/actions";
 import ProductVariantSizes from "./ProductVariantSizes";
 import { ProductVariantByColor } from "@/db/queries/variants";
-import { useFormStatus } from "react-dom";
+import { useFormState, useFormStatus } from "react-dom";
+import { toast } from "sonner";
+import { useSearchParams } from "next/navigation";
 
 type ProductVariantRowProps = {
   variant: ProductVariantByColor;
@@ -26,6 +28,15 @@ function ProductVariantRow({
   activeRow,
   handleActiveRow,
 }: ProductVariantRowProps) {
+  const [editFormState, editFormAction] = useFormState(
+    actions.editVariants.bind(
+      null,
+      variant.variants.at(0)?.productId,
+      variant.variants.map((variant) => variant.id)
+    ),
+    {}
+  );
+  const searchParams = useSearchParams();
   const { pending } = useFormStatus();
   const inputRef = useRef<HTMLInputElement>(null);
   const isActive = rowNumber !== activeRow;
@@ -37,6 +48,15 @@ function ProductVariantRow({
       inputRef.current?.focus();
     }
   }, [isActive]);
+
+  useEffect(() => {
+    if (editFormState?.errors?._form) {
+      toast.error(editFormState.errors._form?.join(", "));
+    }
+    if (searchParams.get("edit-variant") === "success") {
+      toast.success("La variante a été modifié");
+    }
+  }, [editFormState, searchParams]);
 
   if (!variant) {
     return null;
@@ -59,11 +79,7 @@ function ProductVariantRow({
 
   async function editVariantsAndDisable(formData: FormData) {
     handleActiveRow(null);
-    await actions.editVariants(
-      variant.variants.at(0)?.productId,
-      variant.variants.map((variant) => variant.id),
-      formData
-    );
+    editFormAction(formData);
   }
 
   return (
@@ -112,8 +128,8 @@ function ProductVariantRow({
         <Input
           id={`price-${variant.variants.at(0)?.id}`}
           name="variantPrice"
-          type="text"
-          defaultValue={centsToEuros(variant.price)}
+          type="number"
+          defaultValue={variant.price}
           disabled={isActive}
         />
       </TableCell>

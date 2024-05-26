@@ -29,7 +29,8 @@ function ProductImageUpload() {
   async function handleUpload(formData: FormData) {
     try {
       const result = await actions.uploadImage(formData);
-      if (typeof result !== "string" && "errors" in result)
+      if (!result) throw new Error("Erreur lors de la création de l'image");
+      if (typeof result !== "string" && result?.errors?._form)
         throw new Error(result.errors._form.join(", "));
       if (typeof result === "string") {
         setImagePath(result);

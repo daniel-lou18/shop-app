@@ -4,7 +4,15 @@ import { handleActionError } from "@/lib/errors";
 import { writeFile } from "fs/promises";
 import path from "path";
 
-export async function uploadImage(formData: FormData) {
+type UploadImageSchemaType = {
+  errors?: { _form?: string[] };
+};
+
+type ImagePath = string | undefined;
+
+export async function uploadImage(
+  formData: FormData
+): Promise<UploadImageSchemaType | ImagePath> {
   let imagePath: string | undefined;
 
   try {
@@ -16,7 +24,7 @@ export async function uploadImage(formData: FormData) {
     const filePath = path.join(process.cwd(), "public", image.name);
     await writeFile(filePath, buffer);
     imagePath = `/${image.name}`;
-  } catch (err) {
+  } catch (err: unknown) {
     handleActionError(
       err,
       "Une erreur est survenue lors de l'ajout du fichier"

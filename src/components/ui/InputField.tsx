@@ -54,7 +54,6 @@ function InputField({
           defaultValue={type === "edit" ? value : 0}
           name={name}
           min={0}
-          step={0.01}
         />
       )}
       {variant === "email" && (

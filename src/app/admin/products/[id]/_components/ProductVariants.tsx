@@ -21,7 +21,10 @@ import ProductVariantRow from "./ProductVariantRow";
 import * as actions from "@/actions";
 import { ProductWithVariants } from "@/db/queries/product";
 import { getVariantsByColor } from "@/db/queries/variants";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useFormState } from "react-dom";
+import { useSearchParams } from "next/navigation";
+import { toast } from "sonner";
 
 type ProductVariantsProps =
   | {
@@ -31,9 +34,23 @@ type ProductVariantsProps =
   | { type: "add"; product?: never };
 
 function ProductVariants({ product, type }: ProductVariantsProps) {
+  const [addFormState, addFormAction] = useFormState(
+    actions.addVariants.bind(null, product?.id),
+    {}
+  );
+  const searchParams = useSearchParams();
   const [activeRow, setActiveRow] = useState<number | null>(null);
   const variantsByColor =
     type === "edit" ? getVariantsByColor(product.variants) : [];
+
+  useEffect(() => {
+    if (addFormState?.errors?._form) {
+      toast.error(addFormState.errors._form?.join(", "));
+    }
+    if (searchParams.get("create-variant") === "success") {
+      toast.success("La variante a été ajoutée");
+    }
+  }, [addFormState, searchParams]);
 
   if (!product) return null;
 
@@ -41,8 +58,8 @@ function ProductVariants({ product, type }: ProductVariantsProps) {
     setActiveRow(rowNumber);
   }
 
-  async function handleAddVariant() {
-    await actions.addVariants(product?.id);
+  async function handleAddVariant(formData: FormData) {
+    addFormAction(formData);
     handleActiveRow(0);
   }
 

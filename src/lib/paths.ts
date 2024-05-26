@@ -15,7 +15,8 @@ export const paths = {
   customerProduct(productId: string) {
     return `/products/${productId}`;
   },
-  adminProduct(productId: string) {
+  adminProduct(productId: string, queryParams?: string) {
+    if (queryParams) return `/admin/products/${productId}?${queryParams}`;
     return `/admin/products/${productId}`;
   },
   adminProductAdd() {
