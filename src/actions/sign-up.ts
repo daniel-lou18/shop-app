@@ -5,7 +5,6 @@ import { redirect } from "next/navigation";
 import { z } from "zod";
 import bcrypt from "bcrypt";
 import { handleActionError } from "@/lib/errors";
-import { hasCustomGetInitialProps } from "next/dist/build/utils";
 import { db } from "@/db";
 
 const signUpSchema = z.object({
@@ -67,8 +66,21 @@ export async function signUpUser(
   try {
     const { password, passwordConfirmation } = result.data;
     if (password !== passwordConfirmation) {
-      throw new Error("Les mots de passe ne sont pas identiques");
+      return {
+        errors: {
+          password: ["Les mots de passe ne sont pas identiques"],
+          passwordConfirmation: ["Les mots de passe ne sont pas identiques"],
+        },
+      };
     }
+
+    const existingUser = await db.user.findFirst({
+      where: { email: result.data.email },
+    });
+    if (existingUser) {
+      throw new Error("Il existe déja un utilisateur avec cette adresse email");
+    }
+
     const hashedPassword = await bcrypt.hash(result.data.password, 12);
     await db.user.create({
       data: {
