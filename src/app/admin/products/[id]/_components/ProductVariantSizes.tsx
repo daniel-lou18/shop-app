@@ -20,7 +20,10 @@ import { ProductVariant } from "@prisma/client";
 import ButtonSubmit from "@/components/ui/ButtonSubmit";
 import * as actions from "@/actions";
 import { PopoverClose } from "@radix-ui/react-popover";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useFormState } from "react-dom";
+import FormFieldError from "@/components/ui/FormFieldError";
+import { toast } from "sonner";
 
 type ProductVariantSizesProps = {
   variants:
@@ -34,6 +37,17 @@ type ProductVariantSizesProps = {
 
 function ProductVariantSizes({ variants }: ProductVariantSizesProps) {
   const [isOpen, setIsOpen] = useState<boolean>(false);
+  const [formState, action] = useFormState(actions.editSizes, {});
+
+  useEffect(() => {
+    if (formState.success) {
+      toast.success("Les tailles ont été mises à jour");
+      setIsOpen(false);
+    }
+    if (formState.errors) {
+      toast.error(formState.errors._form?.join(", "));
+    }
+  }, [formState]);
 
   return (
     <TableCell>
@@ -44,7 +58,7 @@ function ProductVariantSizes({ variants }: ProductVariantSizesProps) {
           </Button>
         </PopoverTrigger>
         <PopoverContent side="right" className="min-w-[500px]">
-          <form action={actions.editSizes}>
+          <form action={action}>
             <Table>
               <TableHeader>
                 <TableRow>
@@ -110,9 +124,7 @@ function ProductVariantSizes({ variants }: ProductVariantSizesProps) {
                   Annuler
                 </Button>
               </PopoverClose>
-              <ButtonSubmit onClick={() => setIsOpen(false)}>
-                Sauvegarder
-              </ButtonSubmit>
+              <ButtonSubmit>Sauvegarder</ButtonSubmit>
             </div>
           </form>
         </PopoverContent>

@@ -8,15 +8,16 @@ import { z } from "zod";
 
 const editSizesSchema = z.array(
   z.object({
-    id: z.string(),
+    id: z.string().min(1),
     stockQuantity: z.coerce.number().min(0),
-    sku: z.string(),
-    size: z.string(),
+    sku: z.string().min(1).max(100),
+    size: z.string().min(1).max(10),
   })
 );
 
 export type EditSizesSchemaType = {
-  errors: {
+  success?: boolean;
+  errors?: {
     id?: string[];
     stockQuantity?: string[];
     sku?: string[];
@@ -25,7 +26,10 @@ export type EditSizesSchemaType = {
   };
 };
 
-export async function editSizes(formData: FormData) {
+export async function editSizes(
+  formState: EditSizesSchemaType,
+  formData: FormData
+): Promise<EditSizesSchemaType> {
   const sizesArray = Array.from(formData.entries()).reduce(
     (acc, [key, value]) => {
       const [field, id] = key.split("-");
@@ -45,7 +49,15 @@ export async function editSizes(formData: FormData) {
 
   if (!result.success) {
     console.log(result.error);
-    return { errors: result.error.flatten().fieldErrors };
+    return {
+      // Encore à corriger ! Le schéma est un array, donc les erreurs sont ...
+      success: false,
+      errors: {
+        _form: [
+          "Erreur lors de la modification des tailles. Vérifiez les valeurs saisies.",
+        ],
+      },
+    };
   }
 
   for (const size of result.data) {
@@ -66,4 +78,5 @@ export async function editSizes(formData: FormData) {
     }
   }
   revalidatePath(paths.adminProduct(result.data[0].id));
+  return { success: true };
 }

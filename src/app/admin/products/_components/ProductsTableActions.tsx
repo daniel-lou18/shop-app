@@ -22,19 +22,13 @@ function ProductsTableActions() {
     if (searchParams.get("create") === "success") {
       toast.success("Le produit a été créé");
     }
-  }, [searchParams]);
-
-  useEffect(() => {
     if (searchParams.get("edit") === "success") {
       toast.success("Le produit a été mis à jour");
     }
-  }, [searchParams]);
-
-  useEffect(() => {
     if (searchParams.get("delete") === "success") {
       toast.success("Le produit a été supprimé");
     }
-  });
+  }, [searchParams]);
 
   return (
     <div className="ml-auto flex items-center gap-2">

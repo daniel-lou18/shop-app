@@ -23,7 +23,6 @@ import { ProductWithVariants } from "@/db/queries/product";
 import { getVariantsByColor } from "@/db/queries/variants";
 import { useEffect, useState } from "react";
 import { useFormState } from "react-dom";
-import { useSearchParams } from "next/navigation";
 import { toast } from "sonner";
 
 type ProductVariantsProps =
@@ -38,22 +37,18 @@ function ProductVariants({ product, type }: ProductVariantsProps) {
     actions.addVariants.bind(null, product?.id),
     {}
   );
-  const searchParams = useSearchParams();
   const [activeRow, setActiveRow] = useState<number | null>(null);
   const variantsByColor =
     type === "edit" ? getVariantsByColor(product.variants) : [];
 
   useEffect(() => {
-    if (addFormState?.errors?._form) {
+    if (!addFormState.success && addFormState?.errors?._form) {
       toast.error(addFormState.errors._form?.join(", "));
     }
-    if (
-      !addFormState?.errors?._form &&
-      searchParams.get("create-variant") === "success"
-    ) {
+    if (addFormState.success) {
       toast.success("La variante a été ajoutée");
     }
-  }, [addFormState, searchParams]);
+  }, [addFormState]);
 
   if (!product) return null;
 

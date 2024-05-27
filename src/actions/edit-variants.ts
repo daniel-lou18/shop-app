@@ -3,7 +3,7 @@
 import { db } from "@/db";
 import { handleActionError } from "@/lib/errors";
 import { paths } from "@/lib/paths";
-import { redirect } from "next/navigation";
+import { revalidatePath } from "next/cache";
 import { z } from "zod";
 
 const editVariantsSchema = z.object({
@@ -14,6 +14,7 @@ const editVariantsSchema = z.object({
 });
 
 type EditVariantsSchemaType = {
+  success?: boolean;
   errors?: {
     productId?: string[];
     variantIds?: string[];
@@ -29,9 +30,9 @@ export async function editVariants(
   formState: EditVariantsSchemaType,
   formData: FormData
 ): Promise<EditVariantsSchemaType> {
-  if (!productId) return { errors: { _form: ["Id manquant"] } };
+  if (!productId) return { success: false, errors: { _form: ["Id manquant"] } };
   if (!variantIds || variantIds.length === 0)
-    return { errors: { _form: ["Id(s) manquant(s)"] } };
+    return { success: false, errors: { _form: ["Id(s) manquant(s)"] } };
 
   const data = {
     variantIds,
@@ -43,7 +44,7 @@ export async function editVariants(
   const result = editVariantsSchema.safeParse(data);
   if (!result.success) {
     console.log(result.error);
-    return { errors: result.error.flatten().fieldErrors };
+    return { success: false, errors: result.error.flatten().fieldErrors };
   }
 
   try {
@@ -68,5 +69,6 @@ export async function editVariants(
       "Une erreur est survenue lors de la modification des variantes"
     );
   }
-  redirect(paths.adminProduct(result.data.productId, "edit-variant=success"));
+  revalidatePath(paths.adminProduct(result.data.productId));
+  return { success: true };
 }

@@ -12,7 +12,6 @@ import ProductVariantSizes from "./ProductVariantSizes";
 import { ProductVariantByColor } from "@/db/queries/variants";
 import { useFormState, useFormStatus } from "react-dom";
 import { toast } from "sonner";
-import { useSearchParams } from "next/navigation";
 import FormFieldError from "@/components/ui/FormFieldError";
 
 type ProductVariantRowProps = {
@@ -36,7 +35,14 @@ function ProductVariantRow({
     ),
     {}
   );
-  const searchParams = useSearchParams();
+  const [deleteFormState, deleteFormAction] = useFormState(
+    actions.deleteVariants.bind(
+      null,
+      variant.variants.at(0)?.productId,
+      variant.variants.map((variant) => variant.id)
+    ),
+    {}
+  );
   const { pending } = useFormStatus();
   const inputRef = useRef<HTMLInputElement>(null);
   const isActive = rowNumber !== activeRow;
@@ -50,16 +56,16 @@ function ProductVariantRow({
   }, [isActive]);
 
   useEffect(() => {
-    if (editFormState?.errors?._form) {
+    if (!editFormState.success && editFormState?.errors?._form) {
       toast.error(editFormState.errors._form?.join(", "));
     }
-    if (
-      !editFormState?.errors &&
-      searchParams.get("edit-variant") === "success"
-    ) {
-      toast.success("La variante a été mise à jour");
+    if (editFormState.success) {
+      toast.success("La variante a été modifiée");
     }
-  }, [editFormState, searchParams]);
+    if (!deleteFormState.success && deleteFormState?.errors?._form) {
+      toast.error(deleteFormState.errors._form?.join(", "));
+    }
+  }, [editFormState, deleteFormState]);
 
   if (!variant) {
     return null;
@@ -73,12 +79,6 @@ function ProductVariantRow({
     inputRef.current && (inputRef.current.value = variant.color);
     handleActiveRow(null);
   }
-
-  const handleDelete = actions.deleteVariants.bind(
-    null,
-    variant.variants.at(0)?.productId,
-    variant.variants.map((variant) => variant.id)
-  );
 
   async function editVariantsAndDisable(formData: FormData) {
     handleActiveRow(null);
@@ -156,7 +156,7 @@ function ProductVariantRow({
 
               <Button
                 variant="outline"
-                formAction={handleDelete}
+                formAction={deleteFormAction}
                 disabled={isDisabled}
               >
                 <Trash2 size={16} strokeWidth={1.5} />

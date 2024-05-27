@@ -5,7 +5,6 @@ import { DropdownMenuItem } from "../../../../components/ui/dropdown-menu";
 import { toast } from "sonner";
 import { useFormState } from "react-dom";
 import { useEffect } from "react";
-import { useSearchParams } from "next/navigation";
 
 function ProductsTableItemDelete({ id }: { id: string }) {
   const [formState, action] = useFormState(

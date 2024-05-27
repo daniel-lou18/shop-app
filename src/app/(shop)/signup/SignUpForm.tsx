@@ -8,14 +8,18 @@ import { useFormState } from "react-dom";
 import * as actions from "@/actions";
 import FormFieldError from "@/components/ui/FormFieldError";
 import { toast } from "sonner";
+import { useEffect } from "react";
 
 function SignUpForm() {
   const [formState, action] = useFormState(actions.signUpUser, {});
 
-  if (formState.errors) {
-    if (formState.errors._form) toast.error(formState.errors._form.join(", "));
-    else toast.error("Veuillez corriger les erreurs s'il vous plaît");
-  }
+  useEffect(() => {
+    if (formState.errors) {
+      if (formState.errors._form)
+        toast.error(formState.errors._form.join(", "));
+      else toast.error("Veuillez corriger les erreurs s'il vous plaît");
+    }
+  }, [formState]);
 
   return (
     <form action={action} className="mx-auto max-w-[59rem] flex flex-col">

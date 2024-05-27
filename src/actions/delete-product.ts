@@ -3,7 +3,6 @@
 import { db } from "@/db";
 import { handleActionError } from "@/lib/errors";
 import { paths } from "@/lib/paths";
-import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 
 type DeleteProductSchemaType = { errors?: { _form?: string[] } };

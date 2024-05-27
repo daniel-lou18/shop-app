@@ -3,7 +3,7 @@
 import { db } from "@/db";
 import { handleActionError } from "@/lib/errors";
 import { paths } from "@/lib/paths";
-import { redirect } from "next/navigation";
+import { revalidatePath } from "next/cache";
 import { z } from "zod";
 
 const sizes = ["XS", "S", "M", "L", "XL", "XXL"] as const;
@@ -18,6 +18,7 @@ const addVariantsSchema = z.object({
 });
 
 type AddVariantSchemaType = {
+  success?: boolean;
   errors?: {
     productId?: string[];
     size?: string[];
@@ -34,7 +35,7 @@ export async function addVariants(
   formState: AddVariantSchemaType,
   formData: FormData
 ): Promise<AddVariantSchemaType> {
-  if (!productId) return { errors: { _form: ["Id manquant"] } };
+  if (!productId) return { success: false, errors: { _form: ["Id manquant"] } };
 
   try {
     for (const size of sizes) {
@@ -55,5 +56,6 @@ export async function addVariants(
       "Une erreur est survenue lors de la création de la variante"
     );
   }
-  return redirect(paths.adminProduct(productId, "create-variant=success"));
+  revalidatePath(paths.adminProduct(productId));
+  return { success: true };
 }

@@ -14,9 +14,12 @@ export function handleFetchError(
 export function handleActionError(error: unknown, fallbackMessage?: string) {
   console.error(error);
   if (error instanceof Error) {
-    return { errors: { _form: [error.message] } };
+    return { success: false, errors: { _form: [error.message] } };
   }
   return {
-    errors: { _form: [fallbackMessage || "Une erreur est survenue"] },
+    success: false,
+    errors: {
+      _form: [fallbackMessage || "Une erreur est survenue"],
+    },
   };
 }
