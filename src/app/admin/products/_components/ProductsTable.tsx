@@ -15,6 +15,7 @@ import ProductsTableHeader from "./ProductsTableHeader";
 import ProductsTableTabsList from "./ProductsTableTabsList";
 import ProductsTableActions from "./ProductsTableActions";
 import { fetchAllProductsWithTotalStock } from "@/db/queries/products";
+import { Suspense } from "react";
 
 export default async function ProductsTable() {
   const result = await fetchAllProductsWithTotalStock();
@@ -25,7 +26,9 @@ export default async function ProductsTable() {
       <Tabs defaultValue="all">
         <div className="flex items-center">
           <ProductsTableTabsList />
-          <ProductsTableActions />
+          <Suspense>
+            <ProductsTableActions />
+          </Suspense>
         </div>
         <TabsContent value="all" className="mt-4">
           <Card>

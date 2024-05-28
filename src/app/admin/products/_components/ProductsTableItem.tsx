@@ -15,6 +15,7 @@ import { ProductVariant } from "@prisma/client";
 import ProductsTableItemDelete from "./ProductsTableItemDelete";
 import { centsToEuros } from "@/helpers/helpers";
 import { ProductWithData } from "@/db/queries/products";
+import { Suspense } from "react";
 
 type ProductsTableItemProps = ProductWithData & {
   variants: ProductVariant[];
@@ -65,7 +66,9 @@ function ProductsTableItem({
             <DropdownMenuItem asChild>
               <Link href={`/admin/products/${id}`}>Modifier</Link>
             </DropdownMenuItem>
-            <ProductsTableItemDelete id={id} />
+            <Suspense>
+              <ProductsTableItemDelete id={id} />
+            </Suspense>
           </DropdownMenuContent>
         </DropdownMenu>
       </TableCell>
