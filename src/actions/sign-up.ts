@@ -6,6 +6,7 @@ import { z } from "zod";
 import bcrypt from "bcrypt";
 import { handleActionError } from "@/lib/errors";
 import { db } from "@/db";
+import { getUserByEmail } from "@/db/queries/user";
 
 const signUpSchema = z.object({
   firstName: z.string().min(1).max(50),
@@ -74,9 +75,7 @@ export async function signUpUser(
       };
     }
 
-    const existingUser = await db.user.findFirst({
-      where: { email: result.data.email },
-    });
+    const existingUser = await getUserByEmail(result.data.email);
     if (existingUser) {
       throw new Error("Il existe déja un utilisateur avec cette adresse email");
     }

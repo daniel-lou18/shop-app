@@ -4,11 +4,9 @@ import * as auth from "@/auth";
 import { paths } from "@/lib/paths";
 import { redirect } from "next/navigation";
 import { z } from "zod";
-
-const signInSchema = z.object({
-  email: z.string().email().min(3).max(50),
-  password: z.string().min(8).max(50),
-});
+import { signIn } from "@/auth";
+import { AuthError, SignInError } from "@auth/core/errors";
+import { signInSchema } from "@/lib/schemas";
 
 type SignInSchemaType = {
   errors?: {
@@ -34,9 +32,34 @@ export async function signInUser(
     };
   }
 
-  return redirect(paths.customerHome());
+  try {
+    await signIn("credentials", {
+      email: result.data.email,
+      password: result.data.password,
+      redirect: false,
+    });
+  } catch (err) {
+    if (err instanceof Error) {
+      switch (err.message) {
+        case "CredentialsSignin":
+          return {
+            errors: {
+              _form: ["Email ou mot de passe incorrect"],
+            },
+          };
+        default:
+          return {
+            errors: {
+              _form: [err.message],
+            },
+          };
+      }
+    }
+    throw err;
+  }
+  redirect(paths.adminProducts());
 }
 
-export async function signInAdmin() {
-  return auth.signIn("github", { redirectTo: paths.adminProducts() });
-}
+// export async function signInAdmin() {
+//   return auth.signIn("github", { redirectTo: paths.adminProducts() });
+// }

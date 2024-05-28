@@ -1,7 +1,7 @@
 export { addProduct } from "./add-product";
 export { editProduct } from "./edit-product";
 export { deleteProduct } from "./delete-product";
-export { signInAdmin } from "./sign-in";
+// export { signInAdmin } from "./sign-in";
 export { signInUser } from "./sign-in";
 export { signUpUser } from "./sign-up";
 export { signOut } from "./sign-out";

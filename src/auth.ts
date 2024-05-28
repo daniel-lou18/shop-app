@@ -1,13 +1,10 @@
 import NextAuth from "next-auth";
-import Github from "next-auth/providers/github";
 import { PrismaAdapter } from "@auth/prisma-adapter";
 import { db } from "@/db";
-
-const GITHUB_CLIENT_ID = process.env.GITHUB_CLIENT_ID;
-const GITHUB_CLIENT_SECRET = process.env.GITHUB_CLIENT_SECRET;
-
-if (!GITHUB_CLIENT_ID || !GITHUB_CLIENT_SECRET)
-  throw new Error("GitHub OAuth Credentials manquants !");
+import Credentials from "next-auth/providers/credentials";
+import { signInSchema } from "./lib/schemas";
+import { getUserByEmail } from "./db/queries/user";
+import bcrypt from "bcrypt";
 
 export const {
   handlers: { GET, POST },
@@ -17,14 +14,26 @@ export const {
 } = NextAuth({
   adapter: PrismaAdapter(db),
   providers: [
-    Github({ clientId: GITHUB_CLIENT_ID, clientSecret: GITHUB_CLIENT_SECRET }),
+    Credentials({
+      async authorize(credentials) {
+        const result = signInSchema.safeParse(credentials);
+        if (result.success) {
+          const { email, password } = result.data;
+          const user = await getUserByEmail(email);
+          if (!user || !user.password) return null;
+          const passwordIsValid = await bcrypt.compare(password, user.password);
+          if (passwordIsValid) return user;
+        }
+        return null;
+      },
+    }),
   ],
-  callbacks: {
-    async session({ session, user }: any) {
-      if (session && user) {
-        session.user.id = user.id;
-      }
-      return session;
-    },
-  },
+  // callbacks: {
+  //   async session({ session, user }: any) {
+  //     if (session && user) {
+  //       session.user.id = user.id;
+  //     }
+  //     return session;
+  //   },
+  // },
 });
