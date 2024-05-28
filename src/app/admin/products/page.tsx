@@ -6,7 +6,7 @@ import ProductsTable from "./_components/ProductsTable";
 async function AdminProducts() {
   const session = await auth();
   // if (!session || !session.user) {
-  //   redirect(paths.login());
+  //   redirect(paths.SignIn());
   // }
   return <ProductsTable />;
 }

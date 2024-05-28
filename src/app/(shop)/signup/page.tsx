@@ -1,12 +1,12 @@
 import { Suspense } from "react";
-import SignUpForm from "./SignUpForm";
+import SignUpFormCustomer from "./SignUpFormCustomer";
 
-async function SignUpPage() {
+async function SignUpPageCustomer() {
   return (
     <Suspense>
-      <SignUpForm />
+      <SignUpFormCustomer />
     </Suspense>
   );
 }
 
-export default SignUpPage;
+export default SignUpPageCustomer;

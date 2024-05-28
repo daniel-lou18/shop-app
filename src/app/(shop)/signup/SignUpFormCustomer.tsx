@@ -9,8 +9,9 @@ import * as actions from "@/actions";
 import FormFieldError from "@/components/ui/FormFieldError";
 import { toast } from "sonner";
 import { useEffect } from "react";
+import { paths } from "@/lib/paths";
 
-function SignUpForm() {
+function SignUpFormCustomer() {
   const [formState, action] = useFormState(actions.signUpUser, {});
 
   useEffect(() => {
@@ -116,7 +117,7 @@ function SignUpForm() {
       </div>
       <div className="items-center gap-2 flex mt-8 self-end">
         <Button type="button" variant="outline" size="sm" asChild>
-          <Link href="/admin/products">Annuler </Link>
+          <Link href={paths.customerSignIn()}>Annuler </Link>
         </Button>
         <ButtonSubmit>Créer mon compte</ButtonSubmit>
       </div>
@@ -124,4 +125,4 @@ function SignUpForm() {
   );
 }
 
-export default SignUpForm;
+export default SignUpFormCustomer;

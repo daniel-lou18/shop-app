@@ -10,7 +10,12 @@ export default function auth(req: NextRequest) {
     }
     return null;
   }
-  if (pathName.startsWith("/admin") && !isLoggedIn) {
+  if (
+    pathName.startsWith("/admin") &&
+    !isLoggedIn &&
+    pathName !== "/admin/login" &&
+    pathName !== "/admin/signup"
+  ) {
     return Response.redirect(new URL("/admin/login", req.nextUrl));
   }
   return null;

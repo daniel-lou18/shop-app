@@ -22,17 +22,17 @@ export const paths = {
   adminProductAdd() {
     return "/admin/products/new";
   },
-  adminLogin() {
+  adminSignIn() {
     return "/admin/login";
   },
-  adminSuper() {
+  adminSignUp() {
     return "/admin/signup";
   },
-  customerLogin(queryParams?: string) {
+  customerSignIn(queryParams?: string) {
     if (queryParams) return `/login?${queryParams}`;
     return "/login";
   },
-  customerSignup() {
+  customerSignUp() {
     return "/signup";
   },
   cart() {

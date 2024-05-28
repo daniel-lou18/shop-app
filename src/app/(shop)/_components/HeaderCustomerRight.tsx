@@ -55,11 +55,11 @@ function HeaderCustomerRight() {
           <DropdownMenuItem disabled>Préférences</DropdownMenuItem>
           <DropdownMenuItem disabled>Aide</DropdownMenuItem>
           <DropdownMenuItem asChild className="hover:cursor-pointer">
-            <Link href={paths.adminLogin()}>Espace pro</Link>
+            <Link href={paths.adminSignIn()}>Espace pro</Link>
           </DropdownMenuItem>
           <DropdownMenuSeparator />
           <DropdownMenuItem asChild className="hover:cursor-pointer">
-            <Link href={paths.customerLogin()}>Me connecter</Link>
+            <Link href={paths.customerSignIn()}>Me connecter</Link>
           </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>

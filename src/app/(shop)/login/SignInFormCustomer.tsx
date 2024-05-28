@@ -22,7 +22,7 @@ import InputField from "@/components/ui/InputField";
 import { useSearchParams } from "next/navigation";
 import { toast } from "sonner";
 
-function SignInForm() {
+function SignInFormCustomer() {
   const [formState, action] = useFormState(actions.signInUser, {});
   const searchParams = useSearchParams();
 
@@ -73,7 +73,7 @@ function SignInForm() {
           </div>
           <div className="mt-4 text-center text-sm">
             Vous n&apos;avez pas encore de compte professionnel ?{" "}
-            <Link href={paths.customerSignup()} className="underline">
+            <Link href={paths.customerSignUp()} className="underline">
               Créer votre compte
             </Link>
           </div>
@@ -84,4 +84,4 @@ function SignInForm() {
   );
 }
 
-export default SignInForm;
+export default SignInFormCustomer;
