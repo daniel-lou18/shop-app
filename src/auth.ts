@@ -13,6 +13,7 @@ export const {
   signIn,
 } = NextAuth({
   adapter: PrismaAdapter(db),
+  session: { strategy: "jwt" },
   providers: [
     Credentials({
       async authorize(credentials) {

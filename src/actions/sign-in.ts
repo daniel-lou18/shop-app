@@ -1,11 +1,8 @@
 "use server";
 
-import * as auth from "@/auth";
 import { paths } from "@/lib/paths";
 import { redirect } from "next/navigation";
-import { z } from "zod";
 import { signIn } from "@/auth";
-import { AuthError, SignInError } from "@auth/core/errors";
 import { signInSchema } from "@/lib/schemas";
 
 type SignInSchemaType = {
