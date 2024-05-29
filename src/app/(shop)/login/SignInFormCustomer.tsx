@@ -21,16 +21,20 @@ import { paths } from "@/lib/paths";
 import InputField from "@/components/ui/InputField";
 import { useSearchParams } from "next/navigation";
 import { toast } from "sonner";
+import { useEffect } from "react";
 
 function SignInFormCustomer() {
   const [formState, action] = useFormState(actions.signInUser, {});
   const searchParams = useSearchParams();
 
-  if (searchParams.get("signup") === "success") {
-    toast.success(
-      "Votre compté a été créé. Vous pouvez vous connecter avec vos identifiants."
-    );
-  }
+  useEffect(() => {
+    if (!formState) return;
+    if (searchParams.get("signup") === "success") {
+      toast.success(
+        "Votre compté a été créé. Vous pouvez vous connecter avec vos identifiants."
+      );
+    }
+  }, [formState, searchParams]);
 
   return (
     <form className="flex flex-col items-center pt-32 w-full min-h-screen">

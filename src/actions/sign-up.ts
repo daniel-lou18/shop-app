@@ -95,5 +95,5 @@ export async function signUpUser(
     );
   }
 
-  return redirect(paths.customerSignIn("signup=success"));
+  redirect(paths.customerSignIn("signup=success"));
 }

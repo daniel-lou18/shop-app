@@ -15,6 +15,7 @@ function SignUpFormAdmin() {
   const [formState, action] = useFormState(actions.signUpUser, {});
 
   useEffect(() => {
+    if (!formState) return;
     if (formState.errors) {
       if (formState.errors._form)
         toast.error(formState.errors._form.join(", "));
