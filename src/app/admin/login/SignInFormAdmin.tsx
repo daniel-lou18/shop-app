@@ -22,7 +22,10 @@ import FormFieldError from "@/components/ui/FormFieldError";
 import { paths } from "@/lib/paths";
 
 function SignInFormAdmin() {
-  const [formState, action] = useFormState(actions.signInUser, {});
+  const [formState, action] = useFormState(
+    actions.signInUser.bind(null, "admin"),
+    {}
+  );
 
   useEffect(() => {
     if (formState?.errors?._form) {

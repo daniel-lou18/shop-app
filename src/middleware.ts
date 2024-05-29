@@ -1,25 +1,39 @@
-import { NextRequest } from "next/server";
-export default function auth(req: NextRequest) {
+import { auth } from "./auth";
+import { paths } from "./lib/paths";
+
+export default auth((req) => {
   const pathName = req.nextUrl.pathname;
-  const isLoggedIn = req.cookies.has("authjs.session-token");
+  const session = req.auth;
+  const isLoggedIn = !!session;
   console.log(isLoggedIn);
   if (pathName.startsWith("/api/auth")) return null;
-  if (pathName === "/admin/login") {
-    if (isLoggedIn) {
-      return Response.redirect(new URL("/admin/products", req.nextUrl));
+  if (pathName === paths.adminSignIn()) {
+    if (isLoggedIn && session.user.role === "ADMIN") {
+      return Response.redirect(new URL(paths.adminProducts(), req.nextUrl));
     }
     return null;
   }
   if (
-    pathName.startsWith("/admin") &&
+    pathName.startsWith(paths.adminHome()) &&
     !isLoggedIn &&
-    pathName !== "/admin/login" &&
-    pathName !== "/admin/signup"
+    pathName !== paths.adminSignIn() &&
+    pathName !== paths.adminSignUp()
   ) {
-    return Response.redirect(new URL("/admin/login", req.nextUrl));
+    return Response.redirect(new URL(paths.adminSignIn(), req.nextUrl));
   }
+
+  if (
+    isLoggedIn &&
+    session.user.role === "USER" &&
+    pathName.startsWith(paths.adminHome()) &&
+    pathName !== paths.adminSignIn() &&
+    pathName !== paths.adminSignUp()
+  ) {
+    return Response.redirect(new URL(paths.customerHome(), req.nextUrl));
+  }
+
   return null;
-}
+});
 
 export const config = {
   matcher: ["/((?!.*\\..*|_next).*)", "/", "/(api|trpc)(.*)"],

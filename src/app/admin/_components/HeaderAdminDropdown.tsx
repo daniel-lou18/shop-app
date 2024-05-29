@@ -13,6 +13,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { useSession } from "next-auth/react";
 import * as actions from "@/actions";
 import { CircleUser } from "lucide-react";
+import ButtonSignOut from "@/components/ui/ButtonSignOut";
 
 function HeaderAdminDropdown() {
   const session = useSession();
@@ -37,11 +38,7 @@ function HeaderAdminDropdown() {
         <DropdownMenuItem>Aide</DropdownMenuItem>
         <DropdownMenuSeparator />
         <DropdownMenuItem>
-          <form action={actions.signOut} className="w-full">
-            <button type="submit" className="w-full flex justify-start">
-              Logout
-            </button>
-          </form>
+          <ButtonSignOut />
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>

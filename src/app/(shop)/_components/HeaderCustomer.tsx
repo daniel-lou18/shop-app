@@ -4,8 +4,11 @@ import HeaderLogo from "@/components/ui/HeaderLogo";
 import { fetchCategories } from "@/db/queries/categories";
 import { fetchBrands } from "@/db/queries/brands";
 import NavbarMobile from "@/components/ui/NavbarMobile";
+import { Suspense } from "react";
+import { auth } from "@/auth";
 
 async function HeaderCustomer() {
+  const session = await auth();
   const [
     categoriesMenResult,
     categoriesWomenResult,
@@ -17,6 +20,7 @@ async function HeaderCustomer() {
     fetchBrands("homme"),
     fetchBrands("femme"),
   ]);
+  console.log({ sessionServer: session });
 
   if (!categoriesMenResult.success) throw new Error(categoriesMenResult.error);
   if (!categoriesWomenResult.success)
@@ -51,7 +55,7 @@ async function HeaderCustomer() {
         </NavLinkMenu>
         <NavLink href="/products/categories/special-offers">Promotions</NavLink>
       </Navbar>
-      <HeaderCustomerRight />
+      <HeaderCustomerRight currentUser={session?.user} />
     </header>
   );
 }

@@ -3,7 +3,7 @@
 import { paths } from "@/lib/paths";
 import { redirect } from "next/navigation";
 import { z } from "zod";
-import bcrypt from "bcrypt";
+import bcrypt from "bcryptjs";
 import { handleActionError } from "@/lib/errors";
 import { db } from "@/db";
 import { getUserByEmail } from "@/db/queries/user";

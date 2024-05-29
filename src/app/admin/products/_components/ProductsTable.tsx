@@ -22,7 +22,6 @@ export default async function ProductsTable() {
   const result = await fetchAllProductsWithTotalStock();
   if (!result.success) throw new Error(result.error);
   const session = await auth();
-  console.log(session);
 
   return (
     <main className="grid flex-1 items-start gap-4 md:gap-8">

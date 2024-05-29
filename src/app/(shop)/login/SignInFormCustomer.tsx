@@ -24,7 +24,10 @@ import { toast } from "sonner";
 import { useEffect } from "react";
 
 function SignInFormCustomer() {
-  const [formState, action] = useFormState(actions.signInUser, {});
+  const [formState, action] = useFormState(
+    actions.signInUser.bind(null, "user"),
+    {}
+  );
   const searchParams = useSearchParams();
 
   useEffect(() => {

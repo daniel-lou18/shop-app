@@ -10,7 +10,6 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Button } from "@/components/ui/button";
 import { useSession } from "next-auth/react";
-import * as actions from "@/actions";
 import { CircleUser } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Search } from "lucide-react";
@@ -20,11 +19,18 @@ import { ShoppingBagIcon } from "@heroicons/react/24/outline";
 import { useCart } from "@/context/cart-context";
 import Link from "next/link";
 import { paths } from "@/lib/paths";
+import ButtonSignOut from "@/components/ui/ButtonSignOut";
+import { type ExtendedUser } from "@/auth";
 
-function HeaderCustomerRight() {
+type HeaderCustomerRightProps = {
+  currentUser: ExtendedUser | undefined;
+};
+
+function HeaderCustomerRight({ currentUser }: HeaderCustomerRightProps) {
   const [cartOpen, setCartOpen] = useState<boolean>(false);
-  const session = useSession();
   const { items } = useCart();
+
+  console.log({ userClient: currentUser });
 
   function toggleCart() {
     setCartOpen((prevState) => !prevState);
@@ -58,9 +64,16 @@ function HeaderCustomerRight() {
             <Link href={paths.adminSignIn()}>Espace pro</Link>
           </DropdownMenuItem>
           <DropdownMenuSeparator />
-          <DropdownMenuItem asChild className="hover:cursor-pointer">
-            <Link href={paths.customerSignIn()}>Me connecter</Link>
-          </DropdownMenuItem>
+          {!currentUser && (
+            <DropdownMenuItem asChild className="hover:cursor-pointer">
+              <Link href={paths.customerSignIn()}>Me connecter</Link>
+            </DropdownMenuItem>
+          )}
+          {!!currentUser && (
+            <DropdownMenuItem>
+              <ButtonSignOut />
+            </DropdownMenuItem>
+          )}
         </DropdownMenuContent>
       </DropdownMenu>
       <Button

@@ -4,6 +4,7 @@ import { paths } from "@/lib/paths";
 import { redirect } from "next/navigation";
 import { signIn } from "@/auth";
 import { signInSchema } from "@/lib/schemas";
+import { revalidatePath } from "next/cache";
 
 type SignInSchemaType = {
   errors?: {
@@ -14,6 +15,7 @@ type SignInSchemaType = {
 };
 
 export async function signInUser(
+  type: "user" | "admin",
   formState: SignInSchemaType,
   formData: FormData
 ): Promise<SignInSchemaType> {
@@ -54,7 +56,12 @@ export async function signInUser(
     }
     throw err;
   }
-  redirect(paths.adminProducts());
+  if (type === "user") {
+    revalidatePath(paths.customerHome());
+    redirect(paths.customerHome());
+  } else {
+    redirect(paths.adminProducts());
+  }
 }
 
 // export async function signInAdmin() {
