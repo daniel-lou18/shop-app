@@ -15,9 +15,9 @@ function SignUpFormCustomer() {
   const [formState, action] = useFormState(actions.signUpUser, {});
 
   useEffect(() => {
-    if (formState.errors) {
-      if (formState.errors._form)
-        toast.error(formState.errors._form.join(", "));
+    if (formState?.errors) {
+      if (formState?.errors._form)
+        toast.error(formState?.errors._form.join(", "));
       else toast.error("Veuillez corriger les erreurs s'il vous plaît");
     }
   }, [formState]);

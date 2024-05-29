@@ -43,7 +43,7 @@ function ProductVariants({ product, type }: ProductVariantsProps) {
 
   useEffect(() => {
     if (!addFormState.success && addFormState?.errors?._form) {
-      toast.error(addFormState.errors._form?.join(", "));
+      toast.error(addFormState?.errors._form?.join(", "));
     }
     if (addFormState.success) {
       toast.success("La variante a été ajoutée");

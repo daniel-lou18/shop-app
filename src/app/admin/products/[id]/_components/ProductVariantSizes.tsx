@@ -44,8 +44,8 @@ function ProductVariantSizes({ variants }: ProductVariantSizesProps) {
       toast.success("Les tailles ont été mises à jour");
       setIsOpen(false);
     }
-    if (formState.errors) {
-      toast.error(formState.errors._form?.join(", "));
+    if (formState?.errors) {
+      toast.error(formState?.errors._form?.join(", "));
     }
   }, [formState]);
 

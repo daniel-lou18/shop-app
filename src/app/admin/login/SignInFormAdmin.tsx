@@ -25,8 +25,8 @@ function SignInFormAdmin() {
   const [formState, action] = useFormState(actions.signInUser, {});
 
   useEffect(() => {
-    if (formState.errors?._form) {
-      toast.error(formState.errors?._form.join(", "));
+    if (formState?.errors?._form) {
+      toast.error(formState?.errors?._form.join(", "));
     }
   }, [formState]);
 

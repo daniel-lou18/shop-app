@@ -44,16 +44,16 @@ function ProductForm({
   const searchParams = useSearchParams();
 
   useEffect(() => {
-    if (editFormState.errors) setErrorObject(editFormState);
-    if (addFormState.errors) setErrorObject(addFormState);
+    if (editFormState?.errors) setErrorObject(editFormState);
+    if (addFormState?.errors) setErrorObject(addFormState);
   }, [addFormState, editFormState]);
 
   useEffect(() => {
-    if (editFormState.errors?._form) {
-      toast.error(editFormState.errors?._form.join(", "));
+    if (editFormState?.errors?._form) {
+      toast.error(editFormState?.errors?._form.join(", "));
     }
-    if (addFormState.errors?._form) {
-      toast.error(addFormState.errors?._form.join(", "));
+    if (addFormState?.errors?._form) {
+      toast.error(addFormState?.errors?._form.join(", "));
     }
   }, [editFormState, addFormState, searchParams]);
 
