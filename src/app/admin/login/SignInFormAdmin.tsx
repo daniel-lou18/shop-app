@@ -25,7 +25,6 @@ function SignInFormAdmin() {
   const [formState, action] = useFormState(actions.signInUser, {});
 
   useEffect(() => {
-    if (!formState) return;
     if (formState.errors?._form) {
       toast.error(formState.errors?._form.join(", "));
     }
@@ -52,7 +51,7 @@ function SignInFormAdmin() {
                   placeholder="m@example.com"
                 />
                 <FormFieldError>
-                  {formState.errors?.email?.join(", ")}
+                  {formState?.errors?.email?.join(", ")}
                 </FormFieldError>
               </div>
               <div className="grid gap-2">
@@ -67,7 +66,7 @@ function SignInFormAdmin() {
                 </div>
                 <Input name="password" id="password" type="password" />
                 <FormFieldError>
-                  {formState.errors?.password?.join(", ")}
+                  {formState?.errors?.password?.join(", ")}
                 </FormFieldError>
               </div>
               <ButtonSubmit className="w-full">Login</ButtonSubmit>

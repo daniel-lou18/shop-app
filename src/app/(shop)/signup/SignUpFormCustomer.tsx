@@ -15,7 +15,6 @@ function SignUpFormCustomer() {
   const [formState, action] = useFormState(actions.signUpUser, {});
 
   useEffect(() => {
-    if (!formState) return;
     if (formState.errors) {
       if (formState.errors._form)
         toast.error(formState.errors._form.join(", "));
@@ -36,26 +35,28 @@ function SignUpFormCustomer() {
         <div className="sm:col-span-3">
           <InputField name="firstName" variant="input" type="custom" />
           <FormFieldError>
-            {formState.errors?.firstName?.join(", ")}
+            {formState?.errors?.firstName?.join(", ")}
           </FormFieldError>
         </div>
 
         <div className="sm:col-span-3">
           <InputField name="lastName" variant="input" type="custom" />
           <FormFieldError>
-            {formState.errors?.lastName?.join(", ")}
+            {formState?.errors?.lastName?.join(", ")}
           </FormFieldError>
         </div>
 
         <div className="sm:col-span-4">
           <InputField name="email" variant="email" type="custom" />
-          <FormFieldError>{formState.errors?.email?.join(", ")}</FormFieldError>
+          <FormFieldError>
+            {formState?.errors?.email?.join(", ")}
+          </FormFieldError>
         </div>
 
         <div className="sm:col-span-3">
           <InputField name="password" variant="password" type="custom" />
           <FormFieldError>
-            {formState.errors?.password?.join(", ")}
+            {formState?.errors?.password?.join(", ")}
           </FormFieldError>
         </div>
 
@@ -66,7 +67,7 @@ function SignUpFormCustomer() {
             type="custom"
           />
           <FormFieldError>
-            {formState.errors?.passwordConfirmation?.join(", ")}
+            {formState?.errors?.passwordConfirmation?.join(", ")}
           </FormFieldError>
         </div>
 
@@ -90,30 +91,32 @@ function SignUpFormCustomer() {
             </select>
           </div>
           <FormFieldError>
-            {formState.errors?.country?.join(", ")}
+            {formState?.errors?.country?.join(", ")}
           </FormFieldError>
         </div>
 
         <div className="col-span-full">
           <InputField name="address" variant="input" type="custom" />
           <FormFieldError>
-            {formState.errors?.address?.join(", ")}
+            {formState?.errors?.address?.join(", ")}
           </FormFieldError>
         </div>
 
         <div className="sm:col-span-2 sm:col-start-1">
           <InputField name="city" variant="input" type="custom" />
-          <FormFieldError>{formState.errors?.city?.join(", ")}</FormFieldError>
+          <FormFieldError>{formState?.errors?.city?.join(", ")}</FormFieldError>
         </div>
 
         <div className="sm:col-span-2">
           <InputField name="state" variant="input" type="custom" />
-          <FormFieldError>{formState.errors?.state?.join(", ")}</FormFieldError>
+          <FormFieldError>
+            {formState?.errors?.state?.join(", ")}
+          </FormFieldError>
         </div>
 
         <div className="sm:col-span-2">
           <InputField name="zip" variant="input" type="custom" />
-          <FormFieldError>{formState.errors?.zip?.join(", ")}</FormFieldError>
+          <FormFieldError>{formState?.errors?.zip?.join(", ")}</FormFieldError>
         </div>
       </div>
       <div className="items-center gap-2 flex mt-8 self-end">

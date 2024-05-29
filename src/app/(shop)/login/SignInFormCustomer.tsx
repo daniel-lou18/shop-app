@@ -28,7 +28,6 @@ function SignInFormCustomer() {
   const searchParams = useSearchParams();
 
   useEffect(() => {
-    if (!formState) return;
     if (searchParams.get("signup") === "success") {
       toast.success(
         "Votre compté a été créé. Vous pouvez vous connecter avec vos identifiants."
@@ -50,7 +49,7 @@ function SignInFormCustomer() {
             <div className="grid gap-2">
               <InputField name="email" variant="input" type="custom" />
               <FormFieldError>
-                {formState.errors?.email?.join(", ")}
+                {formState?.errors?.email?.join(", ")}
               </FormFieldError>
             </div>
             <div className="grid gap-2">
@@ -65,7 +64,7 @@ function SignInFormCustomer() {
               </div>
               <Input name="password" id="password" type="password" />
               <FormFieldError>
-                {formState.errors?.password?.join(", ")}
+                {formState?.errors?.password?.join(", ")}
               </FormFieldError>
             </div>
             <ButtonSubmit className="w-full" formAction={action}>
