@@ -13,6 +13,7 @@ function ProductsTableItemDelete({ id }: { id: string }) {
   );
 
   useEffect(() => {
+    if (!formState) return;
     if (formState.errors?._form) {
       toast.error(formState.errors?._form.join(", "));
     }
