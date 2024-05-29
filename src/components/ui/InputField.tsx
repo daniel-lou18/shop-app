@@ -62,11 +62,6 @@ function InputField({
       {variant === "password" && (
         <Input id={name} type="password" className="w-full" name={name} />
       )}
-      {/* {errorObject && errorObject.errors?.name && (
-        <p className="text-red-500 text-xs">
-          {errorObject.errors.name.join(", ")}
-        </p>
-      )} */}
     </div>
   );
 }

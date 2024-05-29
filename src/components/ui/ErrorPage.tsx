@@ -10,6 +10,7 @@ export type ErrorPageProps = {
 };
 
 function ErrorPage({ error, reset }: ErrorPageProps) {
+  console.log(error);
   return (
     <section className="dark:bg-gray-900">
       <div className="py-8 px-4 mx-auto max-w-screen-xl lg:py-16 lg:px-6">
