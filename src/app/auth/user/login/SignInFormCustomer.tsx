@@ -78,7 +78,7 @@ function SignInFormCustomer() {
             </div>
           </div>
           <div className="mt-4 text-center text-sm">
-            Vous n&apos;avez pas encore de compte professionnel ?{" "}
+            Vous n&apos;avez pas encore de compte ?{" "}
             <Link href={paths.customerSignUp()} className="underline">
               Créer votre compte
             </Link>

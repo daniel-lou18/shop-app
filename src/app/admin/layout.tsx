@@ -10,9 +10,9 @@ async function AdminLayout({ children }: { children: ReactNode }) {
   return (
     <ProtectedRoute user={session?.user} allowedRole={UserRole.ADMIN}>
       <HeaderAdmin />
-      <div className="p-4 sm:px-16 sm:py-4 bg-gray-50 min-h-screen">
+      <main className="p-4 sm:px-16 sm:py-4 bg-gray-50 min-h-screen">
         {children}
-      </div>
+      </main>
     </ProtectedRoute>
   );
 }

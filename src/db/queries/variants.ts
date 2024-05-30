@@ -22,6 +22,8 @@ export async function fetchProductVariantsByColor(
     const variants = await db.productVariant.findMany({
       where: { productId },
     });
+    if (!variants || variants.length === 0)
+      throw new Error("Nous n'avons pas trouvé de variantes");
     const variantsByColor = variants.reduce((acc, variant) => {
       const idx = acc.findIndex((item) => item.color === variant.color);
       if (idx !== -1) {

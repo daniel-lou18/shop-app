@@ -5,7 +5,7 @@ import { Textarea } from "./textarea";
 import { capitalizeString, strNoAccent } from "@/lib/parsers";
 import { mapToFrench } from "@/helpers/helpers";
 
-type InputFieldProps = {
+export type InputFieldProps = {
   variant: "input" | "textarea" | "number" | "email" | "password";
   type: "add" | "edit" | "custom";
   name: string;

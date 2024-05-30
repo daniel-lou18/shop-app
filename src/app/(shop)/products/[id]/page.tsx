@@ -18,12 +18,6 @@ async function ProductDetailsCustomerPage({
   ]);
   if (!productResult.success) throw new Error(productResult.error);
   if (!variantsResult.success) throw new Error(variantsResult.error);
-  if (
-    !productResult.data ||
-    !variantsResult.data ||
-    variantsResult.data.length === 0
-  )
-    return notFound();
 
   return (
     <ProductVariantForm

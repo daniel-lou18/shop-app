@@ -63,11 +63,11 @@ export async function editProduct(
 
   const session = await auth();
 
-  // if (!session || !session.user) {
-  //   return {
-  //     errors: { _form: ["Vous devez être connecté pour modifier un produit"] },
-  //   };
-  // }
+  if (!session || !session.user) {
+    return {
+      errors: { _form: ["Vous devez être connecté pour modifier un produit"] },
+    };
+  }
 
   try {
     const res = await db.product.update({

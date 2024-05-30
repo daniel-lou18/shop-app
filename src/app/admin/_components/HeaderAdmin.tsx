@@ -12,10 +12,10 @@ function HeaderAdmin() {
   return (
     <header className="sticky z-10 top-0 flex h-16 items-center gap-4 border-b bg-background p-4 sm:px-16 sm:py-0">
       <nav className="hidden flex-col gap-6 text-lg font-medium md:flex md:flex-row md:items-center md:gap-5 md:text-sm lg:gap-6">
-        <HeaderLogo href={paths.adminHome()} />
+        <HeaderLogo href={paths.customerHome()} />
         <Link
-          href="#"
-          className="ml-4 text-muted-foreground transition-colors hover:text-foreground pointer-events-none"
+          href={paths.adminHome()}
+          className="ml-4 text-foreground transition-colors hover:text-foreground"
         >
           Dashboard
         </Link>
@@ -36,6 +36,12 @@ function HeaderAdmin() {
           className="text-muted-foreground transition-colors hover:text-foreground pointer-events-none"
         >
           Clients
+        </Link>
+        <Link
+          href={paths.adminSettingsAccount()}
+          className="text-foreground transition-colors hover:text-foreground"
+        >
+          Paramètres
         </Link>
       </nav>
       <Sheet>

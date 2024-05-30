@@ -9,7 +9,6 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Button } from "@/components/ui/button";
-import { useSession } from "next-auth/react";
 import { CircleUser } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Search } from "lucide-react";
@@ -29,8 +28,6 @@ type HeaderCustomerRightProps = {
 function HeaderCustomerRight({ currentUser }: HeaderCustomerRightProps) {
   const [cartOpen, setCartOpen] = useState<boolean>(false);
   const { items } = useCart();
-
-  console.log({ userClient: currentUser });
 
   function toggleCart() {
     setCartOpen((prevState) => !prevState);
@@ -61,7 +58,7 @@ function HeaderCustomerRight({ currentUser }: HeaderCustomerRightProps) {
           </DropdownMenuLabel>
           <DropdownMenuSeparator />
           <DropdownMenuItem className="hover:cursor-pointer">
-            <Link href={paths.userPage()}>Paramètres</Link>
+            <Link href={paths.customerSettingsAccount()}>Paramètres</Link>
           </DropdownMenuItem>
           <DropdownMenuItem disabled>Aide</DropdownMenuItem>
           <DropdownMenuItem asChild className="hover:cursor-pointer">

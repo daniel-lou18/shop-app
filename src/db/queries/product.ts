@@ -15,7 +15,7 @@ export type ProductWithStock = ProductWithVariants & {
 
 export async function fetchProductWithVariants(
   id: string
-): Promise<FetchResult<ProductWithVariants | null>> {
+): Promise<FetchResult<ProductWithVariants>> {
   try {
     const result = await db.product.findFirst({
       where: { id },
@@ -25,6 +25,7 @@ export async function fetchProductWithVariants(
         variants: true,
       },
     });
+    if (!result) throw new Error("Nous n'avons pas trouvé le produit");
 
     return {
       success: true,

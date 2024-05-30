@@ -10,3 +10,4 @@ export { editVariants } from "./edit-variants";
 export { addVariants } from "./add-variants";
 export { deleteVariants } from "./delete-variants";
 export { editSizes } from "./edit-sizes";
+export { updateUserAccount } from "./update-user";

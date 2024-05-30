@@ -22,6 +22,15 @@ export const paths = {
   adminProductAdd() {
     return "/admin/products/new";
   },
+  adminSettings() {
+    return "/admin/settings";
+  },
+  adminSettingsAccount() {
+    return "/admin/settings/account";
+  },
+  adminSettingsShop() {
+    return "/admin/settings/shop";
+  },
   adminSignIn(queryParams?: string) {
     if (queryParams) return `/login?${queryParams}`;
     return "/auth/admin/login";
@@ -36,8 +45,14 @@ export const paths = {
   customerSignUp() {
     return "/auth/user/signup";
   },
-  userPage() {
-    return "/user";
+  customerSettings() {
+    return "/settings";
+  },
+  customerSettingsAccount() {
+    return "/settings/account";
+  },
+  customerSettingsAddresses() {
+    return "/settings/addresses";
   },
   cart() {
     return "/cart";

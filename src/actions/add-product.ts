@@ -60,11 +60,11 @@ export async function addProduct(
 
   const session = await auth();
 
-  // if (!session || !session.user) {
-  //   return {
-  //     errors: { _form: ["Vous devez être connecté pour créer un produit"] },
-  //   };
-  // }
+  if (!session || !session.user) {
+    return {
+      errors: { _form: ["Vous devez être connecté pour créer un produit"] },
+    };
+  }
 
   try {
     const product = await db.product.create({

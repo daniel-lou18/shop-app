@@ -38,7 +38,7 @@ function SignInFormAdmin() {
       <form action={action}>
         <Card className="mx-auto max-w-sm">
           <CardHeader className="">
-            <CardTitle className="text-2xl">Connexion</CardTitle>
+            <CardTitle className="text-2xl">Connexion Espace Pro</CardTitle>
             <CardDescription>
               Saisissez votre email et votre mot de passe
             </CardDescription>
