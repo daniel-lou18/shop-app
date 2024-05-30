@@ -7,6 +7,7 @@ import bcrypt from "bcryptjs";
 import { handleActionError } from "@/lib/errors";
 import { db } from "@/db";
 import { getUserByEmail } from "@/db/queries/user";
+import { UserRole } from "@prisma/client";
 
 const signUpSchema = z.object({
   firstName: z.string().min(1).max(50),
@@ -37,14 +38,12 @@ type SignUpSchemaType = {
   };
 };
 
-export async function signUpUser(
+export async function signUp(
+  type: UserRole,
   formState: SignUpSchemaType,
   formData: FormData
 ): Promise<SignUpSchemaType> {
   await new Promise((resolve) => setTimeout(resolve, 1000));
-  // Array.from(formData.keys()).forEach((key) =>
-  //   console.log(key, formData.get(key))
-  // );
   const result = signUpSchema.safeParse({
     firstName: formData.get("firstName") as string,
     lastName: formData.get("lastName") as string,
@@ -86,6 +85,7 @@ export async function signUpUser(
         ...result.data,
         password: hashedPassword,
         passwordConfirmation: null,
+        role: type,
       },
     });
   } catch (err: unknown) {
@@ -95,5 +95,9 @@ export async function signUpUser(
     );
   }
 
-  redirect(paths.customerSignIn("signup=success"));
+  if (type === "USER") {
+    redirect(paths.customerSignIn("signup=success"));
+  } else {
+    redirect(paths.adminSignIn("signup=success"));
+  }
 }

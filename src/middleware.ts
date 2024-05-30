@@ -13,24 +13,19 @@ export default auth((req) => {
     }
     return null;
   }
-  if (
-    pathName.startsWith(paths.adminHome()) &&
-    !isLoggedIn &&
-    pathName !== paths.adminSignIn() &&
-    pathName !== paths.adminSignUp()
-  ) {
+  if (pathName.startsWith(paths.adminHome()) && !isLoggedIn) {
     return Response.redirect(new URL(paths.adminSignIn(), req.nextUrl));
   }
 
-  if (
-    isLoggedIn &&
-    session.user.role === "USER" &&
-    pathName.startsWith(paths.adminHome()) &&
-    pathName !== paths.adminSignIn() &&
-    pathName !== paths.adminSignUp()
-  ) {
-    return Response.redirect(new URL(paths.customerHome(), req.nextUrl));
-  }
+  // if (
+  //   isLoggedIn &&
+  //   session.user.role === "USER" &&
+  //   pathName.startsWith(paths.adminHome()) &&
+  //   pathName !== paths.adminSignIn() &&
+  //   pathName !== paths.adminSignUp()
+  // ) {
+  //   return Response.redirect(new URL(paths.customerHome(), req.nextUrl));
+  // }
 
   return null;
 });

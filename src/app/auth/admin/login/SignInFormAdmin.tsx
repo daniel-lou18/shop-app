@@ -23,7 +23,7 @@ import { paths } from "@/lib/paths";
 
 function SignInFormAdmin() {
   const [formState, action] = useFormState(
-    actions.signInUser.bind(null, "admin"),
+    actions.signIn.bind(null, "ADMIN"),
     {}
   );
 

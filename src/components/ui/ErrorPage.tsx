@@ -6,7 +6,7 @@ import { paths } from "@/lib/paths";
 
 export type ErrorPageProps = {
   error: Error;
-  reset: () => void;
+  reset?: () => void;
 };
 
 function ErrorPage({ error, reset }: ErrorPageProps) {
@@ -31,7 +31,7 @@ function ErrorPage({ error, reset }: ErrorPageProps) {
             </Link>
             .
           </p>
-          <Button onClick={reset}>Réessayer</Button>
+          {reset && <Button onClick={reset}>Réessayer</Button>}
         </div>
       </div>
     </section>

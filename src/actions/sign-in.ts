@@ -2,9 +2,10 @@
 
 import { paths } from "@/lib/paths";
 import { redirect } from "next/navigation";
-import { signIn } from "@/auth";
+import * as auth from "@/auth";
 import { signInSchema } from "@/lib/schemas";
 import { revalidatePath } from "next/cache";
+import { UserRole } from "@prisma/client";
 
 type SignInSchemaType = {
   errors?: {
@@ -14,8 +15,8 @@ type SignInSchemaType = {
   };
 };
 
-export async function signInUser(
-  type: "user" | "admin",
+export async function signIn(
+  type: UserRole,
   formState: SignInSchemaType,
   formData: FormData
 ): Promise<SignInSchemaType> {
@@ -32,7 +33,7 @@ export async function signInUser(
   }
 
   try {
-    await signIn("credentials", {
+    await auth.signIn("credentials", {
       email: result.data.email,
       password: result.data.password,
       redirect: false,
@@ -56,14 +57,10 @@ export async function signInUser(
     }
     throw err;
   }
-  if (type === "user") {
+  if (type === "USER") {
     revalidatePath(paths.customerHome());
     redirect(paths.customerHome());
   } else {
     redirect(paths.adminProducts());
   }
 }
-
-// export async function signInAdmin() {
-//   return auth.signIn("github", { redirectTo: paths.adminProducts() });
-// }

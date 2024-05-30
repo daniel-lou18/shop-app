@@ -25,7 +25,7 @@ import { useEffect } from "react";
 
 function SignInFormCustomer() {
   const [formState, action] = useFormState(
-    actions.signInUser.bind(null, "user"),
+    actions.signIn.bind(null, "USER"),
     {}
   );
   const searchParams = useSearchParams();

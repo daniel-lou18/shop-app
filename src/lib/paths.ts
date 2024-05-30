@@ -22,18 +22,22 @@ export const paths = {
   adminProductAdd() {
     return "/admin/products/new";
   },
-  adminSignIn() {
-    return "/admin/login";
+  adminSignIn(queryParams?: string) {
+    if (queryParams) return `/login?${queryParams}`;
+    return "/auth/admin/login";
   },
   adminSignUp() {
-    return "/admin/signup";
+    return "/auth/admin/signup";
   },
   customerSignIn(queryParams?: string) {
     if (queryParams) return `/login?${queryParams}`;
-    return "/login";
+    return "/auth/user/login";
   },
   customerSignUp() {
-    return "/signup";
+    return "/auth/user/signup";
+  },
+  userPage() {
+    return "/user";
   },
   cart() {
     return "/cart";

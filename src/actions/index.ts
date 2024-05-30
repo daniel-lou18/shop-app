@@ -1,10 +1,8 @@
 export { addProduct } from "./add-product";
 export { editProduct } from "./edit-product";
 export { deleteProduct } from "./delete-product";
-// export { signInAdmin } from "./sign-in";
-export { signInUser } from "./sign-in-user";
-export { signInAdmin } from "./sign-in-admin";
-export { signUpUser } from "./sign-up";
+export { signIn } from "./sign-in";
+export { signUp } from "./sign-up";
 export { signOut } from "./sign-out";
 export { uploadImages } from "./upload-images";
 export { uploadImage } from "./upload-image";

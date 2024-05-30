@@ -56,9 +56,13 @@ function HeaderCustomerRight({ currentUser }: HeaderCustomerRightProps) {
           </Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent align="end">
-          <DropdownMenuLabel>Mon compte</DropdownMenuLabel>
+          <DropdownMenuLabel>
+            {!!currentUser ? "HELLO !" : "Mon compte"}
+          </DropdownMenuLabel>
           <DropdownMenuSeparator />
-          <DropdownMenuItem disabled>Préférences</DropdownMenuItem>
+          <DropdownMenuItem className="hover:cursor-pointer">
+            <Link href={paths.userPage()}>Paramètres</Link>
+          </DropdownMenuItem>
           <DropdownMenuItem disabled>Aide</DropdownMenuItem>
           <DropdownMenuItem asChild className="hover:cursor-pointer">
             <Link href={paths.adminSignIn()}>Espace pro</Link>

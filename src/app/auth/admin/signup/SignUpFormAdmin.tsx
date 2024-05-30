@@ -11,8 +11,11 @@ import { toast } from "sonner";
 import { useEffect } from "react";
 import { paths } from "@/lib/paths";
 
-function SignUpFormCustomer() {
-  const [formState, action] = useFormState(actions.signUpUser, {});
+function SignUpFormAdmin() {
+  const [formState, action] = useFormState(
+    actions.signUp.bind(null, "ADMIN"),
+    {}
+  );
 
   useEffect(() => {
     if (formState?.errors) {
@@ -121,7 +124,7 @@ function SignUpFormCustomer() {
       </div>
       <div className="items-center gap-2 flex mt-8 self-end">
         <Button type="button" variant="outline" size="sm" asChild>
-          <Link href={paths.customerSignIn()}>Annuler </Link>
+          <Link href={paths.adminSignIn()}>Annuler </Link>
         </Button>
         <ButtonSubmit>Créer mon compte</ButtonSubmit>
       </div>
@@ -129,4 +132,4 @@ function SignUpFormCustomer() {
   );
 }
 
-export default SignUpFormCustomer;
+export default SignUpFormAdmin;
