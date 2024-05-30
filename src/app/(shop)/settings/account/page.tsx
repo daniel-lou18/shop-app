@@ -2,6 +2,15 @@ import { auth } from "@/auth";
 import FormSettings from "@/components/ui/FormSettings";
 import { fetchUserById } from "@/db/queries/user";
 import * as actions from "@/actions";
+import { User } from "@prisma/client";
+
+export type CustomerSettingsAccountFields = {
+  firstName: User["firstName"];
+  lastName: User["lastName"];
+  email: User["email"];
+  image: User["image"];
+};
+
 async function CustomerSettingsAccount() {
   const session = await auth();
   const result = await fetchUserById(session?.user.id);

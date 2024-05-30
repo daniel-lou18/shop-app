@@ -11,18 +11,21 @@ import { toast } from "sonner";
 import { useEffect } from "react";
 import { paths } from "@/lib/paths";
 import { User } from "@prisma/client";
+import { UserAccountSchemaType } from "@/actions/update-user";
+import { CustomerSettingsAccountFields } from "@/app/(shop)/settings/account/page";
+
+type SchemaTypeErrors = {
+  [key: string]: string[];
+};
 
 type FormSettingsProps = {
   title: string;
   subtitle: string;
-  fields: Partial<User>;
+  fields: CustomerSettingsAccountFields;
   formAction: (
-    formState: {
-      success?: boolean;
-      errors?: { _form?: string[] };
-    },
+    formState: UserAccountSchemaType,
     formData: FormData
-  ) => Promise<{ success?: boolean; errors?: { _form?: string[] } }>;
+  ) => Promise<UserAccountSchemaType>;
 };
 
 function FormSettings({
@@ -38,7 +41,7 @@ function FormSettings({
       toast.success("Les informations ont été mises à jour");
     }
     if (!formState?.success) {
-      if (formState?.errors._form)
+      if (formState?.errors?._form)
         toast.error(formState?.errors._form.join(", "));
       else toast.error("Veuillez corriger les erreurs s'il vous plaît");
     }
@@ -52,9 +55,15 @@ function FormSettings({
       <div className="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
         {Object.entries(fields).map(([key, value]) => (
           <div className="sm:col-span-4" key={key}>
-            <InputField name={key} variant="input" value={value} type="edit" />
+            <InputField
+              name={key}
+              variant="input"
+              value={value ? value.toString() : ""}
+              type="edit"
+            />
             <FormFieldError>
-              {formState?.errors?.[key]?.join(", ")}
+              {formState?.errors &&
+                (formState.errors as SchemaTypeErrors)?.[key].join(", ")}
             </FormFieldError>
           </div>
         ))}

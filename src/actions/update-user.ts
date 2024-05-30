@@ -13,7 +13,7 @@ const UserAccountSchema = z.object({
   image: z.string().optional(),
 });
 
-type UserAccountSchemaType = {
+export type UserAccountSchemaType = {
   success?: boolean;
   errors?: {
     firstName?: string[];
