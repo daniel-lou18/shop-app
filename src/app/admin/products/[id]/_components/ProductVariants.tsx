@@ -42,10 +42,10 @@ function ProductVariants({ product, type }: ProductVariantsProps) {
     type === "edit" ? getVariantsByColor(product.variants) : [];
 
   useEffect(() => {
-    if (!addFormState.success && addFormState?.errors?._form) {
+    if (!addFormState?.success && addFormState?.errors?._form) {
       toast.error(addFormState?.errors._form?.join(", "));
     }
-    if (addFormState.success) {
+    if (addFormState?.success) {
       toast.success("La variante a été ajoutée");
     }
   }, [addFormState]);

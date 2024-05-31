@@ -5,14 +5,12 @@ import InputField, { InputFieldProps } from "@/components/ui/InputField";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { useFormState } from "react-dom";
-import * as actions from "@/actions";
 import FormFieldError from "@/components/ui/FormFieldError";
 import { toast } from "sonner";
 import { useEffect } from "react";
 import { paths } from "@/lib/paths";
 import { User } from "@prisma/client";
 import { UserAccountSchemaType } from "@/actions/update-user";
-import { CustomerSettingsAccountFields } from "@/app/(shop)/settings/account/page";
 
 type SchemaTypeErrors = {
   [key: string]: string[];
@@ -21,7 +19,7 @@ type SchemaTypeErrors = {
 type FormSettingsProps = {
   title: string;
   subtitle: string;
-  fields: CustomerSettingsAccountFields;
+  fields: Partial<User>;
   formAction: (
     formState: UserAccountSchemaType,
     formData: FormData
@@ -50,9 +48,8 @@ function FormSettings({
   return (
     <form action={action} className="max-w-[59rem] flex flex-col">
       <h2 className="text-xl font-semibold leading-7 text-gray-900">{title}</h2>
-      <p className="mt-1 text-sm leading-6 text-gray-600">{subtitle}</p>
-
-      <div className="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
+      <p className="text-sm leading-6 text-gray-600 pb-4">{subtitle}</p>
+      <div className="grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6 pt-4 border-t border-gray-200 border-solid">
         {Object.entries(fields).map(([key, value]) => (
           <div className="sm:col-span-4" key={key}>
             <InputField
@@ -68,7 +65,7 @@ function FormSettings({
           </div>
         ))}
       </div>
-      <div className="items-center gap-2 flex mt-8 self-end">
+      <div className="items-center gap-2 flex mt-8">
         <Button type="button" variant="outline" size="sm" asChild>
           <Link href={paths.adminSignIn()}>Annuler </Link>
         </Button>

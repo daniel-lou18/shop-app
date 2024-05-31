@@ -40,7 +40,7 @@ function ProductVariantSizes({ variants }: ProductVariantSizesProps) {
   const [formState, action] = useFormState(actions.editSizes, {});
 
   useEffect(() => {
-    if (formState.success) {
+    if (formState?.success) {
       toast.success("Les tailles ont été mises à jour");
       setIsOpen(false);
     }

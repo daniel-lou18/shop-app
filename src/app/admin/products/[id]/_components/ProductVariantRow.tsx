@@ -56,13 +56,13 @@ function ProductVariantRow({
   }, [isActive]);
 
   useEffect(() => {
-    if (!editFormState.success && editFormState?.errors?._form) {
+    if (!editFormState?.success && editFormState?.errors?._form) {
       toast.error(editFormState?.errors._form?.join(", "));
     }
-    if (editFormState.success) {
+    if (editFormState?.success) {
       toast.success("La variante a été modifiée");
     }
-    if (!deleteFormState.success && deleteFormState?.errors?._form) {
+    if (!deleteFormState?.success && deleteFormState?.errors?._form) {
       toast.error(deleteFormState?.errors._form?.join(", "));
     }
   }, [editFormState, deleteFormState]);
