@@ -37,10 +37,10 @@ function FormSettings({
   const [formState, action] = useFormState(formAction, {});
 
   useEffect(() => {
-    if (formState.success) {
+    if (formState?.success) {
       toast.success("Les informations ont été mises à jour");
     }
-    if (!formState?.success) {
+    if (formState?.success === false) {
       if (formState?.errors?._form)
         toast.error(formState?.errors._form.join(", "));
       else toast.error("Veuillez corriger les erreurs s'il vous plaît");
@@ -63,7 +63,7 @@ function FormSettings({
             />
             <FormFieldError>
               {formState?.errors &&
-                (formState.errors as SchemaTypeErrors)?.[key].join(", ")}
+                (formState.errors as SchemaTypeErrors)?.[key]?.join(", ")}
             </FormFieldError>
           </div>
         ))}
