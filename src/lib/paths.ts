@@ -22,6 +22,9 @@ export const paths = {
   adminProductAdd() {
     return "/admin/products/new";
   },
+  adminCustomers() {
+    return "/admin/customers";
+  },
   adminSettings() {
     return "/admin/settings";
   },

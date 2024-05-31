@@ -32,8 +32,8 @@ function HeaderAdmin() {
           Produits
         </Link>
         <Link
-          href="#"
-          className="text-muted-foreground transition-colors hover:text-foreground pointer-events-none"
+          href={paths.adminCustomers()}
+          className="text-foreground transition-colors hover:text-foreground"
         >
           Clients
         </Link>

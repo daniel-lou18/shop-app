@@ -3,7 +3,7 @@ import { ReactNode } from "react";
 
 type PageHeading1Props = {
   children: ReactNode;
-  className: string;
+  className?: string;
 };
 
 function PageHeading1({ children, className }: PageHeading1Props) {

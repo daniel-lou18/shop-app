@@ -32,7 +32,7 @@ async function AdminSettingsShop() {
           </CardHeader>
           <CardContent>
             <form>
-              <Input placeholder="Ne marche pas encore" />
+              <Input placeholder="Pas encore fonctionnel" />
             </form>
           </CardContent>
           <CardFooter className="border-t px-6 py-4">
