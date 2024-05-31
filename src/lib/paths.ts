@@ -25,6 +25,15 @@ export const paths = {
   adminCustomers() {
     return "/admin/customers";
   },
+  adminCustomer(customerId: string) {
+    return `/admin/customers/${customerId}`;
+  },
+  adminCustomerAccount(customerId: string) {
+    return `/admin/customers/${customerId}/account`;
+  },
+  adminCustomerAddresses(customerId: string) {
+    return `/admin/customers/${customerId}/addresses`;
+  },
   adminSettings() {
     return "/admin/settings";
   },
@@ -42,7 +51,7 @@ export const paths = {
     return "/auth/admin/signup";
   },
   customerSignIn(queryParams?: string) {
-    if (queryParams) return `/login?${queryParams}`;
+    if (queryParams) return `/auth/user/login?${queryParams}`;
     return "/auth/user/login";
   },
   customerSignUp() {

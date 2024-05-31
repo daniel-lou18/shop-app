@@ -53,11 +53,13 @@ model User {
   role          UserRole  @default(USER)
   firstName     String?
   lastName      String?
+  sex           Sex?
   country       String?
   address       String?
   city          String?
   state         String?
   zip           Int?
+  isActive      Boolean @default(true)
   accounts      Account[]
   sessions      Session[]
   orders Order[]

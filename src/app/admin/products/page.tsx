@@ -53,6 +53,7 @@ export default async function ProductsTable() {
                 currentPage={1}
                 itemsPerPage={10}
                 totalItems={result.data.length}
+                text="produits"
               />
             </CardFooter>
           </Card>

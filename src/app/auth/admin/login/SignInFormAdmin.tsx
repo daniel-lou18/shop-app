@@ -20,18 +20,25 @@ import { useEffect } from "react";
 import { toast } from "sonner";
 import FormFieldError from "@/components/ui/FormFieldError";
 import { paths } from "@/lib/paths";
+import { useSearchParams } from "next/navigation";
 
 function SignInFormAdmin() {
   const [formState, action] = useFormState(
     actions.signIn.bind(null, "ADMIN"),
     {}
   );
+  const searchParams = useSearchParams();
 
   useEffect(() => {
+    if (searchParams.get("signup") === "success" && !formState?.errors) {
+      toast.success(
+        "Votre compté a été créé. Vous pouvez vous connecter avec vos identifiants."
+      );
+    }
     if (formState?.errors?._form) {
       toast.error(formState?.errors?._form.join(", "));
     }
-  }, [formState]);
+  }, [formState, searchParams]);
 
   return (
     <main className="flex flex-col items-center pt-32 w-full min-h-screen">

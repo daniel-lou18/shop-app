@@ -31,10 +31,13 @@ function SignInFormCustomer() {
   const searchParams = useSearchParams();
 
   useEffect(() => {
-    if (searchParams.get("signup") === "success") {
+    if (searchParams.get("signup") === "success" && !formState?.errors) {
       toast.success(
         "Votre compté a été créé. Vous pouvez vous connecter avec vos identifiants."
       );
+    }
+    if (formState?.errors?._form) {
+      toast.error(formState?.errors?._form.join(", "));
     }
   }, [formState, searchParams]);
 

@@ -8,7 +8,7 @@ export function splitCapitalizeUri(uri: string) {
 
 export function capitalizeString(string: string | undefined) {
   if (!string) return null;
-  return string.at(0)?.toUpperCase() + string.slice(1);
+  return string.at(0)?.toUpperCase() + string.slice(1).toLowerCase();
 }
 
 export function strNoAccent(string: string) {

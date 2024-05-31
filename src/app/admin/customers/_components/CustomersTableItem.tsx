@@ -8,12 +8,13 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Badge } from "../../../../components/ui/badge";
 import { Button } from "../../../../components/ui/button";
-import { MoreHorizontal } from "lucide-react";
+import { CircleUser, MoreHorizontal, User as UserIcon } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
 import { User } from "@prisma/client";
 import { Suspense } from "react";
 import CustomersTableItemDelete from "./CustomersTableItemDelete";
+import { paths } from "@/lib/paths";
 
 type CustomersTableItemProps = User;
 
@@ -22,23 +23,29 @@ function CustomersTableItem({
   image,
   firstName,
   lastName,
+  sex,
+  isActive,
 }: CustomersTableItemProps) {
   return (
     <TableRow>
       <TableCell className="hidden sm:table-cell">
-        <Image
-          alt="Product image"
-          className="aspect-square rounded-md object-cover"
-          height="64"
-          src={image || "/placeholder.svg"}
-          width="64"
-        />
+        {image ? (
+          <Image
+            alt="Product image"
+            className="aspect-square rounded-md object-cover"
+            height="64"
+            src={image}
+            width="64"
+          />
+        ) : (
+          <UserIcon className="h-5 w-5" />
+        )}
       </TableCell>
       <TableCell className="font-medium">{lastName}</TableCell>
       <TableCell>{firstName}</TableCell>
-      <TableCell>yep</TableCell>
+      <TableCell>{sex}</TableCell>
       <TableCell>
-        <Badge variant="outline">Actif</Badge>
+        <Badge variant="outline">{isActive ? "Actif" : "Non-actif"}</Badge>
       </TableCell>
       <TableCell className="hidden md:table-cell">yop</TableCell>
       <TableCell className="hidden md:table-cell">yup</TableCell>
@@ -53,7 +60,7 @@ function CustomersTableItem({
           <DropdownMenuContent align="end">
             <DropdownMenuLabel>Actions</DropdownMenuLabel>
             <DropdownMenuItem asChild>
-              <Link href={`/admin/products/${id}`}>Modifier</Link>
+              <Link href={paths.adminCustomerAccount(id)}>Modifier</Link>
             </DropdownMenuItem>
             <Suspense>
               <CustomersTableItemDelete id={id} />

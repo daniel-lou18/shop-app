@@ -1,5 +1,6 @@
+"use client";
+
 import { TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { ReactNode } from "react";
 
 type TableTabsListProps = {
   tabsTriggers: { value: string; text: string }[];
