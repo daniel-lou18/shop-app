@@ -67,7 +67,7 @@ function HeaderCustomerRight({ currentUser }: HeaderCustomerRightProps) {
           <DropdownMenuSeparator />
           {!currentUser && (
             <DropdownMenuItem asChild className="hover:cursor-pointer">
-              <Link href={paths.customerSignIn()}>Me connecter</Link>
+              <Link href={paths.customerSignIn()}>Se connecter</Link>
             </DropdownMenuItem>
           )}
           {!!currentUser && (

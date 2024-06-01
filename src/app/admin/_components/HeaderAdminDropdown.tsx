@@ -14,6 +14,8 @@ import { useSession } from "next-auth/react";
 import * as actions from "@/actions";
 import { CircleUser } from "lucide-react";
 import ButtonSignOut from "@/components/ui/ButtonSignOut";
+import Link from "next/link";
+import { paths } from "@/lib/paths";
 
 function HeaderAdminDropdown() {
   const session = useSession();
@@ -34,7 +36,9 @@ function HeaderAdminDropdown() {
       <DropdownMenuContent align="end">
         <DropdownMenuLabel>Mon compte</DropdownMenuLabel>
         <DropdownMenuSeparator />
-        <DropdownMenuItem>Préférences</DropdownMenuItem>
+        <DropdownMenuItem className="hover:cursor-pointer">
+          <Link href={paths.adminSettingsAccount()}>Paramètres</Link>
+        </DropdownMenuItem>{" "}
         <DropdownMenuItem>Aide</DropdownMenuItem>
         <DropdownMenuSeparator />
         <DropdownMenuItem>
