@@ -1,5 +1,7 @@
 import { type CartOrder } from "@/app/(shop)/cart/_components/CartSummary";
 import { db } from "@/db";
+import { paths } from "@/lib/paths";
+import { stripe } from "@/lib/stripe";
 import { NextResponse } from "next/server";
 import Stripe from "stripe";
 
@@ -46,7 +48,16 @@ export async function POST(request: Request) {
         },
       },
     });
-    console.log(newOrder);
+    const session = await stripe.checkout.sessions.create({
+      line_items,
+      mode: "payment",
+      success_url: `${process.env.STORE_URL}?payment=success`,
+      cancel_url: `${process.env.STORE_URL}?payment=cancel`,
+      metadata: {
+        orderId: newOrder.id,
+      },
+    });
+    return NextResponse.json({ url: session.url }, { status: 200 });
   } catch (err) {
     console.error(err);
     let errorMessage;
@@ -54,6 +65,4 @@ export async function POST(request: Request) {
     else errorMessage = "Une erreur est survenue";
     return NextResponse.json({ error: errorMessage }, { status: 500 });
   }
-
-  return NextResponse.json({ orderData }, { status: 200 });
 }

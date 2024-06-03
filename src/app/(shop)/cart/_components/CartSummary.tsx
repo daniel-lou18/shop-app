@@ -4,6 +4,7 @@ import { ExtendedUser } from "@/auth";
 import ButtonSubmit from "@/components/ui/ButtonSubmit";
 import { useCart } from "@/context/cart-context";
 import { paths } from "@/lib/paths";
+import { useRouter, useSearchParams } from "next/navigation";
 import { FormEvent, useEffect, useState } from "react";
 import { toast } from "sonner";
 
@@ -20,6 +21,8 @@ function CartSummary({ user }: { user: ExtendedUser | undefined }) {
   const [totalPrice, setTotalPrice] = useState<number>(
     items.reduce((acc, item) => acc + item.price, 0)
   );
+  const searchParams = useSearchParams();
+  const router = useRouter();
 
   useEffect(() => {
     setTotalPrice(
@@ -27,12 +30,19 @@ function CartSummary({ user }: { user: ExtendedUser | undefined }) {
     );
   }, [items]);
 
+  useEffect(() => {
+    if (searchParams.get("payment") === "success") {
+      toast.success("Votre commande a été validée");
+    } else if (searchParams.get("payment") === "cancel") {
+      toast.error("Une erreur est survenue lors du paiement");
+    }
+  });
+
   async function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
     const orderData = items.map((item) => {
       return { variantId: item.id, quantity: item.orderQuantity };
     });
-    console.log(user?.id);
     try {
       const res = await fetch(paths.apiCheckout(), {
         method: "POST",
@@ -45,8 +55,8 @@ function CartSummary({ user }: { user: ExtendedUser | undefined }) {
         throw new Error(
           "Une erreur est survenue lors de l'envoi de la commande"
         );
-      console.log(await res.json());
-      toast.success("Commande envoyée");
+      const data = await res.json();
+      router.push(data.url);
     } catch (err) {
       console.error(err);
       if (err instanceof Error) toast.error(err.message);

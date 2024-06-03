@@ -66,7 +66,11 @@ export const paths = {
   customerSettingsAddresses() {
     return "/settings/addresses";
   },
-  cart() {
+  customerSettingsOrders() {
+    return "/settings/orders";
+  },
+  cart(queryParams?: string) {
+    if (queryParams) return `/cart?${queryParams}`;
     return "/cart";
   },
   storeSex(sex: string) {
