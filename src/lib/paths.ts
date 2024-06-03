@@ -78,4 +78,7 @@ export const paths = {
   storeCategory(sex: string, category: string) {
     return `/store/${sex}-${decodeURIComponent(category)}/all`;
   },
+  apiCheckout() {
+    return "/api/checkout";
+  },
 };

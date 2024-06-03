@@ -1,6 +1,6 @@
 import { fetchProductsWithSearchParams } from "@/db/queries/products";
 import { parseApiParams, parseApiSearchParams } from "@/lib/parsers";
-import { NextRequest } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(request: NextRequest) {
   const { pathname, searchParams } = request.nextUrl;
@@ -11,10 +11,12 @@ export async function GET(request: NextRequest) {
     parsedParams,
     parsedSearchParams
   );
-  if (result.success)
-    return new Response(JSON.stringify(result.data), { status: 200 });
+  if (result.success) return NextResponse.json(result.data, { status: 200 });
   else
-    return new Response(JSON.stringify({ error: result.error }), {
-      status: 500,
-    });
+    return NextResponse.json(
+      { error: result.error },
+      {
+        status: 500,
+      }
+    );
 }

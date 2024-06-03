@@ -1,9 +1,21 @@
 "use client";
 
+import { ExtendedUser } from "@/auth";
+import ButtonSubmit from "@/components/ui/ButtonSubmit";
 import { useCart } from "@/context/cart-context";
-import { useEffect, useState } from "react";
+import { paths } from "@/lib/paths";
+import { FormEvent, useEffect, useState } from "react";
+import { toast } from "sonner";
 
-function CartSummary() {
+export type CartOrder = {
+  orderData: {
+    variantId: string;
+    quantity: number;
+  }[];
+  userId?: string;
+};
+
+function CartSummary({ user }: { user: ExtendedUser | undefined }) {
   const { items } = useCart();
   const [totalPrice, setTotalPrice] = useState<number>(
     items.reduce((acc, item) => acc + item.price, 0)
@@ -15,8 +27,38 @@ function CartSummary() {
     );
   }, [items]);
 
+  async function handleSubmit(e: FormEvent<HTMLFormElement>) {
+    e.preventDefault();
+    const orderData = items.map((item) => {
+      return { variantId: item.id, quantity: item.orderQuantity };
+    });
+    console.log(user?.id);
+    try {
+      const res = await fetch(paths.apiCheckout(), {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ orderData, userId: user?.id }),
+      });
+      if (!res.ok)
+        throw new Error(
+          "Une erreur est survenue lors de l'envoi de la commande"
+        );
+      console.log(await res.json());
+      toast.success("Commande envoyée");
+    } catch (err) {
+      console.error(err);
+      if (err instanceof Error) toast.error(err.message);
+      else toast.error("Une erreur est survenue");
+    }
+  }
+
   return (
-    <div className="mx-auto mt-6 max-w-4xl flex-1 space-y-6 lg:mt-0 lg:w-full">
+    <form
+      onSubmit={handleSubmit}
+      className="mx-auto mt-6 max-w-4xl flex-1 space-y-6 lg:mt-0 lg:w-full"
+    >
       <div className="space-y-4 rounded-lg border border-gray-200 bg-white p-4 shadow-sm dark:border-gray-700 dark:bg-gray-800 sm:p-6">
         <p className="text-xl font-semibold text-gray-900 dark:text-white">
           Récapitulatif
@@ -45,7 +87,7 @@ function CartSummary() {
                 Frais de livraison
               </dt>
               <dd className="text-base font-medium text-gray-900 dark:text-white">
-                $99
+                Offerts
               </dd>
             </dl>
           </div>
@@ -55,17 +97,14 @@ function CartSummary() {
               Total
             </dt>
             <dd className="text-base font-bold text-gray-900 dark:text-white">
-              $8,191.00
+              {totalPrice}
             </dd>
           </dl>
         </div>
 
-        <a
-          href="#"
-          className="flex w-full items-center justify-center rounded-lg bg-primary-700 px-5 py-2.5 text-sm font-medium text-white hover:bg-primary-800 focus:outline-none focus:ring-4 focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
-        >
-          Proceed to Checkout
-        </a>
+        <ButtonSubmit className="flex w-full items-center justify-center rounded-lg bg-primary px-5 py-2.5 text-sm font-medium text-white hover:bg-primary-800 focus:outline-none focus:ring-4 focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">
+          Payer
+        </ButtonSubmit>
 
         <div className="flex items-center justify-center gap-2">
           <span className="text-sm font-normal text-gray-500 dark:text-gray-400">
@@ -123,7 +162,7 @@ function CartSummary() {
           </button>
         </form>
       </div>
-    </div>
+    </form>
   );
 }
 

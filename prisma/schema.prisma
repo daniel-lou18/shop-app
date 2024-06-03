@@ -97,7 +97,6 @@ model Product {
   isNewProduct Boolean @default(false)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-  orders Order[]
   variants ProductVariant[]
 
   @@index([brandId, categoryId, sex])
@@ -115,6 +114,8 @@ model ProductVariant {
   stockQuantity Int
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+  orderItems OrderItem[]
+
 
   @@unique([productId, size, color])
   @@index([productId, size, color])
@@ -148,11 +149,23 @@ model Category {
 
 model Order {
   id String @id @default(cuid())
+  isPaid Boolean @default(false)
+  address String @default("")
+  phone String @default("")
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-  pricePaid Int
-  productId String
+  orderItems OrderItem[]
   userId String
-  product Product @relation(fields: [productId], references: [id], onDelete: Restrict)
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model OrderItem {
+  id String @id @default(cuid())
+  quantity Int @default(1)
+  orderId String
+  order Order @relation(fields: [orderId], references: [id])
+  variantId String
+  variant ProductVariant @relation(fields: [variantId], references: [id])
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }

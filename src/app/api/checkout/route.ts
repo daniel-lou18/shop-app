@@ -1,0 +1,59 @@
+import { type CartOrder } from "@/app/(shop)/cart/_components/CartSummary";
+import { db } from "@/db";
+import { NextResponse } from "next/server";
+import Stripe from "stripe";
+
+type RequestData = CartOrder;
+
+export async function POST(request: Request) {
+  const { orderData, userId } = (await request.json()) as RequestData;
+  const orderIds = orderData.map((item) => item.variantId);
+
+  try {
+    if (!orderData || orderData.length === 0 || !userId) {
+      throw new Error("Commande invalide");
+    }
+    const variants = await db.productVariant.findMany({
+      where: { id: { in: orderIds } },
+      include: {
+        product: true,
+      },
+    });
+    const line_items: Stripe.Checkout.SessionCreateParams.LineItem[] = [];
+    variants.forEach((variant) => {
+      line_items.push({
+        price_data: {
+          currency: "eur",
+          product_data: {
+            name: variant.product.name,
+          },
+          unit_amount: variant.price,
+        },
+        quantity: orderData.find((item) => item.variantId === variant.id)
+          ?.quantity,
+      });
+    });
+
+    const newOrder = await db.order.create({
+      data: {
+        isPaid: false,
+        userId: userId,
+        orderItems: {
+          create: orderData.map((item) => ({
+            quantity: item.quantity,
+            variant: { connect: { id: item.variantId } },
+          })),
+        },
+      },
+    });
+    console.log(newOrder);
+  } catch (err) {
+    console.error(err);
+    let errorMessage;
+    if (err instanceof Error) errorMessage = err.message;
+    else errorMessage = "Une erreur est survenue";
+    return NextResponse.json({ error: errorMessage }, { status: 500 });
+  }
+
+  return NextResponse.json({ orderData }, { status: 200 });
+}
