@@ -1,23 +1,20 @@
-import { Badge } from "@/components/ui/badge";
 import {
   Card,
   CardContent,
   CardDescription,
-  CardFooter,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
 import {
   Table,
   TableBody,
-  TableCell,
   TableHead,
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
 import { auth } from "@/auth";
 import { fetchOrdersbyUserId } from "@/db/queries/orders";
-import Order from "./Order";
+import OrderRow from "./OrderRow";
 async function Orders() {
   const session = await auth();
   const user = session?.user;
@@ -27,7 +24,7 @@ async function Orders() {
   return (
     <Card className="grid auto-rows-max items-start gap-4 lg:col-span-2 lg:gap-8">
       <CardHeader className="px-7">
-        <CardTitle>Commandes</CardTitle>
+        <CardTitle>Mes commandes</CardTitle>
         <CardDescription>
           Cliquez sur une commande pour voir le détail
         </CardDescription>
@@ -36,16 +33,16 @@ async function Orders() {
         <Table>
           <TableHeader>
             <TableRow>
+              <TableHead className="hidden sm:table-cell"></TableHead>
               <TableHead>N° commande</TableHead>
               <TableHead className="hidden sm:table-cell">Produit(s)</TableHead>
-              <TableHead className="hidden sm:table-cell">Statut</TableHead>
               <TableHead className="hidden md:table-cell">Date</TableHead>
-              <TableHead className="text-right">Montant</TableHead>
+              <TableHead className="text-right">Prix total</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
             {orders.data.map((order) => (
-              <Order key={order.id} orderId={order.id} />
+              <OrderRow key={order.id} order={order} />
             ))}
           </TableBody>
         </Table>

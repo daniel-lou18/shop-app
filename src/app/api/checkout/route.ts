@@ -58,7 +58,7 @@ export async function POST(request: Request) {
       },
     });
     return NextResponse.json({ url: session.url }, { status: 200 });
-  } catch (err) {
+  } catch (err: unknown) {
     console.error(err);
     let errorMessage;
     if (err instanceof Error) errorMessage = err.message;

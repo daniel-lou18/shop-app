@@ -1,8 +1,17 @@
+import { OrderWithItems } from "@/db/queries/orders";
+
 export function centsToEuros(priceInCents: number) {
   return (priceInCents / 100).toLocaleString("fr-FR", {
     style: "currency",
     currency: "EUR",
   });
+}
+
+export function calculateOrderPrice(order: OrderWithItems) {
+  const totalPrice = order.orderItems.reduce((acc, item) => {
+    return acc + item.quantity * item.variant.price;
+  }, 0);
+  return centsToEuros(totalPrice);
 }
 
 export const hashMap = {

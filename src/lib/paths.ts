@@ -66,8 +66,9 @@ export const paths = {
   customerSettingsAddresses() {
     return "/settings/addresses";
   },
-  customerSettingsOrders() {
-    return "/settings/orders";
+  customerOrders(params?: string) {
+    if (params) return `/orders/${params}`;
+    return "/orders";
   },
   cart(queryParams?: string) {
     if (queryParams) return `/cart?${queryParams}`;

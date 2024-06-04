@@ -58,11 +58,15 @@ function HeaderCustomerRight({ currentUser }: HeaderCustomerRightProps) {
           </DropdownMenuLabel>
           <DropdownMenuSeparator />
           {!!currentUser && (
-            <DropdownMenuItem className="hover:cursor-pointer">
-              <Link href={paths.customerSettingsAccount()}>Paramètres</Link>
-            </DropdownMenuItem>
+            <>
+              <DropdownMenuItem className="hover:cursor-pointer">
+                <Link href={paths.customerSettingsAccount()}>Paramètres</Link>
+              </DropdownMenuItem>
+              <DropdownMenuItem className="hover:cursor-pointer">
+                <Link href={paths.customerOrders()}>Mes commandes</Link>
+              </DropdownMenuItem>
+            </>
           )}
-          <DropdownMenuItem disabled>Aide</DropdownMenuItem>
           <DropdownMenuItem asChild className="hover:cursor-pointer">
             <Link href={paths.adminSignIn()}>Espace pro</Link>
           </DropdownMenuItem>
