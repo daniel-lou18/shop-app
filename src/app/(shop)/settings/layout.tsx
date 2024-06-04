@@ -16,7 +16,7 @@ function AdminSettingsLayout({ children }: AdminSettingsLayoutProps) {
       <Sidebar>
         <NavLink href={paths.customerSettingsAccount()}>Compte</NavLink>
         <NavLink href={paths.customerSettingsAddresses()}>Adresse</NavLink>
-        <NavLink href={paths.customerSettingsOrders()}>Commandes</NavLink>
+        <NavLink href={paths.customerOrders()}>Commandes</NavLink>
       </Sidebar>
       {children}
     </SidebarLayout>

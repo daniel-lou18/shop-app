@@ -1,3 +1,5 @@
+"use client";
+
 import { TableCell, TableRow } from "@/components/ui/table";
 import {
   DropdownMenu,
@@ -14,36 +16,46 @@ import Image from "next/image";
 import { User } from "@prisma/client";
 import { Suspense } from "react";
 import { paths } from "@/lib/paths";
-import { OrderWithItems, OrderWithItemsAndUser } from "@/db/queries/orders";
+import { OrderWithItemsAndUser } from "@/db/queries/orders";
 import { calculateOrderPrice } from "@/helpers/helpers";
+import { usePathname, useRouter } from "next/navigation";
 
 type OrdersTableItemProps = { order: OrderWithItemsAndUser };
 
 function OrdersTableItem({ order }: OrdersTableItemProps) {
+  const router = useRouter();
+  const pathName = usePathname();
   const {
     id,
     isPaid,
     createdAt,
-    user: { image, lastName, firstName, sex, email },
+    orderItems,
+    user: { lastName, firstName, sex, email },
   } = order;
+
+  function handleClick(e: React.MouseEvent<HTMLTableRowElement>) {
+    e.preventDefault();
+    router.push(`${pathName}/${order.id}`);
+  }
+
   return (
-    <TableRow>
+    <TableRow onClick={handleClick} className="hover:cursor-pointer">
       <TableCell className="hidden sm:table-cell">
-        {image ? (
-          <Image
-            alt="Product image"
-            className="aspect-square rounded-md object-cover"
-            height="64"
-            src={image}
-            width="64"
-          />
-        ) : (
-          <UserIcon className="h-5 w-5" />
-        )}
+        <Image
+          alt="Product image"
+          className="aspect-square rounded-md object-cover"
+          height="64"
+          src={orderItems[0]?.variant.imagePath || "/placeholder.svg"}
+          width="64"
+        />
       </TableCell>
       <TableCell className="font-medium">{lastName}</TableCell>
       <TableCell>{firstName}</TableCell>
-      <TableCell>{sex}</TableCell>
+      <TableCell>
+        {orderItems[0]?.variant.product.brand.name.split(" ")[0]}
+        {" - "}
+        {orderItems[0]?.variant.product.name}
+      </TableCell>
       <TableCell>
         <Badge variant="outline">{isPaid ? "Payée" : "Annulée"}</Badge>
       </TableCell>
