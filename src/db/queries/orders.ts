@@ -7,17 +7,20 @@ import {
   OrderItem,
   Product,
   ProductVariant,
+  User,
 } from "@prisma/client";
 
 export type ExtendedOrderItem = OrderItem & {
   variant: ProductVariant & { product: Product & { brand: Brand } };
 };
-
 export type OrderWithItems = Order & {
   orderItems: ExtendedOrderItem[];
 };
-
 export type OrdersWithItems = OrderWithItems[];
+
+export type ExtendedOrderItemWithUser = ExtendedOrderItem & { user: User };
+export type OrderWithItemsAndUser = OrderWithItems & { user: User };
+export type OrdersWithItemsAndUser = OrderWithItemsAndUser[];
 
 export async function fetchOrdersbyUserId(
   userId: string | undefined
@@ -44,6 +47,32 @@ export async function fetchOrdersbyUserId(
     return handleFetchError(
       err,
       "Une erreur est survenue lors de la récupération des commandes"
+    );
+  }
+}
+
+export async function fetchAllOrders(): Promise<
+  FetchResult<OrdersWithItemsAndUser>
+> {
+  try {
+    const result = await db.order.findMany({
+      include: {
+        orderItems: {
+          include: {
+            variant: { include: { product: { include: { brand: true } } } },
+          },
+        },
+        user: true,
+      },
+      orderBy: { createdAt: "desc" },
+    });
+    if (!result || result.length === 0)
+      throw new Error("Nous n'avons retrouvé aucune commande");
+    return { success: true, data: result };
+  } catch (err) {
+    return handleFetchError(
+      err,
+      "Une erreur est survenue lors de la récupréation de toutes les commandes"
     );
   }
 }

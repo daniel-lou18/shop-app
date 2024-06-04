@@ -15,13 +15,13 @@ function HeaderAdmin() {
         <HeaderLogo href={paths.customerHome()} />
         <Link
           href={paths.adminHome()}
-          className="ml-4 text-foreground transition-colors hover:text-foreground"
+          className="ml-4 text-muted-foreground transition-colors hover:text-foreground pointer-events-none"
         >
           Dashboard
         </Link>
         <Link
-          href="#"
-          className="text-muted-foreground transition-colors hover:text-foreground pointer-events-none"
+          href={paths.adminOrders()}
+          className="text-foreground transition-colors hover:text-foreground"
         >
           Commandes
         </Link>

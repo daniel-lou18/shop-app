@@ -21,7 +21,7 @@ export default async function ProductsTable() {
   if (!result.success) throw new Error(result.error);
 
   return (
-    <main className="grid flex-1 items-start gap-4 md:gap-8">
+    <div className="grid flex-1 items-start gap-4 md:gap-8">
       <Tabs defaultValue="all">
         <div className="flex items-center">
           <ProductsTableTabsList />
@@ -59,6 +59,6 @@ export default async function ProductsTable() {
           </Card>
         </TabsContent>
       </Tabs>
-    </main>
+    </div>
   );
 }
