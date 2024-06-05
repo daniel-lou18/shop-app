@@ -17,7 +17,7 @@ import { User } from "@prisma/client";
 import { Suspense } from "react";
 import { paths } from "@/lib/paths";
 import { OrderWithItemsAndUser } from "@/db/queries/orders";
-import { calculateOrderPrice } from "@/helpers/helpers";
+import { calculateOrderPrice, centsToEuros } from "@/helpers/helpers";
 import { usePathname, useRouter } from "next/navigation";
 
 type OrdersTableItemProps = { order: OrderWithItemsAndUser };
@@ -49,22 +49,23 @@ function OrdersTableItem({ order }: OrdersTableItemProps) {
           width="64"
         />
       </TableCell>
-      <TableCell className="font-medium">{lastName}</TableCell>
+      <TableCell className="font-medium">{order.id}</TableCell>
+      <TableCell>{lastName}</TableCell>
       <TableCell>{firstName}</TableCell>
-      <TableCell>
-        {orderItems[0]?.variant.product.brand.name.split(" ")[0]}
-        {" - "}
-        {orderItems[0]?.variant.product.name}
+      <TableCell className="hidden md:table-cell">
+        {createdAt.toLocaleDateString("fr-FR")}
       </TableCell>
       <TableCell>
         <Badge variant="outline">{isPaid ? "Payée" : "Annulée"}</Badge>
       </TableCell>
-      <TableCell className="hidden md:table-cell">{email}</TableCell>
-      <TableCell className="hidden md:table-cell">
-        {createdAt.toLocaleDateString("fr-FR")}
+      <TableCell className="hidden xl:table-cell">
+        {orderItems[0]?.variant.product.brand.name.split(" ")[0]}
+        {" - "}
+        {orderItems[0]?.variant.product.name.split(" ")[0]}
+        {"..."}
       </TableCell>
-      <TableCell className="hidden md:table-cell">
-        {calculateOrderPrice(order)}
+      <TableCell className="hidden xl:table-cell">
+        {centsToEuros(calculateOrderPrice(order))}
       </TableCell>
       <TableCell>
         <DropdownMenu>

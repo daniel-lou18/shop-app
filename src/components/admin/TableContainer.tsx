@@ -26,16 +26,17 @@ type TableContainerProps = {
   children: React.ReactNode & { props: { data: [] } };
   title: string;
   subtitle: string;
+  tableHeaderItems: string[];
   data: any[];
   tabsTriggers: { value: string; text: string }[];
   filterFunction: (data: any[], value: string) => any[];
 };
 
-const tableHeaderItems = ["Prénom", "Genre", "Statut", "Commandes", "Total"];
 function TableContainer({
   children,
   title,
   subtitle,
+  tableHeaderItems,
   data,
   tabsTriggers,
   filterFunction,

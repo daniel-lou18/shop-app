@@ -1,9 +1,18 @@
 "use client";
 
 import TableContainer from "@/components/admin/TableContainer";
-import { User } from "@prisma/client";
 import OrdersTableContent from "./OrdersTableContent";
 import { OrdersWithItemsAndUser } from "@/db/queries/orders";
+
+const tableHeaderItems = [
+  "N°",
+  "Nom",
+  "Prénom",
+  "Date",
+  "Statut",
+  "Produits",
+  "Montant",
+];
 
 const tabsTriggers = [
   { value: "all", text: "Tous" },
@@ -30,6 +39,7 @@ function OrdersTablePage({ data }: { data: OrdersWithItemsAndUser }) {
       <TableContainer
         title="Commandes"
         subtitle="Gérer les commandes payées et non-payées"
+        tableHeaderItems={tableHeaderItems}
         data={data}
         tabsTriggers={tabsTriggers}
         filterFunction={filterOrders}

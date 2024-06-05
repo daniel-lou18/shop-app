@@ -8,15 +8,16 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Badge } from "../../../../components/ui/badge";
 import { Button } from "../../../../components/ui/button";
-import { CircleUser, MoreHorizontal, User as UserIcon } from "lucide-react";
+import { MoreHorizontal, User as UserIcon } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
-import { User } from "@prisma/client";
 import { Suspense } from "react";
 import CustomersTableItemDelete from "./CustomersTableItemDelete";
 import { paths } from "@/lib/paths";
+import { UserWithOrders } from "@/db/queries/users";
+import { calculateOrdersPrice, centsToEuros } from "@/helpers/helpers";
 
-type CustomersTableItemProps = User;
+type CustomersTableItemProps = UserWithOrders;
 
 function CustomersTableItem({
   id,
@@ -25,7 +26,10 @@ function CustomersTableItem({
   lastName,
   sex,
   isActive,
+  orders,
 }: CustomersTableItemProps) {
+  const totalAmount = centsToEuros(calculateOrdersPrice(orders));
+  console.log(totalAmount);
   return (
     <TableRow>
       <TableCell className="hidden sm:table-cell">
@@ -47,8 +51,8 @@ function CustomersTableItem({
       <TableCell>
         <Badge variant="outline">{isActive ? "Actif" : "Non-actif"}</Badge>
       </TableCell>
-      <TableCell className="hidden md:table-cell">yop</TableCell>
-      <TableCell className="hidden md:table-cell">yup</TableCell>
+      <TableCell className="hidden xl:table-cell">{orders.length}</TableCell>
+      <TableCell className="hidden xl:table-cell">{totalAmount}</TableCell>
       <TableCell>
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
