@@ -1,5 +1,5 @@
 import { fetchAllOrders } from "@/db/queries/orders";
-import OrdersTable from "./_components/OrdersTable";
+import OrdersTablePage from "./_components/OrdersTablePage";
 
 async function AdminOrders() {
   const result = await fetchAllOrders();
@@ -7,7 +7,7 @@ async function AdminOrders() {
 
   return (
     <div className="grid flex-1 items-start gap-4 md:gap-8">
-      <OrdersTable orders={result.data} />
+      <OrdersTablePage data={result.data} />
     </div>
   );
 }

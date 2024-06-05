@@ -3,14 +3,14 @@ import OrdersTableItem from "./OrdersTableItem";
 import { OrdersWithItems, OrdersWithItemsAndUser } from "@/db/queries/orders";
 
 type OrdersTableContentProps = {
-  orders: OrdersWithItemsAndUser;
+  data: OrdersWithItemsAndUser;
 };
 
-function OrdersTableContent({ orders }: OrdersTableContentProps) {
+function OrdersTableContent({ data }: OrdersTableContentProps) {
   return (
     <TableBody>
-      {orders.length > 0 &&
-        orders.map((order) => <OrdersTableItem order={order} key={order.id} />)}
+      {data.length > 0 &&
+        data.map((order) => <OrdersTableItem order={order} key={order.id} />)}
     </TableBody>
   );
 }

@@ -3,14 +3,14 @@ import CustomersTableItem from "./CustomersTableItem";
 import { User } from "@prisma/client";
 
 type CustomersTableContentProps = {
-  customers: User[];
+  data: User[];
 };
 
-function CustomersTableContent({ customers }: CustomersTableContentProps) {
+function CustomersTableContent({ data }: CustomersTableContentProps) {
   return (
     <TableBody>
-      {customers.length > 0 &&
-        customers.map((customer) => (
+      {data.length > 0 &&
+        data.map((customer) => (
           <CustomersTableItem {...customer} key={customer.id} />
         ))}
     </TableBody>

@@ -10,19 +10,19 @@ import {
 } from "@/components/ui/card";
 import { Table } from "@/components/ui/table";
 import { Tabs, TabsContent } from "@/components/ui/tabs";
-import PageItemsCounter from "../ui/PageItemsCounter";
+import PageItemsCounter from "@/components/ui/PageItemsCounter";
 import { Suspense } from "react";
 import TableTabsList from "@/components/admin/TableTabsList";
 import TableActions from "@/components/admin/TableActions";
 import TableHeaderRow from "@/components/admin/TableHeaderRow";
-import CustomersTableContent from "@/app/admin/customers/_components/CustomersTableContent";
-import { User } from "@prisma/client";
 import { useState } from "react";
+import { OrdersWithItemsAndUser } from "@/db/queries/orders";
+import OrdersTableContent from "./OrdersTableContent";
 
 const tabsTriggers = [
   { value: "all", text: "Tous" },
-  { value: "active", text: "Actifs" },
-  { value: "non-active", text: "Non-actifs" },
+  { value: "paid", text: "Payées" },
+  { value: "cancelled", text: "Annulées" },
 ];
 
 const checkboxItems = [
@@ -31,21 +31,29 @@ const checkboxItems = [
   { value: "vip", text: "VIP" },
 ];
 
-function filterCustomers(customers: User[], value: string) {
-  return customers.filter((customer) => {
+function filterCustomers(orders: OrdersWithItemsAndUser, value: string) {
+  return orders.filter((order) => {
     switch (value) {
-      case "active":
-        return customer.isActive;
-      case "non-active":
-        return !customer.isActive;
+      case "paid":
+        return order.isPaid;
+      case "cancelled":
+        return !order.isPaid;
       default:
-        return customer;
+        return order;
     }
   });
 }
 
-const tableHeaderItems = ["Prénom", "Genre", "Statut", "Commandes", "Total"];
-function TableTabs({ customers }: { customers: User[] }) {
+const tableHeaderItems = [
+  "Nom",
+  "Prénom",
+  "Genre",
+  "Email",
+  "Statut",
+  "Date",
+  "Montant",
+];
+function OrdersTable({ orders }: { orders: OrdersWithItemsAndUser }) {
   const [value, setValue] = useState<string>("all");
 
   return (
@@ -62,24 +70,22 @@ function TableTabs({ customers }: { customers: User[] }) {
       <TabsContent value={value} className="mt-4">
         <Card>
           <CardHeader>
-            <CardTitle>Clients</CardTitle>
+            <CardTitle>Commandes</CardTitle>
             <CardDescription>
-              Gérer les utilisateurs actifs en non-actifs
+              Gérer les commandes payées et non-payées
             </CardDescription>
           </CardHeader>
           <CardContent>
             <Table>
               <TableHeaderRow tableHeaderItems={tableHeaderItems} />
-              <CustomersTableContent
-                customers={filterCustomers(customers, value)}
-              />
+              <OrdersTableContent data={filterCustomers(orders, value)} />
             </Table>
           </CardContent>
           <CardFooter>
             <PageItemsCounter
               currentPage={1}
               itemsPerPage={10}
-              totalItems={customers.length}
+              totalItems={orders.length}
               text="clients"
             />
           </CardFooter>
@@ -89,4 +95,4 @@ function TableTabs({ customers }: { customers: User[] }) {
   );
 }
 
-export default TableTabs;
+export default OrdersTable;

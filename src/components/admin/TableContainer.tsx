@@ -10,20 +10,11 @@ import {
 } from "@/components/ui/card";
 import { Table } from "@/components/ui/table";
 import { Tabs, TabsContent } from "@/components/ui/tabs";
-import PageItemsCounter from "@/components/ui/PageItemsCounter";
-import { Suspense } from "react";
+import PageItemsCounter from "../ui/PageItemsCounter";
 import TableTabsList from "@/components/admin/TableTabsList";
 import TableActions from "@/components/admin/TableActions";
 import TableHeaderRow from "@/components/admin/TableHeaderRow";
-import { useState } from "react";
-import { OrdersWithItemsAndUser } from "@/db/queries/orders";
-import OrdersTableContent from "./OrdersTableContent";
-
-const tabsTriggers = [
-  { value: "all", text: "Tous" },
-  { value: "paid", text: "Payées" },
-  { value: "cancelled", text: "Annulées" },
-];
+import React, { useState } from "react";
 
 const checkboxItems = [
   { value: "femme", text: "Femme" },
@@ -31,62 +22,60 @@ const checkboxItems = [
   { value: "vip", text: "VIP" },
 ];
 
-function filterCustomers(orders: OrdersWithItemsAndUser, value: string) {
-  return orders.filter((order) => {
-    switch (value) {
-      case "paid":
-        return order.isPaid;
-      case "cancelled":
-        return !order.isPaid;
-      default:
-        return order;
-    }
-  });
-}
+type TableContainerProps = {
+  children: React.ReactNode & { props: { data: [] } };
+  title: string;
+  subtitle: string;
+  data: any[];
+  tabsTriggers: { value: string; text: string }[];
+  filterFunction: (data: any[], value: string) => any[];
+};
 
-const tableHeaderItems = [
-  "Nom",
-  "Prénom",
-  "Genre",
-  "Email",
-  "Statut",
-  "Date",
-  "Montant",
-];
-function OrdersTable({ orders }: { orders: OrdersWithItemsAndUser }) {
+const tableHeaderItems = ["Prénom", "Genre", "Statut", "Commandes", "Total"];
+function TableContainer({
+  children,
+  title,
+  subtitle,
+  data,
+  tabsTriggers,
+  filterFunction,
+}: TableContainerProps) {
   const [value, setValue] = useState<string>("all");
+  const filteredData = filterFunction(data, value);
 
   return (
     <Tabs value={value} onValueChange={setValue}>
       <div className="flex items-center">
         <TableTabsList tabsTriggers={tabsTriggers} />
-        <Suspense>
+        <React.Suspense>
           <TableActions
             checkboxItems={checkboxItems}
-            buttonText="Ajouter client"
+            buttonText={`Ajouter ${title.slice(0, -1).toLowerCase()}`}
           />
-        </Suspense>
+        </React.Suspense>
       </div>
       <TabsContent value={value} className="mt-4">
         <Card>
           <CardHeader>
-            <CardTitle>Commandes</CardTitle>
-            <CardDescription>
-              Gérer les commandes payées et non-payées
-            </CardDescription>
+            <CardTitle>{title}</CardTitle>
+            <CardDescription>{subtitle}</CardDescription>
           </CardHeader>
           <CardContent>
             <Table>
               <TableHeaderRow tableHeaderItems={tableHeaderItems} />
-              <OrdersTableContent orders={filterCustomers(orders, value)} />
+              {React.Children.map(children, (child) =>
+                React.isValidElement(child)
+                  ? React.cloneElement(child, { data: filteredData })
+                  : child
+              )}
             </Table>
           </CardContent>
           <CardFooter>
             <PageItemsCounter
               currentPage={1}
               itemsPerPage={10}
-              totalItems={orders.length}
-              text="clients"
+              totalItems={data.length}
+              text={title.toLowerCase()}
             />
           </CardFooter>
         </Card>
@@ -95,4 +84,4 @@ function OrdersTable({ orders }: { orders: OrdersWithItemsAndUser }) {
   );
 }
 
-export default OrdersTable;
+export default TableContainer;

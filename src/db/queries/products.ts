@@ -75,16 +75,7 @@ export async function fetchAllProductsWithTotalStock(): Promise<
   try {
     const result = await fetchAllProductsWithVariants();
     if (!result.success) throw new Error(result.error);
-    const data = result.data.map((product) => {
-      const totalStock = product.variants.reduce((acc, variant) => {
-        if (!variant.stockQuantity) return acc;
-        return acc + variant.stockQuantity;
-      }, 0);
-      return {
-        ...product,
-        totalStock,
-      };
-    });
+    const data = addTotalStockToProducts(result.data);
     return {
       success: true,
       data,
@@ -445,4 +436,45 @@ export async function countProductsWithSearchParams(
       "Une erreur est survenue lors du comptage des produits"
     );
   }
+}
+
+export async function fetchProductsWithTotalStockByIds(
+  productIds: string[]
+): Promise<FetchResult<AllProductsWithStock>> {
+  try {
+    if (productIds.length === 0) throw new Error("Ids produits manquants");
+    const result = await db.product.findMany({
+      where: { id: { in: productIds } },
+      include: {
+        brand: true,
+        category: true,
+        variants: true,
+      },
+    });
+    if (!result || result.length === 0)
+      throw new Error(
+        "Nous n'avons pas trouvé de produits correspondants aux ids"
+      );
+    return { success: true, data: addTotalStockToProducts(result) };
+  } catch (err) {
+    return handleFetchError(
+      err,
+      "Une erreur est survenue lors de la récupération des produits"
+    );
+  }
+}
+
+// Fonctions helper
+
+function addTotalStockToProducts(products: AllProductsWithVariants) {
+  return products.map((product) => {
+    const totalStock = product.variants.reduce((acc, variant) => {
+      if (!variant.stockQuantity) return acc;
+      return acc + variant.stockQuantity;
+    }, 0);
+    return {
+      ...product,
+      totalStock,
+    };
+  });
 }
