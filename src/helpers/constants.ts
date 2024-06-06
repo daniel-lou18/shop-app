@@ -124,3 +124,50 @@ export const brandsWomen = [
       "Sara Johnson, fondatrice et directrice de la création impose un nouvel esthétisme : des vêtements modernes et sophistiqués. ",
   },
 ];
+
+export const tableHeaderItemsProducts = [
+  { value: "name", text: "Nom" },
+  { value: "brand", text: "Marque" },
+  { value: "category", text: "Catégorie" },
+  { value: "isActive", text: "Statut" },
+  { value: "price", text: "Prix" },
+  { value: "stock", text: "Stock" },
+];
+
+export const tableHeaderItemsCustomers = [
+  { value: "lastName", text: "Nom" },
+  { value: "firstName", text: "Prénom" },
+  { value: "sex", text: "Genre" },
+  { value: "isActive", text: "Statut" },
+  { value: "orders", text: "Commandes" },
+  { value: "total", text: "Montant total" },
+];
+
+export const tableHeaderItemsOrders = [
+  { value: "id", text: "N°" },
+  { value: "lastName", text: "Nom" },
+  { value: "firstName", text: "Prénom" },
+  { value: "createdAt", text: "Date" },
+  { value: "isPaid", text: "Statut" },
+  { value: "products", text: "Produits" },
+  { value: "total", text: "Montant" },
+];
+
+export const tabsTriggersProducts = [
+  { value: "all", text: "Tous" },
+  { value: "active", text: "Actifs" },
+  { value: "non-active", text: "Brouillons" },
+  { value: "archived", text: "Archivés" },
+];
+
+export const tabsTriggersCustomers = [
+  { value: "all", text: "Tous" },
+  { value: "active", text: "Actifs" },
+  { value: "non-active", text: "Non-actifs" },
+];
+
+export const tabsTriggersOrders = [
+  { value: "all", text: "Tous" },
+  { value: "paid", text: "Payées" },
+  { value: "not-paid", text: "Annulées" },
+];

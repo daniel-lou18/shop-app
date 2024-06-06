@@ -1,5 +1,7 @@
+"use client";
+
 import CustomersTableContent from "@/app/admin/customers/_components/CustomersTableContent";
-import ProductsTableHeader from "@/app/admin/products/_components/ProductsTableHeader";
+import TableHeaderRow from "@/components/admin/TableHeaderRow";
 import {
   Card,
   CardContent,
@@ -9,6 +11,7 @@ import {
 } from "@/components/ui/card";
 import { Table } from "@/components/ui/table";
 import { UserWithOrders } from "@/db/queries/users";
+import { tableHeaderItemsCustomers } from "@/helpers/constants";
 
 function OrderCustomerTableAdmin({ user }: { user: UserWithOrders }) {
   return (
@@ -19,7 +22,7 @@ function OrderCustomerTableAdmin({ user }: { user: UserWithOrders }) {
       </CardHeader>
       <CardContent>
         <Table>
-          <ProductsTableHeader />
+          <TableHeaderRow tableHeaderItems={tableHeaderItemsCustomers} />
           <CustomersTableContent data={[user]} />
         </Table>
       </CardContent>

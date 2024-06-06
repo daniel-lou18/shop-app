@@ -4,21 +4,10 @@ import TableContainer from "@/components/admin/TableContainer";
 import CustomersTableContent from "./CustomersTableContent";
 import { User } from "@prisma/client";
 import { UsersWithOrders } from "@/db/queries/users";
-
-const tableHeaderItems = [
-  { value: "lastName", text: "Nom" },
-  { value: "firstName", text: "Prénom" },
-  { value: "sex", text: "Genre" },
-  { value: "isActive", text: "Statut" },
-  { value: "orders", text: "Commandes" },
-  { value: "total", text: "Montant total" },
-];
-
-const tabsTriggers = [
-  { value: "all", text: "Tous" },
-  { value: "active", text: "Actifs" },
-  { value: "non-active", text: "Non-actifs" },
-];
+import {
+  tableHeaderItemsCustomers,
+  tabsTriggersCustomers,
+} from "@/helpers/constants";
 
 function filterCustomers(customers: User[], value: string) {
   return customers.filter((customer) => {
@@ -39,9 +28,9 @@ function CustomersTablePage({ data }: { data: UsersWithOrders }) {
       <TableContainer
         title="Clients"
         subtitle="Gérer les utilisateurs actifs en non-actifs"
-        tableHeaderItems={tableHeaderItems}
+        tableHeaderItems={tableHeaderItemsCustomers}
         data={data}
-        tabsTriggers={tabsTriggers}
+        tabsTriggers={tabsTriggersCustomers}
         filterFunction={filterCustomers}
       >
         <CustomersTableContent data={data} />

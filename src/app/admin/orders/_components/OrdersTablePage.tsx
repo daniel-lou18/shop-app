@@ -3,22 +3,10 @@
 import TableContainer from "@/components/admin/TableContainer";
 import OrdersTableContent from "./OrdersTableContent";
 import { OrdersWithItemsAndUser } from "@/db/queries/orders";
-
-const tableHeaderItems = [
-  { value: "id", text: "N°" },
-  { value: "lastName", text: "Nom" },
-  { value: "firstName", text: "Prénom" },
-  { value: "createdAt", text: "Date" },
-  { value: "isPaid", text: "Statut" },
-  { value: "products", text: "Produits" },
-  { value: "total", text: "Montant" },
-];
-
-const tabsTriggers = [
-  { value: "all", text: "Tous" },
-  { value: "paid", text: "Payées" },
-  { value: "not-paid", text: "Annulées" },
-];
+import {
+  tableHeaderItemsOrders,
+  tabsTriggersOrders,
+} from "@/helpers/constants";
 
 function filterOrders(orders: OrdersWithItemsAndUser, value: string) {
   return orders.filter((order) => {
@@ -39,9 +27,9 @@ function OrdersTablePage({ data }: { data: OrdersWithItemsAndUser }) {
       <TableContainer
         title="Commandes"
         subtitle="Gérer les commandes payées et non-payées"
-        tableHeaderItems={tableHeaderItems}
+        tableHeaderItems={tableHeaderItemsOrders}
         data={data}
-        tabsTriggers={tabsTriggers}
+        tabsTriggers={tabsTriggersOrders}
         filterFunction={filterOrders}
       >
         <OrdersTableContent data={data} />

@@ -5,22 +5,10 @@ import ProductsTableContent from "./ProductsTableContent";
 import { AllProductsWithStock } from "@/db/queries/products";
 import { useState } from "react";
 import Loader from "@/components/ui/Loader";
-
-const tableHeaderItems = [
-  { value: "name", text: "Nom" },
-  { value: "brand", text: "Marque" },
-  { value: "category", text: "Catégorie" },
-  { value: "isActive", text: "Statut" },
-  { value: "price", text: "Prix" },
-  { value: "stock", text: "Stock" },
-];
-
-const tabsTriggers = [
-  { value: "all", text: "Tous" },
-  { value: "active", text: "Actifs" },
-  { value: "non-active", text: "Brouillons" },
-  { value: "archived", text: "Archivés" },
-];
+import {
+  tableHeaderItemsProducts,
+  tabsTriggersProducts,
+} from "@/helpers/constants";
 
 function filterProducts(products: AllProductsWithStock, value: string) {
   return products.filter((product) => {
@@ -70,9 +58,9 @@ function ProductsTablePage({ data }: { data: AllProductsWithStock }) {
       <TableContainer
         title="Produits"
         subtitle="Gérer les produits, leurs variantes et les stocks"
-        tableHeaderItems={tableHeaderItems}
+        tableHeaderItems={tableHeaderItemsProducts}
         data={orderedData}
-        tabsTriggers={tabsTriggers}
+        tabsTriggers={tabsTriggersProducts}
         filterFunction={filterProducts}
         handleSort={handleSort}
       >
