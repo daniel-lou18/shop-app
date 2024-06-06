@@ -53,8 +53,8 @@ function ProductsList({
         const res = await fetch(`/api${path}?${searchParams.toString()}`);
         const resObject = await res.json();
         if (!res.ok) {
-          if (resObject.error) throw new Error(resObject.error);
-          throw new Error("Une erreur est survenue");
+          if (resObject?.error) throw new Error(resObject.error);
+          else throw new Error("Une erreur est survenue");
         }
         setFilteredProducts([...resObject]);
       } catch (err) {

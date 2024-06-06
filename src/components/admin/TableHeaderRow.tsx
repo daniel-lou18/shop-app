@@ -1,7 +1,7 @@
 import { TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { TableHeaderItems } from "./TableContainer";
 import { useState } from "react";
-import { ArrowDownUp, ChevronsUpDown } from "lucide-react";
+import { ChevronsUpDown } from "lucide-react";
 
 type TableHeaderProps = {
   tableHeaderItems: TableHeaderItems;
@@ -13,6 +13,7 @@ function TableHeaderRow({ tableHeaderItems, handleSort }: TableHeaderProps) {
   function handleClick(e: React.MouseEvent<HTMLTableCellElement>) {
     e.preventDefault();
     handleSort &&
+      e.currentTarget.dataset.value &&
       handleSort(e.currentTarget.dataset.value + "=" + (asc ? "desc" : "asc"));
     setAsc((value) => !value);
   }
@@ -26,14 +27,22 @@ function TableHeaderRow({ tableHeaderItems, handleSort }: TableHeaderProps) {
           <TableHead
             className={`${
               idx >= tableHeaderItems.length - 2 ? "hidden xl:table-cell" : ""
-            } uppercase hover:cursor-pointer hover:text-gray-950/90`}
-            key={item.value}
+            } uppercase ${
+              item.value ? "hover:cursor-pointer hover:text-primary" : ""
+            }`}
+            key={item.text}
             data-value={item.value}
             onClick={handleClick}
           >
-            <span className="flex items-center gap-2">
+            <span className="flex items-center gap-1">
               {item.text}{" "}
-              <ChevronsUpDown size={16} strokeWidth={1.5} className="mt-0.5" />
+              {item.value && (
+                <ChevronsUpDown
+                  size={16}
+                  strokeWidth={1.5}
+                  className="mt-0.5"
+                />
+              )}
             </span>
           </TableHead>
         ))}

@@ -61,7 +61,12 @@ function ProductsTableItem({
       <TableCell>{brand.name}</TableCell>
       <TableCell>{category.name}</TableCell>
       <TableCell>
-        <Badge variant="outline">{getStatus(isActive, isArchived)}</Badge>
+        <Badge
+          variant={`${isActive || !isArchived ? "outline" : "secondary"}`}
+          className={`${isActive ? "bg-green-200" : ""}`}
+        >
+          {getStatus(isActive, isArchived)}
+        </Badge>
       </TableCell>
       <TableCell className="hidden xl:table-cell">
         {centsToEuros(price)}

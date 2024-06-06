@@ -127,20 +127,20 @@ export const brandsWomen = [
 
 export const tableHeaderItemsProducts = [
   { value: "name", text: "Nom" },
-  { value: "brand", text: "Marque" },
-  { value: "category", text: "Catégorie" },
-  { value: "isActive", text: "Statut" },
+  { value: "", text: "Marque" },
+  { value: "", text: "Catégorie" },
+  { value: "", text: "Statut" },
   { value: "price", text: "Prix" },
-  { value: "stock", text: "Stock" },
+  { value: "", text: "Stock" },
 ];
 
 export const tableHeaderItemsCustomers = [
   { value: "lastName", text: "Nom" },
   { value: "firstName", text: "Prénom" },
-  { value: "sex", text: "Genre" },
-  { value: "isActive", text: "Statut" },
-  { value: "orders", text: "Commandes" },
-  { value: "total", text: "Montant total" },
+  { value: "", text: "Genre" },
+  { value: "", text: "Statut" },
+  { value: "", text: "Commandes" },
+  { value: "", text: "Montant total" },
 ];
 
 export const tableHeaderItemsOrders = [

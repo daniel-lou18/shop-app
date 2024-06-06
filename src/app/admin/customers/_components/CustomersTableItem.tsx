@@ -49,7 +49,12 @@ function CustomersTableItem({
       <TableCell>{firstName}</TableCell>
       <TableCell>{sex}</TableCell>
       <TableCell>
-        <Badge variant="outline">{isActive ? "Actif" : "Non-actif"}</Badge>
+        <Badge
+          variant={`${isActive ? "outline" : "secondary"}`}
+          className={`${isActive ? "bg-green-200" : ""}`}
+        >
+          {isActive ? "Actif" : "Non-actif"}
+        </Badge>
       </TableCell>
       <TableCell className="hidden xl:table-cell">{orders.length}</TableCell>
       <TableCell className="hidden xl:table-cell">{totalAmount}</TableCell>

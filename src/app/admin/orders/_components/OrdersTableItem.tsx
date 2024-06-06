@@ -56,7 +56,12 @@ function OrdersTableItem({ order }: OrdersTableItemProps) {
         {createdAt.toLocaleDateString("fr-FR")}
       </TableCell>
       <TableCell>
-        <Badge variant="outline">{isPaid ? "Payée" : "Annulée"}</Badge>
+        <Badge
+          variant="outline"
+          className={`${isPaid ? "bg-green-200" : "bg-red-200"}`}
+        >
+          {isPaid ? "Payée" : "Annulée"}
+        </Badge>
       </TableCell>
       <TableCell className="hidden xl:table-cell">
         {orderItems[0]?.variant.product.brand.name.split(" ")[0]}

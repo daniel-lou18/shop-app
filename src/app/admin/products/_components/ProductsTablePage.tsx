@@ -37,10 +37,11 @@ function ProductsTablePage({ data }: { data: AllProductsWithStock }) {
       const res = await fetch(`/api/products?${searchParams}`);
       const data = await res.json();
       if (!res.ok) {
-        if (data.error) throw new Error(data.error);
-        throw new Error(
-          "Une erreur est survenue lors de la récupération des produits"
-        );
+        if (data?.error) throw new Error(data.error);
+        else
+          throw new Error(
+            "Une erreur est survenue lors de la récupération des produits"
+          );
       }
       setOrderedData(data);
     } catch (err) {

@@ -26,12 +26,12 @@ export async function fetchUsers(): Promise<FetchResult<Users>> {
   }
 }
 
-export async function fetchUsersWithOrders(): Promise<
+export async function fetchUsersWithOrders(searchParams?: {}): Promise<
   FetchResult<UsersWithOrders>
 > {
   try {
     const result = await db.user.findMany({
-      orderBy: { name: "asc" },
+      orderBy: searchParams,
       include: {
         orders: { include: { orderItems: { include: { variant: true } } } },
       },
