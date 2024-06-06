@@ -10,7 +10,7 @@ import { fetchOrder } from "@/db/queries/order";
 import { CreditCard } from "lucide-react";
 import OrderSummaryItemAdmin from "./_components/OrderSummaryItemAdmin";
 import { calculateOrderPrice } from "@/helpers/helpers";
-import { fetchUserById } from "@/db/queries/user";
+import { fetchUserWithOrdersById } from "@/db/queries/user";
 import OrderProductsTableAdmin from "./_components/OrderProductsTableAdmin";
 import OrderCustomerTableAdmin from "./_components/OrderCustomerTableAdmin";
 
@@ -21,7 +21,7 @@ async function OrderSummaryAdmin({ params }: { params: { id: string } }) {
   const { orderItems, userId } = res.data;
   const totalPrice = calculateOrderPrice(res.data);
 
-  const user = await fetchUserById(userId);
+  const user = await fetchUserWithOrdersById(userId);
   if (!user.success) throw new Error(user.error);
   const { firstName, lastName, address, city, zip } = user.data;
 

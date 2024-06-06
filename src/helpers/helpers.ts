@@ -1,5 +1,4 @@
-import { OrderWithItems } from "@/db/queries/orders";
-import { OrderWithOderItemsAndVariants } from "@/db/queries/users";
+import { OrderWithOrderItemsAndVariants } from "@/db/queries/users";
 
 export function centsToEuros(priceInCents: number) {
   return (priceInCents / 100).toLocaleString("fr-FR", {
@@ -8,14 +7,14 @@ export function centsToEuros(priceInCents: number) {
   });
 }
 
-export function calculateOrderPrice(order: OrderWithOderItemsAndVariants) {
+export function calculateOrderPrice(order: OrderWithOrderItemsAndVariants) {
   const totalPrice = order.orderItems.reduce((acc, item) => {
     return acc + item.quantity * item.variant.price;
   }, 0);
   return totalPrice;
 }
 
-export function calculateOrdersPrice(orders: OrderWithOderItemsAndVariants[]) {
+export function calculateOrdersPrice(orders: OrderWithOrderItemsAndVariants[]) {
   const totalPrice = orders.reduce((acc, order) => {
     if (order.isPaid) return acc + calculateOrderPrice(order);
     return acc;

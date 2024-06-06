@@ -8,8 +8,9 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Table } from "@/components/ui/table";
-import { User } from "@prisma/client";
-function OrderCustomerTableAdmin({ user }: { user: User }) {
+import { UserWithOrders } from "@/db/queries/users";
+
+function OrderCustomerTableAdmin({ user }: { user: UserWithOrders }) {
   return (
     <Card className="mt-8">
       <CardHeader>

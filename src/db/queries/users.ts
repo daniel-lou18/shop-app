@@ -4,11 +4,11 @@ import { FetchResult } from "./products";
 import { Order, OrderItem, ProductVariant, User } from "@prisma/client";
 
 export type Users = User[];
-export type OrderWithOderItemsAndVariants = Order & {
+export type OrderWithOrderItemsAndVariants = Order & {
   orderItems: (OrderItem & { variant: ProductVariant })[];
 };
 export type UserWithOrders = User & {
-  orders: OrderWithOderItemsAndVariants[];
+  orders: OrderWithOrderItemsAndVariants[];
 };
 export type UsersWithOrders = UserWithOrders[];
 
