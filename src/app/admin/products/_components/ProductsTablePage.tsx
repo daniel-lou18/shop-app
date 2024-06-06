@@ -3,12 +3,12 @@
 import TableContainer from "@/components/admin/TableContainer";
 import ProductsTableContent from "./ProductsTableContent";
 import { AllProductsWithStock } from "@/db/queries/products";
-import { useState } from "react";
 import Loader from "@/components/ui/Loader";
 import {
   tableHeaderItemsProducts,
   tabsTriggersProducts,
 } from "@/helpers/constants";
+import { useSort } from "@/hooks/useSort";
 
 function filterProducts(products: AllProductsWithStock, value: string) {
   return products.filter((product) => {
@@ -26,32 +26,10 @@ function filterProducts(products: AllProductsWithStock, value: string) {
 }
 
 function ProductsTablePage({ data }: { data: AllProductsWithStock }) {
-  const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [error, setError] = useState<string>("");
-  const [orderedData, setOrderedData] = useState<AllProductsWithStock>(data);
-
-  async function handleSort(searchParams: string) {
-    try {
-      setIsLoading(true);
-      setError("");
-      const res = await fetch(`/api/products?${searchParams}`);
-      const data = await res.json();
-      if (!res.ok) {
-        if (data?.error) throw new Error(data.error);
-        else
-          throw new Error(
-            "Une erreur est survenue lors de la récupération des produits"
-          );
-      }
-      setOrderedData(data);
-    } catch (err) {
-      if (err instanceof Error) setError(err.message);
-      else setError("Une erreur est survenue");
-      console.error(err);
-    } finally {
-      setIsLoading(false);
-    }
-  }
+  const { isLoading, error, orderedData, handleSort } = useSort(
+    data,
+    `/api/products`
+  );
 
   return (
     <div className="grid flex-1 items-start gap-4 md:gap-8">
@@ -65,7 +43,7 @@ function ProductsTablePage({ data }: { data: AllProductsWithStock }) {
         filterFunction={filterProducts}
         handleSort={handleSort}
       >
-        <ProductsTableContent data={orderedData} />
+        <ProductsTableContent data={orderedData as AllProductsWithStock} />
       </TableContainer>
     </div>
   );
