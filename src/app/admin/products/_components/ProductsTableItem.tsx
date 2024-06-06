@@ -22,6 +22,19 @@ type ProductsTableItemProps = ProductWithData & {
   totalStock: number;
 };
 
+function getStatus(isActive: boolean, isArchived: boolean) {
+  switch (isActive + "-" + isArchived) {
+    case "true-false":
+      return "actif";
+    case "false-true":
+      return "archivé";
+    case "false-false":
+      return "brouillon";
+    default:
+      return "brouillon";
+  }
+}
+
 function ProductsTableItem({
   id,
   name,
@@ -31,6 +44,7 @@ function ProductsTableItem({
   totalStock,
   variants,
   isActive,
+  isArchived,
 }: ProductsTableItemProps) {
   return (
     <TableRow>
@@ -47,12 +61,12 @@ function ProductsTableItem({
       <TableCell>{brand.name}</TableCell>
       <TableCell>{category.name}</TableCell>
       <TableCell>
-        <Badge variant="outline">{isActive ? "Actif" : "Brouillon"}</Badge>
+        <Badge variant="outline">{getStatus(isActive, isArchived)}</Badge>
       </TableCell>
-      <TableCell className="hidden md:table-cell">
+      <TableCell className="hidden xl:table-cell">
         {centsToEuros(price)}
       </TableCell>
-      <TableCell className="hidden md:table-cell">{totalStock}</TableCell>
+      <TableCell className="hidden xl:table-cell">{totalStock}</TableCell>
       <TableCell>
         <DropdownMenu>
           <DropdownMenuTrigger asChild>

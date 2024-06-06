@@ -22,14 +22,20 @@ const checkboxItems = [
   { value: "vip", text: "VIP" },
 ];
 
+export type TableHeaderItems = {
+  value: string;
+  text: string;
+}[];
+
 type TableContainerProps = {
   children: React.ReactNode & { props: { data: [] } };
   title: string;
   subtitle: string;
-  tableHeaderItems: string[];
-  data: any[];
+  tableHeaderItems: TableHeaderItems;
+  data: {}[];
   tabsTriggers: { value: string; text: string }[];
-  filterFunction: (data: any[], value: string) => any[];
+  filterFunction: (data: any[], value: string) => {}[];
+  handleSort?: (searchParams: string) => void;
 };
 
 function TableContainer({
@@ -40,12 +46,13 @@ function TableContainer({
   data,
   tabsTriggers,
   filterFunction,
+  handleSort,
 }: TableContainerProps) {
-  const [value, setValue] = useState<string>("all");
-  const filteredData = filterFunction(data, value);
+  const [tabsValue, setTabsValue] = useState<string>("all");
+  const filteredData = filterFunction(data, tabsValue);
 
   return (
-    <Tabs value={value} onValueChange={setValue}>
+    <Tabs value={tabsValue} onValueChange={setTabsValue}>
       <div className="flex items-center">
         <TableTabsList tabsTriggers={tabsTriggers} />
         <React.Suspense>
@@ -55,7 +62,7 @@ function TableContainer({
           />
         </React.Suspense>
       </div>
-      <TabsContent value={value} className="mt-4">
+      <TabsContent value={tabsValue} className="mt-4">
         <Card>
           <CardHeader>
             <CardTitle>{title}</CardTitle>
@@ -63,7 +70,10 @@ function TableContainer({
           </CardHeader>
           <CardContent>
             <Table>
-              <TableHeaderRow tableHeaderItems={tableHeaderItems} />
+              <TableHeaderRow
+                tableHeaderItems={tableHeaderItems}
+                handleSort={handleSort}
+              />
               {React.Children.map(children, (child) =>
                 React.isValidElement(child)
                   ? React.cloneElement(child, { data: filteredData })

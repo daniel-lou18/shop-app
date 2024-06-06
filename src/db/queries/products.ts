@@ -57,6 +57,8 @@ export async function fetchAllProductsWithVariants(): Promise<
         variants: true,
       },
     });
+    if (!result || result.length === 0)
+      throw new Error("Nous n'avons trouvé aucun produit");
     return {
       success: true,
       data: result,
@@ -69,13 +71,22 @@ export async function fetchAllProductsWithVariants(): Promise<
   }
 }
 
-export async function fetchAllProductsWithTotalStock(): Promise<
+export async function fetchAllProductsWithTotalStock(searchParams?: {}): Promise<
   FetchResult<AllProductsWithStock>
 > {
   try {
-    const result = await fetchAllProductsWithVariants();
-    if (!result.success) throw new Error(result.error);
-    const data = addTotalStockToProducts(result.data);
+    const result = await db.product.findMany({
+      include: {
+        brand: true,
+        category: true,
+        variants: true,
+      },
+      orderBy: searchParams,
+    });
+
+    if (!result || result.length === 0)
+      throw new Error("Nous n'avons retrouvé aucun produit");
+    const data = addTotalStockToProducts(result);
     return {
       success: true,
       data,

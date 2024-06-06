@@ -5,13 +5,13 @@ import OrdersTableContent from "./OrdersTableContent";
 import { OrdersWithItemsAndUser } from "@/db/queries/orders";
 
 const tableHeaderItems = [
-  "N°",
-  "Nom",
-  "Prénom",
-  "Date",
-  "Statut",
-  "Produits",
-  "Montant",
+  { value: "id", text: "N°" },
+  { value: "lastName", text: "Nom" },
+  { value: "firstName", text: "Prénom" },
+  { value: "createdAt", text: "Date" },
+  { value: "isPaid", text: "Statut" },
+  { value: "products", text: "Produits" },
+  { value: "total", text: "Montant" },
 ];
 
 const tabsTriggers = [
@@ -25,7 +25,7 @@ function filterOrders(orders: OrdersWithItemsAndUser, value: string) {
     switch (value) {
       case "paid":
         return order.isPaid;
-      case "non-active":
+      case "not-paid":
         return !order.isPaid;
       default:
         return order;

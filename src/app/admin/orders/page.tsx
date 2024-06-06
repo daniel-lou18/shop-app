@@ -5,11 +5,7 @@ async function AdminOrders() {
   const result = await fetchAllOrders();
   if (!result.success) throw new Error(result.error);
 
-  return (
-    <div className="grid flex-1 items-start gap-4 md:gap-8">
-      <OrdersTablePage data={result.data} />
-    </div>
-  );
+  return <OrdersTablePage data={result.data} />;
 }
 
 export default AdminOrders;

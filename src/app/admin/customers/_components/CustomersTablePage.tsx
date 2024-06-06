@@ -6,12 +6,12 @@ import { User } from "@prisma/client";
 import { UsersWithOrders } from "@/db/queries/users";
 
 const tableHeaderItems = [
-  "Nom",
-  "Prénom",
-  "Genre",
-  "Statut",
-  "Commandes",
-  "Montant total",
+  { value: "lastName", text: "Nom" },
+  { value: "firstName", text: "Prénom" },
+  { value: "sex", text: "Genre" },
+  { value: "isActive", text: "Statut" },
+  { value: "orders", text: "Commandes" },
+  { value: "total", text: "Montant total" },
 ];
 
 const tabsTriggers = [
