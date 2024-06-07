@@ -4,7 +4,6 @@ import HeaderLogo from "@/components/ui/HeaderLogo";
 import { fetchCategories } from "@/db/queries/categories";
 import { fetchBrands } from "@/db/queries/brands";
 import NavbarMobile from "@/components/ui/NavbarMobile";
-import { Suspense } from "react";
 import { auth } from "@/auth";
 
 async function HeaderCustomer() {

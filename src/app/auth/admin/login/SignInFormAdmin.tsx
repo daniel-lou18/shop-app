@@ -13,7 +13,6 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import * as actions from "@/actions";
 import Profile from "./_components/Profile";
-import ButtonLogin from "./_components/ButtonLogin";
 import ButtonSubmit from "@/components/ui/ButtonSubmit";
 import { useFormState } from "react-dom";
 import { useEffect } from "react";
@@ -58,7 +57,7 @@ function SignInFormAdmin() {
                   name="email"
                   id="email"
                   type="email"
-                  placeholder="loutje@example.com"
+                  placeholder="loutje@mail.com"
                 />
                 <FormFieldError>
                   {formState?.errors?.email?.join(", ")}

@@ -11,14 +11,12 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import * as actions from "@/actions";
-import { auth } from "@/auth";
 import Profile from "./_components/Profile";
 import ButtonLogin from "./_components/ButtonLogin";
 import ButtonSubmit from "@/components/ui/ButtonSubmit";
 import { useFormState } from "react-dom";
 import FormFieldError from "@/components/ui/FormFieldError";
 import { paths } from "@/lib/paths";
-import InputField from "@/components/ui/InputField";
 import { useSearchParams } from "next/navigation";
 import { toast } from "sonner";
 import { useEffect } from "react";
