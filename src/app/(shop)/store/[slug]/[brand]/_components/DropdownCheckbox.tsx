@@ -6,10 +6,10 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { hashMap } from "@/helpers/helpers";
 import { Brand, Category } from "@prisma/client";
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import CheckboxItem from "./CheckboxItem";
 import DropdownTrigger from "./DropdownTrigger";
 import { Dispatch, SetStateAction } from "react";
+import { useCheckProductsCustomer } from "@/hooks/useCheckProductsCustomer";
 
 type SelectFilterProps = { setIsLoading: Dispatch<SetStateAction<boolean>> } & (
   | {
@@ -27,28 +27,8 @@ type SelectFilterProps = { setIsLoading: Dispatch<SetStateAction<boolean>> } & (
 );
 
 function DropdownCheckbox({ type, data, setIsLoading }: SelectFilterProps) {
-  const searchParams = useSearchParams();
-  const pathname = usePathname();
-  const router = useRouter();
-  const checkedValues = searchParams.getAll(type);
-
-  if (!data || data.length === 0) return null;
-
-  function handleCheck(type: string, value: string) {
-    setIsLoading(true);
-    const newQueryString = new URLSearchParams(searchParams);
-    newQueryString.delete("page");
-    newQueryString.append(type, value);
-    router.push(`${pathname}?${newQueryString.toString()}`);
-  }
-
-  function handleUncheck(type: string, value: string) {
-    setIsLoading(true);
-    const newQueryString = new URLSearchParams(searchParams);
-    newQueryString.delete("page");
-    newQueryString.delete(type, value);
-    router.push(`${pathname}?${newQueryString.toString()}`);
-  }
+  const { checkedValues, handleCheck, handleUncheck } =
+    useCheckProductsCustomer(type, setIsLoading);
 
   if (!data || data.length === 0) return null;
 

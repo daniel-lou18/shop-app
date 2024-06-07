@@ -6,9 +6,8 @@ import {
   DropdownMenuRadioGroup,
   DropdownMenuRadioItem,
 } from "@/components/ui/dropdown-menu";
-import { useState } from "react";
 import DropdownTrigger from "./DropdownTrigger";
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { useSortProductsCustomer } from "@/hooks/useSortProductsCustomer";
 
 const data = [
   "Recommandé",
@@ -16,8 +15,6 @@ const data = [
   "Prix croissant",
   "Nouveauté",
 ] as const;
-
-type DataType = (typeof data)[number];
 
 const hashMap = {
   Recommandé: "name-asc",
@@ -27,17 +24,7 @@ const hashMap = {
 };
 
 function DropdownFilter() {
-  const [value, setValue] = useState<string>("");
-  const searchParams = useSearchParams();
-  const pathname = usePathname();
-  const router = useRouter();
-
-  function handleSelect(type: string, value: DataType) {
-    const newQueryString = new URLSearchParams(searchParams);
-    newQueryString.set(type, hashMap[value]);
-    setValue(value);
-    router.push(`${pathname}?${newQueryString.toString()}`);
-  }
+  const { value, setValue, handleSelect } = useSortProductsCustomer(hashMap);
 
   return (
     <DropdownMenu modal={false}>
