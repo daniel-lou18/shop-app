@@ -53,7 +53,12 @@ function SignInFormCustomer() {
         <CardContent>
           <div className="grid gap-4">
             <div className="grid gap-2">
-              <InputField name="email" variant="input" type="custom" />
+              <Input
+                name="email"
+                id="email"
+                type="email"
+                placeholder="loutje3@mail.com"
+              />
               <FormFieldError>
                 {formState?.errors?.email?.join(", ")}
               </FormFieldError>
@@ -68,7 +73,12 @@ function SignInFormCustomer() {
                   Mot de passe oublié ?
                 </Link>
               </div>
-              <Input name="password" id="password" type="password" />
+              <Input
+                name="password"
+                id="password"
+                type="password"
+                placeholder="123123123"
+              />
               <FormFieldError>
                 {formState?.errors?.password?.join(", ")}
               </FormFieldError>

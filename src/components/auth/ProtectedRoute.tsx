@@ -19,7 +19,11 @@ function ProtectedRoute({ children, user, allowedRole }: ProtectedRouteProps) {
   if (!user || user.role !== allowedRole) {
     return (
       <ErrorPage
-        error={new Error("Vous n'êtes pas autorisé(e) à accéder à cette page")}
+        error={
+          new Error(
+            "Vous n'êtes pas autorisé(e) à accéder à cette page. Créez un compte professionnel ou connectez-vous à votre espace pro."
+          )
+        }
       />
     );
   }

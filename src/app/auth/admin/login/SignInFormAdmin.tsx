@@ -58,7 +58,7 @@ function SignInFormAdmin() {
                   name="email"
                   id="email"
                   type="email"
-                  placeholder="m@example.com"
+                  placeholder="loutje@example.com"
                 />
                 <FormFieldError>
                   {formState?.errors?.email?.join(", ")}
@@ -74,7 +74,12 @@ function SignInFormAdmin() {
                     Mot de passe oublié ?
                   </Link>
                 </div>
-                <Input name="password" id="password" type="password" />
+                <Input
+                  name="password"
+                  id="password"
+                  type="password"
+                  placeholder="123123123"
+                />
                 <FormFieldError>
                   {formState?.errors?.password?.join(", ")}
                 </FormFieldError>

@@ -38,7 +38,7 @@ async function HeaderCustomer() {
       />
       <HeaderLogo className="w-[30%]" />
       <Navbar>
-        <NavLink href="/products/categories/new">Nouveautés</NavLink>
+        <NavLink href="#">Nouveautés</NavLink>
         <NavLinkMenu
           categories={categoriesMenResult.data}
           brands={brandsMenResult.data}
@@ -53,7 +53,7 @@ async function HeaderCustomer() {
         >
           Femme
         </NavLinkMenu>
-        <NavLink href="/products/categories/special-offers">Promotions</NavLink>
+        <NavLink href="#">Promotions</NavLink>
       </Navbar>
       <HeaderCustomerRight currentUser={session?.user} />
     </header>
