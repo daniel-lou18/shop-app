@@ -14,7 +14,8 @@ import PageItemsCounter from "../ui/PageItemsCounter";
 import TableTabsList from "@/components/admin/TableTabsList";
 import TableActions from "@/components/admin/TableActions";
 import TableHeaderRow from "@/components/admin/TableHeaderRow";
-import React, { useState } from "react";
+import React, { ReactNode, useMemo, useRef, useState } from "react";
+import { useTabsFilter } from "@/hooks/useTabsFilter";
 
 const checkboxItems = [
   { value: "femme", text: "Femme" },
@@ -27,18 +28,18 @@ export type TableHeaderItems = {
   text: string;
 }[];
 
-type TableContainerProps = {
-  children: React.ReactNode & { props: { data: [] } };
+type TableContainerProps<T> = {
+  children: ReactNode & { props: { data: T } };
   title: string;
   subtitle: string;
   tableHeaderItems: TableHeaderItems;
-  data: {}[];
+  data: T;
   tabsTriggers: { value: string; text: string }[];
-  filterFunction: (data: any[], value: string) => {}[];
-  handleSort?: (searchParams: string) => void;
+  filterFunction: (data: T, value: string) => T;
+  handleSort: (searchParams: string) => void;
 };
 
-function TableContainer({
+function TableContainer<T>({
   children,
   title,
   subtitle,
@@ -47,9 +48,11 @@ function TableContainer({
   tabsTriggers,
   filterFunction,
   handleSort,
-}: TableContainerProps) {
-  const [tabsValue, setTabsValue] = useState<string>("all");
-  const filteredData = filterFunction(data, tabsValue);
+}: TableContainerProps<T>) {
+  const { filteredData, tabsValue, setTabsValue } = useTabsFilter(
+    data,
+    filterFunction
+  );
 
   return (
     <Tabs value={tabsValue} onValueChange={setTabsValue}>
@@ -76,7 +79,9 @@ function TableContainer({
               />
               {React.Children.map(children, (child) =>
                 React.isValidElement(child)
-                  ? React.cloneElement(child, { data: filteredData })
+                  ? React.cloneElement(child, {
+                      data: filteredData,
+                    })
                   : child
               )}
             </Table>
@@ -85,7 +90,7 @@ function TableContainer({
             <PageItemsCounter
               currentPage={1}
               itemsPerPage={10}
-              totalItems={data.length}
+              totalItems={(data as {}[]).length}
               text={title.toLowerCase()}
             />
           </CardFooter>

@@ -11,30 +11,28 @@ import {
 import { useSort } from "@/hooks/useSort";
 
 function filterProducts(products: AllProductsWithStock, value: string) {
-  return products.filter((product) => {
-    switch (value) {
-      case "active":
-        return product.isActive;
-      case "non-active":
-        return !product.isActive && !product.isArchived;
-      case "archived":
-        return product.isArchived;
-      default:
-        return product;
-    }
-  });
+  switch (value) {
+    case "active":
+      return products.filter((product) => product.isActive);
+    case "non-active":
+      return products.filter(
+        (product) => !product.isActive && !product.isArchived
+      );
+    case "archived":
+      return products.filter((product) => product.isArchived);
+    default:
+      return products;
+  }
 }
 
 function ProductsTablePage({ data }: { data: AllProductsWithStock }) {
-  const { isLoading, error, orderedData, handleSort } = useSort(
-    data,
-    `/api/products`
-  );
+  const { isLoading, error, orderedData, handleSort } =
+    useSort<AllProductsWithStock>(data, `/api/products`);
 
   return (
     <div className="grid flex-1 items-start gap-4 md:gap-8">
       {isLoading && <Loader style="fullscreen" />}
-      <TableContainer
+      <TableContainer<AllProductsWithStock>
         title="Produits"
         subtitle="Gérer les produits, leurs variantes et les stocks"
         tableHeaderItems={tableHeaderItemsProducts}

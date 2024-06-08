@@ -1,16 +1,9 @@
-import { AllProductsWithStock } from "@/db/queries/products";
-import { UsersWithOrders } from "@/db/queries/users";
 import { useState } from "react";
 
-export function useSort(
-  initialData: AllProductsWithStock | UsersWithOrders,
-  fetchUrl: string
-) {
+export function useSort<T>(initialData: T, fetchUrl: string) {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [error, setError] = useState<string>("");
-  const [orderedData, setOrderedData] = useState<
-    AllProductsWithStock | UsersWithOrders
-  >(initialData);
+  const [orderedData, setOrderedData] = useState<T>(initialData);
 
   async function handleSort(searchParams: string) {
     try {
