@@ -45,15 +45,23 @@ export const columns: ColumnDef<ProductsTableData>[] = [
     },
   },
   {
-    accessorKey: "brand.name",
+    accessorFn: (row) => row.brand.name,
+    id: "brandName",
     header: ({ column }) => {
       return <DataTableColumnHeader column={column} title="Marque" />;
     },
   },
   {
-    accessorKey: "category.name",
+    accessorFn: (row) => row.category.name,
+    id: "categoryName",
     header: ({ column }) => {
       return <DataTableColumnHeader column={column} title="Catégorie" />;
+    },
+  },
+  {
+    accessorKey: "sex",
+    header: ({ column }) => {
+      return <DataTableColumnHeader column={column} title="Collection" />;
     },
   },
   {
