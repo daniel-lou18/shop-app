@@ -17,7 +17,7 @@ import { centsToEuros } from "@/helpers/helpers";
 import { ProductWithData } from "@/db/queries/products";
 import { Suspense } from "react";
 
-type ProductsTableItemProps = ProductWithData & {
+export type ProductsTableItemProps = ProductWithData & {
   variants: ProductVariant[];
   totalStock: number;
 };
