@@ -22,15 +22,15 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { Button } from "@/components/ui/button";
 import { useState } from "react";
 import { Input } from "@/components/ui/input";
 import { DataTablePagination } from "@/components/ui/DataTablePagination";
 import { Search } from "lucide-react";
 import TableActions from "@/components/admin/TableActions";
-import DataTableSelectFilter from "@/components/ui/DataTableSelectFilter";
+import ProductsTableSelectFilters from "./_components/ProductsTableSelectFilters";
+import { ProductsTableData } from "./columns";
 
-interface DataTableProps<TData, TValue> {
+export interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
 }
@@ -66,32 +66,7 @@ export function DataTable<TData, TValue>({
   return (
     <div>
       <div className="flex justify-between items-center py-4">
-        <div className="flex items-center">
-          <Input
-            placeholder="Rechercher un produit"
-            value={(table.getColumn("name")?.getFilterValue() as string) ?? ""}
-            onChange={(event) =>
-              table.getColumn("name")?.setFilterValue(event.target.value)
-            }
-            className="max-w-sm"
-          />
-          <Search
-            size={20}
-            strokeWidth={1.5}
-            className="relative right-8 text-muted-foreground"
-          />
-        </div>
-        <div>
-          <DataTableSelectFilter
-            column={table.getColumn("sex") as Column<any, unknown>}
-          />
-          <DataTableSelectFilter
-            column={table.getColumn("brandName") as Column<any, unknown>}
-          />
-          <DataTableSelectFilter
-            column={table.getColumn("categoryName") as Column<any, unknown>}
-          />
-        </div>
+        <ProductsTableSelectFilters table={table} />
         <div>
           <TableActions
             checkboxItems={checkboxItems}
