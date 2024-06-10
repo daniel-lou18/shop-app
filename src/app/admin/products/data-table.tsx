@@ -12,6 +12,8 @@ import {
   getFilteredRowModel,
   Column,
   getFacetedUniqueValues,
+  FilterFn,
+  Row,
 } from "@tanstack/react-table";
 
 import {
@@ -35,11 +37,20 @@ export interface DataTableProps<TData, TValue> {
   data: TData[];
 }
 
+declare module "@tanstack/react-table" {
+  interface FilterFns {
+    multi: FilterFn<unknown>;
+  }
+}
+
 const checkboxItems = [
   { value: "femme", text: "Femme" },
   { value: "homme", text: "Homme" },
   { value: "vip", text: "VIP" },
 ];
+const multiFilter: FilterFn<any> = function (row, id, filterValue) {
+  return filterValue.length === 0 || filterValue.includes(row.getValue(id));
+};
 
 export function DataTable<TData, TValue>({
   columns,
@@ -61,6 +72,7 @@ export function DataTable<TData, TValue>({
       sorting,
       columnFilters,
     },
+    filterFns: { multi: multiFilter },
   });
 
   return (
