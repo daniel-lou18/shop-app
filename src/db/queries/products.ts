@@ -11,7 +11,6 @@ export type AllProductsWithStock = (ProductWithData & {
   variants: ProductVariant[];
   totalStock: number;
 })[];
-
 export const TAKE = 12;
 
 export type FetchResult<T> =
@@ -23,73 +22,45 @@ export type FetchResult<T> =
       success: false;
       error: string;
     };
+export type FetchOptions = {
+  where?: {};
+  include?: {
+    brand?: boolean;
+    category?: boolean;
+    variants?: boolean;
+  };
+  orderBy?: {};
+  addTotalStock?: boolean;
+};
 
-export async function fetchAllProductsWithData(): Promise<
-  FetchResult<AllProductsWithData>
-> {
+export async function fetchAllProductsWithData<T>(
+  options?: FetchOptions
+): Promise<FetchResult<T>> {
+  const defaultOptions = {
+    include: {
+      brand: true,
+      category: true,
+      variants: true,
+    },
+    addTotalStock: false,
+  };
+  const finalOptions = { ...defaultOptions, ...options };
+
   try {
     const result = await db.product.findMany({
-      include: {
-        brand: true,
-        category: true,
-      },
-    });
-    return {
-      success: true,
-      data: result,
-    };
-  } catch (err) {
-    return handleFetchError(
-      err,
-      "Une erreur est survenue lors de la récupération des produits"
-    );
-  }
-}
-
-export async function fetchAllProductsWithVariants(): Promise<
-  FetchResult<AllProductsWithVariants>
-> {
-  try {
-    const result = await db.product.findMany({
-      include: {
-        brand: true,
-        category: true,
-        variants: true,
-      },
-    });
-    if (!result || result.length === 0)
-      throw new Error("Nous n'avons trouvé aucun produit");
-    return {
-      success: true,
-      data: result,
-    };
-  } catch (err) {
-    return handleFetchError(
-      err,
-      "Une erreur est survenue lors de la récupération des produits"
-    );
-  }
-}
-
-export async function fetchAllProductsWithTotalStock(searchParams?: {}): Promise<
-  FetchResult<AllProductsWithStock>
-> {
-  try {
-    const result = await db.product.findMany({
-      include: {
-        brand: true,
-        category: true,
-        variants: true,
-      },
-      orderBy: searchParams,
+      include: finalOptions.include,
+      where: finalOptions.where,
     });
 
     if (!result || result.length === 0)
       throw new Error("Nous n'avons retrouvé aucun produit");
-    const data = addTotalStockToProducts(result);
+
+    const data = finalOptions.addTotalStock
+      ? addTotalStockToProducts(result as AllProductsWithVariants)
+      : result;
     return {
       success: true,
-      data,
+      data: data as unknown as T,
     };
   } catch (err) {
     return handleFetchError(
@@ -99,82 +70,28 @@ export async function fetchAllProductsWithTotalStock(searchParams?: {}): Promise
   }
 }
 
-export async function fetchProductsByCategory(
-  slug: string
-): Promise<AllProductsWithData> {
-  const [name, sex]: [string, Sex] = decodeURIComponent(slug).split("-") as [
-    string,
-    Sex
-  ];
-  if (name === "femme" || name === "homme") {
-    return await db.product.findMany({
-      where: { sex: name },
-      include: { brand: true, category: true },
-    });
-  }
-
-  return await db.product.findMany({
-    where: { category: { name, sex } },
-    include: {
-      brand: true,
-      category: true,
-    },
-  });
-}
-
-export async function fetchProductsByBrand(
-  slug: string
-): Promise<AllProductsWithData> {
-  const [name, sex]: [string, Sex] = decodeURIComponent(slug).split("-") as [
-    string,
-    Sex
-  ];
-
-  return await db.product.findMany({
-    where: { brand: { name, sex } },
-    include: {
-      brand: true,
-      category: true,
-    },
-  });
-}
-
-export async function fetchColorsWithProductIds(
+export async function fetchProductsWithTotalStockByIds(
   productIds: string[]
-): Promise<FetchResult<string[]>> {
+): Promise<FetchResult<AllProductsWithStock>> {
   try {
-    const result = await db.productVariant.findMany({
-      where: {
-        productId: { in: productIds },
+    if (productIds.length === 0) throw new Error("Ids produits manquants");
+    const result = await db.product.findMany({
+      where: { id: { in: productIds } },
+      include: {
+        brand: true,
+        category: true,
+        variants: true,
       },
-      distinct: ["color"],
-      select: { color: true },
     });
-    return { success: true, data: result.map((item) => item.color) };
+    if (!result || result.length === 0)
+      throw new Error(
+        "Nous n'avons pas trouvé de produits correspondants aux ids"
+      );
+    return { success: true, data: addTotalStockToProducts(result) };
   } catch (err) {
     return handleFetchError(
       err,
-      "Une erreur est survenue lors de la récupération des couleurs"
-    );
-  }
-}
-
-export async function fetchSizesWithProductIds(
-  productIds: string[]
-): Promise<FetchResult<string[]>> {
-  try {
-    const result = await db.productVariant.findMany({
-      where: {
-        productId: { in: productIds },
-      },
-      distinct: ["size"],
-      select: { size: true },
-    });
-    return { success: true, data: result.map((item) => item.size) };
-  } catch (err) {
-    return handleFetchError(
-      err,
-      "Une erreur est survenue lors de la récupération des tailles"
+      "Une erreur est survenue lors de la récupération des produits"
     );
   }
 }
@@ -448,36 +365,9 @@ export async function countProductsWithSearchParams(
     );
   }
 }
-
-export async function fetchProductsWithTotalStockByIds(
-  productIds: string[]
-): Promise<FetchResult<AllProductsWithStock>> {
-  try {
-    if (productIds.length === 0) throw new Error("Ids produits manquants");
-    const result = await db.product.findMany({
-      where: { id: { in: productIds } },
-      include: {
-        brand: true,
-        category: true,
-        variants: true,
-      },
-    });
-    if (!result || result.length === 0)
-      throw new Error(
-        "Nous n'avons pas trouvé de produits correspondants aux ids"
-      );
-    return { success: true, data: addTotalStockToProducts(result) };
-  } catch (err) {
-    return handleFetchError(
-      err,
-      "Une erreur est survenue lors de la récupération des produits"
-    );
-  }
-}
-
 // Fonctions helper
 
-function addTotalStockToProducts(products: AllProductsWithVariants) {
+export function addTotalStockToProducts(products: AllProductsWithVariants) {
   return products.map((product) => {
     const totalStock = product.variants.reduce((acc, variant) => {
       if (!variant.stockQuantity) return acc;

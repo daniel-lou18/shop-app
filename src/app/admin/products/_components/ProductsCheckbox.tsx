@@ -45,7 +45,7 @@ function ProductsCheckbox({ data, type }: ProductsCheckboxProps) {
   }
 
   return (
-    <DropdownMenu>
+    <DropdownMenu modal={false}>
       <DropdownMenuTrigger asChild>
         <Button variant="outline" className="gap-1">
           <ListFilter className="h-3.5 w-3.5" />
@@ -62,6 +62,7 @@ function ProductsCheckbox({ data, type }: ProductsCheckboxProps) {
             key={value}
             checked={selectedValues.includes(value)}
             onCheckedChange={() => handleCheckedChange(value)}
+            onSelect={(e) => e.preventDefault()}
           >
             {value}
           </DropdownMenuCheckboxItem>

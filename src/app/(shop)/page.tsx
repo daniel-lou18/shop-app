@@ -1,5 +1,8 @@
 import ItemsCarousel from "@/components/ui/ItemsCarousel";
-import { fetchAllProductsWithData } from "@/db/queries/products";
+import {
+  AllProductsWithVariants,
+  fetchAllProductsWithData,
+} from "@/db/queries/products";
 import React from "react";
 import MainTop from "./_components/MainTop";
 import Banner from "./_components/Banner";
@@ -20,7 +23,7 @@ export type BrandSquare = {
 };
 
 async function MainContent() {
-  const result = await fetchAllProductsWithData();
+  const result = await fetchAllProductsWithData<AllProductsWithVariants>();
   if (!result.success) {
     throw new Error(result.error);
   }

@@ -14,7 +14,6 @@ type ProtectedRouteProps = {
 
 function ProtectedRoute({ children, user, allowedRole }: ProtectedRouteProps) {
   const session = useSession();
-  console.log({ protected: user });
 
   if (!user || user.role !== allowedRole) {
     return (

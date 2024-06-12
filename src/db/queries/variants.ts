@@ -72,3 +72,43 @@ export function getVariantsByColor(variants: ProductVariants) {
     }, [] as ProductVariantsByColor)
     .sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime());
 }
+
+export async function fetchColorsWithProductIds(
+  productIds: string[]
+): Promise<FetchResult<string[]>> {
+  try {
+    const result = await db.productVariant.findMany({
+      where: {
+        productId: { in: productIds },
+      },
+      distinct: ["color"],
+      select: { color: true },
+    });
+    return { success: true, data: result.map((item) => item.color) };
+  } catch (err) {
+    return handleFetchError(
+      err,
+      "Une erreur est survenue lors de la récupération des couleurs"
+    );
+  }
+}
+
+export async function fetchSizesWithProductIds(
+  productIds: string[]
+): Promise<FetchResult<string[]>> {
+  try {
+    const result = await db.productVariant.findMany({
+      where: {
+        productId: { in: productIds },
+      },
+      distinct: ["size"],
+      select: { size: true },
+    });
+    return { success: true, data: result.map((item) => item.size) };
+  } catch (err) {
+    return handleFetchError(
+      err,
+      "Une erreur est survenue lors de la récupération des tailles"
+    );
+  }
+}

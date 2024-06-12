@@ -1,8 +1,8 @@
 "use client";
 
-import ProductsSelectSex from "./ProductsSelectSex";
-import ProductsCheckbox from "./ProductsCheckbox";
-import TableActions from "../../../../components/admin/TableActions";
+import ProductsSelectSex from "../../../app/admin/products/_components/ProductsSelectSex";
+import ProductsCheckbox from "../../../app/admin/products/_components/ProductsCheckbox";
+import TableActions from "../../admin/TableActions";
 
 function ProductsCheckboxes({
   brands,

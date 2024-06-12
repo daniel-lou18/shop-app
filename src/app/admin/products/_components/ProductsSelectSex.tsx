@@ -19,12 +19,16 @@ function ProductsSelectSex({ title }: ProductsSelectSexProps) {
   const pathName = usePathname();
   const router = useRouter();
   const [selectedSex, setSelectedSex] = useState<string>(
-    searchParams.get("sex") || "all"
+    searchParams.get("sex") || "femme"
   );
 
   useEffect(() => {
     const query = new URLSearchParams(searchParams);
-    if (selectedSex) query.set("sex", selectedSex);
+    if (selectedSex) {
+      query.delete("category");
+      query.delete("brand");
+      query.set("sex", selectedSex);
+    }
     router.push(`${pathName}?${query.toString()}`);
   }, [selectedSex, pathName, searchParams, router]);
 
@@ -42,10 +46,9 @@ function ProductsSelectSex({ title }: ProductsSelectSexProps) {
         <SelectValue placeholder={title} />
       </SelectTrigger>
       <SelectContent>
-        <SelectItem value="all">Toutes les collections</SelectItem>
         {sexValues.map((value) => (
           <SelectItem value={value} key={value}>
-            {value}
+            Collection {value}
           </SelectItem>
         ))}
       </SelectContent>
