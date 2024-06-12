@@ -14,14 +14,8 @@ import PageItemsCounter from "../ui/PageItemsCounter";
 import TableTabsList from "@/components/admin/TableTabsList";
 import TableActions from "@/components/admin/TableActions";
 import TableHeaderRow from "@/components/admin/TableHeaderRow";
-import React, { ReactNode, useMemo, useRef, useState } from "react";
+import React, { ReactNode } from "react";
 import { useTabsFilter } from "@/hooks/useTabsFilter";
-
-const checkboxItems = [
-  { value: "femme", text: "Femme" },
-  { value: "homme", text: "Homme" },
-  { value: "vip", text: "VIP" },
-];
 
 export type TableHeaderItems = {
   value: string;
@@ -60,7 +54,6 @@ function TableContainer<T>({
         <TableTabsList tabsTriggers={tabsTriggers} />
         <React.Suspense>
           <TableActions
-            checkboxItems={checkboxItems}
             buttonText={`Ajouter ${title.slice(0, -1).toLowerCase()}`}
           />
         </React.Suspense>
