@@ -1,7 +1,7 @@
 "use client";
 
 import * as actions from "@/actions";
-import { DropdownMenuItem } from "../../../../components/ui/dropdown-menu";
+import { DropdownMenuItem } from "../dropdown-menu";
 import { toast } from "sonner";
 import { useFormState } from "react-dom";
 import { useEffect } from "react";

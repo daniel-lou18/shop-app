@@ -1,11 +1,37 @@
-import { fetchAllProductsWithTotalStock } from "@/db/queries/products";
-import ProductsTablePage from "./_components/ProductsTablePage";
-import { DataTable } from "./data-table";
-import { columns } from "./columns";
+import { Sex } from "@prisma/client";
+import { Suspense } from "react";
+import Loader from "@/components/ui/Loader";
+import ProductsData from "@/app/admin/products/_components/ProductsData";
+import ProductsFilters from "@/app/admin/products/_components/ProductsFilters";
+import { Skeleton } from "@/components/ui/skeleton";
 
-export default async function ProductsTable() {
-  const result = await fetchAllProductsWithTotalStock();
-  if (!result.success) throw new Error(result.error);
-  // return <ProductsTablePage data={result.data} />;
-  return <DataTable columns={columns} data={result.data} />;
+export type ProductsTableProps = {
+  searchParams?: { sex: Sex | "all"; brand: string; category: string };
+};
+
+export default async function ProductsTable({
+  searchParams,
+}: ProductsTableProps) {
+  return (
+    <>
+      <Suspense
+        fallback={
+          <div className="flex gap-4">
+            <Skeleton className="flex-1" />
+            <Skeleton className="w-[100px] h-[40px]" />
+            <Skeleton className="w-[100px] h-[40px]" />
+          </div>
+        }
+        key={Object.values(searchParams || {}).join("")}
+      >
+        <ProductsFilters searchParams={searchParams} />
+      </Suspense>{" "}
+      <Suspense
+        fallback={<Loader />}
+        key={Object.values(searchParams || {}).join("") + "a"}
+      >
+        <ProductsData searchParams={searchParams} />
+      </Suspense>
+    </>
+  );
 }

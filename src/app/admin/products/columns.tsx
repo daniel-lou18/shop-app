@@ -1,7 +1,7 @@
 "use client";
 
 import { ColumnDef } from "@tanstack/react-table";
-import { ProductsTableItemProps } from "./_components/ProductsTableItem";
+import { ProductsTableItemProps } from "../../../components/ui/v1/ProductsTableItem";
 import { Eye, MoreHorizontal, Trash2 } from "lucide-react";
 
 import { Button } from "@/components/ui/button";

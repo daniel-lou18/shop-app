@@ -19,3 +19,24 @@ export async function fetchBrands(sex?: Sex): Promise<FetchResult<AllBrands>> {
     );
   }
 }
+
+export async function fetchBrandsByCategories(
+  sex?: Sex,
+  categories?: string[] | undefined
+): Promise<FetchResult<AllBrands>> {
+  try {
+    const result = await db.brand.findMany({
+      where: {
+        sex,
+        products: { some: { category: { name: { in: categories } } } },
+      },
+      orderBy: { name: "asc" },
+    });
+    return { success: true, data: result };
+  } catch (err) {
+    return handleFetchError(
+      err,
+      "Une erreur est survenue lors de la récupération des categories"
+    );
+  }
+}

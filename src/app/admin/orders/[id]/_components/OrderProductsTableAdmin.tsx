@@ -1,5 +1,5 @@
-import ProductsTableHeader from "@/app/admin/products/_components/ProductsTableHeader";
-import ProductsTableItem from "@/app/admin/products/_components/ProductsTableItem";
+import ProductsTableHeader from "@/components/ui/v1/ProductsTableHeader";
+import ProductsTableItem from "@/components/ui/v1/ProductsTableItem";
 import {
   Card,
   CardContent,

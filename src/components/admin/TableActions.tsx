@@ -7,14 +7,12 @@ import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import { toast } from "sonner";
 import { useEffect } from "react";
-import TableDropdown from "./TableDropdown";
 
 type TableActionsProps = {
-  checkboxItems: { value: string; text: string }[];
   buttonText: string;
 };
 
-function TableActions({ checkboxItems, buttonText }: TableActionsProps) {
+function TableActions({ buttonText }: TableActionsProps) {
   const searchParams = useSearchParams();
 
   useEffect(() => {
@@ -31,20 +29,13 @@ function TableActions({ checkboxItems, buttonText }: TableActionsProps) {
 
   return (
     <div className="ml-auto flex items-center gap-2">
-      <TableDropdown>
-        {checkboxItems.map((item) => (
-          <DropdownMenuCheckboxItem key={item.value}>
-            {item.text}
-          </DropdownMenuCheckboxItem>
-        ))}
-      </TableDropdown>
-      <Button size="sm" variant="outline" className="h-8 gap-1">
+      <Button variant="outline" className="gap-1">
         <File className="h-3.5 w-3.5" />
         <span className="sr-only sm:not-sr-only sm:whitespace-nowrap">
           Exporter
         </span>
       </Button>
-      <Button size="sm" className="h-8 gap-1" asChild>
+      <Button className="gap-1" asChild>
         <Link href="/admin/products/new">
           <PlusCircle className="h-3.5 w-3.5" />
           <span className="sr-only sm:not-sr-only sm:whitespace-nowrap">
