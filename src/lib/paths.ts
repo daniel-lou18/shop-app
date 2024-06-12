@@ -25,6 +25,9 @@ export const paths = {
   adminOrders() {
     return "/admin/orders";
   },
+  adminOrder(orderId: string) {
+    return `/admin/orders/${orderId}`;
+  },
   adminCustomers() {
     return "/admin/customers";
   },

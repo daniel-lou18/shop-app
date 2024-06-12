@@ -1,6 +1,5 @@
 import { TableBody } from "@/components/ui/table";
 import CustomersTableItem from "./CustomersTableItem";
-import { User } from "@prisma/client";
 import { UsersWithOrders } from "@/db/queries/users";
 
 type CustomersTableContentProps = {

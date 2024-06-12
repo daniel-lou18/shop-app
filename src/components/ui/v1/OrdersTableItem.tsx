@@ -8,12 +8,11 @@ import {
   DropdownMenuLabel,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { Badge } from "../../../../components/ui/badge";
-import { Button } from "../../../../components/ui/button";
+import { Badge } from "../badge";
+import { Button } from "../button";
 import { MoreHorizontal, User as UserIcon } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
-import { User } from "@prisma/client";
 import { Suspense } from "react";
 import { paths } from "@/lib/paths";
 import { OrderWithItemsAndUser } from "@/db/queries/orders";

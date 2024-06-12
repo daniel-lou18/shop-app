@@ -5,6 +5,8 @@ import { fetchBrandsByCategories } from "@/db/queries/brands";
 import ProductsSelectSex from "./ProductsSelectSex";
 import ProductsCheckbox from "./ProductsCheckbox";
 import TableActions from "../../../../components/admin/TableActions";
+import { Suspense } from "react";
+import Loader from "@/components/ui/Loader";
 
 async function ProductsFilters({ searchParams }: ProductsTableProps) {
   const sex = !searchParams?.sex ? "femme" : searchParams.sex;

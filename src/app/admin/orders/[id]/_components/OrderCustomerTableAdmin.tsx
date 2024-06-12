@@ -1,6 +1,6 @@
 "use client";
 
-import CustomersTableContent from "@/app/admin/customers/_components/CustomersTableContent";
+import CustomersTableContent from "../../../customers/_components/CustomersTableContent";
 import TableHeaderRow from "@/components/admin/TableHeaderRow";
 import {
   Card,

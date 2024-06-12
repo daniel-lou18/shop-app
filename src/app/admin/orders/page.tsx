@@ -1,11 +1,18 @@
 import { fetchAllOrders } from "@/db/queries/orders";
-import OrdersTablePage from "./_components/OrdersTablePage";
+import { OrdersDataTable } from "./data-table";
+import { columns } from "./columns";
+import OrdersFilters from "./_components/OrdersFilters";
 
 async function AdminOrders() {
   const result = await fetchAllOrders();
   if (!result.success) throw new Error(result.error);
 
-  return <OrdersTablePage data={result.data} />;
+  return (
+    <>
+      <OrdersFilters />
+      <OrdersDataTable data={result.data} columns={columns} />
+    </>
+  );
 }
 
 export default AdminOrders;

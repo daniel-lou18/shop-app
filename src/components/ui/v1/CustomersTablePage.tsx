@@ -1,14 +1,13 @@
 "use client";
 
 import TableContainer from "@/components/admin/TableContainer";
-import CustomersTableContent from "./CustomersTableContent";
+import CustomersTableContent from "../../../app/admin/customers/_components/CustomersTableContent";
 import { User } from "@prisma/client";
 import { UsersWithOrders } from "@/db/queries/users";
 import {
   tableHeaderItemsCustomers,
   tabsTriggersCustomers,
 } from "@/helpers/constants";
-import { useState } from "react";
 import Loader from "@/components/ui/Loader";
 import { useSort } from "@/hooks/useSort";
 
