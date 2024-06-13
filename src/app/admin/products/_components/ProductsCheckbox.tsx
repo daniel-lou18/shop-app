@@ -9,6 +9,8 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { AllBrands } from "@/db/queries/brands";
+import { AllCategories } from "@/db/queries/categories";
 import { ListFilter } from "lucide-react";
 
 type ProductsCheckboxProps = {
@@ -16,6 +18,7 @@ type ProductsCheckboxProps = {
   handleCheckedChange: (value: string) => void;
   type: "brand" | "category";
   data: string[];
+  allData: AllBrands | AllCategories;
 };
 
 function ProductsCheckbox({
@@ -23,6 +26,7 @@ function ProductsCheckbox({
   handleCheckedChange,
   type,
   data,
+  allData,
 }: ProductsCheckboxProps) {
   return (
     <DropdownMenu modal={false}>
@@ -37,14 +41,18 @@ function ProductsCheckbox({
       <DropdownMenuContent className="w-56">
         <DropdownMenuLabel>Faites votre sélection</DropdownMenuLabel>
         <DropdownMenuSeparator />
-        {data.map((value) => (
+        {allData.map((value) => (
           <DropdownMenuCheckboxItem
-            key={value}
-            checked={selectedValues.includes(value)}
-            onCheckedChange={() => handleCheckedChange(value)}
+            key={value.name}
+            checked={selectedValues.includes(value.name)}
+            onCheckedChange={() => handleCheckedChange(value.name)}
             onSelect={(e) => e.preventDefault()}
+            className={
+              data.includes(value.name) ? "" : "text-muted-foreground/50"
+            }
+            disabled={!data.includes(value.name)}
           >
-            {value}
+            {value.name}
           </DropdownMenuCheckboxItem>
         ))}
       </DropdownMenuContent>

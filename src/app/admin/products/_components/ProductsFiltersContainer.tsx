@@ -1,6 +1,9 @@
 import { ProductsTableProps } from "@/app/admin/products/page";
-import { fetchCategoriesByBrands } from "@/db/queries/categories";
-import { fetchBrandsByCategories } from "@/db/queries/brands";
+import {
+  fetchCategories,
+  fetchCategoriesByBrands,
+} from "@/db/queries/categories";
+import { fetchBrands, fetchBrandsByCategories } from "@/db/queries/brands";
 
 import ProductsSelectSex from "./ProductsSelectSex";
 import ProductsCheckbox from "./ProductsCheckbox";
@@ -25,6 +28,9 @@ async function ProductsFiltersContainer({ searchParams }: ProductsTableProps) {
     new Set(categoriesResult.data.map((category) => category.name))
   );
 
+  const allBrands = await fetchBrands();
+  const allCategories = await fetchCategories();
+
   return (
     <>
       <div className="flex gap-4 flex-1 pb-4">
@@ -35,6 +41,8 @@ async function ProductsFiltersContainer({ searchParams }: ProductsTableProps) {
         <ProductsFilters
           brandsData={brandsData}
           categoriesData={categoriesData}
+          allBrands={allBrands.success ? allBrands.data : []}
+          allCategories={allCategories.success ? allCategories.data : []}
         />
       </div>
     </>

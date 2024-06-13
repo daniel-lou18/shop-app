@@ -7,8 +7,6 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { usePathname, useRouter } from "next/navigation";
-import { Dispatch, SetStateAction } from "react";
 const sexValues = ["femme", "homme"] as const;
 export type SexType = (typeof sexValues)[number];
 
