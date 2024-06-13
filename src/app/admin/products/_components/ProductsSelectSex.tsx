@@ -27,9 +27,9 @@ function ProductsSelectSex({
       <SelectTrigger
         id={`all-sexValues`}
         aria-label="Select status"
-        className="w-auto"
+        className="w-auto min-w-[160px]"
       >
-        <SelectValue placeholder={title} className="mr-2" />
+        <SelectValue placeholder={title} />
       </SelectTrigger>
       <SelectContent>
         {sexValues.map((value) => (
