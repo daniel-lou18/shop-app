@@ -3,7 +3,7 @@
 import ProductsSelectSex, { SexType } from "./ProductsSelectSex";
 import ProductsCheckbox from "./ProductsCheckbox";
 import TableActions from "../../../../components/admin/TableActions";
-import { Dispatch, SetStateAction, useEffect, useState } from "react";
+import { Dispatch, SetStateAction, Suspense, useEffect, useState } from "react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 
 type ProductsFiltersProps = { brandsData: string[]; categoriesData: string[] };
@@ -24,6 +24,7 @@ function ProductsFilters({ brandsData, categoriesData }: ProductsFiltersProps) {
 
   useEffect(() => {
     const query = new URLSearchParams(searchParams);
+    query.set("sex", selectedSex);
     if (selectedBrands.length > 0) {
       query.set("brand", selectedBrands.join(","));
     } else {
@@ -35,15 +36,19 @@ function ProductsFilters({ brandsData, categoriesData }: ProductsFiltersProps) {
       query.delete("category");
     }
     router.push(`${pathName}?${query.toString()}`);
-  }, [selectedBrands, selectedCategories, pathName, searchParams, router]);
+  }, [
+    selectedSex,
+    selectedBrands,
+    selectedCategories,
+    pathName,
+    searchParams,
+    router,
+  ]);
 
   function handleSexChange(value: SexType) {
     setSelectedSex(value);
     setSelectedBrands([]);
     setSelectedCategories([]);
-    const query = new URLSearchParams();
-    query.set("sex", value);
-    router.push(`${pathName}?${query.toString()}`);
   }
 
   function handleCheckedChange(
@@ -56,33 +61,7 @@ function ProductsFilters({ brandsData, categoriesData }: ProductsFiltersProps) {
         : [...prevState, value]
     );
   }
-
-  // function handleCheckedChange(
-  //   value: string,
-  //   setStateAction: Dispatch<SetStateAction<string[]>>,
-  //   type: "brand" | "category"
-  // ) {
-  //   const query = new URLSearchParams(searchParams);
-  //   let updatedString: string | undefined;
-  //   setStateAction((prevState) => {
-  //     if (prevState.includes(value)) {
-  //       updatedString = query
-  //         .get(type)
-  //         ?.split(",")
-  //         .filter((prev) => prev !== value)
-  //         .join(",");
-  //       query.set(type, updatedString || "");
-  //       router.push(`${pathName}?${query.toString()}`);
-  //       return prevState.filter((prev) => value !== prev);
-  //     }
-  //     const updatedArray = query.get(type)?.split(",") || [];
-  //     updatedArray.push(value);
-  //     query.set(type, updatedArray.join(",") || "");
-  //     router.push(`${pathName}?${query.toString()}`);
-  //     return [...prevState, value];
-  //   });
-  // }
-  console.log(selectedCategories);
+  console.log(selectedSex);
 
   return (
     <>
