@@ -1,3 +1,5 @@
+import { paths } from "@/lib/paths";
+
 export const BRANDS = {
   men: [
     "Gucci",
@@ -170,4 +172,12 @@ export const tabsTriggersOrders = [
   { value: "all", text: "Tous" },
   { value: "paid", text: "Payées" },
   { value: "not-paid", text: "Annulées" },
+];
+
+export const headerAdminLinks = [
+  { href: paths.adminHome(), text: "Dashboard" },
+  { href: paths.adminProducts(), text: "Produits" },
+  { href: paths.adminOrders(), text: "Commandes" },
+  { href: paths.adminCustomers(), text: "Clients" },
+  { href: paths.adminSettingsAccount(), text: "Paramètres" },
 ];

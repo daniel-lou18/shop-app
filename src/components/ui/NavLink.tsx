@@ -1,5 +1,6 @@
 "use client";
 
+import { cn } from "@/lib/utils";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { ReactNode } from "react";
@@ -15,8 +16,8 @@ function NavLink({ children, href }: NavLinkProps) {
   return (
     <Link
       href={href}
-      className={`font-semibold text-base ${
-        pathName === href ? "text-primary" : ""
+      className={`text-foreground transition-colors hover:text-primary font-semibold text-base ${
+        pathName === href ? "text-primary brightness-75" : ""
       }`}
     >
       {children}

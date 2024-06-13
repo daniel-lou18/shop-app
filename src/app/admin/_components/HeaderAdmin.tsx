@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Menu, Package2, Search, ShoppingBasket } from "lucide-react";
+import { Menu, Package2, Search } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 import { Input } from "@/components/ui/input";
@@ -7,42 +7,28 @@ import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { paths } from "@/lib/paths";
 import HeaderAdminDropdown from "./HeaderAdminDropdown";
 import HeaderLogo from "@/components/ui/HeaderLogo";
+import { headerAdminLinks } from "@/helpers/constants";
+import NavLink from "@/components/ui/NavLink";
 
 function HeaderAdmin() {
   return (
-    <header className="sticky z-10 top-0 flex h-16 items-center gap-4 border-b bg-background p-4 sm:px-16 sm:py-0">
+    <header className="sticky z-10 top-0 flex h-16 items-center justify-between gap-4 border-b bg-background p-4 sm:px-16 sm:py-0">
       <nav className="hidden flex-col gap-6 text-lg font-medium md:flex md:flex-row md:items-center md:gap-5 md:text-sm lg:gap-6">
         <HeaderLogo href={paths.customerHome()} />
         <Link
           href={paths.adminHome()}
-          className="ml-4 text-muted-foreground transition-colors hover:text-foreground pointer-events-none"
+          className="ml-4 text-base font-semibold text-muted-foreground transition-colors hover:text-foreground pointer-events-none"
         >
           Dashboard
         </Link>
-        <Link
-          href={paths.adminOrders()}
-          className="text-foreground transition-colors hover:text-foreground"
-        >
-          Commandes
-        </Link>
-        <Link
-          href={paths.adminProducts()}
-          className="text-foreground transition-colors hover:text-foreground"
-        >
-          Produits
-        </Link>
-        <Link
-          href={paths.adminCustomers()}
-          className="text-foreground transition-colors hover:text-foreground"
-        >
-          Clients
-        </Link>
-        <Link
-          href={paths.adminSettingsAccount()}
-          className="text-foreground transition-colors hover:text-foreground"
-        >
-          Paramètres
-        </Link>
+        {headerAdminLinks.map((link, idx) => {
+          if (idx === 0) return null;
+          return (
+            <NavLink href={link.href} key={link.text}>
+              {link.text}
+            </NavLink>
+          );
+        })}
       </nav>
       <Sheet>
         <SheetTrigger asChild>
@@ -63,38 +49,18 @@ function HeaderAdmin() {
             <Link href="#" className="hover:text-foreground">
               Dashboard
             </Link>
-            <Link
-              href="#"
-              className="text-muted-foreground hover:text-foreground"
-            >
-              Commandes
-            </Link>
-            <Link
-              href="#"
-              className="text-muted-foreground hover:text-foreground"
-            >
-              Produits
-            </Link>
-            <Link
-              href="#"
-              className="text-muted-foreground hover:text-foreground"
-            >
-              Clients
-            </Link>
+            {headerAdminLinks.map((link, idx) => {
+              if (idx === 0) return null;
+              return (
+                <NavLink href={link.href} key={link.text}>
+                  {link.text}
+                </NavLink>
+              );
+            })}
           </nav>
         </SheetContent>
       </Sheet>
-      <div className="flex w-full items-center gap-4 md:ml-auto md:gap-2 lg:gap-4">
-        <form className="ml-auto flex-1 sm:flex-initial">
-          <div className="relative">
-            <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
-            <Input
-              type="search"
-              placeholder="Rechercher produits..."
-              className="pl-8 sm:w-[300px] md:w-[200px] lg:w-[300px]"
-            />
-          </div>
-        </form>
+      <div className="flex items-center gap-4 md:ml-auto md:gap-2 lg:gap-4">
         <HeaderAdminDropdown />
       </div>
     </header>
