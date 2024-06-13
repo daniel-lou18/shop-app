@@ -1,9 +1,14 @@
 import { ProductsTableProps } from "@/app/admin/products/page";
 import {
+  AllCategories,
   fetchCategories,
   fetchCategoriesByBrands,
 } from "@/db/queries/categories";
-import { fetchBrands, fetchBrandsByCategories } from "@/db/queries/brands";
+import {
+  AllBrands,
+  fetchBrands,
+  fetchBrandsByCategories,
+} from "@/db/queries/brands";
 
 import ProductsSelectSex from "./ProductsSelectSex";
 import ProductsCheckbox from "./ProductsCheckbox";
@@ -12,7 +17,14 @@ import { Suspense } from "react";
 import Loader from "@/components/ui/Loader";
 import ProductsFilters from "./ProductsFilters";
 
-async function ProductsFiltersContainer({ searchParams }: ProductsTableProps) {
+async function ProductsFiltersContainer({
+  searchParams,
+  allBrands,
+  allCategories,
+}: ProductsTableProps & {
+  allBrands: AllBrands;
+  allCategories: AllCategories;
+}) {
   const sex = !searchParams?.sex ? "femme" : searchParams.sex;
   const brands = searchParams?.brand?.split(",") || undefined;
   const categories = searchParams?.category?.split(",") || undefined;
@@ -28,9 +40,6 @@ async function ProductsFiltersContainer({ searchParams }: ProductsTableProps) {
     new Set(categoriesResult.data.map((category) => category.name))
   );
 
-  const allBrands = await fetchBrands();
-  const allCategories = await fetchCategories();
-
   return (
     <>
       <div className="flex gap-4 flex-1 pb-4">
@@ -41,8 +50,8 @@ async function ProductsFiltersContainer({ searchParams }: ProductsTableProps) {
         <ProductsFilters
           brandsData={brandsData}
           categoriesData={categoriesData}
-          allBrands={allBrands.success ? allBrands.data : []}
-          allCategories={allCategories.success ? allCategories.data : []}
+          allBrands={allBrands}
+          allCategories={allCategories}
         />
       </div>
     </>

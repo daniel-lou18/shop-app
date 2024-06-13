@@ -5,6 +5,8 @@ import ProductsData from "@/app/admin/products/_components/ProductsData";
 import ProductsFilters from "@/app/admin/products/_components/ProductsFilters";
 import { Skeleton } from "@/components/ui/skeleton";
 import ProductsFiltersContainer from "./_components/ProductsFiltersContainer";
+import { fetchCategories } from "@/db/queries/categories";
+import { fetchBrands } from "@/db/queries/brands";
 
 export type ProductsTableProps = {
   searchParams?: { sex?: Sex; brand?: string; category?: string };
@@ -13,6 +15,8 @@ export type ProductsTableProps = {
 export default async function ProductsTable({
   searchParams,
 }: ProductsTableProps) {
+  const allBrands = await fetchBrands();
+  const allCategories = await fetchCategories();
   return (
     <>
       {/* <Suspense
@@ -25,7 +29,11 @@ export default async function ProductsTable({
         }
         key={Object.values(searchParams || {}).join("")}
       > */}
-      <ProductsFiltersContainer searchParams={searchParams} />
+      <ProductsFiltersContainer
+        searchParams={searchParams}
+        allBrands={allBrands.success ? allBrands.data : []}
+        allCategories={allCategories.success ? allCategories.data : []}
+      />
       {/* </Suspense> */}
       <Suspense
         fallback={<Loader />}
