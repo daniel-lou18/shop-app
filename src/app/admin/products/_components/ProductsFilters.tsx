@@ -1,41 +1,113 @@
-import { ProductsTableProps } from "@/app/admin/products/page";
-import { fetchCategoriesByBrands } from "@/db/queries/categories";
-import { fetchBrandsByCategories } from "@/db/queries/brands";
+"use client";
 
-import ProductsSelectSex from "./ProductsSelectSex";
+import ProductsSelectSex, { SexType } from "./ProductsSelectSex";
 import ProductsCheckbox from "./ProductsCheckbox";
 import TableActions from "../../../../components/admin/TableActions";
-import { Suspense } from "react";
-import Loader from "@/components/ui/Loader";
+import { Dispatch, SetStateAction, useEffect, useState } from "react";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 
-async function ProductsFilters({ searchParams }: ProductsTableProps) {
-  const sex = !searchParams?.sex ? "femme" : searchParams.sex;
-  const brands = searchParams?.brand?.split(",") || undefined;
-  const categories = searchParams?.category?.split(",") || undefined;
+type ProductsFiltersProps = { brandsData: string[]; categoriesData: string[] };
 
-  const categoriesResult = await fetchCategoriesByBrands(sex, brands);
-  const brandsResult = await fetchBrandsByCategories(sex, categories);
-  if (!categoriesResult.success) throw new Error(categoriesResult.error);
-  if (!brandsResult.success) throw new Error(brandsResult.error);
-  const brandsData = Array.from(
-    new Set(brandsResult.data.map((brand) => brand.name))
+function ProductsFilters({ brandsData, categoriesData }: ProductsFiltersProps) {
+  const searchParams = useSearchParams();
+  const pathName = usePathname();
+  const router = useRouter();
+  const [selectedSex, setSelectedSex] = useState<SexType>(
+    (searchParams.get("sex") as SexType) || "femme"
   );
-  const categoriesData = Array.from(
-    new Set(categoriesResult.data.map((category) => category.name))
+  const [selectedBrands, setSelectedBrands] = useState<string[]>(
+    searchParams.get("brand")?.split(",") || []
   );
+  const [selectedCategories, setSelectedCategories] = useState<string[]>(
+    searchParams.get("category")?.split(",") || []
+  );
+
+  useEffect(() => {
+    const query = new URLSearchParams(searchParams);
+    if (selectedBrands.length > 0) {
+      query.set("brand", selectedBrands.join(","));
+    } else {
+      query.delete("brand");
+    }
+    if (selectedCategories.length > 0) {
+      query.set("category", selectedCategories.join(","));
+    } else {
+      query.delete("category");
+    }
+    router.push(`${pathName}?${query.toString()}`);
+  }, [selectedBrands, selectedCategories, pathName, searchParams, router]);
+
+  function handleSexChange(value: SexType) {
+    setSelectedSex(value);
+    setSelectedBrands([]);
+    setSelectedCategories([]);
+    const query = new URLSearchParams();
+    query.set("sex", value);
+    router.push(`${pathName}?${query.toString()}`);
+  }
+
+  function handleCheckedChange(
+    value: string,
+    setStateAction: Dispatch<SetStateAction<string[]>>
+  ) {
+    setStateAction((prevState) =>
+      prevState.includes(value)
+        ? prevState.filter((prev) => value !== prev)
+        : [...prevState, value]
+    );
+  }
+
+  // function handleCheckedChange(
+  //   value: string,
+  //   setStateAction: Dispatch<SetStateAction<string[]>>,
+  //   type: "brand" | "category"
+  // ) {
+  //   const query = new URLSearchParams(searchParams);
+  //   let updatedString: string | undefined;
+  //   setStateAction((prevState) => {
+  //     if (prevState.includes(value)) {
+  //       updatedString = query
+  //         .get(type)
+  //         ?.split(",")
+  //         .filter((prev) => prev !== value)
+  //         .join(",");
+  //       query.set(type, updatedString || "");
+  //       router.push(`${pathName}?${query.toString()}`);
+  //       return prevState.filter((prev) => value !== prev);
+  //     }
+  //     const updatedArray = query.get(type)?.split(",") || [];
+  //     updatedArray.push(value);
+  //     query.set(type, updatedArray.join(",") || "");
+  //     router.push(`${pathName}?${query.toString()}`);
+  //     return [...prevState, value];
+  //   });
+  // }
+  console.log(selectedCategories);
 
   return (
     <>
-      <div className="flex gap-4 flex-1 pb-4">
-        <div
-          className="flex items-center relative min-w-[300px] max-w-[500px] bg-white"
-          id="table-search-container"
-        ></div>
-        <ProductsSelectSex title="Collection" />
-        <ProductsCheckbox data={brandsData} type="brand" />
-        <ProductsCheckbox data={categoriesData} type="category" />
-        <TableActions buttonText={`Ajouter produit`} />
-      </div>
+      <ProductsSelectSex
+        title="Collection"
+        selectedSex={selectedSex}
+        handleValueChange={handleSexChange}
+      />
+      <ProductsCheckbox
+        selectedValues={selectedBrands}
+        handleCheckedChange={(value) =>
+          handleCheckedChange(value, setSelectedBrands)
+        }
+        data={brandsData}
+        type="brand"
+      />
+      <ProductsCheckbox
+        selectedValues={selectedCategories}
+        handleCheckedChange={(value) =>
+          handleCheckedChange(value, setSelectedCategories)
+        }
+        data={categoriesData}
+        type="category"
+      />
+      <TableActions buttonText={`Ajouter produit`} />
     </>
   );
 }

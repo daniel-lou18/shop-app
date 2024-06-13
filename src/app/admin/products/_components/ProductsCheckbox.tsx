@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -14,35 +14,35 @@ import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { ListFilter } from "lucide-react";
 
 type ProductsCheckboxProps = {
-  data: string[];
+  selectedValues: string[];
+  handleCheckedChange: (value: string) => void;
   type: "brand" | "category";
+  data: string[];
 };
 
-function ProductsCheckbox({ data, type }: ProductsCheckboxProps) {
-  const searchParams = useSearchParams();
-  const pathName = usePathname();
-  const router = useRouter();
-  const [selectedValues, setSelectedValues] = useState<string[]>(
-    searchParams.get(type)?.split(",") || []
-  );
+function ProductsCheckbox({
+  selectedValues,
+  handleCheckedChange,
+  type,
+  data,
+}: ProductsCheckboxProps) {
+  // useEffect(() => {
+  //   const query = new URLSearchParams(searchParams);
+  //   if (selectedValues.length > 0) {
+  //     query.set(type, selectedValues.join(","));
+  //   } else {
+  //     query.delete(type);
+  //   }
+  //   router.push(`${pathName}?${query.toString()}`);
+  // }, [selectedValues, pathName, searchParams, router, type]);
 
-  useEffect(() => {
-    const query = new URLSearchParams(searchParams);
-    if (selectedValues.length > 0) {
-      query.set(type, selectedValues.join(","));
-    } else {
-      query.delete(type);
-    }
-    router.push(`${pathName}?${query.toString()}`);
-  }, [selectedValues, pathName, searchParams, router, type]);
-
-  function handleCheckedChange(value: string) {
-    setSelectedValues((prevState) =>
-      selectedValues.includes(value)
-        ? prevState.filter((prev) => value !== prev)
-        : [...prevState, value]
-    );
-  }
+  // function handleCheckedChange(value: string) {
+  //   setSelectedValues((prevState) =>
+  //     selectedValues.includes(value)
+  //       ? prevState.filter((prev) => value !== prev)
+  //       : [...prevState, value]
+  //   );
+  // }
 
   return (
     <DropdownMenu modal={false}>

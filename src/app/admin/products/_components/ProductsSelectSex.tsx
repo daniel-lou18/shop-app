@@ -1,4 +1,6 @@
 "use client";
+// import { useEffect, useState } from "react";
+// import { usePathname, useRouter, useSearchParams } from "next/navigation";
 
 import {
   Select,
@@ -7,35 +9,21 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { useEffect, useState } from "react";
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
-const sexValues = ["femme", "homme"];
+import { usePathname, useRouter } from "next/navigation";
+import { Dispatch, SetStateAction } from "react";
+const sexValues = ["femme", "homme"] as const;
+export type SexType = (typeof sexValues)[number];
 
 type ProductsSelectSexProps = {
   title: string;
+  selectedSex: SexType;
+  handleValueChange: (value: SexType) => void;
 };
-function ProductsSelectSex({ title }: ProductsSelectSexProps) {
-  const searchParams = useSearchParams();
-  const pathName = usePathname();
-  const router = useRouter();
-  const [selectedSex, setSelectedSex] = useState<string>(
-    searchParams.get("sex") || "femme"
-  );
-
-  useEffect(() => {
-    const query = new URLSearchParams(searchParams);
-    if (selectedSex) {
-      query.delete("category");
-      query.delete("brand");
-      query.set("sex", selectedSex);
-    }
-    router.push(`${pathName}?${query.toString()}`);
-  }, [selectedSex, pathName, searchParams, router]);
-
-  function handleValueChange(value: string) {
-    setSelectedSex(value);
-  }
-
+function ProductsSelectSex({
+  title,
+  selectedSex,
+  handleValueChange,
+}: ProductsSelectSexProps) {
   return (
     <Select name="status" onValueChange={handleValueChange} value={selectedSex}>
       <SelectTrigger
@@ -43,7 +31,7 @@ function ProductsSelectSex({ title }: ProductsSelectSexProps) {
         aria-label="Select status"
         className="w-auto"
       >
-        <SelectValue placeholder={title} />
+        <SelectValue placeholder={title} className="mr-2" />
       </SelectTrigger>
       <SelectContent>
         {sexValues.map((value) => (
@@ -57,3 +45,20 @@ function ProductsSelectSex({ title }: ProductsSelectSexProps) {
 }
 
 export default ProductsSelectSex;
+
+// const searchParams = useSearchParams();
+// const pathName = usePathname();
+// const router = useRouter();
+// const [selectedSex, setSelectedSex] = useState<string>(
+//   searchParams.get("sex") || "femme"
+// );
+
+// useEffect(() => {
+//   const query = new URLSearchParams(searchParams);
+//   if (selectedSex) {
+//     query.delete("category");
+//     query.delete("brand");
+//     query.set("sex", selectedSex);
+//   }
+//   router.push(`${pathName}?${query.toString()}`);
+// }, [selectedSex, pathName, searchParams, router]);

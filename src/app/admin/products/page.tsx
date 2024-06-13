@@ -4,6 +4,7 @@ import Loader from "@/components/ui/Loader";
 import ProductsData from "@/app/admin/products/_components/ProductsData";
 import ProductsFilters from "@/app/admin/products/_components/ProductsFilters";
 import { Skeleton } from "@/components/ui/skeleton";
+import ProductsFiltersContainer from "./_components/ProductsFiltersContainer";
 
 export type ProductsTableProps = {
   searchParams?: { sex?: Sex; brand?: string; category?: string };
@@ -24,7 +25,7 @@ export default async function ProductsTable({
         }
         key={Object.values(searchParams || {}).join("")}
       > */}
-      <ProductsFilters searchParams={searchParams} />
+      <ProductsFiltersContainer searchParams={searchParams} />
       {/* </Suspense> */}
       <Suspense
         fallback={<Loader />}
