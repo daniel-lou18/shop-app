@@ -24,6 +24,7 @@ function ProductsFilters({ brandsData, categoriesData }: ProductsFiltersProps) {
 
   useEffect(() => {
     const query = new URLSearchParams(searchParams);
+    query.set("sex", selectedSex);
     if (selectedBrands.length > 0) {
       query.set("brand", selectedBrands.join(","));
     } else {
@@ -35,15 +36,22 @@ function ProductsFilters({ brandsData, categoriesData }: ProductsFiltersProps) {
       query.delete("category");
     }
     router.push(`${pathName}?${query.toString()}`);
-  }, [selectedBrands, selectedCategories, pathName, searchParams, router]);
+  }, [
+    selectedSex,
+    selectedBrands,
+    selectedCategories,
+    pathName,
+    searchParams,
+    router,
+  ]);
 
-  useEffect(() => {
-    const query = new URLSearchParams(searchParams);
-    query.set("sex", selectedSex);
-    query.delete("brand");
-    query.delete("category");
-    router.push(`${pathName}?${query.toString()}`);
-  }, [selectedSex, pathName, searchParams, router]);
+  // useEffect(() => {
+  //   const query = new URLSearchParams(searchParams);
+  //   query.set("sex", selectedSex);
+  //   query.delete("brand");
+  //   query.delete("category");
+  //   router.push(`${pathName}?${query.toString()}`);
+  // }, [selectedSex, pathName, searchParams, router]);
 
   function handleSexChange(value: SexType) {
     setSelectedSex(value);
