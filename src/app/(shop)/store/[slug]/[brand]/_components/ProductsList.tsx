@@ -37,9 +37,6 @@ function ProductsList({
 }: ProductsListProps) {
   const { filteredProducts, isLoading, setIsLoading, error, params } =
     useGetProductsCustomer(products);
-
-  if (!filteredProducts || filteredProducts.length === 0)
-    throw new Error("Aucun produit à afficher");
   if (error) throw new Error(error);
 
   return (
@@ -118,9 +115,13 @@ function ProductsList({
           isLoading ? "opacity-30" : ""
         } grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4`}
       >
-        {filteredProducts.map((product) => (
-          <ProductCard type="product" item={product} key={product.id} />
-        ))}
+        {filteredProducts.length > 0 ? (
+          filteredProducts.map((product) => (
+            <ProductCard type="product" item={product} key={product.id} />
+          ))
+        ) : (
+          <p>Aucun produit à afficher</p>
+        )}
       </ul>
       <ProductsPagination
         take={TAKE}
