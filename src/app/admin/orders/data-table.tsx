@@ -11,6 +11,7 @@ import {
   ColumnFiltersState,
   getFilteredRowModel,
   getFacetedUniqueValues,
+  GlobalFilterTableState,
 } from "@tanstack/react-table";
 
 import {
@@ -33,11 +34,34 @@ import { Input } from "@/components/ui/input";
 import { DataTablePagination } from "@/components/ui/DataTablePagination";
 import { Search } from "lucide-react";
 import { createPortal } from "react-dom";
+import { FilterFn } from "@tanstack/react-table";
 
 export interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
 }
+
+declare module "@tanstack/react-table" {
+  interface FilterFns {
+    multiColumn: FilterFn<unknown>;
+  }
+}
+
+const multiColumnFilter: FilterFn<any> = (
+  row,
+  columnIds: string,
+  filterValue,
+  addMeta
+) => {
+  const columnIdsArray = columnIds.split(",");
+  return columnIdsArray.some((columnId) => {
+    const cellValue = row.getValue(columnId);
+    return cellValue
+      ?.toString()
+      .toLowerCase()
+      .includes(filterValue.toLowerCase());
+  });
+};
 
 export function OrdersDataTable<TData, TValue>({
   columns,
@@ -45,6 +69,7 @@ export function OrdersDataTable<TData, TValue>({
 }: DataTableProps<TData, TValue>) {
   const [sorting, setSorting] = useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
+  const [globalFilter, setGlobalFilter] = useState<string>("");
   const [isMounted, setIsMounted] = useState(false);
 
   const table = useReactTable({
@@ -53,6 +78,10 @@ export function OrdersDataTable<TData, TValue>({
     state: {
       sorting,
       columnFilters,
+      globalFilter,
+    },
+    filterFns: {
+      multiColumn: multiColumnFilter,
     },
     getCoreRowModel: getCoreRowModel(),
     getPaginationRowModel: getPaginationRowModel(),
@@ -61,6 +90,10 @@ export function OrdersDataTable<TData, TValue>({
     onColumnFiltersChange: setColumnFilters,
     getFilteredRowModel: getFilteredRowModel(),
     getFacetedUniqueValues: getFacetedUniqueValues(),
+    onGlobalFilterChange: setGlobalFilter,
+    globalFilterFn: (row, _, value, addMeta) => {
+      return multiColumnFilter(row, "id,firstName,lastName", value, addMeta);
+    },
   });
 
   useEffect(() => {
@@ -74,12 +107,10 @@ export function OrdersDataTable<TData, TValue>({
   const searchInput = (
     <>
       <Input
-        placeholder="Rechercher par nom de famille"
-        value={(table.getColumn("lastName")?.getFilterValue() as string) ?? ""}
-        onChange={(event) =>
-          table.getColumn("lastName")?.setFilterValue(event.target.value)
-        }
-        className="min-w-[300px] max-w-[500px]"
+        placeholder="Rechercher par nom, prénom et n° de commande"
+        value={globalFilter}
+        onChange={(event) => setGlobalFilter(event.target.value)}
+        className="min-w-[400px] max-w-[500px]"
       />
       <Search
         size={20}

@@ -36,26 +36,29 @@ function ProductsFilters({
 
   useEffect(() => {
     const query = new URLSearchParams(searchParams);
-    query.set("sex", selectedSex);
     if (selectedBrands.length > 0) {
       query.set("brand", selectedBrands.join(","));
     } else {
       query.delete("brand");
     }
+    router.push(`${pathName}?${query.toString()}`);
+  }, [selectedBrands, pathName, searchParams, router]);
+
+  useEffect(() => {
+    const query = new URLSearchParams(searchParams);
     if (selectedCategories.length > 0) {
       query.set("category", selectedCategories.join(","));
     } else {
       query.delete("category");
     }
     router.push(`${pathName}?${query.toString()}`);
-  }, [
-    selectedSex,
-    selectedBrands,
-    selectedCategories,
-    pathName,
-    searchParams,
-    router,
-  ]);
+  }, [selectedCategories, pathName, searchParams, router]);
+
+  useEffect(() => {
+    const query = new URLSearchParams();
+    query.set("sex", selectedSex);
+    router.push(`${pathName}?${query.toString()}`);
+  }, [selectedSex, pathName, router]);
 
   function handleSexChange(value: SexType) {
     setSelectedSex(value);
