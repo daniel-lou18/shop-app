@@ -41,13 +41,7 @@ export interface DataTableProps<TData, TValue> {
   data: TData[];
 }
 
-// declare module "@tanstack/react-table" {
-//   interface FilterFns {
-//     multiColumn: FilterFn<unknown>;
-//   }
-// }
-
-const multiColumnFilter: FilterFn<any> = (
+export const multiColumnFilter: FilterFn<any> = (
   row,
   columnIds: string,
   filterValue,
@@ -91,9 +85,8 @@ export function OrdersDataTable<TData, TValue>({
     getFilteredRowModel: getFilteredRowModel(),
     getFacetedUniqueValues: getFacetedUniqueValues(),
     onGlobalFilterChange: setGlobalFilter,
-    globalFilterFn: (row, _, value, addMeta) => {
-      return multiColumnFilter(row, "id,firstName,lastName", value, addMeta);
-    },
+    globalFilterFn: (row, _, value, addMeta) =>
+      multiColumnFilter(row, "id,firstName,lastName", value, addMeta),
   });
 
   useEffect(() => {

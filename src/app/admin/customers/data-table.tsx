@@ -33,6 +33,7 @@ import { Input } from "@/components/ui/input";
 import { DataTablePagination } from "@/components/ui/DataTablePagination";
 import { Search } from "lucide-react";
 import { createPortal } from "react-dom";
+import { multiColumnFilter } from "../orders/data-table";
 
 export interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
@@ -45,6 +46,7 @@ export function CustomersDataTable<TData, TValue>({
 }: DataTableProps<TData, TValue>) {
   const [sorting, setSorting] = useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
+  const [globalFilter, setGlobalFilter] = useState<string>("");
   const [isMounted, setIsMounted] = useState(false);
 
   const table = useReactTable({
@@ -53,6 +55,10 @@ export function CustomersDataTable<TData, TValue>({
     state: {
       sorting,
       columnFilters,
+      globalFilter,
+    },
+    filterFns: {
+      multiColumn: multiColumnFilter,
     },
     getCoreRowModel: getCoreRowModel(),
     getPaginationRowModel: getPaginationRowModel(),
@@ -61,6 +67,9 @@ export function CustomersDataTable<TData, TValue>({
     onColumnFiltersChange: setColumnFilters,
     getFilteredRowModel: getFilteredRowModel(),
     getFacetedUniqueValues: getFacetedUniqueValues(),
+    onGlobalFilterChange: setGlobalFilter,
+    globalFilterFn: (row, _, value, addMeta) =>
+      multiColumnFilter(row, "firstName,lastName", value, addMeta),
   });
 
   useEffect(() => {
@@ -74,12 +83,10 @@ export function CustomersDataTable<TData, TValue>({
   const searchInput = (
     <>
       <Input
-        placeholder="Rechercher par nom de famille"
-        value={(table.getColumn("lastName")?.getFilterValue() as string) ?? ""}
-        onChange={(event) =>
-          table.getColumn("lastName")?.setFilterValue(event.target.value)
-        }
-        className="min-w-[300px] max-w-[500px]"
+        placeholder="Rechercher par nom et prénom"
+        value={globalFilter}
+        onChange={(event) => setGlobalFilter(event.target.value)}
+        className="min-w-[400px] max-w-[500px]"
       />
       <Search
         size={20}
