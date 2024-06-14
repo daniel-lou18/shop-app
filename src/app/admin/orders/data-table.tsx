@@ -41,11 +41,11 @@ export interface DataTableProps<TData, TValue> {
   data: TData[];
 }
 
-declare module "@tanstack/react-table" {
-  interface FilterFns {
-    multiColumn: FilterFn<unknown>;
-  }
-}
+// declare module "@tanstack/react-table" {
+//   interface FilterFns {
+//     multiColumn: FilterFn<unknown>;
+//   }
+// }
 
 const multiColumnFilter: FilterFn<any> = (
   row,
