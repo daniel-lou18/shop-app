@@ -1,30 +1,21 @@
 import { ProductsTableProps } from "@/app/admin/products/page";
 import {
   AllCategories,
-  fetchCategories,
   fetchCategoriesByBrands,
 } from "@/db/queries/categories";
-import {
-  AllBrands,
-  fetchBrands,
-  fetchBrandsByCategories,
-} from "@/db/queries/brands";
-
-import ProductsSelectSex from "./ProductsSelectSex";
-import ProductsCheckbox from "./ProductsCheckbox";
-import TableActions from "../../../../components/admin/TableActions";
-import { Suspense } from "react";
-import Loader from "@/components/ui/Loader";
+import { AllBrands, fetchBrandsByCategories } from "@/db/queries/brands";
 import ProductsFilters from "./ProductsFilters";
+
+type ProductsFiltersContainerProps = ProductsTableProps & {
+  allBrands: AllBrands;
+  allCategories: AllCategories;
+};
 
 async function ProductsFiltersContainer({
   searchParams,
   allBrands,
   allCategories,
-}: ProductsTableProps & {
-  allBrands: AllBrands;
-  allCategories: AllCategories;
-}) {
+}: ProductsFiltersContainerProps) {
   const sex = !searchParams?.sex ? "femme" : searchParams.sex;
   const brands = searchParams?.brand?.split(",") || undefined;
   const categories = searchParams?.category?.split(",") || undefined;

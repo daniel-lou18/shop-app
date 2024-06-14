@@ -333,6 +333,7 @@ export async function countProductsWithSearchParams(
 ): Promise<FetchResult<number>> {
   const { sex, categoryNames, brandNames, colorNames, sizeNames } =
     parseProductsSearchParams(params, searchParams);
+  console.log({ params }, { searchParams });
   const typedSex = sex as Sex;
 
   try {

@@ -14,7 +14,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import Image from "next/image";
-import { DataTableColumnHeader } from "@/components/ui/DataTableColumnHeader";
+import { DataTableColumnHeader } from "@/components/admin/DataTableColumnHeader";
 import { Badge } from "@/components/ui/badge";
 import Link from "next/link";
 import { paths } from "@/lib/paths";

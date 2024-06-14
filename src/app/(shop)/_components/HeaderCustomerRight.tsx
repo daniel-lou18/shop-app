@@ -10,8 +10,6 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Button } from "@/components/ui/button";
 import { CircleUser } from "lucide-react";
-import { Input } from "@/components/ui/input";
-import { Search } from "lucide-react";
 import React, { useState } from "react";
 import Example from "./ShoppingCart";
 import { ShoppingBagIcon } from "@heroicons/react/24/outline";
@@ -35,16 +33,6 @@ function HeaderCustomerRight({ currentUser }: HeaderCustomerRightProps) {
 
   return (
     <div className="flex items-center justify-end gap-4 md:gap-2 lg:gap-4 w-[30%]">
-      <form className="flex-1 sm:flex-initial hidden xl:block">
-        <div className="relative">
-          <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
-          <Input
-            type="search"
-            placeholder="Rechercher produits..."
-            className="pl-8 sm:w-[200px] md:w-[150px] lg:w-[200px]"
-          />
-        </div>
-      </form>
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
           <Button variant="ghost" size="icon" className="rounded-full">

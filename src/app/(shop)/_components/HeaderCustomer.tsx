@@ -19,7 +19,7 @@ async function HeaderCustomer() {
     fetchBrands("homme"),
     fetchBrands("femme"),
   ]);
-  console.log({ sessionServer: session });
+  // console.log({ sessionServer: session });
 
   if (!categoriesMenResult.success) throw new Error(categoriesMenResult.error);
   if (!categoriesWomenResult.success)

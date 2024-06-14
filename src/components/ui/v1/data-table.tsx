@@ -11,7 +11,6 @@ import {
   ColumnFiltersState,
   getFilteredRowModel,
   getFacetedUniqueValues,
-  GlobalFilterTableState,
 } from "@tanstack/react-table";
 
 import {
@@ -31,33 +30,17 @@ import {
 } from "@/components/ui/card";
 import { useEffect, useState } from "react";
 import { Input } from "@/components/ui/input";
-import { DataTablePagination } from "@/components/ui/DataTablePagination";
+import { DataTablePagination } from "@/components/admin/DataTablePagination";
 import { Search } from "lucide-react";
 import { createPortal } from "react-dom";
-import { FilterFn } from "@tanstack/react-table";
+import { multiColumnFilter } from "./data-table-orders";
 
 export interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
 }
 
-export const multiColumnFilter: FilterFn<any> = (
-  row,
-  columnIds: string,
-  filterValue,
-  addMeta
-) => {
-  const columnIdsArray = columnIds.split(",");
-  return columnIdsArray.some((columnId) => {
-    const cellValue = row.getValue(columnId);
-    return cellValue
-      ?.toString()
-      .toLowerCase()
-      .includes(filterValue.toLowerCase());
-  });
-};
-
-export function OrdersDataTable<TData, TValue>({
+export function CustomersDataTable<TData, TValue>({
   columns,
   data,
 }: DataTableProps<TData, TValue>) {
@@ -86,7 +69,7 @@ export function OrdersDataTable<TData, TValue>({
     getFacetedUniqueValues: getFacetedUniqueValues(),
     onGlobalFilterChange: setGlobalFilter,
     globalFilterFn: (row, _, value, addMeta) =>
-      multiColumnFilter(row, "id,firstName,lastName", value, addMeta),
+      multiColumnFilter(row, "firstName,lastName", value, addMeta),
   });
 
   useEffect(() => {
@@ -100,7 +83,7 @@ export function OrdersDataTable<TData, TValue>({
   const searchInput = (
     <>
       <Input
-        placeholder="Rechercher par nom, prénom et n° de commande"
+        placeholder="Rechercher par nom ou prénom"
         value={globalFilter}
         onChange={(event) => setGlobalFilter(event.target.value)}
         className="min-w-[400px] max-w-[500px]"
@@ -116,15 +99,17 @@ export function OrdersDataTable<TData, TValue>({
   return (
     <Card>
       <CardHeader>
-        <CardTitle>Commandes</CardTitle>
-        <CardDescription>Gérer les commandes des clients</CardDescription>
+        <CardTitle>Clients</CardTitle>
+        <CardDescription>
+          Consulter et modifier les informations personnelles des clients
+        </CardDescription>
       </CardHeader>
       <CardContent>
         <div>
           <div>
             {createPortal(
               searchInput,
-              document.getElementById("orders-search-container")!
+              document.getElementById("customers-search-container")!
             )}
           </div>
           <div>

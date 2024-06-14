@@ -11,6 +11,7 @@ import {
   ColumnFiltersState,
   getFilteredRowModel,
   getFacetedUniqueValues,
+  FilterFn,
 } from "@tanstack/react-table";
 
 import {
@@ -34,17 +35,50 @@ import { DataTablePagination } from "@/components/admin/DataTablePagination";
 import { Search } from "lucide-react";
 import { createPortal } from "react-dom";
 
+export type DataTableConfig = {
+  title: string;
+  description: string;
+  portalContainerId: string;
+  searchInputPlaceholder: string;
+  filterColumnIds: string;
+};
+
 export interface DataTableProps<TData, TValue> {
+  config: DataTableConfig;
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
 }
 
+const multiColumnFilter: FilterFn<any> = (
+  row,
+  columnIds: string,
+  filterValue,
+  addMeta
+) => {
+  const columnIdsArray = columnIds.split(",");
+  return columnIdsArray.some((columnId) => {
+    const cellValue = row.getValue(columnId);
+    return cellValue
+      ?.toString()
+      .toLowerCase()
+      .includes(filterValue.toLowerCase());
+  });
+};
+
 export function DataTable<TData, TValue>({
+  config: {
+    title,
+    description,
+    portalContainerId,
+    searchInputPlaceholder,
+    filterColumnIds,
+  },
   columns,
   data,
 }: DataTableProps<TData, TValue>) {
   const [sorting, setSorting] = useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
+  const [globalFilter, setGlobalFilter] = useState<string>("");
   const [isMounted, setIsMounted] = useState(false);
 
   const table = useReactTable({
@@ -53,6 +87,10 @@ export function DataTable<TData, TValue>({
     state: {
       sorting,
       columnFilters,
+      globalFilter,
+    },
+    filterFns: {
+      multiColumn: multiColumnFilter,
     },
     getCoreRowModel: getCoreRowModel(),
     getPaginationRowModel: getPaginationRowModel(),
@@ -61,6 +99,9 @@ export function DataTable<TData, TValue>({
     onColumnFiltersChange: setColumnFilters,
     getFilteredRowModel: getFilteredRowModel(),
     getFacetedUniqueValues: getFacetedUniqueValues(),
+    onGlobalFilterChange: setGlobalFilter,
+    globalFilterFn: (row, _, value, addMeta) =>
+      multiColumnFilter(row, filterColumnIds, value, addMeta),
   });
 
   useEffect(() => {
@@ -74,12 +115,10 @@ export function DataTable<TData, TValue>({
   const searchInput = (
     <>
       <Input
-        placeholder="Rechercher un produit"
-        value={(table.getColumn("name")?.getFilterValue() as string) ?? ""}
-        onChange={(event) =>
-          table.getColumn("name")?.setFilterValue(event.target.value)
-        }
-        className="min-w-[300px] max-w-[500px]"
+        placeholder={searchInputPlaceholder}
+        value={globalFilter}
+        onChange={(event) => setGlobalFilter(event.target.value)}
+        className="min-w-[400px] max-w-[500px]"
       />
       <Search
         size={20}
@@ -92,17 +131,15 @@ export function DataTable<TData, TValue>({
   return (
     <Card>
       <CardHeader>
-        <CardTitle>Produits</CardTitle>
-        <CardDescription>
-          Gérer les produits, les variantes et les stocks
-        </CardDescription>
+        <CardTitle>{title}</CardTitle>
+        <CardDescription>{description} </CardDescription>
       </CardHeader>
       <CardContent>
         <div>
           <div>
             {createPortal(
               searchInput,
-              document.getElementById("table-search-container")!
+              document.getElementById(portalContainerId)!
             )}
           </div>
           <div>
