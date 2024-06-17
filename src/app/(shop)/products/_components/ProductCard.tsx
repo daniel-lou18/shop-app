@@ -2,16 +2,16 @@ import { Card, CardContent, CardFooter, CardTitle } from "@/components/ui/card";
 import Image from "next/image";
 import { Brand } from "@prisma/client";
 import Link from "next/link";
-import { paths } from "@/lib/paths";
-import { Product } from "@/services/productsService";
 import { brandsMen } from "@/helpers/constants";
+import { ShopifyProduct } from "@/types";
+import { getProductCardVariables } from "@/lib/parsers";
 
 export type Square = Brand & { imagePath: string | null; description: string };
 
 export type ProductCardProps =
   | {
       type: "product";
-      item: Product;
+      item: ShopifyProduct;
     }
   | {
       type: "square";
@@ -19,12 +19,15 @@ export type ProductCardProps =
     };
 
 function ProductCard({ type, item }: ProductCardProps) {
-  const href =
-    type === "product"
-      ? paths.customerProduct(item.id)
-      : paths.storeBrand(item.sex, item.name);
-  const title = type === "product" ? item.vendor : item.name;
-  const description = type === "product" ? item.title : item.description;
+  const {
+    href,
+    title,
+    description,
+    imageHeight,
+    imageWidth,
+    imageSrc,
+    imageAlt,
+  } = getProductCardVariables(type, item);
 
   return (
     <li className="text-decoration-none">
@@ -37,13 +40,13 @@ function ProductCard({ type, item }: ProductCardProps) {
               }`}
             >
               <Image
-                alt="Product image"
+                alt={imageAlt}
                 className={`${
                   type === "product" ? "aspect-square" : "aspect-auto"
                 } w-full object-cover hover:scale-105 transition duration-1000 ease-out`}
-                height="600"
-                src={item?.imagePath || "/placeholder.svg"}
-                width="400"
+                height={imageHeight}
+                width={imageWidth}
+                src={imageSrc}
               />
             </CardContent>
             <CardFooter className="flex-col items-start pt-4 px-2 text-lg">

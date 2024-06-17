@@ -7,13 +7,13 @@ import {
 } from "@/components/ui/carousel";
 import PageHeading1 from "./PageHeading1";
 import ProductCard from "@/app/(shop)/products/_components/ProductCard";
-import { Product } from "@/services/productsService";
 import { brandsMen } from "@/helpers/constants";
+import { ShopifyProduct } from "@/types";
 
 export type ItemsCarouselProps = { title: string } & (
   | {
       type: "product";
-      items: Product[];
+      items: ShopifyProduct[];
     }
   | {
       type: "square";
@@ -24,7 +24,7 @@ export type ItemsCarouselProps = { title: string } & (
 function ItemsCarousel({ type, title, items }: ItemsCarouselProps) {
   let content;
   if (items.length === 0) {
-    content = <p>Erreur lors de la récupération des articles</p>;
+    content = <p>Aucun produit à afficher</p>;
   } else {
     content = items.slice(0, 15).map((item, index) => (
       <CarouselItem
@@ -35,7 +35,7 @@ function ItemsCarousel({ type, title, items }: ItemsCarouselProps) {
       >
         <div className="p-1">
           {type === "product" && (
-            <ProductCard type={type} item={item as Product} />
+            <ProductCard type={type} item={item as ShopifyProduct} />
           )}
           {type === "square" && (
             <ProductCard type={type} item={item as (typeof brandsMen)[0]} />

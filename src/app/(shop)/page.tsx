@@ -16,7 +16,6 @@ async function MainContent() {
   const productsMen = result.success
     ? result.data.filter((product) => product.tags.includes("homme"))
     : [];
-  console.log(productsMen);
   const productsWomen = result.success
     ? result.data.filter((product) => product.tags.includes("femme"))
     : [];

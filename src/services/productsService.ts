@@ -1,33 +1,21 @@
 import { gql } from "@/lib/gql";
-import { shopifyService } from "./service";
-
-export type Product = {
-  id: string;
-  title: string;
-  tags: string[];
-  description: string;
-  vendor: string;
-  priceRangeV2: {
-    minVariantPrice: {
-      amount: string;
-      currencyCode: string;
-    };
-  };
-};
-
-export type ProductsResponse = {
-  products: {
-    nodes: Product[];
-  };
-};
+import { shopifyService } from "./services";
+import { ShopifyProduct, ProductsResponse } from "@/types";
 
 const query = gql`
   query ProductsQuery {
     products(first: 50) {
       nodes {
         id
-        vendor
         description
+        featuredImage {
+          altText
+          height
+          id
+          url
+          width
+        }
+        handle
         priceRangeV2 {
           minVariantPrice {
             amount
@@ -36,6 +24,7 @@ const query = gql`
         }
         tags
         title
+        vendor
       }
     }
   }
@@ -53,7 +42,7 @@ type FetchResult<T> =
 
 const fetchProducts = shopifyService<ProductsResponse>(query);
 
-export async function getProducts(): Promise<FetchResult<Product[]>> {
+export async function getProducts(): Promise<FetchResult<ShopifyProduct[]>> {
   try {
     const result = await fetchProducts();
     if (

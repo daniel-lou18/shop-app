@@ -1,19 +1,11 @@
+import { ShopifyExtension } from "@/types";
+
 export type GraphQLQueryError = { message: string };
 
 export type ShopifyServiceResponse<T> = {
   data?: T;
   errors?: GraphQLQueryError[];
-  extensions: {
-    cost: {
-      requestedQueryCost: number;
-      actualQueryCost: number;
-      throttleStatus: {
-        maximumAvailable: number;
-        currentlyAvailable: number;
-        restoreRate: number;
-      };
-    };
-  };
+  extensions: ShopifyExtension;
 };
 
 export function shopifyService<T>(
@@ -43,7 +35,7 @@ export function shopifyService<T>(
       }
       return result;
     } catch (err) {
-      console.error("Erreur ShopifiyService", err);
+      console.error("Erreur ShopifiyService : ", err);
       throw new Error(
         "Une erreur est survenue lors de la récupération des produits"
       );

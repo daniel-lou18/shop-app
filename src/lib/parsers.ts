@@ -1,4 +1,7 @@
 import { Params } from "@/db/queries/products";
+import { brandsMen } from "@/helpers/constants";
+import { ShopifyProduct } from "@/types";
+import { paths } from "./paths";
 
 export function splitCapitalizeUri(uri: string) {
   const [name, sex] = decodeURIComponent(uri).split("-");
@@ -55,4 +58,44 @@ export function parseApiSearchParams(searchParams: URLSearchParams) {
       (parsedSearchParams[key] as string[]).push(value);
   });
   return parsedSearchParams;
+}
+
+export function getProductCardVariables(
+  type: "product" | "square",
+  item: ShopifyProduct | (typeof brandsMen)[0]
+) {
+  let href = "";
+  let title = "";
+  let description = "";
+  let imageHeight = 400;
+  let imageWidth = 400;
+  let imageSrc = "";
+  let imageAlt = "";
+  if (type === "product" && "featuredImage" in item) {
+    href = paths.customerProduct(item.id);
+    title = item.vendor;
+    description = item.title;
+    imageHeight = item.featuredImage.height;
+    imageWidth = item.featuredImage.width;
+    imageSrc = item.featuredImage.url || "/placeholder.svg";
+    imageAlt = item.featuredImage.altText;
+  }
+  if (type === "square" && "imagePath" in item) {
+    href = paths.storeBrand(item.sex, item.name);
+    title = item.name;
+    description = item.description;
+    imageHeight = 400;
+    imageWidth = 400;
+    imageSrc = item?.imagePath || "/placeholder.svg";
+    imageAlt = item.name;
+  }
+  return {
+    href,
+    title,
+    description,
+    imageHeight,
+    imageWidth,
+    imageSrc,
+    imageAlt,
+  };
 }
