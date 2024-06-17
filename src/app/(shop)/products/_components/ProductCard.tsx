@@ -1,20 +1,21 @@
 import { Card, CardContent, CardFooter, CardTitle } from "@/components/ui/card";
 import Image from "next/image";
-import { Brand, Product } from "@prisma/client";
+import { Brand } from "@prisma/client";
 import Link from "next/link";
-import { centsToEuros } from "@/helpers/helpers";
 import { paths } from "@/lib/paths";
+import { Product } from "@/services/productsService";
+import { brandsMen } from "@/helpers/constants";
 
 export type Square = Brand & { imagePath: string | null; description: string };
 
 export type ProductCardProps =
   | {
       type: "product";
-      item: Product & { brand: Brand };
+      item: Product;
     }
   | {
       type: "square";
-      item: Square;
+      item: (typeof brandsMen)[0];
     };
 
 function ProductCard({ type, item }: ProductCardProps) {
@@ -22,8 +23,8 @@ function ProductCard({ type, item }: ProductCardProps) {
     type === "product"
       ? paths.customerProduct(item.id)
       : paths.storeBrand(item.sex, item.name);
-  const title = type === "product" ? item.brand.name : item.name;
-  const description = type === "product" ? item.name : item.description;
+  const title = type === "product" ? item.vendor : item.name;
+  const description = type === "product" ? item.title : item.description;
 
   return (
     <li className="text-decoration-none">
@@ -41,7 +42,7 @@ function ProductCard({ type, item }: ProductCardProps) {
                   type === "product" ? "aspect-square" : "aspect-auto"
                 } w-full object-cover hover:scale-105 transition duration-1000 ease-out`}
                 height="600"
-                src={item.imagePath || "/placeholder.svg"}
+                src={item?.imagePath || "/placeholder.svg"}
                 width="400"
               />
             </CardContent>
@@ -58,7 +59,7 @@ function ProductCard({ type, item }: ProductCardProps) {
               </div>
               {type === "product" && (
                 <div className="text-base font-semibold text-gray-950">
-                  {centsToEuros(item.price)}
+                  {item.priceRangeV2.minVariantPrice.amount}
                 </div>
               )}
             </CardFooter>

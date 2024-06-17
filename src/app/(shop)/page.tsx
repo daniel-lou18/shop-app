@@ -1,8 +1,4 @@
 import ItemsCarousel from "@/components/ui/ItemsCarousel";
-import {
-  AllProductsWithVariants,
-  fetchAllProductsWithData,
-} from "@/db/queries/products";
 import React from "react";
 import MainTop from "./_components/MainTop";
 import Banner from "./_components/Banner";
@@ -13,24 +9,17 @@ import {
   brandsMen,
   brandsWomen,
 } from "@/helpers/constants";
-
-export type BrandSquare = {
-  id: number;
-  name: string;
-  sex: string;
-  imagePath: string;
-  description: string;
-};
+import { getProducts } from "@/services/productsService";
 
 async function MainContent() {
-  const result = await fetchAllProductsWithData<AllProductsWithVariants>();
-  if (!result.success) {
-    throw new Error(result.error);
-  }
-  const productsMen = result.data.filter((product) => product.sex === "homme");
-  const productsWomen = result.data.filter(
-    (product) => product.sex === "femme"
-  );
+  const result = await getProducts();
+  const productsMen = result.success
+    ? result.data.filter((product) => product.tags.includes("homme"))
+    : [];
+  console.log(productsMen);
+  const productsWomen = result.success
+    ? result.data.filter((product) => product.tags.includes("femme"))
+    : [];
   const productsMixed = [
     ...productsMen.slice(0, 3),
     ...productsWomen.slice(0, 3),
