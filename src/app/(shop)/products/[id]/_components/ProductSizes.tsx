@@ -3,11 +3,11 @@ import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
 function ProductSizes({
   value,
   onValueChange,
-  availableSizes,
+  uniqueSizes,
 }: {
   value: string;
   onValueChange: (value: string) => void;
-  availableSizes: { size: string; id: string; stockQuantity: number }[];
+  uniqueSizes: string[];
 }) {
   return (
     <div className="grid grid-cols-1 gap-2">
@@ -19,14 +19,14 @@ function ProductSizes({
         value={value}
         onValueChange={onValueChange}
       >
-        {availableSizes.map((item) => (
+        {uniqueSizes.map((item) => (
           <ToggleGroupItem
-            value={item.size}
-            key={item.id}
+            value={item}
+            key={item}
             className="w-16"
-            disabled={item.stockQuantity === 0}
+            // disabled={item.stockQuantity === 0}
           >
-            {item.size}
+            {item}
           </ToggleGroupItem>
         ))}
       </ToggleGroup>

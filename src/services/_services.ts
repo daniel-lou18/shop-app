@@ -9,7 +9,8 @@ export type ShopifyServiceResponse<T> = {
 };
 
 export function shopifyService<T>(
-  query: string
+  query: string,
+  variables?: { [key: string]: any }
 ): () => Promise<ShopifyServiceResponse<T>> {
   return async function (): Promise<ShopifyServiceResponse<T>> {
     try {
@@ -19,7 +20,7 @@ export function shopifyService<T>(
           "Content-Type": "application/json",
           "X-Shopify-Access-Token": process.env.SHOPIFY_ADMIN_API_TOKEN!,
         },
-        body: JSON.stringify({ query }),
+        body: JSON.stringify({ query, variables }),
         cache: "no-store",
       });
       if (!res.ok) {
@@ -29,15 +30,15 @@ export function shopifyService<T>(
       const result: ShopifyServiceResponse<T> = await res.json();
       if (result.errors && result.errors.length > 0) {
         result.errors.forEach((err: any) =>
-          console.error("GraphQL Error", err.message)
+          console.error("GraphQL Error:", err.message)
         );
         throw new Error("Une erreur est survenue suite à une requête GraphQL");
       }
       return result;
     } catch (err) {
-      console.error("Erreur ShopifiyService : ", err);
+      console.error("Erreur ShopifiyService: ", err);
       throw new Error(
-        "Une erreur est survenue lors de la récupération des produits"
+        "Une erreur est survenue lors de la récupération des données"
       );
     }
   };

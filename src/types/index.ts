@@ -1,3 +1,13 @@
+export type FetchResult<T> =
+  | {
+      success: true;
+      data: T;
+    }
+  | {
+      success: false;
+      error: string;
+    };
+
 export type ShopifyProduct = {
   id: string;
   title: string;
@@ -18,11 +28,33 @@ export type ShopifyProduct = {
       currencyCode: string;
     };
   };
+  variants: ShopifyVariants;
 };
 
-export type ProductsResponse = {
-  products: {
-    nodes: ShopifyProduct[];
+export type ShopifyVariants = {
+  edges: {
+    node: ShopifyVariant;
+  }[];
+};
+
+export type ShopifyVariant = {
+  id: string;
+  title: string;
+  selectedOptions: {
+    name: string;
+    value: string;
+  }[];
+  price: {
+    amount: string;
+    currencyCode: string;
+  };
+  availableForSale: boolean;
+  image: {
+    altText: string;
+    height: number;
+    id: string;
+    url: string;
+    width: number;
   };
 };
 

@@ -1,62 +1,39 @@
-import { gql } from "@/lib/gql";
-import { shopifyService } from "./services";
-import { ShopifyProduct, ProductsResponse } from "@/types";
+import { ShopifyProduct, FetchResult, ShopifyExtension } from "@/types";
+import { GET_PRODUCTS } from "../lib/queries";
+import { initializeApollo } from "@/lib/apolloClient";
 
-const query = gql`
-  query ProductsQuery {
-    products(first: 50) {
-      nodes {
-        id
-        description
-        featuredImage {
-          altText
-          height
-          id
-          url
-          width
-        }
-        handle
-        priceRangeV2 {
-          minVariantPrice {
-            amount
-            currencyCode
-          }
-        }
-        tags
-        title
-        vendor
-      }
-    }
-  }
-`;
+type GraphQLResponse = {
+  products: {
+    nodes: ShopifyProduct[];
+  };
+  extensions: ShopifyExtension;
+};
 
-type FetchResult<T> =
-  | {
-      success: true;
-      data: T;
-    }
-  | {
-      success: false;
-      error: string;
-    };
+export const filterMen = (product: ShopifyProduct) =>
+  product.tags.includes("homme");
+export const filterWomen = (product: ShopifyProduct) =>
+  product.tags.includes("femme");
 
-const fetchProducts = shopifyService<ProductsResponse>(query);
-
-export async function getProducts(): Promise<FetchResult<ShopifyProduct[]>> {
+export async function getProducts(
+  filterFn?: (product: ShopifyProduct) => boolean
+): Promise<FetchResult<ShopifyProduct[]>> {
   try {
-    const result = await fetchProducts();
-    if (
-      !result.data ||
-      result.data.products.nodes.length === 0 ||
-      result.errors
-    ) {
-      throw new Error("Erreur lors de la récupération des produits");
+    const apolloClient = initializeApollo();
+    const result = await apolloClient.query<GraphQLResponse>({
+      query: GET_PRODUCTS,
+    });
+    if (!result.data || result.data.products.nodes.length === 0) {
+      throw new Error("Aucun article retrouvé");
     }
-    return { success: true, data: result.data.products.nodes };
+    const products = result.data.products.nodes;
+    const filteredProducts = filterFn ? products.filter(filterFn) : products;
+    return { success: true, data: filteredProducts };
   } catch (err) {
+    let errorMessage = "Erreur lors de la récupération des produits";
+    if (err instanceof Error) errorMessage = err.message;
     return {
       success: false,
-      error: "Erreur lors de la récupération des produits",
+      error: errorMessage,
     };
   }
 }

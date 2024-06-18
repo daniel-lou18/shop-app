@@ -7,8 +7,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { centsToEuros } from "@/helpers/helpers";
-import { ProductVariant } from "@prisma/client";
+import { formatPrice } from "@/helpers/helpers";
 import { useState } from "react";
 import ProductSizes from "./ProductSizes";
 import ProductColors from "./ProductColors";
@@ -17,38 +16,38 @@ import ProductDescription from "./ProductDescription";
 import ProductAccordeon from "./ProductAccordeon";
 import { useCart } from "@/context/cart-context";
 import { useToast } from "@/components/ui/use-toast";
-import { ProductVariantsByColor } from "@/db/queries/variants";
-import { ProductWithVariants } from "@/db/queries/product";
 import ButtonSubmit from "@/components/ui/ButtonSubmit";
+import { ShopifyProduct } from "@/types";
 
 type ProductVariantFormProps = {
-  result: ProductWithVariants;
-  variantsByColor: ProductVariantsByColor;
+  result: ShopifyProduct;
 };
 
-function ProductVariantForm({
-  result,
-  variantsByColor,
-}: ProductVariantFormProps) {
+function ProductVariantForm({ result }: ProductVariantFormProps) {
   const { toast } = useToast();
+  const { addItem } = useCart();
   const [selectedColor, setSelectedColor] = useState<string>(
-    variantsByColor.at(0)!.color || ""
-  );
-  const [availableSizes, setAvailableSizes] = useState<ProductVariant[]>(
-    variantsByColor.at(0)!.variants || []
+    result.variants.edges?.at(0)!.node.selectedOptions?.at(1)?.value || ""
   );
   const [selectedSize, setSelectedSize] = useState<string>("");
-  const { addItem } = useCart();
+  const uniqueSizes =
+    Array.from(
+      new Set(
+        result.variants.edges?.map(
+          (item) => item.node.selectedOptions[0]?.value
+        )
+      )
+    ) || [];
+  const uniqueColors = Array.from(
+    new Set(
+      result.variants.edges?.map((item) => item.node.selectedOptions[1]?.value)
+    )
+  );
+  console.log(result.variants.edges[0].node.title);
 
   function handleColorChange(value: string) {
     if (value) {
       setSelectedColor(value);
-      const colorVariant = variantsByColor.find(
-        (variant) => variant.color === value
-      );
-      if (colorVariant?.variants) {
-        setAvailableSizes([...colorVariant.variants]);
-      }
       setSelectedSize("");
     }
   }
@@ -63,16 +62,13 @@ function ProductVariantForm({
     if (!selectedColor || !selectedSize) {
       return toast({
         variant: "red",
-        description: "Veuillez choisir une couleur et une taille",
+        description: "Veuillez sélectionner une couleur et une taille",
       });
     }
-    const selectedVariantColor = variantsByColor.find(
-      (variant) => variant.color === selectedColor
-    );
-    const selectedVariant = selectedVariantColor?.variants?.find(
-      (variant) => variant.size === selectedSize
-    );
-    selectedVariant && addItem({ ...selectedVariant, product: result });
+    const selectedVariant = result.variants.edges?.find(
+      (item) => item.node.title === `${selectedSize} / ${selectedColor}`
+    )?.node;
+    selectedVariant && addItem(selectedVariant);
     toast({
       variant: "green",
       description: "Le produit a été ajouté à votre panier",
@@ -81,25 +77,32 @@ function ProductVariantForm({
 
   return (
     <div className="p-4 md:p-0 grid grid-cols-1 md:grid-cols-2 gap-12 max-w-7xl mx-auto">
-      <ProductImage image={availableSizes.at(0)?.imagePath || null} />
+      <ProductImage
+        image={
+          result.variants.edges.find((item) =>
+            item.node.selectedOptions[1]?.value.includes(selectedColor)
+          )?.node.image.url || null
+        }
+      />
       <Card className="border-0 shadow-none flex-1">
         <CardHeader className="p-0">
-          <CardTitle>{result.brand.name}</CardTitle>
-          <h1 className="text-2xl font-bold">{result.name}</h1>
+          <CardTitle>{result.vendor}</CardTitle>
+          <h1 className="text-2xl font-bold">{result.title}</h1>
         </CardHeader>
         <CardContent className="px-0 py-4 grid grid-cols-1 gap-4">
           <p className="text-xl text-gray-950 font-semibold">
-            {centsToEuros(availableSizes.at(0)?.price || 0)}
+            {formatPrice(result.priceRangeV2.minVariantPrice.amount)}
           </p>
           <ProductColors
             value={selectedColor}
             onValueChange={handleColorChange}
-            variantsByColor={variantsByColor}
+            uniqueColors={uniqueColors}
+            variants={result.variants.edges}
           />
           <ProductSizes
             value={selectedSize}
             onValueChange={handleSizeChange}
-            availableSizes={availableSizes}
+            uniqueSizes={uniqueSizes}
           />
         </CardContent>
         <CardFooter className="flex-col items-start px-0 py-4 gap-8">

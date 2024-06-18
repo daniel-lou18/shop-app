@@ -5,6 +5,7 @@ import Link from "next/link";
 import { brandsMen } from "@/helpers/constants";
 import { ShopifyProduct } from "@/types";
 import { getProductCardVariables } from "@/lib/parsers";
+import { formatPrice } from "@/helpers/helpers";
 
 export type Square = Brand & { imagePath: string | null; description: string };
 
@@ -62,7 +63,7 @@ function ProductCard({ type, item }: ProductCardProps) {
               </div>
               {type === "product" && (
                 <div className="text-base font-semibold text-gray-950">
-                  {item.priceRangeV2.minVariantPrice.amount}
+                  {formatPrice(item.priceRangeV2.minVariantPrice.amount)}
                 </div>
               )}
             </CardFooter>

@@ -9,16 +9,19 @@ import {
   brandsMen,
   brandsWomen,
 } from "@/helpers/constants";
-import { getProducts } from "@/services/productsService";
+import {
+  filterMen,
+  filterWomen,
+  getProducts,
+} from "@/services/productsService";
 
 async function MainContent() {
-  const result = await getProducts();
-  const productsMen = result.success
-    ? result.data.filter((product) => product.tags.includes("homme"))
-    : [];
-  const productsWomen = result.success
-    ? result.data.filter((product) => product.tags.includes("femme"))
-    : [];
+  const [resultMen, resultWomen] = await Promise.all([
+    getProducts(filterMen),
+    getProducts(filterWomen),
+  ]);
+  const productsMen = resultMen.success ? resultMen.data : [];
+  const productsWomen = resultWomen.success ? resultWomen.data : [];
   const productsMixed = [
     ...productsMen.slice(0, 3),
     ...productsWomen.slice(0, 3),

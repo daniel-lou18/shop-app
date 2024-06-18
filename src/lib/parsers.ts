@@ -1,6 +1,6 @@
 import { Params } from "@/db/queries/products";
 import { brandsMen } from "@/helpers/constants";
-import { ShopifyProduct } from "@/types";
+import { ShopifyProduct, ShopifyVariant } from "@/types";
 import { paths } from "./paths";
 
 export function splitCapitalizeUri(uri: string) {
@@ -72,7 +72,7 @@ export function getProductCardVariables(
   let imageSrc = "";
   let imageAlt = "";
   if (type === "product" && "featuredImage" in item) {
-    href = paths.customerProduct(item.id);
+    href = paths.customerProduct(item.id.split("/").pop()!);
     title = item.vendor;
     description = item.title;
     imageHeight = item.featuredImage.height;
@@ -99,3 +99,5 @@ export function getProductCardVariables(
     imageAlt,
   };
 }
+
+export function normalizeVariant(variant: ShopifyVariant) {}

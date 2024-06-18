@@ -1,23 +1,23 @@
 "use client";
 
-import { VariantWithProduct } from "@/db/queries/variants";
+import { ShopifyVariant } from "@/types";
 import { ReactNode, createContext, useContext, useReducer } from "react";
 
-export type CartItem = VariantWithProduct & {
+export type CartItem = ShopifyVariant & {
   orderQuantity: number;
 };
 export type CartState = {
   items: CartItem[];
 };
 type ContextValue = CartState & {
-  addItem: (item: VariantWithProduct) => void;
+  addItem: (item: ShopifyVariant) => void;
   removeItem: (id: string) => void;
   clearCart: () => void;
 };
 type Action =
   | {
       type: "ADD_ITEM";
-      payload: VariantWithProduct;
+      payload: ShopifyVariant;
     }
   | {
       type: "REMOVE_ITEM";

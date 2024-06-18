@@ -7,6 +7,14 @@ export function centsToEuros(priceInCents: number) {
   });
 }
 
+export function formatPrice(price: string) {
+  return new Intl.NumberFormat("fr-FR", {
+    style: "currency",
+    currency: "EUR",
+    minimumFractionDigits: 2,
+  }).format(parseFloat(price));
+}
+
 export function calculateOrderPrice(order: OrderWithOrderItemsAndVariants) {
   const totalPrice = order.orderItems.reduce((acc, item) => {
     return acc + item.quantity * item.variant.price;
