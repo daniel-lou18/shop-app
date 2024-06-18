@@ -23,26 +23,24 @@ export const GET_PRODUCT = gql`
       title
       vendor
       variants(first: 10) {
-        edges {
-          node {
+        nodes {
+          id
+          title
+          selectedOptions {
+            name
+            value
+          }
+          price
+          availableForSale
+          sku
+          weight
+          weightUnit
+          image {
+            altText
+            height
             id
-            title
-            selectedOptions {
-              name
-              value
-            }
-            price
-            availableForSale
-            sku
-            weight
-            weightUnit
-            image {
-              altText
-              height
-              id
-              url
-              width
-            }
+            url
+            width
           }
         }
       }

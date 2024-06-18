@@ -32,9 +32,7 @@ export type ShopifyProduct = {
 };
 
 export type ShopifyVariants = {
-  edges: {
-    node: ShopifyVariant;
-  }[];
+  nodes: ShopifyVariant[];
 };
 
 export type ShopifyVariant = {

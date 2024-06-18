@@ -1,7 +1,5 @@
 import { notFound } from "next/navigation";
 import ProductVariantForm from "./_components/ProductVariantForm";
-import { fetchProductWithVariants } from "@/db/queries/product";
-import { fetchProductVariantsByColor } from "@/db/queries/variants";
 import { getProduct } from "@/services/productService";
 
 type ProductDetailsCustomerPageProps = {
@@ -16,14 +14,7 @@ async function ProductDetailsCustomerPage({
   const result = await getProduct(params.id);
   if (!result.success) throw new Error(result.error);
   // console.log(result.data.variants.edges.at(0).node.selectedOptions);
-  // console.log(result.data.variants.edges);
-
-  // const [productResult, variantsResult] = await Promise.all([
-  //   fetchProductWithVariants(params.id),
-  //   fetchProductVariantsByColor(params.id),
-  // ]);
-  // if (!productResult.success) throw new Error(productResult.error);
-  // if (!variantsResult.success) throw new Error(variantsResult.error);
+  // console.log(result.data.variants);
 
   return (
     <ProductVariantForm

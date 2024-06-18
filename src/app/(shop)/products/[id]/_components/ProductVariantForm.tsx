@@ -23,27 +23,33 @@ type ProductVariantFormProps = {
   result: ShopifyProduct;
 };
 
+function getUniqueValues(result: ShopifyProduct, optionsIdx: number) {
+  return Array.from(
+    new Set(
+      result.variants?.nodes.map(
+        (item) => item.selectedOptions[optionsIdx]?.value
+      )
+    )
+  );
+}
+
+function getSelectedImage(result: ShopifyProduct, selectedColor: string) {
+  const selectedVariant = result.variants.nodes.find((item) =>
+    item.selectedOptions[1]?.value.includes(selectedColor)
+  );
+  const imageUrl = selectedVariant?.image?.url;
+  return imageUrl;
+}
+
 function ProductVariantForm({ result }: ProductVariantFormProps) {
   const { toast } = useToast();
   const { addItem } = useCart();
   const [selectedColor, setSelectedColor] = useState<string>(
-    result.variants.edges?.at(0)!.node.selectedOptions?.at(1)?.value || ""
+    result.variants?.nodes[0]?.selectedOptions[1]?.value || ""
   );
   const [selectedSize, setSelectedSize] = useState<string>("");
-  const uniqueSizes =
-    Array.from(
-      new Set(
-        result.variants.edges?.map(
-          (item) => item.node.selectedOptions[0]?.value
-        )
-      )
-    ) || [];
-  const uniqueColors = Array.from(
-    new Set(
-      result.variants.edges?.map((item) => item.node.selectedOptions[1]?.value)
-    )
-  );
-  console.log(result.variants.edges[0].node.title);
+  const uniqueSizes = getUniqueValues(result, 0) || [];
+  const uniqueColors = getUniqueValues(result, 1) || [];
 
   function handleColorChange(value: string) {
     if (value) {
@@ -65,9 +71,9 @@ function ProductVariantForm({ result }: ProductVariantFormProps) {
         description: "Veuillez sélectionner une couleur et une taille",
       });
     }
-    const selectedVariant = result.variants.edges?.find(
-      (item) => item.node.title === `${selectedSize} / ${selectedColor}`
-    )?.node;
+    const selectedVariant = result.variants.nodes?.find(
+      (item) => item.title === `${selectedSize} / ${selectedColor}`
+    );
     selectedVariant && addItem(selectedVariant);
     toast({
       variant: "green",
@@ -77,13 +83,7 @@ function ProductVariantForm({ result }: ProductVariantFormProps) {
 
   return (
     <div className="p-4 md:p-0 grid grid-cols-1 md:grid-cols-2 gap-12 max-w-7xl mx-auto">
-      <ProductImage
-        image={
-          result.variants.edges.find((item) =>
-            item.node.selectedOptions[1]?.value.includes(selectedColor)
-          )?.node.image.url || null
-        }
-      />
+      <ProductImage image={getSelectedImage(result, selectedColor) || null} />
       <Card className="border-0 shadow-none flex-1">
         <CardHeader className="p-0">
           <CardTitle>{result.vendor}</CardTitle>
@@ -97,7 +97,7 @@ function ProductVariantForm({ result }: ProductVariantFormProps) {
             value={selectedColor}
             onValueChange={handleColorChange}
             uniqueColors={uniqueColors}
-            variants={result.variants.edges}
+            variants={result.variants.nodes}
           />
           <ProductSizes
             value={selectedSize}

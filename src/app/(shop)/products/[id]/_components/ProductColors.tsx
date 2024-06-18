@@ -6,13 +6,13 @@ type ProductColorsProps = {
   value: string;
   onValueChange: (value: string) => void;
   uniqueColors: string[];
-  variants: ShopifyVariants["edges"];
+  variants: ShopifyVariants["nodes"];
 };
 
-function findImageUrl(variants: ShopifyVariants["edges"], color: string) {
+function findImageUrl(variants: ShopifyVariants["nodes"], color: string) {
   if (!color) return "";
-  return variants.find((item) => item.node.selectedOptions[1]?.value === color)
-    ?.node.image.url;
+  return variants.find((item) => item.selectedOptions[1]?.value === color)
+    ?.image?.url;
 }
 
 function ProductColors({
