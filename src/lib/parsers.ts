@@ -20,14 +20,14 @@ export function formatSlugToTitle(slug: Slug) {
   const [sex, category, brand] = slug;
   const decodedCategory = category && decodeURIComponent(category);
   const decodedBrand = brand && decodeURIComponent(brand);
+  let title;
 
-  return `${
-    decodedCategory !== "brandstore" && decodedCategory
-      ? capitalizeString(decodedCategory)
-      : ""
-  } ${decodedBrand ? capitalizeString(decodedBrand) : ""} ${
-    decodedCategory && decodedBrand ? `Vêtements ${sex}` : sex
-  }`;
+  if (decodedBrand)
+    title = `Brandstore ${capitalizeString(decodedBrand)} ${sex}`;
+  else if (!decodedBrand && !decodedCategory) title = `Vêtemens ${sex}`;
+  else title = `${capitalizeString(decodedCategory)} ${sex}`;
+
+  return title;
 }
 
 export function parseApiParams(pathname: string) {

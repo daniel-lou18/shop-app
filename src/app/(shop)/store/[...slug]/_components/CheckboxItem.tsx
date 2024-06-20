@@ -10,6 +10,7 @@ type CheckboxItemProps = {
   checkedValues: string[];
   onCheck: (type: FilterTypes, value: string) => void;
   onUncheck: (type: FilterTypes, value: string) => void;
+  disabled?: boolean;
 };
 
 function CheckboxItem({
@@ -18,6 +19,7 @@ function CheckboxItem({
   checkedValues,
   onCheck,
   onUncheck,
+  disabled,
 }: CheckboxItemProps) {
   const [checked, setChecked] = useState<boolean>(
     checkedValues.includes(children)
@@ -37,6 +39,7 @@ function CheckboxItem({
       checked={checked}
       onCheckedChange={setChecked}
       onSelect={handleSelect}
+      disabled={disabled}
     >
       <span className="ml-2">{children}</span>
     </DropdownMenuCheckboxItem>

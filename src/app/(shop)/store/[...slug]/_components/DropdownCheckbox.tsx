@@ -15,22 +15,38 @@ type SelectFilterProps = { setIsLoading: Dispatch<SetStateAction<boolean>> } & (
   | {
       type: "brand";
       data: Brand[];
+      initialData: Brand[];
     }
   | {
       type: "category";
       data: Category[];
+      initialData: Category[];
     }
   | {
       type: "color" | "size";
       data: string[];
+      initialData: string[];
     }
 );
 
-function DropdownCheckbox({ type, data, setIsLoading }: SelectFilterProps) {
+function DropdownCheckbox({
+  type,
+  data,
+  initialData,
+  setIsLoading,
+}: SelectFilterProps) {
   const { checkedValues, handleCheck, handleUncheck } =
     useCheckProductsCustomer(type, setIsLoading);
-
   if (!data || data.length === 0) return null;
+
+  function isDisabled(type: string, value: Category | Brand | string) {
+    if (type === "brand" || type === "category") {
+      return !(data as Brand[] | Category[]).some(
+        (item) => item.name === (value as Brand | Category).name
+      );
+    }
+    return !(data as string[]).some((item) => item === value);
+  }
 
   return (
     <DropdownMenu modal={false}>
@@ -41,7 +57,7 @@ function DropdownCheckbox({ type, data, setIsLoading }: SelectFilterProps) {
         className="w-48 md:w-56"
         side={window.innerWidth > 768 ? "bottom" : "right"}
       >
-        {data.map((value) => (
+        {initialData.map((value) => (
           <CheckboxItem
             key={
               type === "brand" || type === "category"
@@ -52,6 +68,7 @@ function DropdownCheckbox({ type, data, setIsLoading }: SelectFilterProps) {
             checkedValues={checkedValues}
             onCheck={handleCheck}
             onUncheck={handleUncheck}
+            disabled={isDisabled(type, value)}
           >
             {type === "brand" || type === "category"
               ? (value as Brand | Category).name

@@ -1,110 +1,45 @@
 "use client";
 
-import { AllProductsWithVariants, TAKE } from "@/db/queries/products";
+import { AllProductsWithVariants, Params, TAKE } from "@/db/queries/products";
 import ProductCard from "../../../products/_components/ProductCard";
 import ProductsPagination from "./ProductsPagination";
 import Loader from "@/components/ui/Loader";
-import DropdownCheckbox from "@/app/(shop)/store/[...slug]/_components/DropdownCheckbox";
 import DropdownFilter from "./DropdownFilter";
 import ProductsTotal from "./ProductsTotal";
 import { Brand, Category } from "@prisma/client";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-} from "@/components/ui/dropdown-menu";
-import DropdownTrigger from "./DropdownTrigger";
 import { useGetProductsCustomer } from "@/hooks/useGetProductsCustomer";
+import ProductFilters from "./ProductFilters";
+import { Slug } from "@/types";
 
 export type AvailableData = {
   availableBrands: Brand[];
   availableCategories: Category[];
   availableColors: string[];
   availableSizes: string[];
-  count: number;
+  initialBrands: Brand[];
+  initialCategories: Category[];
 };
 
 type ProductsListProps = {
   products: AllProductsWithVariants;
-} & AvailableData;
+  count: number;
+  params: Params;
+} & { filterData: AvailableData };
 
-function ProductsList({
-  products,
-  availableBrands,
-  availableCategories,
-  availableColors,
-  availableSizes,
-  count,
-}: ProductsListProps) {
+function ProductsList({ products, filterData, count }: ProductsListProps) {
   const { filteredProducts, isLoading, setIsLoading, error, params } =
     useGetProductsCustomer(products);
-  const [_, category, brand] = params;
-  const showCategoryFilter = category === "brandstore" || (!category && !brand);
-  const showBrandFilter = !brand;
   if (error) throw new Error(error);
 
   return (
     <>
+      {isLoading && <Loader />}
       <div className={`flex my-6 justify-between`}>
-        <div className="hidden md:flex lg:gap-4">
-          {isLoading && <Loader />}
-          <DropdownCheckbox
-            type="color"
-            data={availableColors}
-            setIsLoading={setIsLoading}
-          />
-          <DropdownCheckbox
-            type="size"
-            data={availableSizes}
-            setIsLoading={setIsLoading}
-          />
-          {showBrandFilter && (
-            <DropdownCheckbox
-              type="brand"
-              data={availableBrands}
-              setIsLoading={setIsLoading}
-            />
-          )}
-          {showCategoryFilter && (
-            <DropdownCheckbox
-              type="category"
-              data={availableCategories}
-              setIsLoading={setIsLoading}
-            />
-          )}
-        </div>
-        <div className="block md:hidden">
-          <DropdownMenu>
-            <DropdownTrigger style="normal" variant="chevron">
-              Filtres
-            </DropdownTrigger>
-            <DropdownMenuContent className={`w-48`}>
-              <DropdownCheckbox
-                type="color"
-                data={availableColors}
-                setIsLoading={setIsLoading}
-              />
-              <DropdownCheckbox
-                type="size"
-                data={availableSizes}
-                setIsLoading={setIsLoading}
-              />
-              {showBrandFilter && (
-                <DropdownCheckbox
-                  type="brand"
-                  data={availableBrands}
-                  setIsLoading={setIsLoading}
-                />
-              )}
-              {showCategoryFilter && (
-                <DropdownCheckbox
-                  type="category"
-                  data={availableCategories}
-                  setIsLoading={setIsLoading}
-                />
-              )}
-            </DropdownMenuContent>
-          </DropdownMenu>
-        </div>
+        <ProductFilters
+          data={filterData}
+          slug={params as Slug}
+          setIsLoading={setIsLoading}
+        />
 
         <div className="flex lg:gap-4">
           <ProductsTotal total={count} />
