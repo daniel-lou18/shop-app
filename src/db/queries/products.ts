@@ -139,20 +139,11 @@ function parseProductsSearchParams(slug: Slug, searchParams: SearchParams) {
     categoryNames = parseSearchParam(searchParams.category);
   } else if (brand) {
     categoryNames = parseSearchParam(searchParams.category);
-    brandNames = brandName && [brandName];
+    brandNames = brandName ? [brandName] : undefined;
   } else {
     brandNames = parseSearchParam(searchParams.brand);
-    categoryNames = categoryName && [categoryName];
+    categoryNames = categoryName ? [categoryName] : undefined;
   }
-  console.log({
-    sex,
-    categoryNames,
-    brandNames,
-    colorNames,
-    sizeNames,
-    sortBy,
-    page,
-  });
   return {
     sex,
     categoryNames,
