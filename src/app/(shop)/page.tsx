@@ -24,13 +24,9 @@ export type BrandSquare = {
 
 async function MainContent() {
   const result = await fetchAllProductsWithData<AllProductsWithVariants>();
-  if (!result.success) {
-    throw new Error(result.error);
-  }
-  const productsMen = result.data.filter((product) => product.sex === "homme");
-  const productsWomen = result.data.filter(
-    (product) => product.sex === "femme"
-  );
+  const products = result.success ? result.data : [];
+  const productsMen = products.filter((product) => product.sex === "homme");
+  const productsWomen = products.filter((product) => product.sex === "femme");
   const productsMixed = [
     ...productsMen.slice(0, 3),
     ...productsWomen.slice(0, 3),

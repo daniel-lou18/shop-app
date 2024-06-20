@@ -1,6 +1,7 @@
 import { Brand, Category, Product, ProductVariant, Sex } from "@prisma/client";
 import { db } from "..";
 import { handleFetchError } from "@/lib/errors";
+import { Slug } from "@/types";
 
 export type ProductWithData = Product & { brand: Brand; category: Category };
 export type AllProductsWithData = ProductWithData[];
@@ -96,7 +97,7 @@ export async function fetchProductsWithTotalStockByIds(
   }
 }
 
-export type Params = { slug: string; brand: string };
+export type Params = { slug: Slug };
 export type SearchParams = {
   category?: string | string[];
   brand?: string | string[];
@@ -115,17 +116,17 @@ export async function fetchProducts(
   //   error: "Une erreur est survenue lors de la récupération des produits",
   // };
   if (Object.keys(searchParams).length === 0) {
-    return await fetchProductsWithParams(params);
+    return await fetchProductsWithParams(params.slug);
   } else {
-    return await fetchProductsWithSearchParams(params, searchParams);
+    return await fetchProductsWithSearchParams(params.slug, searchParams);
   }
 }
 
-function parseProductsSearchParams(params: Params, searchParams: SearchParams) {
-  const [sex, category] = decodeURIComponent(params.slug).split("-");
-  let brand = decodeURIComponent(params.brand);
+function parseProductsSearchParams(slug: Slug, searchParams: SearchParams) {
+  const [sex, category, brand] = slug;
+  const categoryName = category && decodeURIComponent(category);
+  const brandName = brand && decodeURIComponent(brand);
   let categoryNames, brandNames;
-
   const colorNames = parseSearchParam(searchParams.color);
   const sizeNames = parseSearchParam(searchParams.size);
   const sortBy = {
@@ -133,17 +134,25 @@ function parseProductsSearchParams(params: Params, searchParams: SearchParams) {
       searchParams.sort?.split("-")[1],
   };
   const page = searchParams.page ? parseInt(searchParams.page) - 1 : 0;
-
-  if (brand === "all" && category === "all") {
+  if (!category && !brand) {
     brandNames = parseSearchParam(searchParams.brand);
     categoryNames = parseSearchParam(searchParams.category);
-  } else if (brand === "all") {
-    brandNames = parseSearchParam(searchParams.brand);
-    categoryNames = [category];
+  } else if (brand) {
+    categoryNames = parseSearchParam(searchParams.category);
+    brandNames = brandName && [brandName];
   } else {
-    categoryNames = parseSearchParam(searchParams.category);
-    brandNames = [brand];
+    brandNames = parseSearchParam(searchParams.brand);
+    categoryNames = categoryName && [categoryName];
   }
+  console.log({
+    sex,
+    categoryNames,
+    brandNames,
+    colorNames,
+    sizeNames,
+    sortBy,
+    page,
+  });
   return {
     sex,
     categoryNames,
@@ -155,24 +164,22 @@ function parseProductsSearchParams(params: Params, searchParams: SearchParams) {
   };
 }
 
-export async function fetchProductsWithParams({
-  slug,
-  brand,
-}: Params): Promise<FetchResult<AllProductsWithVariants>> {
-  const [sex, category]: [Sex, string] = decodeURIComponent(slug).split(
-    "-"
-  ) as [Sex, string];
+export async function fetchProductsWithParams(
+  slug: Slug
+): Promise<FetchResult<AllProductsWithVariants>> {
+  const [sex, category, brand] = slug;
+  const categoryName = category && decodeURIComponent(category);
+  const brandName = brand && decodeURIComponent(brand);
 
-  const brandName = decodeURIComponent(brand);
   try {
     const data = await db.product.findMany({
       where: {
         sex,
         brand: {
-          name: brandName === "all" ? undefined : brandName,
+          name: brandName,
         },
         category: {
-          name: category === "all" ? undefined : category,
+          name: categoryName === "brandstore" ? undefined : categoryName,
         },
       },
       include: { brand: true, category: true, variants: true },
@@ -191,7 +198,7 @@ export async function fetchProductsWithParams({
 }
 
 export async function fetchProductsWithSearchParams(
-  params: Params,
+  slug: Slug,
   searchParams: SearchParams
 ): Promise<FetchResult<AllProductsWithVariants>> {
   // return {
@@ -206,7 +213,7 @@ export async function fetchProductsWithSearchParams(
     sizeNames,
     sortBy,
     page,
-  } = parseProductsSearchParams(params, searchParams);
+  } = parseProductsSearchParams(slug, searchParams);
   const typedSex = sex as Sex;
   try {
     const data = await db.product.findMany({
@@ -256,12 +263,11 @@ function parseSearchParam(searchParam: string | string[] | undefined) {
 }
 
 export async function fetchCategoriesWithParams(
-  params: Params,
+  slug: Slug,
   searchParams: SearchParams
 ): Promise<FetchResult<Category[]>> {
-  const [sex]: [Sex] = decodeURIComponent(params.slug).split("-") as [Sex];
-  let decodedBrand =
-    params.brand === "all" ? undefined : [decodeURIComponent(params.brand)];
+  const [sex, _, brand] = slug;
+  let decodedBrandArray = brand ? [decodeURIComponent(brand)] : undefined;
 
   const searchParamsBrand = parseSearchParam(searchParams.brand);
   const searchParamsColors = parseSearchParam(searchParams.color);
@@ -272,7 +278,7 @@ export async function fetchCategoriesWithParams(
       where: {
         sex,
         brand: {
-          name: { in: searchParamsBrand || decodedBrand },
+          name: { in: searchParamsBrand || decodedBrandArray },
         },
         variants: {
           some: {
@@ -298,21 +304,21 @@ export async function fetchCategoriesWithParams(
 }
 
 export async function fetchBrandsWithSlug(
-  slug: string,
+  slug: Slug,
   searchParams: SearchParams
 ): Promise<FetchResult<Brand[]>> {
-  const [sex, category]: [Sex, string] = decodeURIComponent(slug).split(
-    "-"
-  ) as [Sex, string];
-  const paramsCategory =
-    category === "all" || !category ? undefined : [category];
+  const [sex, category] = slug;
+  const decodedCategoryArray =
+    category || category === "brandstore"
+      ? [decodeURIComponent(category)]
+      : undefined;
   const searchParamsCategory = parseSearchParam(searchParams.category);
   try {
     const result = await db.product.findMany({
       where: {
         sex,
         category: {
-          name: { in: searchParamsCategory || paramsCategory },
+          name: { in: searchParamsCategory || decodedCategoryArray },
         },
       },
       distinct: ["brandId"],
@@ -328,12 +334,12 @@ export async function fetchBrandsWithSlug(
 }
 
 export async function countProductsWithSearchParams(
-  params: Params,
+  slug: Slug,
   searchParams: SearchParams
 ): Promise<FetchResult<number>> {
   const { sex, categoryNames, brandNames, colorNames, sizeNames } =
-    parseProductsSearchParams(params, searchParams);
-  console.log({ params }, { searchParams });
+    parseProductsSearchParams(slug, searchParams);
+  console.log({ sex, categoryNames, brandNames, colorNames, sizeNames });
   const typedSex = sex as Sex;
 
   try {
@@ -358,6 +364,7 @@ export async function countProductsWithSearchParams(
         },
       },
     });
+    console.log({ result });
     return { success: true, data: result };
   } catch (err) {
     return handleFetchError(

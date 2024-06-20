@@ -1,10 +1,10 @@
 "use client";
 
 import { AllProductsWithVariants, TAKE } from "@/db/queries/products";
-import ProductCard from "../../../../products/_components/ProductCard";
+import ProductCard from "../../../products/_components/ProductCard";
 import ProductsPagination from "./ProductsPagination";
 import Loader from "@/components/ui/Loader";
-import DropdownCheckbox from "@/app/(shop)/store/[slug]/[brand]/_components/DropdownCheckbox";
+import DropdownCheckbox from "@/app/(shop)/store/[...slug]/_components/DropdownCheckbox";
 import DropdownFilter from "./DropdownFilter";
 import ProductsTotal from "./ProductsTotal";
 import { Brand, Category } from "@prisma/client";
@@ -37,6 +37,9 @@ function ProductsList({
 }: ProductsListProps) {
   const { filteredProducts, isLoading, setIsLoading, error, params } =
     useGetProductsCustomer(products);
+  const [_, category, brand] = params;
+  const showCategoryFilter = category === "brandstore" || (!category && !brand);
+  const showBrandFilter = !brand;
   if (error) throw new Error(error);
 
   return (
@@ -54,15 +57,14 @@ function ProductsList({
             data={availableSizes}
             setIsLoading={setIsLoading}
           />
-          {params.brand === "all" && (
+          {showBrandFilter && (
             <DropdownCheckbox
               type="brand"
               data={availableBrands}
               setIsLoading={setIsLoading}
             />
           )}
-          {((params.brand === "all" && params.slug.includes("all")) ||
-            params.brand !== "all") && (
+          {showCategoryFilter && (
             <DropdownCheckbox
               type="category"
               data={availableCategories}
@@ -86,15 +88,14 @@ function ProductsList({
                 data={availableSizes}
                 setIsLoading={setIsLoading}
               />
-              {params.brand === "all" && (
+              {showBrandFilter && (
                 <DropdownCheckbox
                   type="brand"
                   data={availableBrands}
                   setIsLoading={setIsLoading}
                 />
               )}
-              {((params.brand === "all" && params.slug.includes("all")) ||
-                params.brand !== "all") && (
+              {showCategoryFilter && (
                 <DropdownCheckbox
                   type="category"
                   data={availableCategories}

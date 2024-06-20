@@ -17,9 +17,9 @@ function SubNav({ children, items, title }: SubNavProps) {
         <h4 className="font-base mb-4">{title.toUpperCase()}</h4>
         {items.map((item) => (
           <NavLink
-            href={`/store/${children.toLowerCase()}${
-              title === "Catégories" ? `-${item.name}/all` : ""
-            }${title === "Marques" ? `/${item.name}` : ""}`}
+            href={`/store/${children.toLowerCase()}/${
+              title === "Catégories" ? `${item.name}` : ""
+            }${title === "Marques" ? `brandstore/${item.name}` : ""}`}
             className="border-b border-solid border-transparent hover:border-gray-950 w-fit"
             key={item.id}
           >

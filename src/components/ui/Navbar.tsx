@@ -59,16 +59,13 @@ export function NavLinkMenu({
 }) {
   return (
     <NavigationMenuItem>
-      <Link href={`/store/${children.toLowerCase()}-all/all`}>
+      <Link href={`/store/${children.toLowerCase()}`}>
         <NavigationMenuTrigger>{children.toUpperCase()}</NavigationMenuTrigger>
       </Link>
       <NavigationMenuContent>
         <ul className="grid gap-16 p-6 md:w-[400px] lg:w-[700px] lg:grid-cols-[1fr_1fr_1fr]">
           <li className="row-span-full">
-            <Link
-              href={`/store/${children.toLowerCase()}-all/all`}
-              className="h-full"
-            >
+            <Link href={`/store/${children.toLowerCase()}`} className="h-full">
               <Image
                 src={image}
                 width={200}

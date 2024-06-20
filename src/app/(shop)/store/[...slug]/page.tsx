@@ -11,10 +11,8 @@ import {
   fetchColorsWithProductIds,
   fetchSizesWithProductIds,
 } from "@/db/queries/variants";
-import { formatParamsToString } from "@/lib/parsers";
-import ProductsList from "@/app/(shop)/store/[slug]/[brand]/_components/ProductsList";
-import { fetchBrands } from "@/db/queries/brands";
-import { fetchCategories } from "@/db/queries/categories";
+import { formatSlugToTitle } from "@/lib/parsers";
+import ProductsList from "@/app/(shop)/store/[...slug]/_components/ProductsList";
 
 export type StoreProps = {
   params: Params;
@@ -27,10 +25,10 @@ export default async function ProductsBySlug({
 }: StoreProps) {
   const [productsResult, brandsResult, categoriesResult, countResult] =
     await Promise.all([
-      fetchProductsWithParams(params),
+      fetchProductsWithParams(params.slug),
       fetchBrandsWithSlug(params.slug, searchParams),
-      fetchCategoriesWithParams(params, searchParams),
-      countProductsWithSearchParams(params, searchParams),
+      fetchCategoriesWithParams(params.slug, searchParams),
+      countProductsWithSearchParams(params.slug, searchParams),
     ]);
 
   if (!productsResult.success) throw new Error(productsResult.error);
@@ -52,7 +50,7 @@ export default async function ProductsBySlug({
 
   return (
     <div className="px-4 md:px-0 py-6 md:py-0">
-      <PageHeading1>{formatParamsToString(params)}</PageHeading1>
+      <PageHeading1>{formatSlugToTitle(params.slug)}</PageHeading1>
       <ProductsList
         products={productsResult.data}
         availableBrands={brandsResult.data}
@@ -65,26 +63,26 @@ export default async function ProductsBySlug({
   );
 }
 
-export async function generateStaticParams() {
-  const [brandsResult, categoriesResult] = await Promise.all([
-    fetchBrands(),
-    fetchCategories(),
-  ]);
-  if (!brandsResult.success) throw new Error(brandsResult.error);
-  if (!categoriesResult.success) throw new Error(categoriesResult.error);
+// export async function generateStaticParams() {
+//   const [brandsResult, categoriesResult] = await Promise.all([
+//     fetchBrands(),
+//     fetchCategories(),
+//   ]);
+//   if (!brandsResult.success) throw new Error(brandsResult.error);
+//   if (!categoriesResult.success) throw new Error(categoriesResult.error);
 
-  const brandsParams = brandsResult.data.map((brand) => ({
-    slug: brand.sex,
-    brand: brand.name,
-  }));
-  const categoriesParams = categoriesResult.data.map((category) => ({
-    slug: `${category.sex}-${category.name}`,
-    brand: "all",
-  }));
-  return [
-    { slug: "homme-all", brand: "all" },
-    { slug: "femme-all", brand: "all" },
-    ...brandsParams,
-    ...categoriesParams,
-  ];
-}
+//   const brandsParams = brandsResult.data.map((brand) => ({
+//     slug: brand.sex,
+//     brand: brand.name,
+//   }));
+//   const categoriesParams = categoriesResult.data.map((category) => ({
+//     slug: `${category.sex}-${category.name}`,
+//     brand: "all",
+//   }));
+//   return [
+//     { slug: "homme-all", brand: "all" },
+//     { slug: "femme-all", brand: "all" },
+//     ...brandsParams,
+//     ...categoriesParams,
+//   ];
+// }

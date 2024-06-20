@@ -1,4 +1,5 @@
 import { Params } from "@/db/queries/products";
+import { Slug } from "@/types";
 
 export function splitCapitalizeUri(uri: string) {
   const [name, sex] = decodeURIComponent(uri).split("-");
@@ -15,34 +16,32 @@ export function strNoAccent(string: string) {
   return string.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
 }
 
-export function formatParamsToString(params: Params) {
-  const [slug, brand] = Object.values(params);
-  const [decodedSex, decodedCategory] = decodeURIComponent(slug).split("-");
-  const decodedBrand = decodeURIComponent(brand);
+export function formatSlugToTitle(slug: Slug) {
+  const [sex, category, brand] = slug;
+  const decodedCategory = category && decodeURIComponent(category);
+  const decodedBrand = brand && decodeURIComponent(brand);
 
   return `${
-    decodedCategory !== "all" && decodedCategory
+    decodedCategory !== "brandstore" && decodedCategory
       ? capitalizeString(decodedCategory)
       : ""
-  } ${decodedBrand !== "all" ? capitalizeString(decodedBrand) : ""} ${
-    decodedCategory === "all" && decodedBrand === "all"
-      ? `Vêtements ${decodedSex}`
-      : decodedSex
+  } ${decodedBrand ? capitalizeString(decodedBrand) : ""} ${
+    decodedCategory && decodedBrand ? `Vêtements ${sex}` : sex
   }`;
 }
 
 export function parseApiParams(pathname: string) {
-  const parsedParams = { slug: "", brand: "" };
-  parsedParams.slug = pathname.split("/")[3];
-  parsedParams.brand = pathname.split("/")[4];
-  return parsedParams;
+  return pathname
+    .split("/")
+    .slice(3)
+    .map((chars) => decodeURIComponent(chars));
 }
 
 export function parsePathParams(pathname: string) {
-  const parsedParams = { slug: "", brand: "" };
-  parsedParams.slug = pathname.split("/")[2];
-  parsedParams.brand = pathname.split("/")[3];
-  return parsedParams;
+  return pathname
+    .split("/")
+    .slice(2)
+    .map((chars) => decodeURIComponent(chars));
 }
 
 export function parseApiSearchParams(searchParams: URLSearchParams) {

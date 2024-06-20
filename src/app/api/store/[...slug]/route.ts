@@ -1,10 +1,11 @@
 import { fetchProductsWithSearchParams } from "@/db/queries/products";
 import { parseApiParams, parseApiSearchParams } from "@/lib/parsers";
+import { Slug } from "@/types";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(request: NextRequest) {
   const { pathname, searchParams } = request.nextUrl;
-  const parsedParams = parseApiParams(pathname);
+  const parsedParams = parseApiParams(pathname) as Slug;
   const parsedSearchParams = parseApiSearchParams(searchParams);
 
   const result = await fetchProductsWithSearchParams(
