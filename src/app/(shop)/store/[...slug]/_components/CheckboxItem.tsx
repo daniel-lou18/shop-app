@@ -1,6 +1,6 @@
 "use client";
 import { useState } from "react";
-import { DropdownMenuCheckboxItem } from "../../../../../../components/ui/dropdown-menu";
+import { DropdownMenuCheckboxItem } from "../../../../../components/ui/dropdown-menu";
 
 type FilterTypes = "brand" | "category" | "color" | "size";
 

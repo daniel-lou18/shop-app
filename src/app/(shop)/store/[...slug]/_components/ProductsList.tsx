@@ -1,10 +1,10 @@
 "use client";
 
 import { AllProductsWithVariants, TAKE } from "@/db/queries/products";
-import ProductCard from "../../../../products/_components/ProductCard";
+import ProductCard from "../../../products/_components/ProductCard";
 import ProductsPagination from "./ProductsPagination";
 import Loader from "@/components/ui/Loader";
-import DropdownCheckbox from "@/app/(shop)/store/[slug]/[brand]/_components/DropdownCheckbox";
+import DropdownCheckbox from "@/app/(shop)/store/[...slug]/_components/DropdownCheckbox";
 import DropdownFilter from "./DropdownFilter";
 import ProductsTotal from "./ProductsTotal";
 import { Brand, Category } from "@prisma/client";

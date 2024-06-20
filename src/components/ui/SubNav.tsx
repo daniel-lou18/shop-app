@@ -18,8 +18,8 @@ function SubNav({ children, items, title }: SubNavProps) {
         {items.map((item) => (
           <NavLink
             href={`/store/${children.toLowerCase()}${
-              title === "Catégories" ? `-${item.name}/all` : ""
-            }${title === "Marques" ? `/${item.name}` : ""}`}
+              title === "Catégories" ? `/${item.name}` : ""
+            }${title === "Marques" ? `/all/${item.name}` : ""}`}
             className="border-b border-solid border-transparent hover:border-gray-950 w-fit"
             key={item.id}
           >

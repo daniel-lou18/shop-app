@@ -14,11 +14,12 @@ import {
   filterWomen,
   getProducts,
 } from "@/services/productsService";
+import { GET_PRODUCTS } from "@/lib/queries";
 
 async function MainContent() {
   const [resultMen, resultWomen] = await Promise.all([
-    getProducts(filterMen),
-    getProducts(filterWomen),
+    getProducts(GET_PRODUCTS, filterMen),
+    getProducts(GET_PRODUCTS, filterWomen),
   ]);
   const productsMen = resultMen.success ? resultMen.data : [];
   const productsWomen = resultWomen.success ? resultWomen.data : [];

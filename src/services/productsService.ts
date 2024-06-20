@@ -15,12 +15,15 @@ export const filterWomen = (product: ShopifyProduct) =>
   product.tags.includes("femme");
 
 export async function getProducts(
+  query: typeof GET_PRODUCTS,
+  variables?: { [key: string]: any },
   filterFn?: (product: ShopifyProduct) => boolean
 ): Promise<FetchResult<ShopifyProduct[]>> {
   try {
     const apolloClient = initializeApollo();
     const result = await apolloClient.query<GraphQLResponse>({
-      query: GET_PRODUCTS,
+      query,
+      variables,
     });
     if (!result.data || result.data.products.nodes.length === 0) {
       throw new Error("Aucun article retrouvé");

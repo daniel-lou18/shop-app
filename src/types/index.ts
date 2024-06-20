@@ -56,6 +56,13 @@ export type ShopifyVariant = {
   };
 };
 
+export type ShopifyCollection = {
+  id: string;
+  products: {
+    nodes: ShopifyProduct[];
+  };
+};
+
 export type ShopifyExtension = {
   cost: {
     requestedQueryCost: number;
