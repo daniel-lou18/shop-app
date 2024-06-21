@@ -8,7 +8,7 @@ function CustomerLayout({ children }: { children: ReactNode }) {
     <CartContextProvider>
       <Topbar />
       <HeaderCustomer />
-      <main className="sm:px-16 sm:py-8 min-h-screen">{children}</main>
+      <main>{children}</main>
     </CartContextProvider>
   );
 }

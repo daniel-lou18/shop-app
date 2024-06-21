@@ -109,7 +109,7 @@ model ProductVariant {
   size String
   color String
   price Int
-  imagePath String?
+  images String[]
   sku String
   stockQuantity Int
   createdAt DateTime @default(now())

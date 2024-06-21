@@ -4,20 +4,20 @@ import { Brand, Product } from "@prisma/client";
 import Link from "next/link";
 import { centsToEuros } from "@/helpers/helpers";
 import { paths } from "@/lib/paths";
-
-export type Square = Brand & { imagePath: string | null; description: string };
-
-export type ProductCardProps =
+import { BrandSquare } from "@/types";
+import { cn } from "@/lib/utils";
+export type ProductCardProps = { className?: string } & (
   | {
       type: "product";
       item: Product & { brand: Brand };
     }
   | {
       type: "square";
-      item: Square;
-    };
+      item: BrandSquare;
+    }
+);
 
-function ProductCard({ type, item }: ProductCardProps) {
+function ProductCard({ type, item, className }: ProductCardProps) {
   const href =
     type === "product"
       ? paths.customerProduct(item.id)
@@ -28,24 +28,25 @@ function ProductCard({ type, item }: ProductCardProps) {
   return (
     <li className="text-decoration-none">
       <Link href={href}>
-        <article className="cols-1">
-          <Card className="border-0 shadow-none">
-            <CardContent
-              className={`p-0 overflow-hidden ${
-                type === "product" ? "" : "rounded-md"
-              }`}
-            >
+        <article className="h-full">
+          <Card
+            className={cn(
+              "border-0 shadow-none overflow-hidden h-full",
+              className
+            )}
+          >
+            <CardContent className="p-0 overflow-hidden">
               <Image
                 alt="Product image"
                 className={`${
-                  type === "product" ? "aspect-square" : "aspect-auto"
-                } w-full object-cover hover:scale-105 transition duration-1000 ease-out`}
+                  type === "product" ? "aspect-square" : "h-[550px]"
+                } w-full object-cover object-top overflow-hidden hover:scale-105 transition duration-1000 ease-out`}
                 height="600"
                 src={item.imagePath || "/placeholder.svg"}
                 width="400"
               />
             </CardContent>
-            <CardFooter className="flex-col items-start pt-4 px-2 text-lg">
+            <CardFooter className="flex-col items-start py-4 px-4 text-lg">
               <CardTitle className="text-lg text-gray-950 font-bold uppercase">
                 {title}
               </CardTitle>

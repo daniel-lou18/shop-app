@@ -49,34 +49,36 @@ function DropdownCheckbox({
   }
 
   return (
-    <DropdownMenu modal={false}>
-      <DropdownTrigger style="check" checkedValues={checkedValues}>
-        {hashMap[type]}
-      </DropdownTrigger>
-      <DropdownMenuContent
-        className="w-48 md:w-56"
-        side={window.innerWidth > 768 ? "bottom" : "right"}
-      >
-        {initialData.map((value) => (
-          <CheckboxItem
-            key={
-              type === "brand" || type === "category"
-                ? (value as Brand | Category).id
-                : (value as string)
-            }
-            type={type}
-            checkedValues={checkedValues}
-            onCheck={handleCheck}
-            onUncheck={handleUncheck}
-            disabled={isDisabled(type, value)}
-          >
-            {type === "brand" || type === "category"
-              ? (value as Brand | Category).name
-              : (value as string)}
-          </CheckboxItem>
-        ))}
-      </DropdownMenuContent>
-    </DropdownMenu>
+    <div className="dropdown-container relative">
+      <DropdownMenu modal={false}>
+        <DropdownTrigger style="check" checkedValues={checkedValues}>
+          {hashMap[type]}
+        </DropdownTrigger>
+        <DropdownMenuContent
+          className="w-48 md:w-56"
+          side={window.innerWidth > 768 ? "bottom" : "right"}
+        >
+          {initialData.map((value) => (
+            <CheckboxItem
+              key={
+                type === "brand" || type === "category"
+                  ? (value as Brand | Category).id
+                  : (value as string)
+              }
+              type={type}
+              checkedValues={checkedValues}
+              onCheck={handleCheck}
+              onUncheck={handleUncheck}
+              disabled={isDisabled(type, value)}
+            >
+              {type === "brand" || type === "category"
+                ? (value as Brand | Category).name
+                : (value as string)}
+            </CheckboxItem>
+          ))}
+        </DropdownMenuContent>
+      </DropdownMenu>
+    </div>
   );
 }
 

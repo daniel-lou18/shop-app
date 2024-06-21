@@ -8,7 +8,7 @@ type PageHeading1Props = {
 
 function PageHeading1({ children, className }: PageHeading1Props) {
   return (
-    <h1 className={cn("text-3xl font-bold mb-8", className)}>{children}</h1>
+    <h1 className={cn("text-4xl font-bold mb-8", className)}>{children}</h1>
   );
 }
 

@@ -12,7 +12,6 @@ import { ProductVariant } from "@prisma/client";
 import { useState } from "react";
 import ProductSizes from "./ProductSizes";
 import ProductColors from "./ProductColors";
-import ProductImage from "./ProductImage";
 import ProductDescription from "./ProductDescription";
 import ProductAccordeon from "./ProductAccordeon";
 import { useCart } from "@/context/cart-context";
@@ -20,6 +19,7 @@ import { useToast } from "@/components/ui/use-toast";
 import { ProductVariantsByColor } from "@/db/queries/variants";
 import { ProductWithVariants } from "@/db/queries/product";
 import ButtonSubmit from "@/components/ui/ButtonSubmit";
+import ProductImages from "./ProductImages";
 
 type ProductVariantFormProps = {
   result: ProductWithVariants;
@@ -80,9 +80,9 @@ function ProductVariantForm({
   }
 
   return (
-    <div className="p-4 md:p-0 grid grid-cols-1 md:grid-cols-2 gap-12 max-w-7xl mx-auto">
-      <ProductImage image={availableSizes.at(0)?.imagePath || null} />
-      <Card className="border-0 shadow-none flex-1">
+    <div className="p-4 md:px-0 md:py-8 grid grid-cols-1 md:grid-cols-5 gap-12 max-w-7xl mx-auto">
+      <ProductImages availableSizes={availableSizes} />
+      <Card className="border-0 shadow-none flex-1 col-span-2">
         <CardHeader className="p-0">
           <CardTitle>{result.brand.name}</CardTitle>
           <h1 className="text-2xl font-bold">{result.name}</h1>

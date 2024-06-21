@@ -4,6 +4,7 @@ import { formatSlugToTitle } from "@/lib/parsers";
 import ProductsContainer from "./_components/ProductsContainer";
 import { Suspense } from "react";
 import Loader from "@/components/ui/Loader";
+import { Breadcrumbs } from "@/components/ui/Breadcrumbs";
 
 export type StoreProps = {
   params: Params;
@@ -15,7 +16,8 @@ export default async function ProductsBySlug({
   searchParams,
 }: StoreProps) {
   return (
-    <div className="px-4 md:px-0 py-6 md:py-0">
+    <div className="px-4 sm:px-16 sm:py-8 py-6">
+      <Breadcrumbs slug={params.slug} />
       <PageHeading1>{formatSlugToTitle(params.slug)}</PageHeading1>
       <Suspense fallback={<Loader />}>
         <ProductsContainer params={params} searchParams={searchParams} />

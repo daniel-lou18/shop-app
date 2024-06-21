@@ -81,13 +81,13 @@ export const paths = {
     return "/cart";
   },
   storeSex(sex: string) {
-    return `/store/${sex}-all/all`;
+    return `/store/${sex}`;
   },
   storeBrand(sex: string, brand: string) {
-    return `/store/${sex}/${decodeURIComponent(brand)}`;
+    return `/store/${sex}/brandstore/${decodeURIComponent(brand)}`;
   },
   storeCategory(sex: string, category: string) {
-    return `/store/${sex}-${decodeURIComponent(category)}/all`;
+    return `/store/${sex}/${decodeURIComponent(category)}`;
   },
   apiCheckout() {
     return "/api/checkout";

@@ -31,6 +31,7 @@ export type FetchOptions = {
     variants?: boolean;
   };
   orderBy?: {};
+  take?: number;
   addTotalStock?: boolean;
 };
 
@@ -51,6 +52,8 @@ export async function fetchAllProductsWithData<T>(
     const result = await db.product.findMany({
       include: finalOptions.include,
       where: finalOptions.where,
+      orderBy: finalOptions.orderBy,
+      take: finalOptions.take,
     });
 
     if (!result || result.length === 0)

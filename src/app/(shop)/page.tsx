@@ -1,83 +1,75 @@
-import ItemsCarousel from "@/components/ui/ItemsCarousel";
 import {
   AllProductsWithVariants,
   fetchAllProductsWithData,
 } from "@/db/queries/products";
 import React from "react";
-import MainTop from "./_components/MainTop";
 import Banner from "./_components/Banner";
-import { Button } from "@/components/ui/button";
 import {
   mainHero,
   brandBanner,
   brandsMen,
   brandsWomen,
+  oceanBanner,
 } from "@/helpers/constants";
-
-export type BrandSquare = {
-  id: number;
-  name: string;
-  sex: string;
-  imagePath: string;
-  description: string;
-};
+import BannerTop from "./_components/BannerTop";
+import ProductsCarousel from "@/app/(shop)/_components/ProductsCarousel";
+import BrandsCards from "./_components/BrandsCards";
+import ButtonsGender from "./_components/ButtonsGender";
+import { Button } from "@/components/ui/button";
 
 async function MainContent() {
-  const result = await fetchAllProductsWithData<AllProductsWithVariants>();
-  const products = result.success ? result.data : [];
-  const productsMen = products.filter((product) => product.sex === "homme");
-  const productsWomen = products.filter((product) => product.sex === "femme");
-  const productsMixed = [
-    ...productsMen.slice(0, 3),
-    ...productsWomen.slice(0, 3),
-    ...productsMen.slice(3, 8),
-    ...productsWomen.slice(3, 8),
-  ];
+  const resultWomen = await fetchAllProductsWithData<AllProductsWithVariants>({
+    where: { sex: "femme" },
+    take: 15,
+  });
+  const resultMen = await fetchAllProductsWithData<AllProductsWithVariants>({
+    where: { sex: "homme" },
+    take: 15,
+  });
+  const productsWomen = resultWomen.success ? resultWomen.data : [];
+  const productsMen = resultMen.success ? resultMen.data : [];
 
   return (
-    <div className="sm:px-8">
-      <Banner data={mainHero}>
+    <div className="bg-gray-50">
+      <BannerTop data={mainHero}>
+        <ButtonsGender
+          data={mainHero.buttonsData}
+          className="hidden lg:flex gap-4 justify-end md:text-xl"
+        />
+      </BannerTop>
+      <div className="sm:px-16 sm:py-8">
+        {/* <MainTop /> */}
+        <ProductsCarousel
+          title="Nouveautés"
+          items={[...productsWomen, ...productsMen]}
+        />
+      </div>
+      <Banner data={brandBanner} className="mt-8 md:mt-6">
+        <ButtonsGender
+          data={brandBanner.buttonsData}
+          className="absolute top-1/2 left-1/2 translate-x-[-50%] translate-y-[-50%]"
+        />
+      </Banner>
+      <div className="sm:px-16 sm:py-8">
+        <BrandsCards
+          title="Marques incontournables"
+          items={[...brandsWomen, ...brandsMen]}
+        />
+      </div>
+      <Banner data={oceanBanner} className="mt-8 md:mt-6">
         <Button
           variant="secondary"
-          className="rounded-full text-base absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
+          className="absolute top-1/2 left-1/2 translate-x-[-50%] translate-y-[-50%]"
         >
-          Je fonce
+          En savoir plus
         </Button>
       </Banner>
-      <MainTop />
-      <ItemsCarousel
-        type="product"
-        title="Nos bestsellers"
-        items={productsMixed}
-      />
-      <Banner data={brandBanner} className="mt-8 md:mt-24">
-        <Button
-          variant="secondary"
-          className="rounded-full text-base absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
-        >
-          Découvrir
-        </Button>
-      </Banner>
-      <ItemsCarousel
-        type="square"
-        title="Marques hommes incontournables"
-        items={brandsMen}
-      />
-      <ItemsCarousel
-        type="square"
-        title="Marques femmes incontournables"
-        items={brandsWomen}
-      />
-      <ItemsCarousel
-        type="product"
-        title="Notre sélection hommes"
-        items={productsMen}
-      />
-      <ItemsCarousel
-        type="product"
-        title="Notre sélection femmes"
-        items={productsWomen}
-      />
+      <div className="sm:px-16 sm:py-8">
+        <ProductsCarousel
+          title="Nos bestsellers"
+          items={[...productsWomen, ...productsMen]}
+        />
+      </div>
     </div>
   );
 }

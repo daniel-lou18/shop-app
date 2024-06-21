@@ -33,7 +33,7 @@ export async function fetchProductVariantsByColor(
         acc.push({
           variants: [{ ...variant }],
           color: variant.color,
-          imagePath: variant.imagePath,
+          imagePath: variant.images[0] || null,
           price: variant.price,
           totalStock: variant.stockQuantity,
           createdAt: variant.createdAt,
@@ -62,7 +62,7 @@ export function getVariantsByColor(variants: ProductVariants) {
         acc.push({
           variants: [{ ...variant }],
           color: variant.color,
-          imagePath: variant.imagePath,
+          imagePath: variant.images[0] || null,
           price: variant.price,
           totalStock: variant.stockQuantity,
           createdAt: variant.createdAt,

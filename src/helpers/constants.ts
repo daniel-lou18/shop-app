@@ -1,4 +1,4 @@
-import { paths } from "@/lib/paths";
+import { paths } from "/home/daniel/projects/personal/shop-app/src/lib/paths";
 
 export const BRANDS = {
   men: [
@@ -61,16 +61,32 @@ export const CATEGORIES = {
 };
 
 export const mainHero = {
-  name: "JUSQU'À -40% sur une sélection d'articles",
+  name: "Jusqu'à -40% sur une sélection d'articles",
   imagePath: "/Large.webp",
+  buttonsData: [
+    { name: "Femme", href: paths.storeSex("femme") },
+    { name: "Homme", href: paths.storeSex("homme") },
+  ],
 };
 
 export const brandBanner = {
   title: "MARQUE DU MOMENT",
-  name: "Polo Ralph Lauren",
+  name: "Tommy Hilfiger",
   description:
-    "En démarrant il y a presque 50 ans par une collection de cravates, Ralph Lauren a export construit tout un univers inspiré du style universitaire et des légendes du grand écran. La marque, emblématique du style de vie à l’américaine, propose un vestiaire intemporel et chic.",
+    "Une des marques de lifestyle les plus reconnues au monde. Depuis 1985 elle célèbre l'essence du style américain classique.",
   imagePath: "/D-Converse-WE-Homepage-Tenniscore-P1.jpg",
+  buttonsData: [
+    { name: "Femme", href: paths.storeBrand("femme", "Tommy Hilfiger") },
+    { name: "Homme", href: paths.storeBrand("homme", "Tommy Hilfiger") },
+  ],
+};
+
+export const oceanBanner = {
+  title: "NOTRE MISSION",
+  name: "Développement durable",
+  description:
+    "Nous nous efforçons de réduire constamment l'empreinte environnementale de nos produits. Nous investissons une partie de nos revenus dans des projets de captation du carbone qui protègent la biodiversité.",
+  imagePath: "/frank-mckenna-OD9EOzfSOh0-unsplash.jpg",
 };
 
 export const brandsMen = [
@@ -120,7 +136,7 @@ export const brandsWomen = [
   {
     id: 3,
     name: "Georgia Rose",
-    sex: "homme",
+    sex: "femme",
     imagePath: "/Femme_Georgia-Rose.jpg",
     description:
       "Sara Johnson, fondatrice et directrice de la création impose un nouvel esthétisme : des vêtements modernes et sophistiqués. ",
