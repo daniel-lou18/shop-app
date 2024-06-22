@@ -50,7 +50,7 @@ export const paths = {
     return "/admin/settings/shop";
   },
   adminSignIn(queryParams?: string) {
-    if (queryParams) return `/login?${queryParams}`;
+    if (queryParams) return `auth/admin/login?${queryParams}`;
     return "/auth/admin/login";
   },
   adminSignUp() {

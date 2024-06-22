@@ -1,4 +1,5 @@
 import { useCart, type CartItem as Item } from "@/context/cart-context";
+import { centsToEuros } from "@/helpers/helpers";
 import Image from "next/image";
 import React from "react";
 
@@ -13,8 +14,8 @@ function CartItem({ item }: CartItemProps) {
       <div className="space-y-4 md:flex md:items-center md:justify-between md:gap-6 md:space-y-0">
         <a href="#" className="shrink-0 md:order-1">
           <Image
-            className="h-20 w-20"
-            src={item.imagePath || "/placeholder.png"}
+            className="h-20 w-20 object-cover rounded-md object-top"
+            src={item.images[0] || "/placeholder.svg"}
             alt="imac image"
             width={150}
             height={150}
@@ -30,11 +31,11 @@ function CartItem({ item }: CartItemProps) {
               type="button"
               id="decrement-button"
               data-input-counter-decrement="counter-input"
-              className="inline-flex h-5 w-5 shrink-0 items-center justify-center rounded-md border border-gray-300 bg-gray-100 hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-gray-100 dark:border-gray-600 dark:bg-gray-700 dark:hover:bg-gray-600 dark:focus:ring-gray-700"
+              className="inline-flex h-5 w-5 shrink-0 items-center justify-center rounded-md border border-gray-200 bg-gray-100 hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-gray-100 dark:border-gray-600 dark:bg-gray-700 dark:hover:bg-gray-600 dark:focus:ring-gray-700"
               onClick={() => removeItem(item.id)}
             >
               <svg
-                className="h-2.5 w-2.5 text-gray-900 dark:text-white"
+                className="h-2.5 w-2.5 text-gray-950 dark:text-white"
                 aria-hidden="true"
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"
@@ -53,7 +54,7 @@ function CartItem({ item }: CartItemProps) {
               type="text"
               id="counter-input"
               data-input-counter
-              className="w-10 shrink-0 border-0 bg-transparent text-center text-sm font-medium text-gray-900 focus:outline-none focus:ring-0 dark:text-white"
+              className="w-10 shrink-0 border-0 bg-transparent text-center text-sm font-medium text-gray-950 focus:outline-none focus:ring-0 dark:text-white"
               placeholder=""
               value={item.orderQuantity}
               required
@@ -62,11 +63,11 @@ function CartItem({ item }: CartItemProps) {
               type="button"
               id="increment-button"
               data-input-counter-increment="counter-input"
-              className="inline-flex h-5 w-5 shrink-0 items-center justify-center rounded-md border border-gray-300 bg-gray-100 hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-gray-100 dark:border-gray-600 dark:bg-gray-700 dark:hover:bg-gray-600 dark:focus:ring-gray-700"
+              className="inline-flex h-5 w-5 shrink-0 items-center justify-center rounded-md border border-gray-200 bg-gray-100 hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-gray-100 dark:border-gray-600 dark:bg-gray-700 dark:hover:bg-gray-600 dark:focus:ring-gray-700"
               onClick={() => addItem(item)}
             >
               <svg
-                className="h-2.5 w-2.5 text-gray-900 dark:text-white"
+                className="h-2.5 w-2.5 text-gray-950 dark:text-white"
                 aria-hidden="true"
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"
@@ -83,33 +84,31 @@ function CartItem({ item }: CartItemProps) {
             </button>
           </div>
           <div className="text-end md:order-4 md:w-32">
-            <p className="text-base font-bold text-gray-900 dark:text-white">
-              {item.product.price * item.orderQuantity}
+            <p className="text-base font-bold text-gray-950 dark:text-white">
+              {centsToEuros(item.product.price * item.orderQuantity)}
             </p>
           </div>
         </div>
 
-        <div className="w-full min-w-0 flex-1 space-y-4 md:order-2 md:max-w-md">
+        <div className="w-full min-w-0 flex-1 space-y-2 md:order-2 md:max-w-md">
           <a
             href="#"
-            className="text-base font-medium text-gray-900 hover:underline dark:text-white"
+            className="text-base font-medium text-gray-950 hover:underline dark:text-white"
           >
-            {item.product.name}
+            {item.product.brand.name} {" - "} {item.product.name}
           </a>
           <p>
             {item.size} {" - "} {item.color}
           </p>
           <p>
-            Prix unitaire :{" "}
-            <span>
-              {item.price} {" €"}
-            </span>
+            Prix unitaire : <span>{centsToEuros(item.price)}</span>
           </p>
 
           <div className="flex items-center">
             <button
               type="button"
               className="inline-flex items-center text-sm font-medium text-red-600 hover:underline dark:text-red-500"
+              onClick={() => removeItem(item.id)}
             >
               <svg
                 className="me-1.5 h-5 w-5"
@@ -128,7 +127,7 @@ function CartItem({ item }: CartItemProps) {
                   d="M6 18 17.94 6M18 18 6.06 6"
                 />
               </svg>
-              Remove
+              Supprimer
             </button>
           </div>
         </div>

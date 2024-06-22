@@ -1,7 +1,8 @@
 import { db } from "@/db";
 import { Product, ProductVariant } from "@prisma/client";
-import { FetchResult } from "./products";
+import { FetchResult, ProductWithData } from "./products";
 import { handleFetchError } from "@/lib/errors";
+import { ProductWithVariants } from "./product";
 
 type ProductVariants = ProductVariant[];
 export type ProductVariantByColor = {
@@ -13,7 +14,7 @@ export type ProductVariantByColor = {
   createdAt: Date;
 };
 export type ProductVariantsByColor = ProductVariantByColor[];
-export type VariantWithProduct = ProductVariant & { product: Product };
+export type VariantWithProduct = ProductVariant & { product: ProductWithData };
 
 export async function fetchProductVariantsByColor(
   productId: string

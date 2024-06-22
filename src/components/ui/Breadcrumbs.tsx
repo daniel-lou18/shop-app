@@ -13,19 +13,19 @@ import { capitalizeString } from "@/lib/parsers";
 import { paths } from "@/lib/paths";
 
 type BreadcrumbsProps = {
-  slug: Slug;
+  slug: [string, string, string];
   type?: "short" | "long";
 };
 
 export function Breadcrumbs({ slug, type = "short" }: BreadcrumbsProps) {
-  const [sex, category, last] = slug;
+  const [first, category, last] = slug;
 
   let breadcrumbs =
     last || category ? (
       <>
         <BreadcrumbItem>
           <BreadcrumbLink>
-            <Link href={paths.storeSex(sex)}>{capitalizeString(sex)}</Link>
+            <Link href={paths.storeSex(first)}>{capitalizeString(first)}</Link>
           </BreadcrumbLink>
         </BreadcrumbItem>
         <BreadcrumbSeparator />
@@ -33,7 +33,7 @@ export function Breadcrumbs({ slug, type = "short" }: BreadcrumbsProps) {
           <>
             <BreadcrumbItem>
               <BreadcrumbLink>
-                <Link href={paths.storeCategory(sex, category)}>
+                <Link href={paths.storeCategory(first, category)}>
                   {capitalizeString(decodeURIComponent(category || ""))}
                 </Link>
               </BreadcrumbLink>
@@ -58,7 +58,7 @@ export function Breadcrumbs({ slug, type = "short" }: BreadcrumbsProps) {
           <BreadcrumbPage>
             {capitalizeString(decodeURIComponent(last || "")) ||
               capitalizeString(decodeURIComponent(category || "")) ||
-              capitalizeString(sex)}
+              capitalizeString(first)}
           </BreadcrumbPage>
         </BreadcrumbItem>
       </BreadcrumbList>

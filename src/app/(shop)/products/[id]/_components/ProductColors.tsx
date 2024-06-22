@@ -32,7 +32,7 @@ function ProductColors({
           >
             <Image
               alt="Product image"
-              className="aspect-square w-full object-cover"
+              className="aspect-square w-full object-cover object-top"
               height="150"
               src={variant.imagePath || "/placeholder.svg"}
               width="150"

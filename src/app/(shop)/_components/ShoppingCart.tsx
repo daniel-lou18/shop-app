@@ -7,6 +7,7 @@ import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { paths } from "@/lib/paths";
 import { useToast } from "@/components/ui/use-toast";
+import { centsToEuros } from "@/helpers/helpers";
 
 type ShoppingCartProps = {
   open: boolean;
@@ -65,7 +66,7 @@ function ShoppingCart({ open, setOpen }: ShoppingCartProps) {
 function CartHeader({ setOpen }: { setOpen: (prevState: boolean) => void }) {
   return (
     <div className="flex items-start justify-between">
-      <Dialog.Title className="text-lg font-medium text-gray-900">
+      <Dialog.Title className="text-lg font-medium text-gray-950">
         Mon panier
       </Dialog.Title>
       <div className="ml-3 flex h-7 items-center">
@@ -129,22 +130,25 @@ function CartItem({
     <li key={item.id} className="flex py-6">
       <div className="h-28 w-28 flex-shrink-0 overflow-hidden rounded-md border border-gray-200">
         <Image
-          src={item.imagePath || "/placeholder.png"}
+          src={item.images[0] || "/placeholder.svg"}
           alt={item.sku}
-          className="h-full w-full object-cover object-center"
-          width={96}
-          height={96}
+          className="h-full w-full object-cover object-top"
+          width={200}
+          height={200}
         />
       </div>
       <div className="ml-4 flex flex-1 flex-col">
         <div>
-          <div className="flex justify-between text-base font-medium text-gray-900">
+          <div className="flex justify-between text-base font-medium text-gray-950">
             <h3>
               <Link href={`/products/${item.product.id}`}>
-                {item.product.name.split(" ").slice(0, 3).join(" ")}
+                {`${item.product.brand.name} - ${item.product.name
+                  .split(" ")
+                  .slice(0, 1)
+                  .join(" ")}`}
               </Link>
             </h3>
-            <p className="ml-4">{item.price}</p>
+            <p className="ml-4">{centsToEuros(item.price)}</p>
           </div>
           <p className="mt-1 text-sm text-gray-500">{`Taille: ${item.size}`}</p>
           <p className="mt-1 text-sm text-gray-500">{`Couleur: ${item.color}`}</p>
@@ -180,19 +184,21 @@ function CartFooter({
 
   return (
     <div className="border-t border-gray-200 px-4 py-6 sm:px-6">
-      <div className="flex justify-between text-base font-medium text-gray-900">
-        <p>Sous-total</p>
-        <p>{items.reduce((acc, item) => acc + item.price, 0)}</p>
+      <div className="flex justify-between text-base font-medium text-gray-950">
+        <p>Total</p>
+        <p>{centsToEuros(items.reduce((acc, item) => acc + item.price, 0))}</p>
       </div>
       <p className="mt-0.5 text-sm text-gray-500">
         Les frais de livraison seront calculés au moment de l&apos;achat.
       </p>
       <div className="mt-6">
-        <Button className="w-full text-base">
-          <Link href={paths.cart()}>Mon panier</Link>
+        <Button className="w-full text-base" asChild>
+          <Link href={paths.cart()} onClick={() => setOpen(false)}>
+            Mon panier
+          </Link>
         </Button>
       </div>
-      <div className="mt-6 flex justify-center text-center text-sm text-gray-500">
+      <div className="mt-6 flex justify-center text-center text-gray-500">
         <p>
           ou{" "}
           <button
@@ -200,7 +206,7 @@ function CartFooter({
             className="font-medium text-primary hover:text-primary/75"
             onClick={() => setOpen(false)}
           >
-            Continuer mon shopping
+            poursuivre mes achats
             <span aria-hidden="true"> &rarr;</span>
           </button>
         </p>
