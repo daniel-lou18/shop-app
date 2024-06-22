@@ -88,7 +88,7 @@ export async function addProduct(
           stockQuantity: 100,
           color: "base",
           sku: `base-${size}-${Date.now().toString()}`,
-          imagePath: formData.get("imagePath") as string,
+          images: [formData.get("imagePath") as string],
         },
       });
     }

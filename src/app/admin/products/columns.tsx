@@ -26,7 +26,7 @@ export const columns: ColumnDef<ProductsTableData>[] = [
     accessorKey: "variants.0.imagePath",
     header: "",
     cell: ({ row }) => {
-      const imagePath = row.original.variants.at(0)?.imagePath;
+      const imagePath = row.original.variants.at(0)?.images[0];
       return (
         <Image
           alt="Product image"

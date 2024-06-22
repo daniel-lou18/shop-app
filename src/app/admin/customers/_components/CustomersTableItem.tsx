@@ -35,7 +35,7 @@ function CustomersTableItem({
       <TableCell className="hidden sm:table-cell">
         {image ? (
           <Image
-            alt="Product image"
+            alt="Customer image"
             className="aspect-square rounded-md object-cover"
             height="64"
             src={image}

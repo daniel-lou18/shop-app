@@ -56,10 +56,7 @@ function VariantImageUpload({ variants }: VariantImageUploadProps) {
       <DialogTrigger asChild>
         <Image
           src={
-            (variants &&
-              variants.length > 0 &&
-              variants.at(0)?.imagePath &&
-              variants.at(0)?.imagePath) ||
+            (variants && variants.length > 0 && variants.at(0)?.images[0]) ||
             "/placeholder.svg"
           }
           alt=""

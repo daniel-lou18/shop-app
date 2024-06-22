@@ -24,7 +24,7 @@ export async function uploadImages(
     await db.productVariant.updateMany({
       where: { id: { in: ids } },
       data: {
-        imagePath: `/${image.name}`,
+        images: { push: `/${image.name}` },
       },
     });
     productId && revalidatePath(paths.adminProduct(productId));
