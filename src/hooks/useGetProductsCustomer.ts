@@ -1,14 +1,14 @@
 import { usePathname, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
-import { AllProductsWithVariants } from "@/db/queries/products";
+import { ProductsWithVariants } from "@/db/queries/products";
 import { parsePathParams } from "@/lib/parsers";
 
-export function useGetProductsCustomer(products: AllProductsWithVariants) {
+export function useGetProductsCustomer(products: ProductsWithVariants) {
   const searchParams = useSearchParams();
   const path = usePathname();
   const params = parsePathParams(path);
   const [filteredProducts, setFilteredProducts] =
-    useState<AllProductsWithVariants>([...products]);
+    useState<ProductsWithVariants>([...products]);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [error, setError] = useState<string>("");
 
@@ -35,5 +35,12 @@ export function useGetProductsCustomer(products: AllProductsWithVariants) {
     getProducts();
   }, [path, searchParams]);
 
-  return { filteredProducts, isLoading, setIsLoading, error, params };
+  return {
+    filteredProducts,
+    isLoading,
+    setIsLoading,
+    error,
+    params,
+    searchParams,
+  };
 }

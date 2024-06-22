@@ -2,7 +2,7 @@
 
 import TableContainer from "@/components/admin/TableContainer";
 import ProductsTableContent from "./ProductsTableContent";
-import { AllProductsWithStock } from "@/db/queries/products";
+import { ProductsWithStock } from "@/db/queries/products";
 import Loader from "@/components/ui/Loader";
 import {
   tableHeaderItemsProducts,
@@ -10,7 +10,7 @@ import {
 } from "@/helpers/constants";
 import { useSort } from "@/hooks/useSort";
 
-function filterProducts(products: AllProductsWithStock, value: string) {
+function filterProducts(products: ProductsWithStock, value: string) {
   switch (value) {
     case "active":
       return products.filter((product) => product.isActive);
@@ -25,14 +25,14 @@ function filterProducts(products: AllProductsWithStock, value: string) {
   }
 }
 
-function ProductsTablePage({ data }: { data: AllProductsWithStock }) {
+function ProductsTablePage({ data }: { data: ProductsWithStock }) {
   const { isLoading, error, orderedData, handleSort } =
-    useSort<AllProductsWithStock>(data, `/api/products`);
+    useSort<ProductsWithStock>(data, `/api/products`);
 
   return (
     <div className="grid flex-1 items-start gap-4 md:gap-8">
       {isLoading && <Loader style="fullscreen" />}
-      <TableContainer<AllProductsWithStock>
+      <TableContainer<ProductsWithStock>
         title="Produits"
         subtitle="Gérer les produits, leurs variantes et les stocks"
         tableHeaderItems={tableHeaderItemsProducts}
@@ -41,7 +41,7 @@ function ProductsTablePage({ data }: { data: AllProductsWithStock }) {
         filterFunction={filterProducts}
         handleSort={handleSort}
       >
-        <ProductsTableContent data={orderedData as AllProductsWithStock} />
+        <ProductsTableContent data={orderedData as ProductsWithStock} />
       </TableContainer>
     </div>
   );

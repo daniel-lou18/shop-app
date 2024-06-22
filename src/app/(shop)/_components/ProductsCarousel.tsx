@@ -14,10 +14,12 @@ import { useState } from "react";
 import { capitalizeString } from "@/lib/parsers";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { cn } from "@/lib/utils";
+import { ProductWithVariants } from "@/db/queries/product";
+import { ProductsWithVariants } from "@/db/queries/products";
 
 export type ProductsCarouselProps = {
   title: string;
-  items: (Product & { brand: Brand })[];
+  items: ProductsWithVariants;
   displayTabs?: boolean;
   className?: string;
 };
@@ -43,10 +45,7 @@ function ProductsCarousel({
         className={`basis-1/2 lg:basis-[375px] shadow-md`}
       >
         <div>
-          <ProductCard
-            type="product"
-            item={item as Product & { brand: Brand }}
-          />
+          <ProductCard type="product" item={item as ProductWithVariants} />
         </div>
       </CarouselItem>
     ));

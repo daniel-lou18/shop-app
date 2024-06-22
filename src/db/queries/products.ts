@@ -4,11 +4,11 @@ import { handleFetchError } from "@/lib/errors";
 import { Slug } from "@/types";
 
 export type ProductWithData = Product & { brand: Brand; category: Category };
-export type AllProductsWithData = ProductWithData[];
-export type AllProductsWithVariants = (ProductWithData & {
+export type ProductsWithData = ProductWithData[];
+export type ProductsWithVariants = (ProductWithData & {
   variants: ProductVariant[];
 })[];
-export type AllProductsWithStock = (ProductWithData & {
+export type ProductsWithStock = (ProductWithData & {
   variants: ProductVariant[];
   totalStock: number;
 })[];
@@ -35,7 +35,7 @@ export type FetchOptions = {
   addTotalStock?: boolean;
 };
 
-export async function fetchAllProductsWithData<T>(
+export async function fetchProductsWithData<T>(
   options?: FetchOptions
 ): Promise<FetchResult<T>> {
   const defaultOptions = {
@@ -60,7 +60,7 @@ export async function fetchAllProductsWithData<T>(
       throw new Error("Nous n'avons retrouvé aucun produit");
 
     const data = finalOptions.addTotalStock
-      ? addTotalStockToProducts(result as AllProductsWithVariants)
+      ? addTotalStockToProducts(result as ProductsWithVariants)
       : result;
     return {
       success: true,
@@ -76,7 +76,7 @@ export async function fetchAllProductsWithData<T>(
 
 export async function fetchProductsWithTotalStockByIds(
   productIds: string[]
-): Promise<FetchResult<AllProductsWithStock>> {
+): Promise<FetchResult<ProductsWithStock>> {
   try {
     if (productIds.length === 0) throw new Error("Ids produits manquants");
     const result = await db.product.findMany({
@@ -160,7 +160,7 @@ function parseProductsSearchParams(slug: Slug, searchParams: SearchParams) {
 
 export async function fetchProductsWithParams(
   slug: Slug
-): Promise<FetchResult<AllProductsWithVariants>> {
+): Promise<FetchResult<ProductsWithVariants>> {
   const [sex, category, brand] = slug;
   const categoryName = category && decodeURIComponent(category);
   const brandName = brand && decodeURIComponent(brand);
@@ -194,7 +194,7 @@ export async function fetchProductsWithParams(
 export async function fetchProductsWithSearchParams(
   slug: Slug,
   searchParams: SearchParams
-): Promise<FetchResult<AllProductsWithVariants>> {
+): Promise<FetchResult<ProductsWithVariants>> {
   // return {
   //   success: false,
   //   error: "Une erreur est survenue lors de la récupération des produits.",
@@ -221,12 +221,23 @@ export async function fetchProductsWithSearchParams(
         },
         variants: {
           some: {
-            color: {
-              in: colorNames,
-            },
-            size: {
-              in: sizeNames,
-            },
+            AND: [
+              {
+                color: {
+                  in: colorNames,
+                },
+              },
+              {
+                size: {
+                  in: sizeNames,
+                },
+              },
+              {
+                stockQuantity: {
+                  gt: 0,
+                },
+              },
+            ],
           },
         },
       },
@@ -333,7 +344,6 @@ export async function countProductsWithSearchParams(
 ): Promise<FetchResult<number>> {
   const { sex, categoryNames, brandNames, colorNames, sizeNames } =
     parseProductsSearchParams(slug, searchParams);
-  console.log({ sex, categoryNames, brandNames, colorNames, sizeNames });
   const typedSex = sex as Sex;
 
   try {
@@ -358,7 +368,6 @@ export async function countProductsWithSearchParams(
         },
       },
     });
-    console.log({ result });
     return { success: true, data: result };
   } catch (err) {
     return handleFetchError(
@@ -369,7 +378,7 @@ export async function countProductsWithSearchParams(
 }
 // Fonctions helper
 
-export function addTotalStockToProducts(products: AllProductsWithVariants) {
+export function addTotalStockToProducts(products: ProductsWithVariants) {
   return products.map((product) => {
     const totalStock = product.variants.reduce((acc, variant) => {
       if (!variant.stockQuantity) return acc;

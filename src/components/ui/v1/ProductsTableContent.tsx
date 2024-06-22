@@ -1,9 +1,9 @@
 import { TableBody } from "@/components/ui/table";
 import ProductsTableItem from "./ProductsTableItem";
-import { AllProductsWithStock } from "@/db/queries/products";
+import { ProductsWithStock } from "@/db/queries/products";
 
 type ProductsTableContentProps = {
-  data: AllProductsWithStock;
+  data: ProductsWithStock;
 };
 
 function ProductsTableContent({ data }: ProductsTableContentProps) {

@@ -23,7 +23,7 @@ export function Breadcrumbs({ slug, type = "short" }: BreadcrumbsProps) {
     last || category ? (
       <>
         <BreadcrumbItem>
-          <BreadcrumbLink>
+          <BreadcrumbLink asChild>
             <Link href={paths.storeSex(first)}>{capitalizeString(first)}</Link>
           </BreadcrumbLink>
         </BreadcrumbItem>
@@ -31,7 +31,7 @@ export function Breadcrumbs({ slug, type = "short" }: BreadcrumbsProps) {
         {type === "long" && category && (
           <>
             <BreadcrumbItem>
-              <BreadcrumbLink>
+              <BreadcrumbLink asChild>
                 <Link href={paths.storeCategory(first, category)}>
                   {capitalizeString(decodeURIComponent(category || ""))}
                 </Link>
@@ -47,7 +47,7 @@ export function Breadcrumbs({ slug, type = "short" }: BreadcrumbsProps) {
     <Breadcrumb className="mb-6">
       <BreadcrumbList>
         <BreadcrumbItem>
-          <BreadcrumbLink>
+          <BreadcrumbLink asChild>
             <Link href={paths.customerHome()}>Accueil</Link>
           </BreadcrumbLink>
         </BreadcrumbItem>

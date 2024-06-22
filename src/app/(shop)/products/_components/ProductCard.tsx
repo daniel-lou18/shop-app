@@ -1,15 +1,15 @@
 import { Card, CardContent, CardFooter, CardTitle } from "@/components/ui/card";
 import Image from "next/image";
-import { Brand, Product } from "@prisma/client";
 import Link from "next/link";
 import { centsToEuros } from "@/helpers/helpers";
 import { paths } from "@/lib/paths";
 import { BrandSquare } from "@/types";
 import { cn } from "@/lib/utils";
+import { ProductWithVariants } from "@/db/queries/product";
 export type ProductCardProps = { className?: string } & (
   | {
       type: "product";
-      item: Product & { brand: Brand };
+      item: ProductWithVariants;
     }
   | {
       type: "square";

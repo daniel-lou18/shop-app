@@ -1,6 +1,6 @@
 import {
-  AllProductsWithVariants,
-  fetchAllProductsWithData,
+  ProductsWithVariants,
+  fetchProductsWithData,
 } from "@/db/queries/products";
 import { NextRequest, NextResponse } from "next/server";
 
@@ -8,7 +8,7 @@ export async function GET(request: NextRequest) {
   try {
     const { searchParams } = new URL(request.url);
     const searchParamsObject = Object.fromEntries(searchParams.entries());
-    const result = await fetchAllProductsWithData<AllProductsWithVariants>({
+    const result = await fetchProductsWithData<ProductsWithVariants>({
       orderBy: { ...searchParamsObject },
     });
     if (!result.success) throw new Error(result.error);

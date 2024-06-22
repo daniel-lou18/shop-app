@@ -5,12 +5,12 @@
 // import { usePathname, useRouter, useSearchParams } from "next/navigation";
 // import { Brand, Category } from "@prisma/client";
 // import ProductList from "../../products/_components/ProductList";
-// import { AllProductsWithVariants } from "@/db/queries/products";
+// import { ProductsWithVariants } from "@/db/queries/products";
 
 // type FilterProductListProps = {
 //   type: "category" | "brand";
 //   data: {
-//     products: AllProductsWithVariants;
+//     products: ProductsWithVariants;
 //     availableBrands: Brand[];
 //     availableCategories: Category[];
 //     availableColors: string[];
@@ -35,7 +35,7 @@
 // function FilterProductList({ type, data }: FilterProductListProps) {
 //   const [filterValues, setFilterValues] = useState<string>("");
 //   const [filteredProducts, setFilteredProducts] =
-//     useState<AllProductsWithVariants>(data.products);
+//     useState<ProductsWithVariants>(data.products);
 //   const pathname = usePathname();
 //   const searchParams = useSearchParams();
 //   const router = useRouter();

@@ -1,13 +1,13 @@
 import { columns } from "@/app/admin/products/columns";
 import { DataTable } from "@/app/admin/products/data-table";
 import {
-  AllProductsWithStock,
-  fetchAllProductsWithData,
+  ProductsWithStock,
+  fetchProductsWithData,
 } from "@/db/queries/products";
 import { ProductsTableProps } from "@/app/admin/products/page";
 
 async function ProductsData({ searchParams }: ProductsTableProps) {
-  const result = await fetchAllProductsWithData<AllProductsWithStock>({
+  const result = await fetchProductsWithData<ProductsWithStock>({
     where: {
       sex: searchParams?.sex ? searchParams?.sex : "femme",
       brand: { name: { in: searchParams?.brand?.split(",") } },

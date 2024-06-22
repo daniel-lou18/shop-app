@@ -1,6 +1,6 @@
 "use client";
 
-import { AllProductsWithVariants, Params, TAKE } from "@/db/queries/products";
+import { ProductsWithVariants, Params, TAKE } from "@/db/queries/products";
 import ProductCard from "../../../products/_components/ProductCard";
 import ProductsPagination from "./ProductsPagination";
 import Loader from "@/components/ui/Loader";
@@ -21,7 +21,7 @@ export type AvailableData = {
 };
 
 type ProductsListProps = {
-  products: AllProductsWithVariants;
+  products: ProductsWithVariants;
   count: number;
   params: Params;
 } & { filterData: AvailableData };

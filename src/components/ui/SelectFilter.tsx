@@ -8,11 +8,11 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { AllProductsWithVariants } from "@/db/queries/products";
+import { ProductsWithVariants } from "@/db/queries/products";
 
 type SelectFilterProps = {
   type: "color" | "size" | "brand" | "category";
-  products: AllProductsWithVariants;
+  products: ProductsWithVariants;
 };
 
 const hashMap = { color: "Couleur", size: "Taille" };

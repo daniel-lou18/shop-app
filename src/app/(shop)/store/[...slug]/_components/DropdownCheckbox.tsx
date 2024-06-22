@@ -54,10 +54,7 @@ function DropdownCheckbox({
         <DropdownTrigger style="check" checkedValues={checkedValues}>
           {hashMap[type]}
         </DropdownTrigger>
-        <DropdownMenuContent
-          className="w-48 md:w-56"
-          side={window.innerWidth > 768 ? "bottom" : "right"}
-        >
+        <DropdownMenuContent className="w-48 md:w-56">
           {initialData.map((value) => (
             <CheckboxItem
               key={

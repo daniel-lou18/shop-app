@@ -4,8 +4,8 @@ import { fetchProductWithVariants } from "@/db/queries/product";
 import { fetchProductVariantsByColor } from "@/db/queries/variants";
 import ProductsCarousel from "../../_components/ProductsCarousel";
 import {
-  AllProductsWithData,
-  fetchAllProductsWithData,
+  ProductsWithData,
+  fetchProductsWithData,
   fetchProducts,
 } from "@/db/queries/products";
 import { Breadcrumbs } from "@/components/ui/Breadcrumbs";
@@ -27,13 +27,11 @@ async function ProductDetailsCustomerPage({
   if (!productResult.success) throw new Error(productResult.error);
   if (!variantsResult.success) throw new Error(variantsResult.error);
 
-  const allProductsResult = await fetchAllProductsWithData<AllProductsWithData>(
-    {
-      where: { categoryId: productResult.data.categoryId },
-      include: { brand: true, category: true, variants: false },
-      take: 15,
-    }
-  );
+  const allProductsResult = await fetchProductsWithData<ProductsWithData>({
+    where: { categoryId: productResult.data.categoryId },
+    include: { brand: true, category: true, variants: false },
+    take: 15,
+  });
   const slug = [
     productResult.data.sex,
     productResult.data.category.name,

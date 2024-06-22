@@ -1,6 +1,6 @@
 import {
-  AllProductsWithVariants,
-  fetchAllProductsWithData,
+  ProductsWithVariants,
+  fetchProductsWithData,
 } from "@/db/queries/products";
 import React from "react";
 import Banner from "./_components/Banner";
@@ -18,11 +18,11 @@ import ButtonsGender from "./_components/ButtonsGender";
 import { Button } from "@/components/ui/button";
 
 async function MainContent() {
-  const resultWomen = await fetchAllProductsWithData<AllProductsWithVariants>({
+  const resultWomen = await fetchProductsWithData<ProductsWithVariants>({
     where: { sex: "femme" },
     take: 15,
   });
-  const resultMen = await fetchAllProductsWithData<AllProductsWithVariants>({
+  const resultMen = await fetchProductsWithData<ProductsWithVariants>({
     where: { sex: "homme" },
     take: 15,
   });
