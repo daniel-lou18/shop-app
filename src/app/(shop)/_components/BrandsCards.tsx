@@ -35,7 +35,7 @@ function BrandsCards({ title, items }: BrandsCardsProps) {
   }
 
   return (
-    <div className="px-4 md:px-0 w-full mt-12 md:mt-12">
+    <div className="px-4 sm:px-16 sm:py-8 w-full mt-12 md:mt-12">
       <Tabs value={selectedSex} className="w-full">
         <div className="flex items-center justify-between gap-8 mb-4">
           <PageHeading1 className="text-4xl mb-4">{title}</PageHeading1>

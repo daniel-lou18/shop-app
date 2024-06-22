@@ -13,16 +13,24 @@ import ProductCard from "@/app/(shop)/products/_components/ProductCard";
 import { useState } from "react";
 import { capitalizeString } from "@/lib/parsers";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { cn } from "@/lib/utils";
 
 export type ProductsCarouselProps = {
   title: string;
   items: (Product & { brand: Brand })[];
+  displayTabs?: boolean;
+  className?: string;
 };
 
-function ProductsCarousel({ title, items }: ProductsCarouselProps) {
+function ProductsCarousel({
+  title,
+  items,
+  displayTabs = true,
+  className,
+}: ProductsCarouselProps) {
   const [selectedSex, setSelectedSex] = useState<Sex>("femme");
-  const displayedProducts = items.filter(
-    (product) => product.sex === selectedSex
+  const displayedProducts = items.filter((product) =>
+    displayTabs ? product.sex === selectedSex : product
   );
 
   let content;
@@ -48,21 +56,25 @@ function ProductsCarousel({ title, items }: ProductsCarouselProps) {
     setSelectedSex(sex);
   }
   return (
-    <div className="px-4 md:px-0 w-full mt-4 md:mt-12">
+    <div
+      className={cn("px-4 sm:px-16 sm:py-8 w-full mt-4 md:mt-12", className)}
+    >
       <Tabs value={selectedSex} className="w-full">
         <div className="flex items-center justify-between gap-8 mb-4">
           <PageHeading1 className="text-4xl mb-4">{title}</PageHeading1>
-          <TabsList className="grid w-64 grid-cols-2">
-            {["femme", "homme"].map((sex) => (
-              <TabsTrigger
-                value={sex}
-                key={sex}
-                onClick={() => handleSelectSex(sex as Sex)}
-              >
-                {capitalizeString(sex)}
-              </TabsTrigger>
-            ))}
-          </TabsList>
+          {displayTabs && (
+            <TabsList className="grid w-64 grid-cols-2">
+              {["femme", "homme"].map((sex) => (
+                <TabsTrigger
+                  value={sex}
+                  key={sex}
+                  onClick={() => handleSelectSex(sex as Sex)}
+                >
+                  {capitalizeString(sex)}
+                </TabsTrigger>
+              ))}
+            </TabsList>
+          )}
         </div>
         <TabsContent value={selectedSex}>
           <Carousel

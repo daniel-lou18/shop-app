@@ -11,8 +11,8 @@ function ProductColors({
   variantsByColor: { color: string; imagePath: string | null }[] | undefined;
 }) {
   return (
-    <div className="grid grid-cols-1 gap-2">
-      <p>{`${variantsByColor?.length} Couleurs disponibles`}</p>
+    <div className="grid grid-cols-1 gap-1">
+      <p className="mb-1">{`${variantsByColor?.length} couleurs disponibles :`}</p>
       <ToggleGroup
         type="single"
         variant="default"
@@ -40,6 +40,7 @@ function ProductColors({
           </ToggleGroupItem>
         ))}
       </ToggleGroup>
+      <p className="text-sm">Couleur : {value.toUpperCase()}</p>
     </div>
   );
 }

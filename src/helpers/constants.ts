@@ -1,4 +1,4 @@
-import { paths } from "/home/daniel/projects/personal/shop-app/src/lib/paths";
+import { paths } from "@/lib/paths";
 
 export const BRANDS = {
   men: [

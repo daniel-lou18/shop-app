@@ -80,11 +80,11 @@ function ProductVariantForm({
   }
 
   return (
-    <div className="p-4 md:px-0 md:py-8 grid grid-cols-1 md:grid-cols-5 gap-12 max-w-7xl mx-auto">
+    <div className="grid grid-cols-1 md:grid-cols-8 gap-8">
       <ProductImages availableSizes={availableSizes} />
-      <Card className="border-0 shadow-none flex-1 col-span-2">
+      <Card className="border-0 shadow-none flex-1 col-span-3">
         <CardHeader className="p-0">
-          <CardTitle>{result.brand.name}</CardTitle>
+          <CardTitle>{result.brand.name.toUpperCase()}</CardTitle>
           <h1 className="text-2xl font-bold">{result.name}</h1>
         </CardHeader>
         <CardContent className="px-0 py-4 grid grid-cols-1 gap-4">

@@ -37,25 +37,21 @@ async function MainContent() {
           className="hidden lg:flex gap-4 justify-end md:text-xl"
         />
       </BannerTop>
-      <div className="sm:px-16 sm:py-8">
-        {/* <MainTop /> */}
-        <ProductsCarousel
-          title="Nouveautés"
-          items={[...productsWomen, ...productsMen]}
-        />
-      </div>
+      {/* <MainTop /> */}
+      <ProductsCarousel
+        title="Nouveautés"
+        items={[...productsWomen, ...productsMen]}
+      />
       <Banner data={brandBanner} className="mt-8 md:mt-6">
         <ButtonsGender
           data={brandBanner.buttonsData}
           className="absolute top-1/2 left-1/2 translate-x-[-50%] translate-y-[-50%]"
         />
       </Banner>
-      <div className="sm:px-16 sm:py-8">
-        <BrandsCards
-          title="Marques incontournables"
-          items={[...brandsWomen, ...brandsMen]}
-        />
-      </div>
+      <BrandsCards
+        title="Marques incontournables"
+        items={[...brandsWomen, ...brandsMen]}
+      />
       <Banner data={oceanBanner} className="mt-8 md:mt-6">
         <Button
           variant="secondary"
@@ -64,12 +60,10 @@ async function MainContent() {
           En savoir plus
         </Button>
       </Banner>
-      <div className="sm:px-16 sm:py-8">
-        <ProductsCarousel
-          title="Nos bestsellers"
-          items={[...productsWomen, ...productsMen]}
-        />
-      </div>
+      <ProductsCarousel
+        title="Nos bestsellers"
+        items={[...productsWomen, ...productsMen]}
+      />
     </div>
   );
 }

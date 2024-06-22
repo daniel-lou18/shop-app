@@ -12,11 +12,16 @@ import { Slug } from "@/types";
 import { capitalizeString } from "@/lib/parsers";
 import { paths } from "@/lib/paths";
 
-export function Breadcrumbs({ slug }: { slug: Slug }) {
-  const [sex, category, brand] = slug;
+type BreadcrumbsProps = {
+  slug: Slug;
+  type?: "short" | "long";
+};
+
+export function Breadcrumbs({ slug, type = "short" }: BreadcrumbsProps) {
+  const [sex, category, last] = slug;
 
   let breadcrumbs =
-    brand || category ? (
+    last || category ? (
       <>
         <BreadcrumbItem>
           <BreadcrumbLink>
@@ -24,6 +29,18 @@ export function Breadcrumbs({ slug }: { slug: Slug }) {
           </BreadcrumbLink>
         </BreadcrumbItem>
         <BreadcrumbSeparator />
+        {type === "long" && category && (
+          <>
+            <BreadcrumbItem>
+              <BreadcrumbLink>
+                <Link href={paths.storeCategory(sex, category)}>
+                  {capitalizeString(decodeURIComponent(category || ""))}
+                </Link>
+              </BreadcrumbLink>
+            </BreadcrumbItem>
+            <BreadcrumbSeparator />
+          </>
+        )}
       </>
     ) : null;
 
@@ -39,7 +56,7 @@ export function Breadcrumbs({ slug }: { slug: Slug }) {
         {breadcrumbs}
         <BreadcrumbItem>
           <BreadcrumbPage>
-            {capitalizeString(decodeURIComponent(brand || "")) ||
+            {capitalizeString(decodeURIComponent(last || "")) ||
               capitalizeString(decodeURIComponent(category || "")) ||
               capitalizeString(sex)}
           </BreadcrumbPage>
