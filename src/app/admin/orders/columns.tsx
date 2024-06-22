@@ -24,7 +24,7 @@ export type OrdersTableData = OrderWithItemsAndUser;
 
 export const columns: ColumnDef<OrdersTableData>[] = [
   {
-    accessorKey: "orderItems.at(0)?.variant.imagePath",
+    accessorKey: "orderItems.at(0)?.variant.images.at(0)",
     header: "",
     cell: ({ row }) => {
       const imagePath = row.original.orderItems.at(0)?.variant.images[0];

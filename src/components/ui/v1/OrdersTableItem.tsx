@@ -44,7 +44,7 @@ function OrdersTableItem({ order }: OrdersTableItemProps) {
           alt="Product image"
           className="aspect-square rounded-md object-cover"
           height="64"
-          src={orderItems[0]?.variant.imagePath || "/placeholder.svg"}
+          src={orderItems[0]?.variant.images[0] || "/placeholder.svg"}
           width="64"
         />
       </TableCell>
