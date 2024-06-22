@@ -8,12 +8,11 @@ import {
   BreadcrumbPage,
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
-import { Slug } from "@/types";
 import { capitalizeString } from "@/lib/parsers";
 import { paths } from "@/lib/paths";
 
 type BreadcrumbsProps = {
-  slug: [string, string, string];
+  slug: [string, string | undefined, string | undefined];
   type?: "short" | "long";
 };
 
