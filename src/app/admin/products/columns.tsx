@@ -23,7 +23,7 @@ export type ProductsTableData = ProductsTableItemProps;
 
 export const columns: ColumnDef<ProductsTableData>[] = [
   {
-    accessorKey: "variants.0.imagePath",
+    accessorKey: "variants.0.images.0",
     header: "",
     cell: ({ row }) => {
       const imagePath = row.original.variants.at(0)?.images[0];

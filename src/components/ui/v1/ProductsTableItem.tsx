@@ -53,7 +53,7 @@ function ProductsTableItem({
           alt="Product image"
           className="aspect-square rounded-md object-cover"
           height="64"
-          src={variants.at(0)?.imagePath || "/placeholder.svg"}
+          src={variants.at(0)?.images[0] || "/placeholder.svg"}
           width="64"
         />
       </TableCell>
