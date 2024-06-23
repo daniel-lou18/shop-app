@@ -34,7 +34,7 @@ async function ProductDetailsCustomerPage({
   ];
 
   return (
-    <div className="max-w-7xl mx-auto p-4 md:px-0 md:py-8 ">
+    <div className="max-w-7xl mx-auto p-4 md:px-0 md:pt-8 md:pb-16">
       <Breadcrumbs slug={slug as Slug} type="long" />
       <ProductVariantForm variants={variantsResult.data} />
       <ProductsCarousel

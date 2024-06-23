@@ -30,7 +30,7 @@ async function MainContent() {
   const productsMen = resultMen.success ? resultMen.data : [];
 
   return (
-    <div className="bg-gray-50">
+    <div className="bg-gray-50 pb-16">
       <BannerTop data={mainHero}>
         <ButtonsGender
           data={mainHero.buttonsData}

@@ -20,7 +20,7 @@ async function HeaderCustomer() {
     fetchBrands("homme"),
     fetchBrands("femme"),
   ]);
-  const userData = await fetchUserById(session?.user?.id);
+  const userData = session?.user && (await fetchUserById(session?.user?.id));
 
   if (!categoriesMenResult.success) throw new Error(categoriesMenResult.error);
   if (!categoriesWomenResult.success)
@@ -56,7 +56,7 @@ async function HeaderCustomer() {
         <NavLink href="#">Promotions</NavLink>
       </Navbar>
       <HeaderCustomerRight
-        currentUser={userData.success ? userData.data : null}
+        currentUser={userData && userData.success ? userData.data : null}
       />
     </header>
   );

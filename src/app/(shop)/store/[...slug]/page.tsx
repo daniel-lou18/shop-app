@@ -16,7 +16,7 @@ export default async function ProductsBySlug({
   searchParams,
 }: StoreProps) {
   return (
-    <div className="px-4 sm:px-16 sm:py-8 py-6">
+    <div className="p-4 sm:px-16 sm:pt-8 sm:pb-12">
       <Breadcrumbs slug={params.slug} />
       <PageHeading1>{formatSlugToTitle(params.slug)}</PageHeading1>
       <Suspense fallback={<Loader />}>

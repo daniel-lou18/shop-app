@@ -58,7 +58,7 @@ function SignInFormCustomer() {
                 name="email"
                 id="email"
                 type="email"
-                placeholder="loutje3@mail.com"
+                placeholder="loutje@mail.com"
               />
               <FormFieldError>
                 {formState?.errors?.email?.join(", ")}
