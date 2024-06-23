@@ -58,11 +58,11 @@ export const paths = {
     return "/auth/admin/signup";
   },
   customerSignIn(queryParams?: string) {
-    if (queryParams) return `/auth/user/login?${queryParams}`;
-    return "/auth/user/login";
+    if (queryParams) return `/auth/login?${queryParams}`;
+    return "/auth/login";
   },
   customerSignUp() {
-    return "/auth/user/signup";
+    return "/auth/signup";
   },
   customerSettings() {
     return "/settings";

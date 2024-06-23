@@ -10,6 +10,7 @@ import FormFieldError from "@/components/ui/FormFieldError";
 import { toast } from "sonner";
 import { useEffect } from "react";
 import { paths } from "@/lib/paths";
+import PageHeading1 from "@/components/ui/PageHeading1";
 
 function SignUpFormCustomer() {
   const [formState, action] = useFormState(
@@ -26,11 +27,9 @@ function SignUpFormCustomer() {
   }, [formState]);
 
   return (
-    <form action={action} className="mx-auto max-w-[59rem] flex flex-col">
-      <h2 className="text-xl font-semibold leading-7 text-gray-900">
-        Créer mon compte
-      </h2>
-      <p className="mt-1 text-sm leading-6 text-gray-600">
+    <form action={action} className="mx-auto max-w-[59rem] flex flex-col my-8">
+      <PageHeading1>Creer mon compte</PageHeading1>
+      <p className="text-sm leading-6 text-gray-600">
         Veuillez saisir vos informations personnelles
       </p>
 

@@ -41,6 +41,10 @@ function CartSummary({ user }: { user: ExtendedUser | undefined }) {
 
   async function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
+    if (!user) {
+      router.push(paths.customerSignIn("redirect=/cart"));
+      return;
+    }
     const orderData = items.map((item) => {
       return { variantId: item.id, quantity: item.orderQuantity };
     });

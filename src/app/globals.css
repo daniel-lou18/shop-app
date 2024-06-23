@@ -74,6 +74,20 @@
   right: 0;
 }
 
+.user-connected {
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  opacity: 0.8;
+  border-radius: 50%;
+  width: 0.6rem;
+  height: 0.6rem;
+  padding: 0.2rem;
+  top: 0.15rem;
+  right: 0.15rem;
+}
+
 .checkbox-chevron {
   transition: all 0.2s ease-in-out;
 }

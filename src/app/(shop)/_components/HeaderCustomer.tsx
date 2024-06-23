@@ -5,6 +5,7 @@ import { fetchCategories } from "@/db/queries/categories";
 import { fetchBrands } from "@/db/queries/brands";
 import NavbarMobile from "@/components/ui/NavbarMobile";
 import { auth } from "@/auth";
+import { fetchUserById } from "@/db/queries/user";
 
 async function HeaderCustomer() {
   const session = await auth();
@@ -19,7 +20,7 @@ async function HeaderCustomer() {
     fetchBrands("homme"),
     fetchBrands("femme"),
   ]);
-  // console.log({ sessionServer: session });
+  const userData = await fetchUserById(session?.user?.id);
 
   if (!categoriesMenResult.success) throw new Error(categoriesMenResult.error);
   if (!categoriesWomenResult.success)
@@ -54,7 +55,9 @@ async function HeaderCustomer() {
         </NavLinkMenu>
         <NavLink href="#">Promotions</NavLink>
       </Navbar>
-      <HeaderCustomerRight currentUser={session?.user} />
+      <HeaderCustomerRight
+        currentUser={userData.success ? userData.data : null}
+      />
     </header>
   );
 }

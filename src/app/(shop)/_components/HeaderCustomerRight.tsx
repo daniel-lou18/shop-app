@@ -18,9 +18,10 @@ import Link from "next/link";
 import { paths } from "@/lib/paths";
 import ButtonSignOut from "@/components/ui/ButtonSignOut";
 import { type ExtendedUser } from "@/auth";
+import { User } from "@prisma/client";
 
 type HeaderCustomerRightProps = {
-  currentUser: ExtendedUser | undefined;
+  currentUser: User | null;
 };
 
 function HeaderCustomerRight({ currentUser }: HeaderCustomerRightProps) {
@@ -35,17 +36,20 @@ function HeaderCustomerRight({ currentUser }: HeaderCustomerRightProps) {
     <div className="flex items-center justify-end gap-4 md:gap-2 lg:gap-4 w-[30%]">
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
-          <Button variant="ghost" size="icon" className="rounded-full">
+          <Button variant="ghost" size="icon" className="rounded-full relative">
             <CircleUser strokeWidth={1.25} size={28} />
             <span className="sr-only">Toggle utilisateur</span>
+            {currentUser && <span className="user-connected bg-green-500" />}
           </Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent align="end">
           <DropdownMenuLabel>
-            {!!currentUser ? "HELLO !" : "Mon compte"}
+            {currentUser && currentUser.firstName
+              ? `HELLO, ${currentUser.firstName} !`
+              : "Mon compte"}
           </DropdownMenuLabel>
           <DropdownMenuSeparator />
-          {!!currentUser && (
+          {currentUser && (
             <>
               <DropdownMenuItem className="hover:cursor-pointer">
                 <Link href={paths.customerSettingsAccount()}>Paramètres</Link>
@@ -58,13 +62,18 @@ function HeaderCustomerRight({ currentUser }: HeaderCustomerRightProps) {
           <DropdownMenuItem asChild className="hover:cursor-pointer">
             <Link href={paths.adminSignIn()}>Espace pro</Link>
           </DropdownMenuItem>
+          {!currentUser && (
+            <DropdownMenuItem asChild className="hover:cursor-pointer">
+              <Link href={paths.customerSignUp()}>Créer un compte</Link>
+            </DropdownMenuItem>
+          )}
           <DropdownMenuSeparator />
           {!currentUser && (
             <DropdownMenuItem asChild className="hover:cursor-pointer">
               <Link href={paths.customerSignIn()}>Se connecter</Link>
             </DropdownMenuItem>
           )}
-          {!!currentUser && (
+          {currentUser && (
             <DropdownMenuItem>
               <ButtonSignOut />
             </DropdownMenuItem>

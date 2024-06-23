@@ -45,12 +45,15 @@ function SignInFormCustomer() {
         <CardHeader>
           <CardTitle className="text-2xl">Connexion</CardTitle>
           <CardDescription>
-            Saisissez votre email et votre mot de passe
+            {searchParams.get("redirect") === "/cart" && !formState?.errors
+              ? "Pour poursuivre votre commande, connectez-vous ou créez votre compte"
+              : "Saisissez votre email et votre mot de passe"}
           </CardDescription>
         </CardHeader>
         <CardContent>
           <div className="grid gap-4">
             <div className="grid gap-2">
+              <Label htmlFor="email">Email</Label>
               <Input
                 name="email"
                 id="email"
@@ -63,7 +66,7 @@ function SignInFormCustomer() {
             </div>
             <div className="grid gap-2">
               <div className="flex items-center">
-                <Label htmlFor="password">Password</Label>
+                <Label htmlFor="password">Mot de passe</Label>
                 <Link
                   href="#"
                   className="ml-auto inline-block text-sm underline"
