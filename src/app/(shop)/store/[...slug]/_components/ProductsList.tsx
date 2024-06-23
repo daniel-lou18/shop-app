@@ -1,6 +1,6 @@
 "use client";
 
-import { ProductsWithVariants, Params, TAKE } from "@/db/queries/products";
+import { Params, TAKE } from "@/db/queries/products";
 import ProductCard from "../../../products/_components/ProductCard";
 import ProductsPagination from "./ProductsPagination";
 import Loader from "@/components/ui/Loader";
@@ -10,6 +10,7 @@ import { Brand, Category } from "@prisma/client";
 import { useGetProductsCustomer } from "@/hooks/useGetProductsCustomer";
 import ProductFilters from "./ProductFilters";
 import { Slug } from "@/types";
+import { VariantsWithProduct } from "@/db/queries/variants";
 
 export type AvailableData = {
   availableBrands: Brand[];
@@ -21,14 +22,14 @@ export type AvailableData = {
 };
 
 type ProductsListProps = {
-  products: ProductsWithVariants;
+  variants: VariantsWithProduct;
   count: number;
   params: Params;
 } & { filterData: AvailableData };
 
-function ProductsList({ products, filterData, count }: ProductsListProps) {
-  const { filteredProducts, isLoading, setIsLoading, error, params } =
-    useGetProductsCustomer(products);
+function ProductsList({ variants, filterData, count }: ProductsListProps) {
+  const { filteredVariants, isLoading, setIsLoading, error, params } =
+    useGetProductsCustomer(variants);
   if (error) throw new Error(error);
 
   return (
@@ -49,11 +50,16 @@ function ProductsList({ products, filterData, count }: ProductsListProps) {
       <ul
         className={`${
           isLoading ? "opacity-30" : ""
-        } grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4`}
+        } grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-x-4 gap-y-8`}
       >
-        {filteredProducts.length > 0 ? (
-          filteredProducts.map((product) => (
-            <ProductCard type="product" item={product} key={product.id} />
+        {filteredVariants.length > 0 ? (
+          filteredVariants.map((variant) => (
+            <ProductCard
+              type="variant"
+              item={variant}
+              key={variant.id}
+              className="border border-solid border-gray-100 rounded-sm"
+            />
           ))
         ) : (
           <p>Aucun produit à afficher</p>

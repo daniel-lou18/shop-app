@@ -9,6 +9,7 @@ import {
 import {
   fetchColorsWithProductIds,
   fetchSizesWithProductIds,
+  fetchVariantsByParams,
 } from "@/db/queries/variants";
 import ProductsList from "@/app/(shop)/store/[...slug]/_components/ProductsList";
 import { fetchBrands } from "@/db/queries/brands";
@@ -24,14 +25,14 @@ export default async function ProductsContainer({
   searchParams,
 }: StoreProps) {
   const [
-    productsResult,
+    variantsResult,
     brandsResult,
     categoriesResult,
     countResult,
     allBrandsResult,
     allCategoriesResult,
   ] = await Promise.all([
-    fetchProductsWithParams(params.slug),
+    fetchVariantsByParams(params.slug),
     fetchBrandsWithSlug(params.slug, searchParams),
     fetchCategoriesWithParams(params.slug, searchParams),
     countProductsWithSearchParams(params.slug, searchParams),
@@ -39,17 +40,17 @@ export default async function ProductsContainer({
     fetchCategories(params.slug[0]),
   ]);
 
-  if (!productsResult.success) throw new Error(productsResult.error);
+  if (!variantsResult.success) throw new Error(variantsResult.error);
   if (!countResult.success) throw new Error(countResult.error);
 
-  const products = productsResult.data;
-  const productIds = products.map((product) => product.id);
+  const variants = variantsResult.data;
+  const productIds = variants.map((variant) => variant.productId);
 
-  const variantsResults = await Promise.all([
+  const optionsResults = await Promise.all([
     fetchColorsWithProductIds(productIds),
     fetchSizesWithProductIds(productIds),
   ]);
-  const [colorsResult, sizesResult] = variantsResults;
+  const [colorsResult, sizesResult] = optionsResults;
 
   const filterData = {
     availableBrands: brandsResult.success ? brandsResult.data : [],
@@ -64,7 +65,7 @@ export default async function ProductsContainer({
 
   return (
     <ProductsList
-      products={productsResult.data}
+      variants={variantsResult.data}
       filterData={filterData}
       count={countResult.data}
       params={params}

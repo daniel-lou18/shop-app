@@ -1,4 +1,6 @@
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
+import { VariantsWithProduct } from "@/db/queries/variants";
+import { ProductVariant } from "@prisma/client";
 
 function ProductSizes({
   value,
@@ -7,7 +9,7 @@ function ProductSizes({
 }: {
   value: string;
   onValueChange: (value: string) => void;
-  availableSizes: { size: string; id: string; stockQuantity: number }[];
+  availableSizes: ProductVariant[];
 }) {
   return (
     <div className="grid grid-cols-1 gap-2">

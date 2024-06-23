@@ -1,14 +1,15 @@
 import { usePathname, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
-import { ProductsWithVariants } from "@/db/queries/products";
 import { parsePathParams } from "@/lib/parsers";
+import { VariantsWithProduct } from "@/db/queries/variants";
 
-export function useGetProductsCustomer(products: ProductsWithVariants) {
+export function useGetProductsCustomer(variants: VariantsWithProduct) {
   const searchParams = useSearchParams();
   const path = usePathname();
   const params = parsePathParams(path);
-  const [filteredProducts, setFilteredProducts] =
-    useState<ProductsWithVariants>([...products]);
+  const [filteredVariants, setFilteredVariants] = useState<VariantsWithProduct>(
+    [...variants]
+  );
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [error, setError] = useState<string>("");
 
@@ -23,7 +24,7 @@ export function useGetProductsCustomer(products: ProductsWithVariants) {
           if (resObject?.error) throw new Error(resObject.error);
           else throw new Error("Une erreur est survenue");
         }
-        setFilteredProducts([...resObject]);
+        setFilteredVariants([...resObject]);
       } catch (err) {
         if (err instanceof Error) setError(err.message);
         else setError("Une erreur est survenue");
@@ -36,7 +37,7 @@ export function useGetProductsCustomer(products: ProductsWithVariants) {
   }, [path, searchParams]);
 
   return {
-    filteredProducts,
+    filteredVariants,
     isLoading,
     setIsLoading,
     error,

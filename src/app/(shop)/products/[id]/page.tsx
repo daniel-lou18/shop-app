@@ -1,12 +1,10 @@
 import { notFound } from "next/navigation";
 import ProductVariantForm from "./_components/ProductVariantForm";
-import { fetchProductWithVariants } from "@/db/queries/product";
-import { fetchProductVariantsByColor } from "@/db/queries/variants";
+import { fetchVariantsByProductId } from "@/db/queries/variants";
 import ProductsCarousel from "../../_components/ProductsCarousel";
 import {
-  ProductsWithData,
   fetchProductsWithData,
-  fetchProducts,
+  ProductsWithVariants,
 } from "@/db/queries/products";
 import { Breadcrumbs } from "@/components/ui/Breadcrumbs";
 import { Slug } from "@/types";
@@ -20,31 +18,25 @@ async function ProductDetailsCustomerPage({
   params,
 }: ProductDetailsCustomerPageProps) {
   if (!params.id) notFound();
-  const [productResult, variantsResult] = await Promise.all([
-    fetchProductWithVariants(params.id),
-    fetchProductVariantsByColor(params.id),
-  ]);
-  if (!productResult.success) throw new Error(productResult.error);
+  const variantsResult = await fetchVariantsByProductId(params.id);
   if (!variantsResult.success) throw new Error(variantsResult.error);
 
-  const allProductsResult = await fetchProductsWithData<ProductsWithData>({
-    where: { categoryId: productResult.data.categoryId },
-    include: { brand: true, category: true, variants: false },
+  const allProductsResult = await fetchProductsWithData<ProductsWithVariants>({
+    where: { categoryId: variantsResult.data.at(0)?.product.categoryId },
     take: 15,
   });
   const slug = [
-    productResult.data.sex,
-    productResult.data.category.name,
-    productResult.data.name + " " + productResult.data.brand.name,
+    variantsResult.data.at(0)?.product.sex,
+    variantsResult.data.at(0)?.product.category.name,
+    variantsResult.data.at(0)?.product.name +
+      " " +
+      variantsResult.data.at(0)?.product.brand.name,
   ];
 
   return (
     <div className="max-w-7xl mx-auto p-4 md:px-0 md:py-8 ">
       <Breadcrumbs slug={slug as Slug} type="long" />
-      <ProductVariantForm
-        variantsByColor={variantsResult.data}
-        result={productResult.data}
-      />
+      <ProductVariantForm variants={variantsResult.data} />
       <ProductsCarousel
         title="Vous allez aimer"
         items={allProductsResult.success ? allProductsResult.data : []}

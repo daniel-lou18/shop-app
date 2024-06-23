@@ -1,4 +1,4 @@
-import { fetchProductsWithSearchParams } from "@/db/queries/products";
+import { searchVariantsWithProduct } from "@/db/queries/variants";
 import { parseApiParams, parseApiSearchParams } from "@/lib/parsers";
 import { Slug } from "@/types";
 import { NextRequest, NextResponse } from "next/server";
@@ -8,7 +8,7 @@ export async function GET(request: NextRequest) {
   const parsedParams = parseApiParams(pathname) as Slug;
   const parsedSearchParams = parseApiSearchParams(searchParams);
 
-  const result = await fetchProductsWithSearchParams(
+  const result = await searchVariantsWithProduct(
     parsedParams,
     parsedSearchParams
   );

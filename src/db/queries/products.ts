@@ -125,7 +125,10 @@ export async function fetchProducts(
   }
 }
 
-function parseProductsSearchParams(slug: Slug, searchParams: SearchParams) {
+export function parseProductsSearchParams(
+  slug: Slug,
+  searchParams: SearchParams
+) {
   const [sex, category, brand] = slug;
   const categoryName = category && decodeURIComponent(category);
   const brandName = brand && decodeURIComponent(brand);
@@ -166,7 +169,7 @@ export async function fetchProductsWithParams(
   const brandName = brand && decodeURIComponent(brand);
 
   try {
-    const data = await db.product.findMany({
+    const result = await db.product.findMany({
       where: {
         sex,
         brand: {
@@ -179,9 +182,11 @@ export async function fetchProductsWithParams(
       include: { brand: true, category: true, variants: true },
       take: TAKE,
     });
+    if (!result || result.length === 0)
+      throw new Error("Nous n'avons pas trouvé de produits");
     return {
       success: true,
-      data,
+      data: result,
     };
   } catch (err) {
     return handleFetchError(
@@ -208,11 +213,10 @@ export async function fetchProductsWithSearchParams(
     sortBy,
     page,
   } = parseProductsSearchParams(slug, searchParams);
-  const typedSex = sex as Sex;
   try {
     const data = await db.product.findMany({
       where: {
-        sex: typedSex,
+        sex,
         category: {
           name: { in: categoryNames },
         },

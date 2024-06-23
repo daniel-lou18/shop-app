@@ -16,26 +16,23 @@ import ProductDescription from "./ProductDescription";
 import ProductAccordeon from "./ProductAccordeon";
 import { useCart } from "@/context/cart-context";
 import { useToast } from "@/components/ui/use-toast";
-import { ProductVariantsByColor } from "@/db/queries/variants";
-import { ProductWithVariants } from "@/db/queries/product";
+import { VariantsWithProduct } from "@/db/queries/variants";
 import ButtonSubmit from "@/components/ui/ButtonSubmit";
 import ProductImages from "./ProductImages";
+import { useSearchParams } from "next/navigation";
 
 type ProductVariantFormProps = {
-  result: ProductWithVariants;
-  variantsByColor: ProductVariantsByColor;
+  variants: VariantsWithProduct;
 };
 
-function ProductVariantForm({
-  result,
-  variantsByColor,
-}: ProductVariantFormProps) {
+function ProductVariantForm({ variants }: ProductVariantFormProps) {
+  const searchParams = useSearchParams();
   const { toast } = useToast();
   const [selectedColor, setSelectedColor] = useState<string>(
-    variantsByColor.at(0)!.color || ""
+    searchParams.get("color") || variants.at(0)!.color || ""
   );
   const [availableSizes, setAvailableSizes] = useState<ProductVariant[]>(
-    variantsByColor.at(0)!.variants || []
+    variants.filter((variant) => variant.color === selectedColor) || []
   );
   const [selectedSize, setSelectedSize] = useState<string>("");
   const { addItem } = useCart();
@@ -43,11 +40,11 @@ function ProductVariantForm({
   function handleColorChange(value: string) {
     if (value) {
       setSelectedColor(value);
-      const colorVariant = variantsByColor.find(
+      const colorVariants = variants.filter(
         (variant) => variant.color === value
       );
-      if (colorVariant?.variants) {
-        setAvailableSizes([...colorVariant.variants]);
+      if (colorVariants) {
+        setAvailableSizes([...colorVariants]);
       }
       setSelectedSize("");
     }
@@ -66,13 +63,11 @@ function ProductVariantForm({
         description: "Veuillez choisir une couleur et une taille",
       });
     }
-    const selectedVariantColor = variantsByColor.find(
-      (variant) => variant.color === selectedColor
+    const selectedVariant = variants.find(
+      (variant) =>
+        variant.color === selectedColor && variant.size === selectedSize
     );
-    const selectedVariant = selectedVariantColor?.variants?.find(
-      (variant) => variant.size === selectedSize
-    );
-    selectedVariant && addItem({ ...selectedVariant, product: result });
+    selectedVariant && addItem({ ...selectedVariant });
     toast({
       variant: "green",
       description: "Le produit a été ajouté à votre panier",
@@ -84,8 +79,10 @@ function ProductVariantForm({
       <ProductImages availableSizes={availableSizes} />
       <Card className="border-0 shadow-none flex-1 col-span-3">
         <CardHeader className="p-0">
-          <CardTitle>{result.brand.name.toUpperCase()}</CardTitle>
-          <h1 className="text-2xl font-bold">{result.name}</h1>
+          <CardTitle>
+            {variants.at(0)?.product.brand.name.toUpperCase()}
+          </CardTitle>
+          <h1 className="text-2xl font-bold">{variants.at(0)?.product.name}</h1>
         </CardHeader>
         <CardContent className="px-0 py-4 grid grid-cols-1 gap-4">
           <p className="text-xl text-gray-950 font-semibold">
@@ -94,7 +91,7 @@ function ProductVariantForm({
           <ProductColors
             value={selectedColor}
             onValueChange={handleColorChange}
-            variantsByColor={variantsByColor}
+            variants={variants}
           />
           <ProductSizes
             value={selectedSize}
@@ -110,7 +107,9 @@ function ProductVariantForm({
           >
             Ajouter au panier
           </ButtonSubmit>
-          <ProductDescription productDescription={result.description} />
+          <ProductDescription
+            productDescription={variants.at(0)?.product.description}
+          />
           <ProductAccordeon />
         </CardFooter>
       </Card>

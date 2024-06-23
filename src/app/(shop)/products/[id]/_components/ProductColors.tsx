@@ -1,18 +1,18 @@
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
+import { VariantsWithProduct } from "@/db/queries/variants";
 import Image from "next/image";
 
-function ProductColors({
-  value,
-  onValueChange,
-  variantsByColor,
-}: {
+type ProductColorsProps = {
   value: string;
   onValueChange: (value: string) => void;
-  variantsByColor: { color: string; imagePath: string | null }[] | undefined;
-}) {
+  variants: VariantsWithProduct;
+};
+
+function ProductColors({ value, onValueChange, variants }: ProductColorsProps) {
+  const colors = Array.from(new Set(variants.map((variant) => variant.color)));
   return (
     <div className="grid grid-cols-1 gap-1">
-      <p className="mb-1">{`${variantsByColor?.length} couleurs disponibles :`}</p>
+      <p className="mb-1">{`${colors?.length} couleurs disponibles :`}</p>
       <ToggleGroup
         type="single"
         variant="default"
@@ -20,12 +20,12 @@ function ProductColors({
         value={value}
         onValueChange={onValueChange}
       >
-        {variantsByColor?.map((variant) => (
+        {colors?.map((color) => (
           <ToggleGroupItem
-            value={variant.color}
-            key={variant.color}
+            value={color}
+            key={color}
             className={`p-0 overflow-hidden w-20 h-20 hover:outline hover:outline-2 hover:outline-primary-dark ${
-              variant.color === value
+              color === value
                 ? "outline-none ring-2 ring-ring ring-offset-2"
                 : ""
             }`}
@@ -34,7 +34,10 @@ function ProductColors({
               alt="Product image"
               className="aspect-square w-full object-cover object-top"
               height="150"
-              src={variant.imagePath || "/placeholder.svg"}
+              src={
+                variants.find((variant) => variant.color === color)
+                  ?.images[0] || "/placeholder.svg"
+              }
               width="150"
             />
           </ToggleGroupItem>

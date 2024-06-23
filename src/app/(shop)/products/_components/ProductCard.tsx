@@ -6,6 +6,7 @@ import { paths } from "@/lib/paths";
 import { BrandSquare } from "@/types";
 import { cn } from "@/lib/utils";
 import { ProductWithVariants } from "@/db/queries/product";
+import { VariantWithProduct } from "@/db/queries/variants";
 export type ProductCardProps = { className?: string } & (
   | {
       type: "product";
@@ -15,15 +16,30 @@ export type ProductCardProps = { className?: string } & (
       type: "square";
       item: BrandSquare;
     }
+  | {
+      type: "variant";
+      item: VariantWithProduct;
+    }
 );
 
 function ProductCard({ type, item, className }: ProductCardProps) {
-  const href =
-    type === "product"
-      ? paths.customerProduct(item.id)
-      : paths.storeBrand(item.sex, item.name);
-  const title = type === "product" ? item.brand.name : item.name;
-  const description = type === "product" ? item.name : item.description;
+  let href, title, description, image;
+  if (type === "product") {
+    href = paths.customerProduct(item.id);
+    title = item.brand.name;
+    description = item.name;
+    image = item.imagePath;
+  } else if (type === "square") {
+    href = paths.storeBrand(item.sex, item.name);
+    title = item.name;
+    description = item.description;
+    image = item.imagePath;
+  } else {
+    href = paths.customerProduct(item.productId, `color=${item.color}`);
+    title = item.product.brand.name;
+    description = item.product.name;
+    image = item.images[0];
+  }
 
   return (
     <li className="text-decoration-none">
@@ -39,10 +55,12 @@ function ProductCard({ type, item, className }: ProductCardProps) {
               <Image
                 alt="Product image"
                 className={`${
-                  type === "product" ? "aspect-square" : "h-[550px]"
+                  type === "product" || type === "variant"
+                    ? "aspect-square"
+                    : "h-[550px]"
                 } w-full object-cover object-top overflow-hidden hover:scale-105 transition duration-1000 ease-out`}
                 height="600"
-                src={item.imagePath || "/placeholder.svg"}
+                src={image || "/placeholder.svg"}
                 width="400"
               />
             </CardContent>
