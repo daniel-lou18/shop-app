@@ -1,6 +1,5 @@
 import { fetchAllOrders } from "@/db/queries/orders";
 import { columns } from "./columns";
-import OrdersFilters from "./_components/OrdersFilters";
 import { DataTable } from "@/components/admin/DataTable";
 import TableActionsContainer from "@/components/admin/TableActionsContainer";
 import TableActions from "@/components/admin/TableActions";
