@@ -1,3 +1,5 @@
+"use client";
+
 import Link from "next/link";
 
 import {
@@ -10,6 +12,9 @@ import {
 } from "@/components/ui/breadcrumb";
 import { capitalizeString } from "@/lib/parsers";
 import { paths } from "@/lib/paths";
+import { Button } from "./button";
+import { ChevronLeft } from "lucide-react";
+import { useRouter } from "next/navigation";
 
 type BreadcrumbsProps = {
   slug: [string, string | undefined, string | undefined];
@@ -17,6 +22,7 @@ type BreadcrumbsProps = {
 };
 
 export function Breadcrumbs({ slug, type = "short" }: BreadcrumbsProps) {
+  const router = useRouter();
   const [first, category, last] = slug;
 
   let breadcrumbs =
@@ -44,7 +50,17 @@ export function Breadcrumbs({ slug, type = "short" }: BreadcrumbsProps) {
     ) : null;
 
   return (
-    <Breadcrumb className="mb-6">
+    <Breadcrumb className="mb-6 flex items-center gap-4">
+      <Button
+        type="button"
+        variant="outline"
+        size="icon"
+        className="h-7 w-7"
+        onClick={() => router.back()}
+      >
+        <ChevronLeft className="h-4 w-4" />
+        <span className="sr-only">Retourner</span>
+      </Button>
       <BreadcrumbList>
         <BreadcrumbItem>
           <BreadcrumbLink asChild>

@@ -6,18 +6,20 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
-import { fetchOrder } from "@/db/queries/order";
 import { CreditCard } from "lucide-react";
-import OrderSummaryItem from "./_components/OrderSummaryItem";
+import OrderSummaryItem from "./[id]/_components/OrderSummaryItem";
 import { calculateOrderPrice, centsToEuros } from "@/helpers/helpers";
 import { fetchUserById } from "@/db/queries/user";
+import { fetchAllOrders } from "@/db/queries/orders";
 
-async function OrderSummary({ params }: { params: { id: string } }) {
-  if (!params.id) return null;
-  const res = await fetchOrder(params.id);
-  if (!res.success) throw new Error(res.error);
-  const { orderItems, userId, id, createdAt } = res.data;
-  const totalPrice = calculateOrderPrice(res.data);
+async function OrderSummary() {
+  const result = await fetchAllOrders();
+  if (!result.success) throw new Error(result.error);
+  if (result.data.length === 0) return null;
+
+  const [firstOrder] = result.data;
+  const { orderItems, userId, id, createdAt } = firstOrder;
+  const totalPrice = calculateOrderPrice(firstOrder);
 
   const user = await fetchUserById(userId);
   if (!user.success) throw new Error(user.error);
