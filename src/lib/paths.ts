@@ -77,6 +77,9 @@ export const paths = {
     if (params) return `/orders/${params}`;
     return "/orders";
   },
+  customerOrder(orderId: string) {
+    return `/orders/${orderId}`;
+  },
   cart(queryParams?: string) {
     if (queryParams) return `/cart?${queryParams}`;
     return "/cart";

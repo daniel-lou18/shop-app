@@ -1,7 +1,8 @@
 import { fetchUsersWithOrders } from "@/db/queries/users";
-import CustomersFilters from "./_components/CustomersFilters";
 import { columns } from "./columns";
 import { DataTable } from "@/components/admin/DataTable";
+import TableActionsContainer from "@/components/admin/TableActionsContainer";
+import TableActions from "@/components/admin/TableActions";
 
 const config = {
   title: "Clients",
@@ -18,7 +19,9 @@ async function CustomersTable() {
 
   return (
     <>
-      <CustomersFilters />
+      <TableActionsContainer portalContainerId="customers-search-container">
+        <TableActions buttonText={`Ajouter client`} />
+      </TableActionsContainer>
       <DataTable data={result.data} columns={columns} config={config} />
     </>
   );
