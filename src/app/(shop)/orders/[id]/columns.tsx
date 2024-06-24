@@ -96,8 +96,13 @@ export const columns: ColumnDef<OrdersTableData>[] = [
   },
   {
     id: "actions",
-    cell: ({ row }) => {
+    cell: ({ row, table }) => {
       const order = row.original;
+
+      function handleClick() {
+        table.resetRowSelection();
+        row.toggleSelected(true);
+      }
 
       return (
         <DropdownMenu>
@@ -112,6 +117,7 @@ export const columns: ColumnDef<OrdersTableData>[] = [
             <DropdownMenuSeparator />
             <DropdownMenuItem asChild>
               <Link
+                onClick={handleClick}
                 href={paths.customerOrder(order.id)}
                 className="flex gap-2 items-center"
               >

@@ -29,7 +29,7 @@ async function OrderSummary() {
     <Card className="grid auto-rows-max items-start gap-4 lg:gap-8 overflow-hidden h-fit">
       <CardHeader className="flex flex-row items-start bg-muted/50">
         <div className="grid gap-0.5">
-          <CardTitle className="group flex items-center gap-2 text-lg">
+          <CardTitle className="flex items-center gap-2 text-lg">
             Commande n° {id}
           </CardTitle>
           <CardDescription>

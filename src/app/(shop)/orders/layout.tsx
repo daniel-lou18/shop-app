@@ -4,6 +4,7 @@ import { DataTable } from "@/components/admin/DataTable";
 import TableActionsContainer from "@/components/admin/TableActionsContainer";
 import { ReactNode } from "react";
 import { Breadcrumbs } from "@/components/ui/Breadcrumbs";
+import { DataTableWithRowSelection } from "./_components/DataTableWithRowSelection";
 
 const config = {
   title: "Commandes",
@@ -26,7 +27,11 @@ async function CustomerOrdersPage({ children }: { children: ReactNode }) {
       <Breadcrumbs slug={["Mes commandes", undefined, undefined]} />
       <TableActionsContainer portalContainerId="customer-orders-search-container" />
       <div className="grid gap-4 md:grid-cols-[1fr_425px] lg:gap-8">
-        <DataTable data={result.data} columns={columns} config={config} />
+        <DataTableWithRowSelection
+          data={result.data}
+          columns={columns}
+          config={config}
+        />
         {children}
       </div>
     </div>

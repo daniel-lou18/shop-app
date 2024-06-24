@@ -60,7 +60,13 @@ function HeaderCustomerRight({ currentUser }: HeaderCustomerRightProps) {
             </>
           )}
           <DropdownMenuItem asChild className="hover:cursor-pointer">
-            <Link href={paths.adminSignIn()}>Espace pro</Link>
+            <Link href={paths.adminSignIn()}>
+              Espace pro
+              <span className="font-semibold italic text-gray-500 ml-1">
+                {" "}
+                beta
+              </span>
+            </Link>
           </DropdownMenuItem>
           {!currentUser && (
             <DropdownMenuItem asChild className="hover:cursor-pointer">
