@@ -45,8 +45,9 @@ function BrandsCards({ title, items }: BrandsCardsProps) {
                 value={sex}
                 key={sex}
                 onClick={() => handleSelectSex(sex as Sex)}
+                className="uppercase"
               >
-                {capitalizeString(sex)}
+                {sex}
               </TabsTrigger>
             ))}
           </TabsList>

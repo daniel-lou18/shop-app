@@ -54,8 +54,8 @@ async function MainContent() {
       />
       <Banner data={oceanBanner} className="mt-8 md:mt-6">
         <Button
-          variant="secondary"
-          className="absolute top-1/2 left-1/2 translate-x-[-50%] translate-y-[-50%]"
+          variant="outline"
+          className="absolute top-1/2 left-1/2 translate-x-[-50%] translate-y-[-50%] bg-transparent text-white rounded-sm border-2"
         >
           En savoir plus
         </Button>

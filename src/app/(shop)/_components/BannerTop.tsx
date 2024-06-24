@@ -16,7 +16,7 @@ function BannerTop({ children, data, className }: BannerTopProps) {
   return (
     <section className={className}>
       <div className="w-full h-[500px] relative">
-        <div className="absolute inset-0 bg-gradient-to-b from-gray-100 to-gray-950 opacity-20" />
+        {/* <div className="absolute inset-0 bg-gradient-to-b from-gray-100 to-gray-950 opacity-20" /> */}
         <p className="absolute left-0 top-0 text-white flex flex-col gap-4 px-12 py-8 md:text-3xl font-bold uppercase">
           {title}
         </p>
@@ -24,7 +24,7 @@ function BannerTop({ children, data, className }: BannerTopProps) {
           src={imagePath}
           width={1280}
           height={500}
-          className="w-full h-full object-cover"
+          className="w-full h-full object-cover object-top"
           alt="main hero image"
           priority
         />

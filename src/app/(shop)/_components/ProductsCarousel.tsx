@@ -68,6 +68,7 @@ function ProductsCarousel({
                   value={sex}
                   key={sex}
                   onClick={() => handleSelectSex(sex as Sex)}
+                  className="uppercase"
                 >
                   {capitalizeString(sex)}
                 </TabsTrigger>

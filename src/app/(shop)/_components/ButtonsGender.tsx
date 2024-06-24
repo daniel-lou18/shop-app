@@ -15,8 +15,8 @@ function ButtonsGender({
     >
       {data.map(({ name, href }) => (
         <Button
-          variant="secondary"
-          className="text-base min-w-32"
+          variant="outline"
+          className="text-base min-w-32 bg-transparent rounded-sm text-white uppercase border-2"
           asChild
           key={name}
         >

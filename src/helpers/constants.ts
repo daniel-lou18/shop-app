@@ -62,7 +62,7 @@ export const CATEGORIES = {
 
 export const mainHero = {
   name: "Jusqu'à -40% sur une sélection d'articles",
-  imagePath: "/Large.webp",
+  imagePath: "/Top.webp",
   buttonsData: [
     { name: "Femme", href: paths.storeSex("femme") },
     { name: "Homme", href: paths.storeSex("homme") },
