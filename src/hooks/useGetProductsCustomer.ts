@@ -3,6 +3,12 @@ import { useEffect, useState } from "react";
 import { parsePathParams } from "@/lib/parsers";
 import { VariantsWithProduct } from "@/db/queries/variants";
 
+type FilteredData =
+  | {
+      error: string;
+    }
+  | VariantsWithProduct;
+
 export function useGetProductsCustomer(variants: VariantsWithProduct) {
   const searchParams = useSearchParams();
   const path = usePathname();
@@ -19,16 +25,18 @@ export function useGetProductsCustomer(variants: VariantsWithProduct) {
         setIsLoading(true);
         setError("");
         const res = await fetch(`/api${path}?${searchParams.toString()}`);
-        const resObject = await res.json();
+        const data: FilteredData = await res.json();
         if (!res.ok) {
-          if (resObject?.error) throw new Error(resObject.error);
-          else throw new Error("Une erreur est survenue");
+          throw new Error(
+            (typeof data === "object" && "error" in data && data.error) ||
+              "Une erreur est survenue lors de la récupération des produits"
+          );
         }
-        setFilteredVariants([...resObject]);
+        setFilteredVariants([...(data as VariantsWithProduct)]);
       } catch (err) {
         if (err instanceof Error) setError(err.message);
-        else setError("Une erreur est survenue");
-        console.error(err);
+        else setError("Une erreur inattendue est survenue");
+        console.error("Erreur fetch :", err);
       } finally {
         setIsLoading(false);
       }

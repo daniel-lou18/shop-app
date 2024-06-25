@@ -8,16 +8,22 @@ export async function GET(request: NextRequest) {
   const parsedParams = parseApiParams(pathname) as Slug;
   const parsedSearchParams = parseApiSearchParams(searchParams);
 
-  const result = await searchVariantsWithProduct(
-    parsedParams,
-    parsedSearchParams
-  );
-  if (result.success) return NextResponse.json(result.data, { status: 200 });
-  else
+  try {
+    const result = await searchVariantsWithProduct(
+      parsedParams,
+      parsedSearchParams
+    );
+    if (!result.success) {
+      throw new Error(result.error);
+    }
+    return NextResponse.json(result.data, { status: 200 });
+  } catch (err) {
+    console.error("Erreur lors de la requête GET :", err);
     return NextResponse.json(
-      { error: result.error },
+      { error: err instanceof Error ? err.message : "Erreur interne serveur" },
       {
         status: 500,
       }
     );
+  }
 }
