@@ -11,6 +11,7 @@ import { useGetProductsCustomer } from "@/hooks/useGetProductsCustomer";
 import ProductFilters from "./ProductFilters";
 import { Slug } from "@/types";
 import { VariantsWithProduct } from "@/db/queries/variants";
+import { toast } from "sonner";
 
 export type AvailableData = {
   availableBrands: Brand[];
@@ -30,7 +31,10 @@ type ProductsListProps = {
 function ProductsList({ variants, filterData, count }: ProductsListProps) {
   const { filteredVariants, isLoading, setIsLoading, error, params } =
     useGetProductsCustomer(variants);
-  if (error) throw new Error(error);
+
+  if (error) {
+    toast.error("Une erreur est survenue lors de la récupération des produits");
+  }
 
   return (
     <>

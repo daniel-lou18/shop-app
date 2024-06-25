@@ -8,7 +8,7 @@ import {
   CarouselPrevious,
 } from "@/components/ui/carousel";
 import PageHeading1 from "../../../components/ui/PageHeading1";
-import { Brand, Product, Sex } from "@prisma/client";
+import { Sex } from "@prisma/client";
 import ProductCard from "@/app/(shop)/products/_components/ProductCard";
 import { useState } from "react";
 import { capitalizeString } from "@/lib/parsers";

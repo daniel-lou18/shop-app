@@ -5,7 +5,6 @@ import ProductCard from "@/app/(shop)/products/_components/ProductCard";
 import { BrandSquare } from "@/types";
 import { useState } from "react";
 import { Sex } from "@prisma/client";
-import { capitalizeString } from "@/lib/parsers";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 export type BrandsCardsProps = { title: string; items: BrandSquare[] };
