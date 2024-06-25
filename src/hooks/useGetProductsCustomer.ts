@@ -9,13 +9,12 @@ type FilteredData =
     }
   | VariantsWithProduct;
 
-export function useGetProductsCustomer(variants: VariantsWithProduct) {
+export function useGetProductsCustomer() {
   const searchParams = useSearchParams();
   const path = usePathname();
   const params = parsePathParams(path);
-  const [filteredVariants, setFilteredVariants] = useState<VariantsWithProduct>(
-    [...variants]
-  );
+  const [filteredVariants, setFilteredVariants] =
+    useState<VariantsWithProduct | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [error, setError] = useState<string>("");
 

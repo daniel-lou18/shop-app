@@ -12,6 +12,7 @@ import ProductFilters from "./ProductFilters";
 import { Slug } from "@/types";
 import { VariantsWithProduct } from "@/db/queries/variants";
 import { toast } from "sonner";
+import { SkeletonCard } from "@/components/ui/SkeletonCard";
 
 export type AvailableData = {
   availableBrands: Brand[];
@@ -23,14 +24,13 @@ export type AvailableData = {
 };
 
 type ProductsListProps = {
-  variants: VariantsWithProduct;
   count: number;
   params: Params;
 } & { filterData: AvailableData };
 
-function ProductsList({ variants, filterData, count }: ProductsListProps) {
+function ProductsList({ filterData, count }: ProductsListProps) {
   const { filteredVariants, isLoading, setIsLoading, error, params } =
-    useGetProductsCustomer(variants);
+    useGetProductsCustomer();
 
   if (error) {
     toast.error("Une erreur est survenue lors de la récupération des produits");
@@ -56,7 +56,10 @@ function ProductsList({ variants, filterData, count }: ProductsListProps) {
           isLoading ? "opacity-30" : ""
         } grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-x-4 gap-y-8`}
       >
-        {filteredVariants.length > 0 ? (
+        {filteredVariants === null &&
+          Array.from({ length: TAKE }, (_, i) => <SkeletonCard key={i} />)}
+        {filteredVariants &&
+          filteredVariants.length > 0 &&
           filteredVariants.map((variant) => (
             <ProductCard
               type="variant"
@@ -64,8 +67,8 @@ function ProductsList({ variants, filterData, count }: ProductsListProps) {
               key={variant.id}
               className="border border-solid border-gray-100 rounded-sm"
             />
-          ))
-        ) : (
+          ))}
+        {filteredVariants && filteredVariants.length === 0 && !isLoading && (
           <p>Aucun produit à afficher</p>
         )}
       </ul>

@@ -2,7 +2,6 @@ import {
   Params,
   SearchParams,
   countProductsWithSearchParams,
-  fetchProductsWithParams,
   fetchBrandsWithSlug,
   fetchCategoriesWithParams,
 } from "@/db/queries/products";
@@ -14,6 +13,8 @@ import {
 import ProductsList from "@/app/(shop)/store/[...slug]/_components/ProductsList";
 import { fetchBrands } from "@/db/queries/brands";
 import { fetchCategories } from "@/db/queries/categories";
+import { Suspense } from "react";
+import { SkeletonCard } from "@/components/ui/SkeletonCard";
 
 export type StoreProps = {
   params: Params;
@@ -64,12 +65,23 @@ export default async function ProductsContainer({
   };
 
   return (
-    <ProductsList
-      variants={variantsResult.data}
-      filterData={filterData}
-      count={countResult.data}
-      params={params}
-    />
+    <Suspense
+      fallback={
+        <ul
+          className={`grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-x-4 gap-y-8`}
+        >
+          {Array.from({ length: 16 }, (_, i) => (
+            <SkeletonCard key={i} />
+          ))}
+        </ul>
+      }
+    >
+      <ProductsList
+        filterData={filterData}
+        count={countResult.data}
+        params={params}
+      />
+    </Suspense>
   );
 }
 
