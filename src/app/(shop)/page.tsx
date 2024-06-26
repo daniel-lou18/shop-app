@@ -16,15 +16,16 @@ import ProductsCarousel from "@/app/(shop)/_components/ProductsCarousel";
 import BrandsCards from "./_components/BrandsCards";
 import ButtonsGender from "./_components/ButtonsGender";
 import { Button } from "@/components/ui/button";
+import { VariantsWithProduct, fetchVariants } from "@/db/queries/variants";
 
 async function MainContent() {
-  const resultWomen = await fetchProductsWithData<ProductsWithVariants>({
-    where: { sex: "femme" },
-    take: 15,
+  const resultWomen = await fetchVariants<VariantsWithProduct>({
+    where: { product: { sex: "femme" } },
+    take: 12,
   });
-  const resultMen = await fetchProductsWithData<ProductsWithVariants>({
-    where: { sex: "homme" },
-    take: 15,
+  const resultMen = await fetchVariants<VariantsWithProduct>({
+    where: { product: { sex: "homme" } },
+    take: 12,
   });
   const productsWomen = resultWomen.success ? resultWomen.data : [];
   const productsMen = resultMen.success ? resultMen.data : [];

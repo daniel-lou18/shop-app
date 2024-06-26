@@ -1,6 +1,10 @@
 import { notFound } from "next/navigation";
 import ProductVariantForm from "./_components/ProductVariantForm";
-import { fetchVariantsByProductId } from "@/db/queries/variants";
+import {
+  VariantsWithProduct,
+  fetchVariants,
+  fetchVariantsByProductId,
+} from "@/db/queries/variants";
 import ProductsCarousel from "../../_components/ProductsCarousel";
 import {
   fetchProductsWithData,
@@ -21,8 +25,10 @@ async function ProductDetailsCustomerPage({
   const variantsResult = await fetchVariantsByProductId(params.id);
   if (!variantsResult.success) throw new Error(variantsResult.error);
 
-  const allProductsResult = await fetchProductsWithData<ProductsWithVariants>({
-    where: { categoryId: variantsResult.data.at(0)?.product.categoryId },
+  const relatedVariantsResult = await fetchVariants<VariantsWithProduct>({
+    where: {
+      product: { categoryId: variantsResult.data.at(0)?.product.categoryId },
+    },
     take: 15,
   });
   const slug = [
@@ -39,7 +45,7 @@ async function ProductDetailsCustomerPage({
       <ProductVariantForm variants={variantsResult.data} />
       <ProductsCarousel
         title="Vous allez aimer"
-        items={allProductsResult.success ? allProductsResult.data : []}
+        items={relatedVariantsResult.success ? relatedVariantsResult.data : []}
         displayTabs={false}
         className="sm:p-0 md:mt-20"
       />

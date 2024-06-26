@@ -22,6 +22,43 @@ export type ProductVariantByColor = {
 export type ProductVariantsByColor = ProductVariantByColor[];
 export type VariantWithProduct = ProductVariant & { product: ProductWithData };
 export type VariantsWithProduct = VariantWithProduct[];
+type FetchOptions = {
+  where?: {};
+  include?: {};
+  orderBy?: {};
+  take?: number;
+};
+
+export async function fetchVariants<T>(
+  options?: FetchOptions
+): Promise<FetchResult<T>> {
+  const defaultOptions = {
+    include: { product: { include: { brand: true, category: true } } },
+    orderBy: { size: "desc" },
+    take: TAKE,
+  };
+  const finalOptions = { ...defaultOptions, ...options };
+  try {
+    const result = await db.productVariant.findMany({
+      distinct: ["color", "productId"],
+      where: finalOptions.where,
+      include: finalOptions.include,
+      orderBy: finalOptions.orderBy,
+      take: finalOptions.take,
+    });
+    if (!result || result.length === 0)
+      throw new Error("Nous n'avons pas trouvé de variantes");
+    return {
+      success: true,
+      data: result as unknown as T,
+    };
+  } catch (err) {
+    return handleFetchError(
+      err,
+      "Une erreur est survenue lors de la récupération des variantes"
+    );
+  }
+}
 
 export async function fetchVariantsByParams(
   slug: Slug

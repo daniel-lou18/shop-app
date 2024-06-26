@@ -14,12 +14,11 @@ import { useState } from "react";
 import { capitalizeString } from "@/lib/parsers";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { cn } from "@/lib/utils";
-import { ProductWithVariants } from "@/db/queries/product";
-import { ProductsWithVariants } from "@/db/queries/products";
+import { VariantWithProduct, VariantsWithProduct } from "@/db/queries/variants";
 
 export type ProductsCarouselProps = {
   title: string;
-  items: ProductsWithVariants;
+  items: VariantsWithProduct;
   displayTabs?: boolean;
   className?: string;
 };
@@ -31,8 +30,8 @@ function ProductsCarousel({
   className,
 }: ProductsCarouselProps) {
   const [selectedSex, setSelectedSex] = useState<Sex>("femme");
-  const displayedProducts = items.filter((product) =>
-    displayTabs ? product.sex === selectedSex : product
+  const displayedProducts = items.filter((variant) =>
+    displayTabs ? variant.product.sex === selectedSex : variant
   );
 
   let content;
@@ -45,7 +44,7 @@ function ProductsCarousel({
         className={`basis-1/2 lg:basis-[375px] shadow-md`}
       >
         <div>
-          <ProductCard type="product" item={item as ProductWithVariants} />
+          <ProductCard type="variant" item={item as VariantWithProduct} />
         </div>
       </CarouselItem>
     ));
