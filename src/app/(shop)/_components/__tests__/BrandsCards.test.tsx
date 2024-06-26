@@ -8,6 +8,8 @@ test("should render the title and no cards", () => {
   const title = screen.getByRole("heading");
   const paragraph = screen.getByRole("paragraph");
   const tabs = screen.getAllByRole("tab");
+  const cards = screen.queryAllByRole("listitem");
+  expect(cards).toHaveLength(0);
   expect(title).toHaveTextContent("Title");
   expect(paragraph).toHaveTextContent("Aucun produit à afficher");
   expect(tabs).toHaveLength(2);
@@ -15,13 +17,14 @@ test("should render the title and no cards", () => {
 
 test("tab should switch between men and women", async () => {
   render(<BrandsCards title="Title" items={[]} />);
-  const tabs = screen.getAllByRole("tab");
-  await user.click(tabs[1]);
-  expect(tabs[0]).toHaveAttribute("aria-selected", "false");
-  expect(tabs[1]).toHaveAttribute("aria-selected", "true");
+  const tabMen = screen.getByRole("tab", { name: /homme/i });
+  const tabWomen = screen.getByRole("tab", { name: /femme/i });
+  await user.click(tabMen);
+  expect(tabWomen).toHaveAttribute("aria-selected", "false");
+  expect(tabMen).toHaveAttribute("aria-selected", "true");
 });
 
-test("should render one card", () => {
+test("should render two cards", () => {
   const items = [
     {
       id: 1,

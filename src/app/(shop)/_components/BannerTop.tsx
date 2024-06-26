@@ -5,14 +5,14 @@ type BannerTopProps = {
   children?: ReactNode;
   data: {
     title?: string;
-    name: string;
+    description: string;
     imagePath: string;
   };
   className?: string;
 };
 
 function BannerTop({ children, data, className }: BannerTopProps) {
-  const { title, name, imagePath } = data;
+  const { title, description, imagePath } = data;
   return (
     <section className={className}>
       <div className="w-full h-[500px] relative">
@@ -30,7 +30,7 @@ function BannerTop({ children, data, className }: BannerTopProps) {
         />
         <div className="absolute right-0 bottom-0 w-1/2 h-1/2 flex flex-col justify-between text-white px-12 pt-6 pb-12 text-right">
           <p className="md:text-2xl lg:text-4xl xl:text-5xl font-bold">
-            {name}
+            {description}
           </p>
           {children}
         </div>

@@ -5,6 +5,8 @@ import ProductsContainer from "./_components/ProductsContainer";
 import { Suspense } from "react";
 import Loader from "@/components/ui/Loader";
 import { Breadcrumbs } from "@/components/ui/Breadcrumbs";
+import { SkeletonCard } from "@/components/ui/SkeletonCard";
+import ProductsContainerSkeleton from "./_components/ProductsContainerSkeleton";
 
 export type StoreProps = {
   params: Params;
@@ -19,7 +21,7 @@ export default async function ProductsBySlug({
     <div className="p-4 sm:px-16 sm:pt-8 sm:pb-12">
       <Breadcrumbs slug={params.slug} />
       <PageHeading1>{formatSlugToTitle(params.slug)}</PageHeading1>
-      <Suspense fallback={<Loader />}>
+      <Suspense fallback={<ProductsContainerSkeleton />}>
         <ProductsContainer params={params} searchParams={searchParams} />
       </Suspense>
     </div>
