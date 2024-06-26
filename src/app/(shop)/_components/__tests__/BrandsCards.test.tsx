@@ -44,27 +44,45 @@ expect.extend({
   toContainRole,
 });
 
-test("should render 2 cards", () => {
-  const items = Array.from({ length: 2 }, (_, idx) => ({
-    id: idx,
-    name: "brandName",
+function createListItems(quantity: number) {
+  return Array.from({ length: quantity }, (_, idx) => ({
+    id: idx + 1,
+    name: `brandName-${idx}`,
     sex: "femme",
-    imagePath: "/image.png",
-    description: "description",
+    imagePath: `/imageUrl`,
+    description: `description-${idx}`,
   }));
+}
+
+test("should render information contained in the items correctly", () => {
+  const items = createListItems(1);
+  const item = items[0];
+  render(<BrandsCards title="My title" items={items} />);
+  for (let key in item) {
+    if (key === "id" || key === "sex") {
+      continue;
+    }
+    const value = item[key as keyof typeof item];
+    let element;
+    if (key === "imagePath") {
+      element = screen.getByRole("img");
+      expect(element).toHaveAttribute("alt", "Product image");
+    } else {
+      element = screen.getByText(new RegExp(value.toString()));
+    }
+    expect(element).toBeInTheDocument();
+  }
+});
+
+test("should render 2 cards", () => {
+  const items = createListItems(2);
   render(<BrandsCards title="Title" items={items} />);
   const list = screen.getByRole("list");
   expect(list).toContainRole("listitem", 2);
 });
 
 test("should render 100 cards", () => {
-  const items = Array.from({ length: 100 }, (_, idx) => ({
-    id: idx,
-    name: "brandName",
-    sex: "femme",
-    imagePath: "/image.png",
-    description: "description",
-  }));
+  const items = createListItems(100);
   render(<BrandsCards title="Title" items={items} />);
   const list = screen.getByRole("list");
   expect(list).toContainRole("listitem", 100);
