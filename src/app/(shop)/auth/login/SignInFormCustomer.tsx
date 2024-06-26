@@ -87,9 +87,9 @@ function SignInFormCustomer() {
             <ButtonSubmit className="w-full" formAction={action}>
               Login
             </ButtonSubmit>
-            <div className="pointer-events-none opacity-50">
+            {/* <div className="pointer-events-none opacity-50">
               <ButtonLogin variant="outline" />
-            </div>
+            </div> */}
           </div>
           <div className="mt-4 text-center text-sm">
             Vous n&apos;avez pas encore de compte ?{" "}

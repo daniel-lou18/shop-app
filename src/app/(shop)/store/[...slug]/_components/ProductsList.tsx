@@ -10,7 +10,6 @@ import { Brand, Category } from "@prisma/client";
 import { useGetProductsCustomer } from "@/hooks/useGetProductsCustomer";
 import ProductFilters from "./ProductFilters";
 import { Slug } from "@/types";
-import { VariantsWithProduct } from "@/db/queries/variants";
 import { toast } from "sonner";
 import { SkeletonCard } from "@/components/ui/SkeletonCard";
 
