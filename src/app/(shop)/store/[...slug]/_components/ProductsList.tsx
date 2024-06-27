@@ -1,6 +1,6 @@
 "use client";
 
-import { Params, TAKE } from "@/db/queries/products";
+import { TAKE } from "@/db/queries/products";
 import ProductCard from "../../../products/_components/ProductCard";
 import ProductsPagination from "./ProductsPagination";
 import Loader from "@/components/ui/Loader";
@@ -24,8 +24,8 @@ export type AvailableData = {
 
 type ProductsListProps = {
   count: number;
-  params: Params;
-} & { filterData: AvailableData };
+  filterData: AvailableData;
+};
 
 function ProductsList({ filterData, count }: ProductsListProps) {
   const { filteredVariants, isLoading, setIsLoading, error, params } =
@@ -34,8 +34,6 @@ function ProductsList({ filterData, count }: ProductsListProps) {
   if (error) {
     toast.error("Une erreur est survenue lors de la récupération des produits");
   }
-
-  console.log(filterData);
 
   return (
     <>

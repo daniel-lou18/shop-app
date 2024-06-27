@@ -1,8 +1,7 @@
 import { screen, render, within } from "@testing-library/react";
 import ProductFilters from "../ProductFilters";
-import "@testing-library/jest-dom/extend-expect";
 import { testFilterData } from "@/helpers/testData";
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { usePathname, useSearchParams } from "next/navigation";
 
 jest.mock("next/navigation");
 

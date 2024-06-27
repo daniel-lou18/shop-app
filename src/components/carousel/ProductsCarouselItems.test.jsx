@@ -1,10 +1,10 @@
 import { render, screen } from "@testing-library/react";
 import ProductsCarouselItems from "./ProductsCarouselItems";
-import { testVariantsWithProduct } from "@/helpers/testData";
+import { testVariantsWithProductWomen } from "@/helpers/testData";
 
 function renderComponent() {
   render(
-    <ProductsCarouselItems title="test" items={testVariantsWithProduct} />
+    <ProductsCarouselItems title="test" items={testVariantsWithProductWomen} />
   );
 }
 
