@@ -1,8 +1,4 @@
-import {
-  ProductsWithVariants,
-  fetchProductsWithData,
-} from "@/db/queries/products";
-import React from "react";
+import React, { Suspense } from "react";
 import Banner from "./_components/Banner";
 import {
   mainHero,
@@ -12,24 +8,13 @@ import {
   oceanBanner,
 } from "@/helpers/constants";
 import BannerTop from "./_components/BannerTop";
-import ProductsCarousel from "@/app/(shop)/_components/ProductsCarousel";
 import BrandsCards from "./_components/BrandsCards";
 import ButtonsGender from "./_components/ButtonsGender";
 import { Button } from "@/components/ui/button";
-import { VariantsWithProduct, fetchVariants } from "@/db/queries/variants";
+import ProductsCarousel from "./_components/ProductsCarousel";
+import CarouselSkeleton from "../../components/skeletons/CarouselSkeleton";
 
 async function MainContent() {
-  const resultWomen = await fetchVariants<VariantsWithProduct>({
-    where: { product: { sex: "femme" } },
-    take: 12,
-  });
-  const resultMen = await fetchVariants<VariantsWithProduct>({
-    where: { product: { sex: "homme" } },
-    take: 12,
-  });
-  const productsWomen = resultWomen.success ? resultWomen.data : [];
-  const productsMen = resultMen.success ? resultMen.data : [];
-
   return (
     <div className="bg-gray-50 pb-16">
       <BannerTop data={mainHero}>
@@ -38,11 +23,9 @@ async function MainContent() {
           className="hidden lg:flex gap-4 justify-end md:text-xl"
         />
       </BannerTop>
-      {/* <MainTop /> */}
-      <ProductsCarousel
-        title="Nouveautés"
-        items={[...productsWomen, ...productsMen]}
-      />
+      <Suspense fallback={<CarouselSkeleton />}>
+        <ProductsCarousel title="Nouveautés" />
+      </Suspense>
       <Banner data={brandBanner} className="mt-8 md:mt-6">
         <ButtonsGender
           data={brandBanner.buttonsData}
@@ -61,10 +44,7 @@ async function MainContent() {
           En savoir plus
         </Button>
       </Banner>
-      <ProductsCarousel
-        title="Nos bestsellers"
-        items={[...productsWomen, ...productsMen]}
-      />
+      <ProductsCarousel title="Nos bestsellers" />
     </div>
   );
 }

@@ -29,13 +29,16 @@ function ProductVariantForm({ variants }: ProductVariantFormProps) {
   const searchParams = useSearchParams();
   const { toast } = useToast();
   const [selectedColor, setSelectedColor] = useState<string>(
-    searchParams.get("color") || variants.at(0)!.color || ""
+    searchParams.get("color") || variants[0]?.color || ""
   );
   const [availableSizes, setAvailableSizes] = useState<ProductVariant[]>(
     variants.filter((variant) => variant.color === selectedColor) || []
   );
   const [selectedSize, setSelectedSize] = useState<string>("");
   const { addItem } = useCart();
+
+  if (variants.length === 0)
+    return <p className="mt-8">Aucun produit disponible</p>;
 
   function handleColorChange(value: string) {
     if (value) {
@@ -79,14 +82,12 @@ function ProductVariantForm({ variants }: ProductVariantFormProps) {
       <ProductImages availableSizes={availableSizes} />
       <Card className="border-0 shadow-none flex-1 col-span-3">
         <CardHeader className="p-0">
-          <CardTitle>
-            {variants.at(0)?.product.brand.name.toUpperCase()}
-          </CardTitle>
-          <h1 className="text-2xl font-bold">{variants.at(0)?.product.name}</h1>
+          <CardTitle>{variants[0]?.product.brand.name.toUpperCase()}</CardTitle>
+          <h1 className="text-2xl font-bold">{variants[0]?.product.name}</h1>
         </CardHeader>
         <CardContent className="px-0 py-4 grid grid-cols-1 gap-4">
           <p className="text-xl text-gray-950 font-semibold">
-            {centsToEuros(availableSizes.at(0)?.price || 0)}
+            {centsToEuros(availableSizes[0]?.price || 0)}
           </p>
           <ProductColors
             value={selectedColor}
@@ -108,7 +109,7 @@ function ProductVariantForm({ variants }: ProductVariantFormProps) {
             Ajouter au panier
           </ButtonSubmit>
           <ProductDescription
-            productDescription={variants.at(0)?.product.description}
+            productDescription={variants[0]?.product.description}
           />
           <ProductAccordeon />
         </CardFooter>

@@ -15,12 +15,16 @@ import { fetchUserById } from "@/db/queries/user";
 async function OrderSummary({ params }: { params: { id: string } }) {
   if (!params.id) return null;
   const res = await fetchOrder(params.id);
-  if (!res.success) throw new Error(res.error);
+  if (!res.success) {
+    return <p>Nous n&apos;avons pas retrouvé la commande</p>;
+  }
   const { orderItems, userId, id, createdAt } = res.data;
   const totalPrice = calculateOrderPrice(res.data);
 
   const user = await fetchUserById(userId);
-  if (!user.success) throw new Error(user.error);
+  if (!user.success) {
+    return <p>Nous n&apos;avons pas retrouvé les données de livraison</p>;
+  }
   const { firstName, lastName, address, city, zip } = user.data;
 
   return (

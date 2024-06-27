@@ -17,7 +17,7 @@ import { ChevronLeft } from "lucide-react";
 import { useRouter } from "next/navigation";
 
 type BreadcrumbsProps = {
-  slug: [string, string | undefined, string | undefined];
+  slug: [string | undefined, string | undefined, string | undefined];
   type?: "short" | "long";
 };
 
@@ -30,7 +30,9 @@ export function Breadcrumbs({ slug, type = "short" }: BreadcrumbsProps) {
       <>
         <BreadcrumbItem>
           <BreadcrumbLink asChild>
-            <Link href={paths.storeSex(first)}>{capitalizeString(first)}</Link>
+            <Link href={paths.storeSex(first || "femme")}>
+              {capitalizeString(first)}
+            </Link>
           </BreadcrumbLink>
         </BreadcrumbItem>
         <BreadcrumbSeparator />
@@ -38,7 +40,7 @@ export function Breadcrumbs({ slug, type = "short" }: BreadcrumbsProps) {
           <>
             <BreadcrumbItem>
               <BreadcrumbLink asChild>
-                <Link href={paths.storeCategory(first, category)}>
+                <Link href={paths.storeCategory(first || "femme", category)}>
                   {capitalizeString(decodeURIComponent(category || ""))}
                 </Link>
               </BreadcrumbLink>

@@ -1,4 +1,4 @@
-import { SkeletonCard } from "@/components/ui/SkeletonCard";
+import { SkeletonCard } from "@/components/skeletons/SkeletonCard";
 import { Skeleton } from "@/components/ui/skeleton";
 import React from "react";
 

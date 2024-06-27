@@ -14,15 +14,19 @@ import { fetchAllOrders } from "@/db/queries/orders";
 
 async function OrderSummary() {
   const result = await fetchAllOrders();
-  if (!result.success) throw new Error(result.error);
-  if (result.data.length === 0) return null;
+  if (!result.success) return <p>Nous n&apos;avons pas retrouvé la commande</p>;
+  if (result.data.length === 0) {
+    return <p>Vous n&apos;avez pas encore passé de commandes</p>;
+  }
 
   const [firstOrder] = result.data;
   const { orderItems, userId, id, createdAt } = firstOrder;
   const totalPrice = calculateOrderPrice(firstOrder);
 
   const user = await fetchUserById(userId);
-  if (!user.success) throw new Error(user.error);
+  if (!user.success) {
+    return <p>Nous n&apos;avons pas retrouvé les données de livraison</p>;
+  }
   const { firstName, lastName, address, city, zip } = user.data;
 
   return (

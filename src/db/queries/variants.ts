@@ -46,7 +46,7 @@ export async function fetchVariants<T>(
       orderBy: finalOptions.orderBy,
       take: finalOptions.take,
     });
-    if (!result || result.length === 0)
+    if (!result?.length)
       throw new Error("Nous n'avons pas trouvé de variantes");
     return {
       success: true,
@@ -82,7 +82,7 @@ export async function fetchVariantsByParams(
       orderBy: { product: { brand: { name: "asc" } } },
       take: TAKE,
     });
-    if (!result || result.length === 0)
+    if (!result?.length)
       throw new Error("Nous n'avons pas trouvé de variantes");
     return {
       success: true,
@@ -106,7 +106,7 @@ export async function fetchVariantsByProductId(
       include: { product: { include: { brand: true, category: true } } },
       orderBy: { product: { brand: { name: "asc" } } },
     });
-    if (!result || result.length === 0)
+    if (!result?.length)
       throw new Error("Nous n'avons pas trouvé de variantes");
     return {
       success: true,
@@ -155,7 +155,7 @@ export async function searchVariantsWithProduct(
       skip: TAKE * page,
       take: TAKE,
     });
-    if (!result || result.length === 0)
+    if (!result?.length)
       throw new Error("Nous n'avons pas trouvé de variantes");
     return {
       success: true,
@@ -176,7 +176,7 @@ export async function fetchProductVariantsByColor(
     const variants = await db.productVariant.findMany({
       where: { productId },
     });
-    if (!variants || variants.length === 0)
+    if (!variants?.length)
       throw new Error("Nous n'avons pas trouvé de variantes");
     const variantsByColor = variants.reduce((acc, variant) => {
       const idx = acc.findIndex((item) => item.color === variant.color);

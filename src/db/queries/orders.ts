@@ -66,7 +66,7 @@ export async function fetchAllOrders(): Promise<
       },
       orderBy: { createdAt: "desc" },
     });
-    if (!result || result.length === 0)
+    if (!result?.length)
       throw new Error("Nous n'avons retrouvé aucune commande");
     return { success: true, data: result };
   } catch (err) {

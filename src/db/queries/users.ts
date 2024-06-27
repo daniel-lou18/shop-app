@@ -15,8 +15,7 @@ export type UsersWithOrders = UserWithOrders[];
 export async function fetchUsers(): Promise<FetchResult<Users>> {
   try {
     const result = await db.user.findMany({ orderBy: { name: "asc" } });
-    if (!result || result.length === 0)
-      throw new Error("Nous n'avons pas trouvé de clients");
+    if (!result?.length) throw new Error("Nous n'avons pas trouvé de clients");
     return {
       success: true,
       data: result,
@@ -36,8 +35,7 @@ export async function fetchUsersWithOrders(searchParams?: {}): Promise<
         orders: { include: { orderItems: { include: { variant: true } } } },
       },
     });
-    if (!result || result.length === 0)
-      throw new Error("Nous n'avons pas trouvé de clients");
+    if (!result?.length) throw new Error("Nous n'avons pas trouvé de clients");
     return {
       success: true,
       data: result,

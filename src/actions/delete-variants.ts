@@ -17,7 +17,7 @@ export async function deleteVariants(
   variantIds: string[],
   formState: DeleteVariantsSchemaType
 ): Promise<DeleteVariantsSchemaType> {
-  if (!productId || !variantIds || variantIds.length === 0) {
+  if (!productId || !variantIds?.length) {
     return { success: false, errors: { _form: ["Id(s) manquant(s)"] } };
   }
 

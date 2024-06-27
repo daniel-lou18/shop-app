@@ -31,7 +31,7 @@ export async function editVariants(
   formData: FormData
 ): Promise<EditVariantsSchemaType> {
   if (!productId) return { success: false, errors: { _form: ["Id manquant"] } };
-  if (!variantIds || variantIds.length === 0)
+  if (!variantIds?.length)
     return { success: false, errors: { _form: ["Id(s) manquant(s)"] } };
 
   const data = {

@@ -5,8 +5,8 @@ import ProductsContainer from "./_components/ProductsContainer";
 import { Suspense } from "react";
 import Loader from "@/components/ui/Loader";
 import { Breadcrumbs } from "@/components/ui/Breadcrumbs";
-import { SkeletonCard } from "@/components/ui/SkeletonCard";
-import ProductsContainerSkeleton from "./_components/ProductsContainerSkeleton";
+import { SkeletonCard } from "@/components/skeletons/SkeletonCard";
+import ProductsContainerSkeleton from "../../../../components/skeletons/ProductsContainerSkeleton";
 
 export type StoreProps = {
   params: Params;

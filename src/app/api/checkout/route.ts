@@ -12,7 +12,7 @@ export async function POST(request: Request) {
   const orderIds = orderData.map((item) => item.variantId);
 
   try {
-    if (!orderData || orderData.length === 0 || !userId) {
+    if (!orderData?.length || !userId) {
       throw new Error("Commande invalide");
     }
     const variants = await db.productVariant.findMany({

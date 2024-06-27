@@ -11,7 +11,7 @@ import { useGetProductsCustomer } from "@/hooks/useGetProductsCustomer";
 import ProductFilters from "./ProductFilters";
 import { Slug } from "@/types";
 import { toast } from "sonner";
-import { SkeletonCard } from "@/components/ui/SkeletonCard";
+import { SkeletonCard } from "@/components/skeletons/SkeletonCard";
 
 export type AvailableData = {
   availableBrands: Brand[];
@@ -34,6 +34,8 @@ function ProductsList({ filterData, count }: ProductsListProps) {
   if (error) {
     toast.error("Une erreur est survenue lors de la récupération des produits");
   }
+
+  console.log(filterData);
 
   return (
     <>

@@ -16,7 +16,7 @@ function BrandsCards({ title, items }: BrandsCardsProps) {
   );
 
   let content;
-  if (!items || items.length === 0) {
+  if (!items?.length) {
     content = <p>Aucun produit à afficher</p>;
   } else {
     content = displayedProducts.map((item, index) => (

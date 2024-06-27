@@ -56,8 +56,7 @@ export async function fetchProductsWithData<T>(
       take: finalOptions.take,
     });
 
-    if (!result || result.length === 0)
-      throw new Error("Nous n'avons retrouvé aucun produit");
+    if (!result?.length) throw new Error("Nous n'avons retrouvé aucun produit");
 
     const data = finalOptions.addTotalStock
       ? addTotalStockToProducts(result as ProductsWithVariants)
@@ -87,7 +86,7 @@ export async function fetchProductsWithTotalStockByIds(
         variants: true,
       },
     });
-    if (!result || result.length === 0)
+    if (!result?.length)
       throw new Error(
         "Nous n'avons pas trouvé de produits correspondants aux ids"
       );
@@ -182,8 +181,7 @@ export async function fetchProductsWithParams(
       include: { brand: true, category: true, variants: true },
       take: TAKE,
     });
-    if (!result || result.length === 0)
-      throw new Error("Nous n'avons pas trouvé de produits");
+    if (!result?.length) throw new Error("Nous n'avons pas trouvé de produits");
     return {
       success: true,
       data: result,

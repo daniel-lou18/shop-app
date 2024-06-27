@@ -37,7 +37,7 @@ function DropdownCheckbox({
 }: SelectFilterProps) {
   const { checkedValues, handleCheck, handleUncheck } =
     useCheckProductsCustomer(type, setIsLoading);
-  if (!data || data.length === 0) return null;
+  if (!data?.length) return null;
 
   function isDisabled(type: string, value: Category | Brand | string) {
     if (type === "brand" || type === "category") {

@@ -18,7 +18,7 @@ type SelectFilterProps = {
 const hashMap = { color: "Couleur", size: "Taille" };
 
 async function SelectFilter({ type, products }: SelectFilterProps) {
-  if (!products || products.length === 0) return null;
+  if (!products?.length) return null;
   const availableVariants = products.flatMap((product) => product.variants);
   const availableSizes = availableVariants.reduce((acc, variant) => {
     if (acc.includes(variant.size)) return acc;

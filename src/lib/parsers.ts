@@ -24,7 +24,7 @@ export function formatSlugToTitle(slug: Slug) {
 
   if (decodedBrand)
     title = `Brandstore ${capitalizeString(decodedBrand)} ${sex}`;
-  else if (!decodedBrand && !decodedCategory) title = `Vêtemens ${sex}`;
+  else if (!decodedBrand && !decodedCategory) title = `Vêtements ${sex}`;
   else title = `${capitalizeString(decodedCategory)} ${sex}`;
 
   return title;

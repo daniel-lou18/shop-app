@@ -23,6 +23,15 @@ function ProductFilters({ data, setIsLoading, slug }: ProductFiltersProps) {
     initialBrands,
     initialCategories,
   } = data;
+  if (
+    !availableBrands ||
+    !availableCategories ||
+    !availableColors ||
+    !availableSizes ||
+    !initialBrands ||
+    !initialCategories
+  )
+    return null;
   const [_, category, brand] = slug;
   const showCategoryFilter = category === "brandstore" || (!category && !brand);
   const showBrandFilter = !brand;

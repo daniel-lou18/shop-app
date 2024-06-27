@@ -5,11 +5,7 @@ import {
   fetchVariants,
   fetchVariantsByProductId,
 } from "@/db/queries/variants";
-import ProductsCarousel from "../../_components/ProductsCarousel";
-import {
-  fetchProductsWithData,
-  ProductsWithVariants,
-} from "@/db/queries/products";
+import ProductsCarouselItems from "../../../../components/carousel/ProductsCarouselItems";
 import { Breadcrumbs } from "@/components/ui/Breadcrumbs";
 import { Slug } from "@/types";
 
@@ -17,33 +13,34 @@ type ProductDetailsCustomerPageProps = {
   params: {
     id: string;
   };
+  searchParams: {
+    color: string;
+  };
 };
 async function ProductDetailsCustomerPage({
   params,
+  searchParams,
 }: ProductDetailsCustomerPageProps) {
   if (!params.id) notFound();
   const variantsResult = await fetchVariantsByProductId(params.id);
-  if (!variantsResult.success) throw new Error(variantsResult.error);
-
+  const variants = variantsResult.success ? variantsResult.data : [];
   const relatedVariantsResult = await fetchVariants<VariantsWithProduct>({
     where: {
-      product: { categoryId: variantsResult.data.at(0)?.product.categoryId },
+      product: { categoryId: variants[0]?.product.categoryId },
     },
     take: 15,
   });
   const slug = [
-    variantsResult.data.at(0)?.product.sex,
-    variantsResult.data.at(0)?.product.category.name,
-    variantsResult.data.at(0)?.product.name +
-      " " +
-      variantsResult.data.at(0)?.product.brand.name,
+    variants[0]?.product.sex,
+    variants[0]?.product.category.name,
+    variants[0]?.product.name + " " + variants[0]?.product.brand.name,
   ];
 
   return (
     <div className="max-w-7xl mx-auto p-4 md:px-0 md:pt-8 md:pb-16">
       <Breadcrumbs slug={slug as Slug} type="long" />
-      <ProductVariantForm variants={variantsResult.data} />
-      <ProductsCarousel
+      <ProductVariantForm variants={variants} key={searchParams.color} />
+      <ProductsCarouselItems
         title="Vous allez aimer"
         items={relatedVariantsResult.success ? relatedVariantsResult.data : []}
         displayTabs={false}

@@ -16,8 +16,9 @@ const config = {
 
 async function CustomerOrdersPage({ children }: { children: ReactNode }) {
   const result = await fetchAllOrders();
-  if (!result.success) throw new Error(result.error);
-
+  if (!result.success) {
+    return <p>Nous n&apos;avons pas trouvé de commandes</p>;
+  }
   if (result.data.length === 0) {
     return <p>Vous n&apos;avez pas encore passé de commandes</p>;
   }
