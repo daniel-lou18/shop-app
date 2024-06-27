@@ -62,13 +62,7 @@ export default async function ProductsContainer({
       : [],
   };
 
-  return (
-    <ProductsList
-      filterData={filterData}
-      count={countResult.data}
-      params={params}
-    />
-  );
+  return <ProductsList filterData={filterData} count={countResult.data} />;
 }
 
 // export async function generateStaticParams() {
