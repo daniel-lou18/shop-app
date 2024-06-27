@@ -75,7 +75,7 @@ function ProductCard({ type, item, className }: ProductCardProps) {
               >
                 {description}
               </div>
-              {type === "product" && (
+              {(type === "product" || type === "variant") && (
                 <div className="text-base font-semibold text-gray-950">
                   {centsToEuros(item.price)}
                 </div>
