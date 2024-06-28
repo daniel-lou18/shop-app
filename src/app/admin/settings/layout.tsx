@@ -1,6 +1,6 @@
 import SidebarLayout from "@/components/ui/SidebarLayout";
 import Sidebar from "@/components/ui/Sidebar";
-import NavLink from "@/components/ui/NavLink";
+import NavLink from "@/components/layout/navigation/NavLink";
 import { paths } from "@/lib/paths";
 import { ReactNode } from "react";
 

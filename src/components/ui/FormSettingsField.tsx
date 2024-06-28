@@ -1,5 +1,5 @@
 import InputField, { InputFieldProps } from "@/components/ui/InputField";
-import FormFieldError from "@/components/ui/FormFieldError";
+import FormFieldError from "@/components/error/FormFieldError";
 
 type FormSettingsFieldProps = {
   name: string;

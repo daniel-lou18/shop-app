@@ -1,6 +1,6 @@
 "use client";
 
-import ErrorPage, { ErrorPageProps } from "@/components/ui/ErrorPage";
+import ErrorPage, { ErrorPageProps } from "@/components/error/ErrorPage";
 
 function ErrorPageRoot(props: ErrorPageProps) {
   return <ErrorPage {...props} />;

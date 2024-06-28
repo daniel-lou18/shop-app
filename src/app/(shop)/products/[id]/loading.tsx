@@ -1,5 +1,4 @@
-import Loader from "@/components/ui/Loader";
-import { Skeleton } from "@/components/ui/skeleton";
+import { Skeleton } from "@/components/skeletons/skeleton";
 import { Loader2 } from "lucide-react";
 
 function ProductsLoading() {

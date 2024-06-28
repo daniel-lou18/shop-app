@@ -8,7 +8,7 @@ import { paths } from "@/lib/paths";
 import HeaderAdminDropdown from "./HeaderAdminDropdown";
 import HeaderLogo from "@/components/ui/HeaderLogo";
 import { headerAdminLinks } from "@/helpers/constants";
-import NavLink from "@/components/ui/NavLink";
+import NavLink from "@/components/layout/navigation/NavLink";
 
 function HeaderAdmin() {
   return (

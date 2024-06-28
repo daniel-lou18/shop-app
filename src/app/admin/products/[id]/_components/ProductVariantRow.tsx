@@ -12,7 +12,7 @@ import ProductVariantSizes from "./ProductVariantSizes";
 import { ProductVariantByColor } from "@/db/queries/variants";
 import { useFormState, useFormStatus } from "react-dom";
 import { toast } from "sonner";
-import FormFieldError from "@/components/ui/FormFieldError";
+import FormFieldError from "@/components/error/FormFieldError";
 
 type ProductVariantRowProps = {
   variant: ProductVariantByColor;

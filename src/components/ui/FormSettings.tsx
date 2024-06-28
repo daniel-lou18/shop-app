@@ -5,7 +5,7 @@ import InputField, { InputFieldProps } from "@/components/ui/InputField";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { useFormState } from "react-dom";
-import FormFieldError from "@/components/ui/FormFieldError";
+import FormFieldError from "@/components/error/FormFieldError";
 import { toast } from "sonner";
 import { useEffect } from "react";
 import { paths } from "@/lib/paths";

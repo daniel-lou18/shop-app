@@ -1,5 +1,5 @@
 import { SkeletonCard } from "@/components/skeletons/SkeletonCard";
-import { Skeleton } from "@/components/ui/skeleton";
+import { Skeleton } from "./skeleton";
 import React from "react";
 
 function CarouselSkeleton() {

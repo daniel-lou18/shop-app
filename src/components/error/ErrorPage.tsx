@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { Button } from "./button";
+import { Button } from "../ui/button";
 import { paths } from "@/lib/paths";
 
 export type ErrorPageProps = {

@@ -9,3 +9,9 @@ export type BrandSquare = {
   imagePath: string;
   description: string;
 };
+
+export type MenuImages = {
+  name: string;
+  imageSrc: string;
+  href: string;
+}[];

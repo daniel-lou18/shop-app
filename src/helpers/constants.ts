@@ -197,3 +197,126 @@ export const headerAdminLinks = [
   { href: paths.adminCustomers(), text: "Clients" },
   { href: paths.adminSettingsAccount(), text: "Paramètres" },
 ];
+
+export const navigation = {
+  categories: [
+    {
+      id: "women",
+      name: "Femme",
+      featured: [
+        {
+          name: "Nouvelle collection robes",
+          href: "#",
+          imageSrc: "/robe_bleu_lunettes.webp",
+          imageAlt:
+            "Models sitting back to back, wearing Basic Tee in black and bone.",
+        },
+        {
+          name: "T-shirts en cotton bio",
+          href: "#",
+          imageSrc: "/t-shirt-manches-courtes-ecru-femme.webp",
+          imageAlt:
+            "Close up of Basic Tee fall bundle with off-white, ochre, olive, and black tees.",
+        },
+      ],
+      sections: [
+        {
+          id: "categories",
+          name: "Catégories",
+          items: [
+            { name: "Chemises et blouses", href: "#" },
+            { name: "Jeans", href: "#" },
+            { name: "Jupes", href: "#" },
+            { name: "Lingerie", href: "#" },
+            { name: "Maillots de bain", href: "#" },
+            { name: "Pantalons", href: "#" },
+            { name: "Pulls et gilets", href: "#" },
+            { name: "Robes", href: "#" },
+            { name: "Sweats et hoodies", href: "#" },
+            { name: "Tops et t-shirts", href: "#" },
+            { name: "Vestes et manteaux", href: "#" },
+          ],
+        },
+        {
+          id: "brands",
+          name: "Marques",
+          items: [
+            { name: "Maje", href: "#" },
+            { name: "Sandro", href: "#" },
+            { name: "Claudie Pierlot", href: "#" },
+            { name: "The Kooples", href: "#" },
+            { name: "American Vintage", href: "#" },
+            { name: "Zadig&Voltaire", href: "#" },
+            { name: "Soeur", href: "#" },
+            { name: "Sessùn", href: "#" },
+            { name: "Tommy Hilfiger", href: "#" },
+            { name: "Morgan", href: "#" },
+            { name: "IKKS Women", href: "#" },
+          ],
+        },
+      ],
+    },
+    {
+      id: "men",
+      name: "Homme",
+      featured: [
+        {
+          name: "Chemises d'été",
+          href: "#",
+          imageSrc: "/Sandro_SHPCM01004-B295_V_1.webp",
+          imageAlt:
+            "Drawstring top with elastic loop closure and textured interior padding.",
+        },
+        {
+          name: "Nouvelle collection shorts",
+          href: "#",
+          imageSrc: "/short_homme.jpg",
+          imageAlt:
+            "Three shirts in gray, white, and blue arranged on table with same line drawing of hands and shapes overlapping on front of shirt.",
+        },
+      ],
+      sections: [
+        {
+          id: "categories",
+          name: "Catégories",
+          items: [
+            { name: "T-shirts et polos", href: "#" },
+            { name: "Vestes et manteaux", href: "#" },
+            { name: "Pantalons", href: "#" },
+            { name: "Jeans", href: "#" },
+            { name: "Chemises", href: "#" },
+            { name: "Sweats", href: "#" },
+            { name: "Pulls et gilets", href: "#" },
+            { name: "Sous-vêtements", href: "#" },
+            { name: "Tenues de sport", href: "#" },
+            { name: "Doudounes", href: "#" },
+            { name: "Shorts et bermudas", href: "#" },
+            { name: "Shorts et slips de bain", href: "#" },
+          ],
+        },
+        {
+          id: "brands",
+          name: "Marques",
+          items: [
+            { name: "Gucci", href: "#" },
+            { name: "Boss", href: "#" },
+            { name: "K-Way", href: "#" },
+            { name: "Lacoste", href: "#" },
+            { name: "Levi's", href: "#" },
+            { name: "Tommy Hilfiger", href: "#" },
+            { name: "Jack & Jones", href: "#" },
+            { name: "Polo Ralph Lauren", href: "#" },
+            { name: "Balenciaga", href: "#" },
+            { name: "Marvin&Co", href: "#" },
+            { name: "Schott", href: "#" },
+            { name: "Sandro", href: "#" },
+          ],
+        },
+      ],
+    },
+  ],
+  pages: [
+    { name: "Nouveautés", href: "#" },
+    { name: "Promotions", href: "#" },
+  ],
+};

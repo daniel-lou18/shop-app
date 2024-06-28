@@ -15,7 +15,7 @@ import ProductImageUpload from "@/components/ui/ProductImageUpload";
 import { notFound } from "next/navigation";
 import { AddProductSchemaType } from "@/actions/add-product";
 import SelectMenu from "@/components/ui/SelectMenu";
-import FormFieldError from "@/components/ui/FormFieldError";
+import FormFieldError from "@/components/error/FormFieldError";
 
 export type ProductDetailsProps = {
   type: "add" | "edit";

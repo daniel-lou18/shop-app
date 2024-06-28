@@ -2,7 +2,7 @@
 
 import { useSession } from "next-auth/react";
 import { ReactNode } from "react";
-import ErrorPage from "../ui/ErrorPage";
+import ErrorPage from "../error/ErrorPage";
 import { UserRole } from "@prisma/client";
 import { ExtendedUser } from "@/auth";
 

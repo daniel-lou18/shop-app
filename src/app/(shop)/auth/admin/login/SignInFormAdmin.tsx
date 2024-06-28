@@ -17,7 +17,7 @@ import ButtonSubmit from "@/components/ui/ButtonSubmit";
 import { useFormState } from "react-dom";
 import { useEffect } from "react";
 import { toast } from "sonner";
-import FormFieldError from "@/components/ui/FormFieldError";
+import FormFieldError from "@/components/error/FormFieldError";
 import { paths } from "@/lib/paths";
 import { useSearchParams } from "next/navigation";
 
