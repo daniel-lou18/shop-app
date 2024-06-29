@@ -23,49 +23,30 @@ async function HeaderCustomer() {
   ]);
   const userData = session?.user && (await fetchUserById(session?.user?.id));
 
-  if (!categoriesMenResult.success) throw new Error(categoriesMenResult.error);
-  if (!categoriesWomenResult.success)
-    throw new Error(categoriesWomenResult.error);
-  if (!brandsMenResult.success) throw new Error(brandsMenResult.error);
-  if (!brandsWomenResult.success) throw new Error(brandsWomenResult.error);
-
-  const navigationData = createNavigationData(
-    [
-      {
-        dataId: "femme",
-        sections: [
-          {
-            id: "categories",
-            name: "Catégories",
-            items: [...categoriesWomenResult.data],
-          },
-          { id: "brands", name: "Marques", items: [...brandsWomenResult.data] },
-        ],
-      },
-      {
-        dataId: "homme",
-        sections: [
-          {
-            id: "categories",
-            name: "Catégories",
-            items: [...categoriesMenResult.data],
-          },
-          { id: "brands", name: "Marques", items: [...brandsMenResult.data] },
-        ],
-      },
-    ],
-    navigationInitialData
-  );
-
   return (
     <header className="sticky z-10 top-0 flex h-16 items-center gap-4 border-b border-border/60 bg-background/90 backdrop-blur justify-between p-4 sm:px-0 sm:py-0">
       <NavbarMobile
-        categoriesMen={categoriesMenResult.data}
-        categoriesWomen={categoriesWomenResult.data}
-        brandsMen={brandsMenResult.data}
-        brandsWomen={brandsWomenResult.data}
+        categoriesMen={
+          categoriesMenResult.success ? categoriesMenResult.data : []
+        }
+        categoriesWomen={
+          categoriesWomenResult.success ? categoriesWomenResult.data : []
+        }
+        brandsMen={brandsMenResult.success ? brandsMenResult.data : []}
+        brandsWomen={brandsWomenResult.success ? brandsWomenResult.data : []}
       />
-      <Navbar data={navigationData} />
+      <Navbar
+        fetchedData={{
+          categoriesMen: categoriesMenResult.success
+            ? categoriesMenResult.data
+            : [],
+          categoriesWomen: categoriesWomenResult.success
+            ? categoriesWomenResult.data
+            : [],
+          brandsMen: brandsMenResult.success ? brandsMenResult.data : [],
+          brandsWomen: brandsWomenResult.success ? brandsWomenResult.data : [],
+        }}
+      />
       <HeaderCustomerRight
         currentUser={userData && userData.success ? userData.data : null}
       />
