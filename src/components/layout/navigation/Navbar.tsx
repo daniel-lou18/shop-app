@@ -11,16 +11,21 @@ import {
   NavigationMenuTrigger,
   navigationMenuTriggerStyle,
 } from "@/components/layout/navigation/navigation-menu";
-import { AllCategories } from "@/db/queries/categories";
-import { AllBrands } from "@/db/queries/brands";
 import SubNav from "./SubNav";
 import Image from "next/image";
-import { MenuImages } from "@/types";
+import HeaderLogo from "@/components/ui/HeaderLogo";
+import { navigationInitialData } from "@/helpers/constants";
 
-export function Navbar({ children }: { children: React.ReactNode }) {
+export function Navbar({ data }: { data: typeof navigationInitialData }) {
+  if (!data?.length) return null;
   return (
     <NavigationMenu>
-      <NavigationMenuList className="gap-4">{children}</NavigationMenuList>
+      <NavigationMenuList className="gap-4">
+        <HeaderLogo className="mr-8" />
+        {data.map((dataElement) => (
+          <NavLinkMenu key={dataElement.id} data={dataElement} />
+        ))}
+      </NavigationMenuList>
     </NavigationMenu>
   );
 }
@@ -48,52 +53,40 @@ export function NavLink({
 }
 
 export function NavLinkMenu({
-  children,
-  categories,
-  brands,
-  images,
+  data,
 }: {
-  children: string;
-  categories: AllCategories;
-  brands: AllBrands;
-  images: MenuImages;
+  data: (typeof navigationInitialData)[number];
 }) {
   return (
     <NavigationMenuItem>
       <NavigationMenuTrigger asChild>
-        <Link
-          href={`/store/${children.toLowerCase()}`}
-          className="uppercase text-sm"
-        >
-          {children}
+        <Link href={`/store/${data.id}`} className="uppercase text-sm">
+          {data.name}
         </Link>
       </NavigationMenuTrigger>
       <NavigationMenuContent>
         <ul className="grid gap-16 px-16 py-10 md:w-[400px] lg:w-screen lg:grid-cols-[1fr_1fr_1fr_1fr_1fr]">
-          <SubNav items={categories} title="Catégories">
-            {children}
-          </SubNav>
-          <SubNav items={brands} title="Marques">
-            {children}
-          </SubNav>
-          {images.map((image, idx) => (
-            <li key={idx} className="flex items-center">
-              <div key={image.name} className="group relative text-sm">
+          {data.sections.map((section) => (
+            <SubNav key={section.id} section={section} />
+          ))}
+          {data.featured.map((feature) => (
+            <li key={feature.name} className="flex items-center">
+              <div key={feature.name} className="group relative text-sm">
                 <div className="aspect-square overflow-hidden rounded-lg bg-gray-100 group-hover:opacity-75">
                   <Image
-                    src={image.imageSrc}
-                    alt={image.name}
+                    src={feature.imageSrc}
+                    alt={feature.name}
                     className="object-cover object-center"
                     width={400}
                     height={400}
                   />
                 </div>
                 <a
-                  href={image.href}
+                  href={feature.href}
                   className="mt-6 block font-medium text-gray-900"
                 >
                   <span className="absolute inset-0 z-10" aria-hidden="true" />
-                  {image.name}
+                  {feature.name}
                 </a>
                 <p aria-hidden="true" className="mt-1">
                   Shop now

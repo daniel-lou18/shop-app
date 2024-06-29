@@ -1,4 +1,5 @@
 import { paths } from "@/lib/paths";
+import { NavigationSections } from "@/types";
 
 export const BRANDS = {
   men: [
@@ -320,3 +321,48 @@ export const navigation = {
     { name: "Promotions", href: "#" },
   ],
 };
+
+export const navigationInitialData = [
+  {
+    id: "femme",
+    name: "Femme",
+    featured: [
+      {
+        name: "Nouvelle collection robes",
+        href: "#",
+        imageSrc: "/robe_bleu_lunettes.webp",
+        imageAlt:
+          "Models sitting back to back, wearing Basic Tee in black and bone.",
+      },
+      {
+        name: "T-shirts en cotton bio",
+        href: "#",
+        imageSrc: "/t-shirt-manches-courtes-ecru-femme.webp",
+        imageAlt:
+          "Close up of Basic Tee fall bundle with off-white, ochre, olive, and black tees.",
+      },
+    ],
+    sections: [] as NavigationSections,
+  },
+  {
+    id: "homme",
+    name: "Homme",
+    featured: [
+      {
+        name: "Chemises d'été",
+        href: "#",
+        imageSrc: "/Sandro_SHPCM01004-B295_V_1.webp",
+        imageAlt:
+          "Drawstring top with elastic loop closure and textured interior padding.",
+      },
+      {
+        name: "Nouvelle collection shorts",
+        href: "#",
+        imageSrc: "/short_homme.jpg",
+        imageAlt:
+          "Three shirts in gray, white, and blue arranged on table with same line drawing of hands and shapes overlapping on front of shirt.",
+      },
+    ],
+    sections: [] as NavigationSections,
+  },
+];

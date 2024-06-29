@@ -1,4 +1,7 @@
 import { OrderWithOrderItemsAndVariants } from "@/db/queries/users";
+import { AllBrands } from "@/db/queries/brands";
+import { AllCategories } from "@/db/queries/categories";
+import { navigationInitialData } from "@/helpers/constants";
 
 export function centsToEuros(priceInCents: number) {
   return (priceInCents / 100).toLocaleString("fr-FR", {
@@ -48,3 +51,20 @@ export const mapToFrench = {
   state: "Département",
   zip: "Code postal",
 };
+
+export function createNavigationData(
+  data: {
+    dataId: string;
+    sections: { id: string; name: string; items: AllCategories | AllBrands }[];
+  }[],
+  initialData: typeof navigationInitialData
+) {
+  const result: typeof navigationInitialData = [];
+  data.forEach(({ dataId, sections }) => {
+    const newDataItem = initialData.find(({ id }) => id === dataId);
+    if (!newDataItem) return;
+    newDataItem?.sections.push(...sections);
+    result.push(newDataItem);
+  });
+  return result;
+}
