@@ -1,12 +1,10 @@
-import { Navbar } from "@/components/layout/navigation/Navbar";
+import Navbar from "@/components/layout/navigation/Navbar";
 import HeaderCustomerRight from "./HeaderCustomerRight";
 import { fetchCategories } from "@/db/queries/categories";
 import { fetchBrands } from "@/db/queries/brands";
 import NavbarMobile from "@/components/layout/navigation/NavbarMobile";
 import { auth } from "@/auth";
 import { fetchUserById } from "@/db/queries/user";
-import { createNavigationData } from "@/helpers/helpers";
-import { navigationInitialData } from "@/helpers/constants";
 
 async function HeaderCustomer() {
   const session = await auth();
@@ -24,7 +22,7 @@ async function HeaderCustomer() {
   const userData = session?.user && (await fetchUserById(session?.user?.id));
 
   return (
-    <header className="sticky z-10 top-0 flex h-16 items-center gap-4 border-b border-border/60 bg-background/90 backdrop-blur justify-between p-4 sm:px-0 sm:py-0">
+    <header className="sticky z-10 top-0 flex h-16 items-center gap-4 border border-b-border/60 border-t-background/90 bg-background/90 backdrop-blur justify-between p-4 sm:px-0 sm:py-0">
       <NavbarMobile
         categoriesMen={
           categoriesMenResult.success ? categoriesMenResult.data : []

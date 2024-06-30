@@ -1,7 +1,11 @@
-import React from "react";
-import { NavLink } from "./Navbar";
 import { capitalizeString } from "@/lib/parsers";
 import { navigationInitialData } from "@/helpers/constants";
+import Link from "next/link";
+import {
+  NavigationMenuItem,
+  NavigationMenuLink,
+  navigationMenuTriggerStyle,
+} from "@/components/layout/navigation/navigation-menu";
 
 type SubNavProps = {
   section: (typeof navigationInitialData)[number]["sections"][number];
@@ -25,6 +29,28 @@ function SubNav({ section }: SubNavProps) {
         ))}
       </ul>
     </li>
+  );
+}
+
+function NavLink({
+  href,
+  children,
+  className,
+}: {
+  href: string;
+  children: React.ReactNode;
+  className?: string;
+}) {
+  return (
+    <NavigationMenuItem>
+      <Link href={href} legacyBehavior passHref>
+        <NavigationMenuLink
+          className={className ? className : navigationMenuTriggerStyle()}
+        >
+          {children}
+        </NavigationMenuLink>
+      </Link>
+    </NavigationMenuItem>
   );
 }
 
