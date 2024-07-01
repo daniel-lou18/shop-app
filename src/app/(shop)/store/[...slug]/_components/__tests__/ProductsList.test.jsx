@@ -1,16 +1,8 @@
 import { screen, render } from "@testing-library/react";
+import "@testing-library/jest-dom/extend-expect";
 import { testVariantsWithProductMen } from "@/helpers/testData";
 import { usePathname, useSearchParams } from "next/navigation";
 import ProductsList from "../ProductsList";
-
-const readOnlyURLSearchParams = {
-  getAll: () => ({}),
-  get: (key) => undefined,
-  entries: () => [],
-  keys: () => [],
-  values: () => [],
-  has: (key) => false,
-};
 
 jest.mock("next/navigation");
 jest.mock("../../../../../../hooks/useGetProductsCustomer", () => {
@@ -26,6 +18,15 @@ jest.mock("../../../../../../hooks/useGetProductsCustomer", () => {
   };
 });
 jest.mock("../ProductFilters", () => () => "Mocked ProductFilters");
+
+const readOnlyURLSearchParams = {
+  getAll: () => ({}),
+  get: (key) => undefined,
+  entries: () => [],
+  keys: () => [],
+  values: () => [],
+  has: (key) => false,
+};
 
 function renderComponent(pathname = "/store/homme", data = []) {
   usePathname.mockReturnValue(pathname);

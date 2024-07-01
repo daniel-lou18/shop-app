@@ -1,4 +1,3 @@
-import { paths } from "@/lib/paths";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
@@ -9,10 +8,10 @@ function ButtonsGender({
   data: { name: string; href: string }[];
   className?: string;
 }) {
+  if (!data?.length) return null;
+
   return (
-    <div
-      className={cn("hidden lg:flex gap-4 justify-end md:text-xl", className)}
-    >
+    <div className={cn("flex gap-4 justify-end md:text-xl", className)}>
       {data.map(({ name, href }) => (
         <Button
           variant="outline"

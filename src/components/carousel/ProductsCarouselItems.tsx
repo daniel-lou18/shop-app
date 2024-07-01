@@ -54,12 +54,10 @@ function ProductsCarouselItems({
     setSelectedSex(sex);
   }
   return (
-    <div
-      className={cn("px-4 sm:px-16 sm:py-8 w-full mt-4 md:mt-12", className)}
-    >
+    <div className={cn("p-4 sm:px-16 sm:py-8 w-full mt-4 md:mt-12", className)}>
       <Tabs value={selectedSex} className="w-full">
         <div className="flex items-center justify-between gap-8 mb-4">
-          <PageHeading1 className="text-4xl mb-4">{title}</PageHeading1>
+          <PageHeading1 className="mb-0">{title}</PageHeading1>
           {displayTabs && (
             <TabsList className="grid w-64 grid-cols-2">
               {["femme", "homme"].map((sex) => (

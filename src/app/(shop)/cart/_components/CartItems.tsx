@@ -6,6 +6,10 @@ import CartItem from "./CartItem";
 function CartItems() {
   const { items } = useCart();
 
+  if (!items?.length) {
+    return null;
+  }
+
   return (
     <div className="mx-auto w-full flex-none lg:max-w-2xl xl:max-w-4xl">
       <div className="space-y-6">

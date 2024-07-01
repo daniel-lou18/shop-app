@@ -14,6 +14,9 @@ type BannerProps = {
 
 function Banner({ children, data, className }: BannerProps) {
   const { title, name, description, imagePath } = data;
+
+  if (!name || !imagePath) return null;
+
   return (
     <section className={className}>
       <div className="w-full h-[550px] relative mt-12">
@@ -25,7 +28,7 @@ function Banner({ children, data, className }: BannerProps) {
           src={imagePath}
           width={1280}
           height={420}
-          className="w-full h-full object-cover"
+          className="w-full h-full object-cover object-[10%]"
           alt="main hero image"
         />
         <div className="absolute left-0 bottom-0 text-white flex flex-col gap-4 px-12 py-6">

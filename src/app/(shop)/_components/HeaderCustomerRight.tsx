@@ -17,7 +17,6 @@ import { useCart } from "@/context/cart-context";
 import Link from "next/link";
 import { paths } from "@/lib/paths";
 import ButtonSignOut from "@/components/ui/ButtonSignOut";
-import { type ExtendedUser } from "@/auth";
 import { User } from "@prisma/client";
 
 type HeaderCustomerRightProps = {
@@ -33,7 +32,7 @@ function HeaderCustomerRight({ currentUser }: HeaderCustomerRightProps) {
   }
 
   return (
-    <div className="flex items-center justify-end gap-4 md:gap-2 lg:gap-4 w-[30%] mr-16">
+    <div className="flex items-center justify-end gap-4 md:gap-2 lg:gap-4 w-[30%] md:mr-16">
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
           <Button variant="ghost" size="icon" className="rounded-full relative">

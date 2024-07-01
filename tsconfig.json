@@ -28,7 +28,8 @@
     ".next/types/**/*.ts",
     "src/app/(shop)/products/[id]/_components/__tests__/ProductColors.test.jsx",
     "src/components/carousel/ProductsCarouselItems.test.jsx",
-    "src/app/(shop)/store/[...slug]/_components/__tests__/ProductFilters.test.jsx"
+    "src/app/(shop)/store/[...slug]/_components/__tests__/ProductFilters.test.jsx",
+    "jest.polyfills.js"
   ],
   "exclude": ["node_modules"]
 }

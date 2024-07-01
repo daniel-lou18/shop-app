@@ -18,10 +18,7 @@ async function MainContent() {
   return (
     <div className="bg-gray-50 pb-16">
       <BannerTop data={mainHero}>
-        <ButtonsGender
-          data={mainHero.buttonsData}
-          className="hidden lg:flex gap-4 justify-end md:text-xl"
-        />
+        <ButtonsGender data={mainHero.buttonsData} />
       </BannerTop>
       <Suspense fallback={<CarouselSkeleton />}>
         <ProductsCarousel title="Nouveautés" />

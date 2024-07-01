@@ -45,9 +45,12 @@ function CartSummary({ user }: { user: ExtendedUser | undefined }) {
       router.push(paths.customerSignIn("redirect=/cart"));
       return;
     }
+    if (!items?.length) return;
+
     const orderData = items.map((item) => {
       return { variantId: item.id, quantity: item.orderQuantity };
     });
+
     try {
       const res = await fetch(paths.apiCheckout(), {
         method: "POST",

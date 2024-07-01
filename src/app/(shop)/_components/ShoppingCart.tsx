@@ -93,7 +93,7 @@ function CartContent({
 }) {
   const { toast } = useToast();
 
-  if (items.length === 0) {
+  if (!items?.length) {
     return (
       <div className="flex h-[90%] items-center justify-center">
         <p>Aucun article dans le panier</p>
@@ -178,7 +178,7 @@ function CartFooter({
   items: CartItemType[];
   setOpen: (prevState: boolean) => void;
 }) {
-  if (items.length === 0) {
+  if (!items?.length) {
     return null;
   }
 

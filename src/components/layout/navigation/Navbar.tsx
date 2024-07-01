@@ -23,6 +23,7 @@ type NavbarData = {
 export default function Navbar({ fetchedData }: { fetchedData: NavbarData }) {
   const hasRun = useRef<boolean>(false);
   const [data, setData] = useState<typeof navigationInitialData>([]);
+
   useEffect(() => {
     if (hasRun.current) return;
     hasRun.current = true;

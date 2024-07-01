@@ -13,6 +13,9 @@ type BannerTopProps = {
 
 function BannerTop({ children, data, className }: BannerTopProps) {
   const { title, description, imagePath } = data;
+
+  if (!imagePath) return null;
+
   return (
     <section className={className}>
       <div className="w-full h-[500px] relative">
@@ -28,8 +31,8 @@ function BannerTop({ children, data, className }: BannerTopProps) {
           alt="main hero image"
           priority
         />
-        <div className="absolute right-0 bottom-0 w-1/2 h-1/2 flex flex-col justify-between text-white px-12 pt-6 pb-12 text-right">
-          <p className="md:text-2xl lg:text-4xl xl:text-5xl font-bold">
+        <div className="absolute right-0 bottom-0 w-full sm:w-1/2 h-1/2 flex flex-col justify-between text-white px-12 pt-6 pb-12 text-right">
+          <p className="text-2xl lg:text-4xl xl:text-5xl font-bold">
             {description}
           </p>
           {children}
