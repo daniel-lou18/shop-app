@@ -59,12 +59,15 @@ export function createNavigationData(
   }[],
   initialData: typeof navigationInitialData
 ) {
-  const result: typeof navigationInitialData = [];
-  data.forEach(({ dataId, sections }) => {
-    const newDataItem = initialData.find(({ id }) => id === dataId);
-    if (!newDataItem) return;
-    newDataItem?.sections.push(...sections);
-    result.push(newDataItem);
+  const result = initialData.map((initialDataItem) => {
+    const newSections = data.find(
+      ({ dataId }) => initialDataItem.id === dataId
+    )?.sections;
+    if (!newSections?.length) return initialDataItem;
+    return {
+      ...initialDataItem,
+      sections: [...newSections],
+    };
   });
   return result;
 }
