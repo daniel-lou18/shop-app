@@ -136,9 +136,9 @@ export const brandsWomen = [
   },
   {
     id: 3,
-    name: "Georgia Rose",
+    name: "Zadig&Voltaire",
     sex: "femme",
-    imagePath: "/Femme_Georgia-Rose.jpg",
+    imagePath: "/zadig.webp",
     description:
       "Sara Johnson, fondatrice et directrice de la création impose un nouvel esthétisme : des vêtements modernes et sophistiqués. ",
   },
@@ -211,6 +211,13 @@ export const navigationInitialData = [
         imageAlt: "Nouvelle collection robes",
       },
       {
+        name: "Capsule Sport",
+        href: "#",
+        imageSrc: "/maje.webp",
+        imageAlt: "Capsule Sport",
+      },
+
+      {
         name: "T-shirts en cotton bio",
         href: "#",
         imageSrc: "/t-shirt-manches-courtes-ecru-femme.webp",
@@ -228,6 +235,12 @@ export const navigationInitialData = [
         href: "#",
         imageSrc: "/Sandro_SHPCM01004-B295_V_1.webp",
         imageAlt: "Chemises d'été",
+      },
+      {
+        name: "Brandstore Tommy Hilfiger",
+        href: "#",
+        imageSrc: "/tommy.webp",
+        imageAlt: "Nouvelle collection Tommy Hilfiger",
       },
       {
         name: "Nouvelle collection shorts",

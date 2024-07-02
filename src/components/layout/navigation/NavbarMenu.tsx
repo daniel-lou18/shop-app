@@ -21,12 +21,15 @@ export function NavbarMenu({
         </Link>
       </NavigationMenuTrigger>
       <NavigationMenuContent>
-        <ul className="grid gap-16 px-16 py-10 md:w-[400px] lg:w-screen lg:grid-cols-[1fr_1fr_1fr_1fr_1fr]">
+        <ul className="grid gap-16 px-16 py-10 md:w-[400px] lg:w-screen lg:grid-cols-[1fr_1fr_1fr_1fr] xl:grid-cols-[1fr_1fr_1fr_1fr_1fr]">
           {data.sections.map((section) => (
             <SubNav key={section.id} section={section} />
           ))}
-          {data.featured.map((feature) => (
-            <li key={feature.name} className="flex items-center">
+          {data.featured.map((feature, idx) => (
+            <li
+              key={feature.name}
+              className={`flex items-center ${idx > 1 && "hidden xl:flex"}`}
+            >
               <div key={feature.name} className="group relative text-sm">
                 <div className="aspect-square overflow-hidden rounded-lg bg-gray-100 group-hover:opacity-75">
                   <Image
@@ -45,7 +48,7 @@ export function NavbarMenu({
                   {feature.name}
                 </a>
                 <p aria-hidden="true" className="mt-1">
-                  Shop now
+                  Découvrir
                 </p>
               </div>
             </li>
