@@ -49,7 +49,7 @@ function NavbarMobileSheet({ data, setIsOpen }: NavbarMobileSheetProps) {
                 {section.items.map((item) => (
                   <Link
                     href={
-                      item.id === "categories"
+                      section.id === "categories"
                         ? paths.storeCategory(item.sex, item.name)
                         : paths.storeBrand(item.sex, item.name)
                     }

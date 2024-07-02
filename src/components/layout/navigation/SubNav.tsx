@@ -6,6 +6,7 @@ import {
   NavigationMenuLink,
   navigationMenuTriggerStyle,
 } from "@/components/layout/navigation/navigation-menu";
+import { paths } from "@/lib/paths";
 
 type SubNavProps = {
   section: (typeof navigationInitialData)[number]["sections"][number];
@@ -18,9 +19,11 @@ function SubNav({ section }: SubNavProps) {
         <h4 className="mb-2 font-semibold">{section.name}</h4>
         {section.items.map((item) => (
           <NavLink
-            href={`/store/${item.sex.toLowerCase()}/${
-              section.id === "categories" ? `${item.name}` : ""
-            }${section.id === "brands" ? `brandstore/${item.name}` : ""}`}
+            href={
+              section.id === "categories"
+                ? paths.storeCategory(item.sex, item.name)
+                : paths.storeBrand(item.sex, item.name)
+            }
             className="text-gray-500 text-sm hover:text-gray-950 w-fit"
             key={item.id}
           >
