@@ -2,7 +2,6 @@ import { db } from "@/db";
 import { Category, Sex } from "@prisma/client";
 import { FetchResult } from "./products";
 import { handleFetchError } from "@/lib/errors";
-import { NavbarData } from "@/components/layout/navigation/Navbar";
 import { fetchBrands } from "./brands";
 import { createNavigationData } from "@/helpers/helpers";
 import { navigationInitialData } from "@/helpers/constants";
@@ -63,7 +62,7 @@ export async function fetchCategoriesAndBrands(): Promise<
             {
               id: "brands",
               name: "Marques",
-              items: [...categoriesWomenResult.data],
+              items: [...brandsMenResult.data],
             },
           ],
         },

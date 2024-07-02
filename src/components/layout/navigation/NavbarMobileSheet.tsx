@@ -48,7 +48,11 @@ function NavbarMobileSheet({ data, setIsOpen }: NavbarMobileSheetProps) {
               <AccordionContent>
                 {section.items.map((item) => (
                   <Link
-                    href={paths.storeCategory(item.sex, item.name)}
+                    href={
+                      item.id === "categories"
+                        ? paths.storeCategory(item.sex, item.name)
+                        : paths.storeBrand(item.sex, item.name)
+                    }
                     className="block w-full py-2 uppercase"
                     key={item.id}
                     onClick={() => setIsOpen(false)}
