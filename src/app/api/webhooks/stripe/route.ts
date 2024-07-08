@@ -23,7 +23,7 @@ export async function POST(request: Request) {
   }
 
   const session = event.data.object as Stripe.Checkout.Session;
-  const id = session.metadata?.orderId;
+  const id = session?.metadata?.orderId;
   if (!id) throw new Error("Id commande manquant");
 
   if (event.type === "checkout.session.completed") {
