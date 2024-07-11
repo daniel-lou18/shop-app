@@ -1,6 +1,7 @@
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
+
 function ButtonsGender({
   data,
   className,
@@ -22,13 +23,6 @@ function ButtonsGender({
           <Link href={href}>{name}</Link>
         </Button>
       ))}
-
-      {/* <Button variant="secondary" className="text-base min-w-32" asChild>
-        <Link href={paths.storeBrand("femme", "Tommy Hilfiger")}>Femme</Link>
-      </Button>
-      <Button variant="secondary" className="text-base min-w-32" asChild>
-        <Link href={paths.storeBrand("homme", "Tommy Hilfiger")}>Homme</Link>
-      </Button> */}
     </div>
   );
 }

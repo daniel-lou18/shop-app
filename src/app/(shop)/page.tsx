@@ -13,6 +13,8 @@ import ButtonsGender from "./_components/ButtonsGender";
 import { Button } from "@/components/ui/button";
 import ProductsCarousel from "./_components/ProductsCarousel";
 import CarouselSkeleton from "../../components/skeletons/CarouselSkeleton";
+import BannerBrand from "./_components/BannerBrand";
+import BannerMission from "./_components/BannerMission";
 
 async function MainContent() {
   return (
@@ -23,24 +25,27 @@ async function MainContent() {
       <Suspense fallback={<CarouselSkeleton />}>
         <ProductsCarousel title="Nouveautés" />
       </Suspense>
-      <Banner data={brandBanner} className="mt-8 md:mt-6">
+      <BannerBrand />
+      {/* <Banner data={brandBanner} className="mt-8 md:mt-6">
+        <Banner.Header />
         <ButtonsGender
           data={brandBanner.buttonsData}
           className="absolute top-1/2 left-1/2 translate-x-[-50%] translate-y-[-50%]"
         />
-      </Banner>
+      </Banner> */}
       <BrandsCards
         title="Marques incontournables"
         items={[...brandsWomen, ...brandsMen]}
       />
-      <Banner data={oceanBanner} className="mt-8 md:mt-6">
+      {/* <Banner data={oceanBanner} className="mt-8 md:mt-6">
         <Button
           variant="outline"
           className="absolute top-1/2 left-1/2 translate-x-[-50%] translate-y-[-50%] bg-transparent text-white rounded-sm border-2"
         >
           En savoir plus
         </Button>
-      </Banner>
+      </Banner> */}
+      <BannerMission />
       <ProductsCarousel title="Nos bestsellers" />
     </div>
   );
