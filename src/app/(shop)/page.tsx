@@ -1,5 +1,5 @@
 import React, { Suspense } from "react";
-import Banner from "./_components/Banner";
+import Banner from "../../components/common/banner/Banner";
 import {
   mainHero,
   brandBanner,
@@ -7,14 +7,14 @@ import {
   brandsWomen,
   oceanBanner,
 } from "@/helpers/constants";
-import BannerTop from "./_components/BannerTop";
-import BrandsCards from "./_components/BrandsCards";
-import ButtonsGender from "./_components/ButtonsGender";
+import BannerTop from "../../components/common/banner/BannerTop";
+import BrandsCards from "../../components/common/card/BrandsCards";
+import ButtonsGender from "../../components/common/banner/ButtonsGender";
 import { Button } from "@/components/ui/button";
-import ProductsCarousel from "./_components/ProductsCarousel";
+import ProductsCarousel from "../../components/common/carousel/ProductsCarousel";
 import CarouselSkeleton from "../../components/skeletons/CarouselSkeleton";
-import BannerBrand from "./_components/BannerBrand";
-import BannerMission from "./_components/BannerMission";
+import BannerBrand from "../../components/common/banner/BannerBrand";
+import BannerMission from "../../components/common/banner/BannerMission";
 
 async function MainContent() {
   return (

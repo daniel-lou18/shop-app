@@ -1,6 +1,6 @@
 import { render, screen, within } from "@testing-library/react";
 import user from "@testing-library/user-event";
-import BrandsCards from "../BrandsCards";
+import BrandsCards from "./BrandsCards";
 import "@testing-library/jest-dom/extend-expect";
 
 test("should render the title and no cards", () => {

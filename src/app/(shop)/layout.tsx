@@ -1,8 +1,8 @@
 import { ReactNode, Suspense } from "react";
-import HeaderCustomer from "./_components/HeaderCustomer";
+import HeaderCustomer from "../../components/layout/navigation/HeaderCustomer";
 import { CartContextProvider } from "@/context/cart-context";
-import Topbar from "./_components/Topbar";
-import Footer from "./_components/Footer";
+import Topbar from "../../components/layout/Topbar";
+import Footer from "../../components/layout/Footer";
 import { WishlistContextProvider } from "@/context/wishlist-context";
 import { auth } from "@/auth";
 

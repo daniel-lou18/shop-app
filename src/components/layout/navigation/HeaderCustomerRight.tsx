@@ -11,7 +11,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { CircleUser } from "lucide-react";
 import React, { useState } from "react";
-import Example from "./ShoppingCart";
+import Example from "../../../app/(shop)/cart/_components/ShoppingCart";
 import { ShoppingBagIcon } from "@heroicons/react/24/outline";
 import { useCart } from "@/context/cart-context";
 import Link from "next/link";

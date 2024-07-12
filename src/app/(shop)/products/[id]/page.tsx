@@ -5,7 +5,7 @@ import {
   fetchVariants,
   fetchVariantsByProductId,
 } from "@/db/queries/variants";
-import ProductsCarouselItems from "../../../../components/carousel/ProductsCarouselItems";
+import ProductsCarouselItems from "../../../../components/common/carousel/ProductsCarouselItems";
 import { Breadcrumbs } from "@/components/ui/Breadcrumbs";
 import { Slug } from "@/types";
 

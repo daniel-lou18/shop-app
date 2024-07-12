@@ -1,5 +1,5 @@
 import { VariantsWithProduct, fetchVariants } from "@/db/queries/variants";
-import ProductsCarouselItems from "../../../components/carousel/ProductsCarouselItems";
+import ProductsCarouselItems from "./ProductsCarouselItems";
 
 async function ProductsCarousel({ title }: { title: string }) {
   const resultWomen = await fetchVariants<VariantsWithProduct>({
