@@ -18,6 +18,7 @@ import Link from "next/link";
 import { paths } from "@/lib/paths";
 import ButtonSignOut from "@/components/ui/ButtonSignOut";
 import { User } from "@prisma/client";
+import Search from "../search/Search";
 
 type HeaderCustomerRightProps = {
   currentUser: User | null;
@@ -32,7 +33,8 @@ function HeaderCustomerRight({ currentUser }: HeaderCustomerRightProps) {
   }
 
   return (
-    <div className="flex items-center justify-end gap-4 md:gap-2 lg:gap-4 w-[30%] md:mr-16">
+    <div className="flex items-center justify-end gap-4 md:gap-2 lg:gap-4 w-[60%] md:mr-16">
+      <Search />
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
           <Button variant="ghost" size="icon" className="rounded-full relative">

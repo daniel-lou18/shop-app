@@ -15,7 +15,7 @@ import {
   addToWishlistService,
   getWishlistService,
   removeFromWishlistService,
-} from "@/lib/services";
+} from "@/services/wishlist-service";
 
 type WishlistState = {
   wishlist: string[];

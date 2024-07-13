@@ -1,6 +1,6 @@
 import { render, screen } from "@testing-library/react";
 import "@testing-library/jest-dom/extend-expect";
-import BannerTop from "./BannerTop";
+import BannerTop from "../BannerTop";
 import { mainHero } from "@/helpers/constants";
 
 test("should render description and image", () => {
