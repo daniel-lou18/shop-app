@@ -1,9 +1,9 @@
 import Image from "next/image";
-import { ProductWithVariants } from "@/db/queries/product";
 import Link from "next/link";
 import { paths } from "@/lib/paths";
+import { Product } from "@/models";
 
-export const SearchResult = ({ result }: { result: ProductWithVariants }) => {
+export const SearchResult = ({ result }: { result: Product }) => {
   return (
     <Link
       href={paths.customerProduct(result.id)}
@@ -11,7 +11,7 @@ export const SearchResult = ({ result }: { result: ProductWithVariants }) => {
     >
       <div className="w-12 h-12 overflow-hidden rounded-sm">
         <Image
-          src={result.variants[0].images[0]}
+          src={result.image || "/placeholder.svg"}
           alt={result.name}
           width={80}
           height={80}
@@ -20,7 +20,7 @@ export const SearchResult = ({ result }: { result: ProductWithVariants }) => {
       </div>
       <div className="flex flex-col justify-between py-1">
         <div className="hit-name text-sm">{result.name}</div>
-        <div className="hit-brand.name text-xs">{result.brand.name}</div>
+        <div className="hit-brand.name text-xs">{result.brandName}</div>
       </div>
     </Link>
   );

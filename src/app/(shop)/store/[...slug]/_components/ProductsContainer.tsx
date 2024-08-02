@@ -13,6 +13,7 @@ import {
 import ProductsList from "@/app/(shop)/store/[...slug]/_components/ProductsList";
 import { fetchBrands } from "@/db/queries/brands";
 import { fetchCategories } from "@/db/queries/categories";
+import ProductsPage from "./ProductsPage";
 
 export type StoreProps = {
   params: Params;
@@ -62,7 +63,7 @@ export default async function ProductsContainer({
       : [],
   };
 
-  return <ProductsList filterData={filterData} count={countResult.data} />;
+  return <ProductsPage filterData={filterData} count={countResult.data} />;
 }
 
 // export async function generateStaticParams() {

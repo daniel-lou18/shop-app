@@ -1,5 +1,3 @@
-import { paths } from "@/lib/paths";
-import Link from "next/link";
 import React from "react";
 
 function Topbar() {

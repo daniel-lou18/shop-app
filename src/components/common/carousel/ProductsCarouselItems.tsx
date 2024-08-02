@@ -15,6 +15,7 @@ import { capitalizeString } from "@/lib/parsers";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { cn } from "@/lib/utils";
 import { VariantWithProduct, VariantsWithProduct } from "@/db/queries/variants";
+import VariantCard from "../card/VariantCard";
 
 export type ProductsCarouselItemsProps = {
   title: string;
@@ -44,7 +45,7 @@ function ProductsCarouselItems({
         className={`basis-1/2 lg:basis-[375px] shadow-md`}
       >
         <div>
-          <ProductCard type="variant" item={item as VariantWithProduct} />
+          <VariantCard item={item as VariantWithProduct} />
         </div>
       </CarouselItem>
     ));

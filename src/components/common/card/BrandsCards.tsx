@@ -1,11 +1,11 @@
 "use client";
 
 import PageHeading1 from "@/components/ui/PageHeading1";
-import ProductCard from "@/app/(shop)/products/_components/ProductCard";
 import { BrandSquare } from "@/types";
 import { useState } from "react";
 import { Sex } from "@prisma/client";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import BrandCard from "./BrandCard";
 
 export type BrandsCardsProps = { title: string; items: BrandSquare[] };
 
@@ -20,8 +20,7 @@ function BrandsCards({ title, items }: BrandsCardsProps) {
     content = <p>Aucun produit à afficher</p>;
   } else {
     content = displayedProducts.map((item, index) => (
-      <ProductCard
-        type="square"
+      <BrandCard
         item={item as BrandSquare}
         key={index}
         className={`shadow-md ${index > 1 ? "hidden lg:block" : "block"}`}

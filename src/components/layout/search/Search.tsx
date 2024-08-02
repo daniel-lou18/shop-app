@@ -1,10 +1,10 @@
 import { Input } from "@/components/ui/input";
 import { Search as SearchIcon } from "lucide-react";
 import SearchResults from "./SearchResults";
-import { useSearch } from "@/hooks/useSearch";
+import { useSearchProducts } from "@/hooks/useSearchProducts";
 
 export default function SearchField() {
-  const { error, filteredProducts, query, setQuery } = useSearch();
+  const { error, products, query, setQuery } = useSearchProducts();
 
   return (
     <div className="relative ml-auto flex-1 md:grow-0">
@@ -18,9 +18,7 @@ export default function SearchField() {
         value={query}
         onChange={(e) => setQuery(e.target.value)}
       />
-      {query && filteredProducts.length > 0 && (
-        <SearchResults results={filteredProducts} />
-      )}
+      <SearchResults results={products} />
     </div>
   );
 }

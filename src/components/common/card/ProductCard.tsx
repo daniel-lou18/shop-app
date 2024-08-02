@@ -2,55 +2,31 @@ import { Card, CardContent, CardFooter, CardTitle } from "@/components/ui/card";
 import Image from "next/image";
 import Link from "next/link";
 import { centsToEuros } from "@/helpers/helpers";
-import { paths } from "@/lib/paths";
-import { BrandSquare } from "@/types";
 import { cn } from "@/lib/utils";
 import { Heart } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useWishlist } from "@/context/wishlist-context";
-import { Variant } from "@/features/variants/Variant";
 
-export type ProductCardProps = { className?: string } & (
-  | {
-      type: "square";
-      item: BrandSquare;
-    }
-  | {
-      type: "variant";
-      item: Variant;
-    }
-);
+export type ProductCardItem = {
+  id: string;
+  href: string;
+  title: string;
+  description: string;
+  image: string;
+  price?: number;
+};
 
-function mapItemToType(
-  type: ProductCardProps["type"],
-  item: ProductCardProps["item"]
-) {
-  let href, title, description, image;
-  if (type === "square") {
-    const brandItem = item as BrandSquare;
-    href = paths.storeBrand(item.sex, brandItem.name);
-    title = brandItem.name;
-    description = brandItem.description;
-    image = brandItem.imagePath;
-  } else {
-    const variantItem = item as Variant;
-    href = paths.customerProduct(
-      variantItem.productId,
-      `color=${variantItem.color}`
-    );
-    title = variantItem.brandName;
-    description = variantItem.productName;
-    image = variantItem.images[0];
-  }
-  return { href, title, description, image };
-}
+export type ProductCardProps = { className?: string } & {
+  type: "square" | "variant";
+  item: ProductCardItem;
+};
 
 function ProductCard({ type, item, className }: ProductCardProps) {
   const { wishlist, addToWishlist, removeFromWishlist } = useWishlist();
-  const { href, title, description, image } = mapItemToType(type, item);
+  const { href, title, description, image } = item;
 
   function handleWishlist() {
-    const typedItem = item as Variant;
+    const typedItem = item as ProductCardItem;
     if (!wishlist.includes(typedItem.id)) {
       addToWishlist(typedItem.id);
     } else {
@@ -102,7 +78,7 @@ function ProductCard({ type, item, className }: ProductCardProps) {
               >
                 {description}
               </div>
-              {type === "variant" && (
+              {item?.price && (
                 <div className="text-base font-semibold text-gray-950">
                   {centsToEuros(item.price)}
                 </div>
