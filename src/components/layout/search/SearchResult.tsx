@@ -1,7 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { paths } from "@/lib/paths";
-import { Product } from "@/models";
+import { Product } from "@/features/products/Product";
 
 export const SearchResult = ({ result }: { result: Product }) => {
   return (

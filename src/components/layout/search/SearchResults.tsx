@@ -1,6 +1,6 @@
 import React from "react";
 import { SearchResult } from "./SearchResult";
-import { Product } from "@/models";
+import { Product } from "@/features/products/Product";
 
 function SearchResults({ results }: { results: Product[] }) {
   if (!results?.length) return null;
