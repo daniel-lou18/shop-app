@@ -4,9 +4,9 @@ import {
   DropdownMenuContent,
 } from "@/components/ui/dropdown-menu";
 import DropdownTrigger from "./DropdownTrigger";
-import { AvailableData } from "./ProductsList";
 import { Dispatch, SetStateAction } from "react";
 import { Slug } from "@/types";
+import { AvailableData } from "./ProductsPage";
 
 type ProductFiltersProps = {
   data: AvailableData;
