@@ -10,7 +10,6 @@ import {
   fetchSizesWithProductIds,
   fetchVariantsByParams,
 } from "@/db/queries/variants";
-import ProductsList from "@/app/(shop)/store/[...slug]/_components/ProductsList";
 import { fetchBrands } from "@/db/queries/brands";
 import { fetchCategories } from "@/db/queries/categories";
 import ProductsPage from "./ProductsPage";

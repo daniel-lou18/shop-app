@@ -9,13 +9,13 @@ import {
 } from "@/components/ui/carousel";
 import PageHeading1 from "../../ui/PageHeading1";
 import { Sex } from "@prisma/client";
-import ProductCard from "@/app/(shop)/products/_components/ProductCard";
 import { useState } from "react";
 import { capitalizeString } from "@/lib/parsers";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { cn } from "@/lib/utils";
 import { VariantWithProduct, VariantsWithProduct } from "@/db/queries/variants";
 import VariantCard from "../card/VariantCard";
+import { dtosToVariants } from "@/features/variants/transformDto";
 
 export type ProductsCarouselItemsProps = {
   title: string;
@@ -31,8 +31,9 @@ function ProductsCarouselItems({
   className,
 }: ProductsCarouselItemsProps) {
   const [selectedSex, setSelectedSex] = useState<Sex>("femme");
-  const displayedProducts = items.filter((variant) =>
-    displayTabs ? variant.product.sex === selectedSex : variant
+  const flattenedVariantsWithProduct = dtosToVariants(items);
+  const displayedProducts = flattenedVariantsWithProduct.filter((variant) =>
+    displayTabs ? variant.sex === selectedSex : variant
   );
 
   let content;
@@ -45,7 +46,7 @@ function ProductsCarouselItems({
         className={`basis-1/2 lg:basis-[375px] shadow-md`}
       >
         <div>
-          <VariantCard item={item as VariantWithProduct} />
+          <VariantCard item={item} />
         </div>
       </CarouselItem>
     ));
