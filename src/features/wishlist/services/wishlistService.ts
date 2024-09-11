@@ -1,6 +1,6 @@
 type WishlistResponse = { id: number; userId: string; productIds: string[] };
 
-const BASE_URL = "http://localhost:3000/wishlists";
+const BASE_URL = "https://nest-api-qxh2.onrender.com/wishlists";
 
 export async function getWishlistService(
   userId: string
