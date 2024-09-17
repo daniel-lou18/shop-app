@@ -15,7 +15,7 @@ type ShoppingCartProps = {
 };
 
 function ShoppingCart({ open, setOpen }: ShoppingCartProps) {
-  const { items, removeItem } = useCart();
+  const { items, totalPrice, removeItem } = useCart();
   return (
     <Transition.Root show={open} as={Fragment}>
       <Dialog as="div" className="relative z-10" onClose={setOpen}>
@@ -51,7 +51,11 @@ function ShoppingCart({ open, setOpen }: ShoppingCartProps) {
                       <CartContent items={items} removeItem={removeItem} />
                     </div>
 
-                    <CartFooter items={items} setOpen={setOpen} />
+                    <CartFooter
+                      items={items}
+                      setOpen={setOpen}
+                      totalPrice={totalPrice}
+                    />
                   </div>
                 </Dialog.Panel>
               </Transition.Child>
@@ -171,13 +175,13 @@ function CartItem({
   );
 }
 
-function CartFooter({
-  items,
-  setOpen,
-}: {
+type CartFooterProps = {
   items: CartItemType[];
+  totalPrice: number;
   setOpen: (prevState: boolean) => void;
-}) {
+};
+
+function CartFooter({ items, totalPrice, setOpen }: CartFooterProps) {
   if (!items?.length) {
     return null;
   }
@@ -186,7 +190,7 @@ function CartFooter({
     <div className="border-t border-gray-200 px-4 py-6 sm:px-6">
       <div className="flex justify-between text-base font-medium text-gray-950">
         <p>Total</p>
-        <p>{centsToEuros(items.reduce((acc, item) => acc + item.price, 0))}</p>
+        <p>{centsToEuros(totalPrice)}</p>
       </div>
       <p className="mt-0.5 text-sm text-gray-500">
         Les frais de livraison seront calculés au moment de l&apos;achat.

@@ -6,7 +6,7 @@ import { useCart } from "@/context/cart-context";
 import { centsToEuros } from "@/helpers/helpers";
 import { paths } from "@/lib/paths";
 import { useRouter, useSearchParams } from "next/navigation";
-import { FormEvent, MouseEvent, useEffect, useState } from "react";
+import { FormEvent, MouseEvent, useEffect } from "react";
 import { toast } from "sonner";
 
 export type CartOrder = {
@@ -18,18 +18,9 @@ export type CartOrder = {
 };
 
 function CartSummary({ user }: { user: ExtendedUser | undefined }) {
-  const { items } = useCart();
-  const [totalPrice, setTotalPrice] = useState<number>(
-    items.reduce((acc, item) => acc + item.price, 0)
-  );
+  const { items, totalPrice } = useCart();
   const searchParams = useSearchParams();
   const router = useRouter();
-
-  useEffect(() => {
-    setTotalPrice(
-      items.reduce((acc, item) => acc + item.price * item.orderQuantity, 0)
-    );
-  }, [items]);
 
   useEffect(() => {
     if (searchParams.get("payment") === "success") {

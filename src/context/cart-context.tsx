@@ -2,12 +2,15 @@
 
 import { VariantWithProduct } from "@/db/queries/variants";
 import { ReactNode, createContext, useContext, useReducer } from "react";
+import { calculateTotalCartPrice } from "@/helpers/helpers";
+import { totalmem } from "os";
 
 export type CartItem = VariantWithProduct & {
   orderQuantity: number;
 };
 export type CartState = {
   items: CartItem[];
+  totalPrice: number;
 };
 type ContextValue = CartState & {
   addItem: (item: VariantWithProduct) => void;
@@ -29,6 +32,7 @@ type Action =
 
 const initialState: CartState = {
   items: [],
+  totalPrice: 0,
 };
 const CartContext = createContext<ContextValue | null>(null);
 
@@ -47,15 +51,18 @@ function reducer(state: CartState, action: Action) {
             }
             return item;
           }),
+          totalPrice: state.totalPrice + action.payload.price,
         };
       }
       return {
         ...state,
         items: [...state.items, { ...action.payload, orderQuantity: 1 }],
+        totalPrice: state.totalPrice + action.payload.price,
       };
     }
     case "REMOVE_ITEM": {
-      if (state.items.some((item) => item.id === action.payload)) {
+      const itemIdInArray = (item: CartItem) => item.id === action.payload;
+      if (state.items.some(itemIdInArray)) {
         return {
           ...state,
           items: state.items
@@ -69,6 +76,8 @@ function reducer(state: CartState, action: Action) {
               return item;
             })
             .filter((item) => item.orderQuantity > 0),
+          totalPrice:
+            state.totalPrice - (state.items.find(itemIdInArray)?.price || 0),
         };
       }
 
@@ -84,9 +93,10 @@ function reducer(state: CartState, action: Action) {
 }
 
 export function CartContextProvider({ children }: { children: ReactNode }) {
-  const [{ items }, dispatch] = useReducer(reducer, initialState);
+  const [{ items, totalPrice }, dispatch] = useReducer(reducer, initialState);
   const contextValue: ContextValue = {
     items,
+    totalPrice,
     addItem(item) {
       dispatch({ type: "ADD_ITEM", payload: item });
     },

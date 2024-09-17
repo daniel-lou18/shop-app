@@ -2,6 +2,8 @@ import { OrderWithOrderItemsAndVariants } from "@/db/queries/users";
 import { AllBrands } from "@/db/queries/brands";
 import { AllCategories } from "@/db/queries/categories";
 import { navigationInitialData } from "@/helpers/constants";
+import CartItems from "@/app/(shop)/cart/_components/CartItems";
+import { CartItem } from "@/context/cart-context";
 
 export function centsToEuros(priceInCents: number) {
   return (priceInCents / 100).toLocaleString("fr-FR", {
@@ -23,6 +25,18 @@ export function calculateOrdersPrice(orders: OrderWithOrderItemsAndVariants[]) {
     return acc;
   }, 0);
   return totalPrice;
+}
+
+export function calculateTotalCartPrice(cartItems: CartItem[]) {
+  return cartItems.reduce((acc, item) => acc + item.price, 0);
+}
+
+export function mapCartPriceToMessage(price: number) {
+  if (!price) return "Retours gratuits sous 14 jours";
+  if (price < 30)
+    return "Frais de livraison offerts à partir de 30€ de commandes";
+  if (price >= 30)
+    return "Bénéficiez de 15 % de réduction supplémentaire pour toute commande à partir de 150 € avec le code promo PROMO150";
 }
 
 export const hashMap = {
