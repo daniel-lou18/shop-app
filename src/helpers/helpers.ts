@@ -2,7 +2,6 @@ import { OrderWithOrderItemsAndVariants } from "@/db/queries/users";
 import { AllBrands } from "@/db/queries/brands";
 import { AllCategories } from "@/db/queries/categories";
 import { navigationInitialData } from "@/helpers/constants";
-import CartItems from "@/app/(shop)/cart/_components/CartItems";
 import { CartItem } from "@/context/cart-context";
 
 export function centsToEuros(priceInCents: number) {
@@ -36,7 +35,7 @@ export function mapCartPriceToMessage(price: number) {
   if (price < 30)
     return "Frais de livraison offerts à partir de 30€ de commandes";
   if (price >= 30)
-    return "Bénéficiez de 15 % de réduction supplémentaire pour toute commande à partir de 150 € avec le code promo PROMO150";
+    return "Code promo PROMO150 : 15 % de réduction sur toute commande supérieure à 150 €";
 }
 
 export const hashMap = {
