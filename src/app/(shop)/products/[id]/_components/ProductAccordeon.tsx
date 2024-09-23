@@ -1,3 +1,4 @@
+import Wrapper from "@/components/layout/Wrapper";
 import {
   Accordion,
   AccordionContent,
@@ -13,13 +14,13 @@ function ProductAccordeon() {
           Livraison et retours gratuits
         </AccordionTrigger>
         <AccordionContent>
-          <ul>
-            <li>Livraison standard gratuite</li>
-            <li>
+          <Wrapper element="ul">
+            <Wrapper element="li">Livraison standard gratuite</Wrapper>
+            <Wrapper element="li">
               Vous pouvez retourner votre commande gratuitement, dans un délai
               de 30 jours.
-            </li>
-          </ul>
+            </Wrapper>
+          </Wrapper>
         </AccordionContent>
       </AccordionItem>
       <AccordionItem value="item-2">
@@ -27,19 +28,21 @@ function ProductAccordeon() {
           Taille et coupe
         </AccordionTrigger>
         <AccordionContent>
-          <ul>
-            <li>
+          <Wrapper element="ul">
+            <Wrapper element="li">
               Taille grand : on te conseille de commander une demi-pointure
               au-dessous
-            </li>
-            <li>Coupe standard : classique et facile à porter</li>
-            <li>
+            </Wrapper>
+            <Wrapper element="li">
+              Coupe standard : classique et facile à porter
+            </Wrapper>
+            <Wrapper element="li">
               Si tu portes généralement des modèles pour homme, choisis ta
               taille habituelle. Si tu portes généralement des modèles pour
               femme, choisis une taille inférieure à ta taille habituelle.
-            </li>
-            <li>Guide des tailles</li>
-          </ul>
+            </Wrapper>
+            <Wrapper>Guide des tailles</Wrapper>
+          </Wrapper>
         </AccordionContent>
       </AccordionItem>
       <AccordionItem value="item-3">

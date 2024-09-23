@@ -16,16 +16,26 @@ export function strNoAccent(string: string) {
   return string.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
 }
 
+export function capitalizeWords(text: string) {
+  return text
+    .split(" ")
+    .map((word) => capitalizeString(word))
+    .join(" ");
+}
+
 export function formatSlugToTitle(slug: Slug) {
   const [sex, category, brand] = slug;
   const decodedCategory = category && decodeURIComponent(category);
   const decodedBrand = brand && decodeURIComponent(brand);
   let title;
 
-  if (decodedBrand)
-    title = `Brandstore ${capitalizeString(decodedBrand)} ${sex}`;
-  else if (!decodedBrand && !decodedCategory) title = `Vêtements ${sex}`;
-  else title = `${capitalizeString(decodedCategory)} ${sex}`;
+  if (decodedBrand) {
+    title = `Brandstore ${capitalizeWords(decodedBrand)} ${sex}`;
+  } else if (!decodedBrand && !decodedCategory) {
+    title = `Vêtements ${sex}`;
+  } else {
+    title = `${capitalizeString(decodedCategory)} ${sex}`;
+  }
 
   return title;
 }

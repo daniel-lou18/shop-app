@@ -1,3 +1,4 @@
+import Wrapper from "@/components/layout/Wrapper";
 import { Button } from "@/components/ui/button";
 import { DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { ChevronDown, ChevronRight, CircleCheck } from "lucide-react";
@@ -28,9 +29,10 @@ function DropdownTrigger({
         variant="link"
         className="font-normal w-full flex gap-2 justify-between md:justify-center items-end"
       >
-        <span>{children}</span>
+        <Wrapper element="span">{children}</Wrapper>
         {style === "check" && (
-          <span
+          <Wrapper
+            element="span"
             className={`text-primary ${
               checkedValues.length > 0 ? "" : "opacity-0"
             }`}
@@ -41,19 +43,21 @@ function DropdownTrigger({
               fill="currentColor"
               stroke="white"
             />
-          </span>
+          </Wrapper>
         )}
 
-        <span
+        <Wrapper
+          element="span"
           className={`${variant === "chevron" ? "inline" : "hidden"} md:inline`}
         >
           <ChevronDown size={16} strokeWidth={1} className="checkbox-chevron" />
-        </span>
-        <span
+        </Wrapper>
+        <Wrapper
+          element="span"
           className={`${variant === "chevron" ? "hidden" : "inline"} md:hidden`}
         >
           <ChevronRight size={16} strokeWidth={1} />
-        </span>
+        </Wrapper>
       </Button>
     </DropdownMenuTrigger>
   );

@@ -11,6 +11,7 @@ import ProductFilters from "./ProductFilters";
 import { Slug } from "@/types";
 import { toast } from "sonner";
 import ProductsList from "./ProductsList";
+import Wrapper from "@/components/layout/Wrapper";
 
 export type AvailableData = {
   availableBrands: Brand[];
@@ -37,18 +38,18 @@ function ProductsPage({ filterData, count }: ProductsPageProps) {
   return (
     <>
       {isLoading && <Loader />}
-      <div className={`flex my-6 justify-between`}>
+      <Wrapper className={`flex my-6 justify-between`}>
         <ProductFilters
           data={filterData}
           slug={params as Slug}
           setIsLoading={setIsLoading}
         />
 
-        <div className="flex lg:gap-4">
+        <Wrapper className="flex lg:gap-4">
           <ProductsTotal total={count} />
           <DropdownFilter />
-        </div>
-      </div>
+        </Wrapper>
+      </Wrapper>
       <ProductsList data={filteredVariants} isLoading={isLoading} />
       <ProductsPagination
         take={TAKE}

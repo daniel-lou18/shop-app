@@ -1,6 +1,7 @@
 "use client";
 import { useState } from "react";
 import { DropdownMenuCheckboxItem } from "../../../../../components/ui/dropdown-menu";
+import Wrapper from "@/components/layout/Wrapper";
 
 type FilterTypes = "brand" | "category" | "color" | "size";
 
@@ -41,7 +42,9 @@ function CheckboxItem({
       onSelect={handleSelect}
       disabled={disabled}
     >
-      <span className="ml-2">{children}</span>
+      <Wrapper element="span" className="ml-2">
+        {children}
+      </Wrapper>
     </DropdownMenuCheckboxItem>
   );
 }

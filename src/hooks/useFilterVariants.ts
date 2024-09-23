@@ -1,13 +1,10 @@
-import { usePathname, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
-import { parsePathParams } from "@/lib/parsers";
 import variantService from "@/features/variants";
 import { Variant } from "@/features/variants/Variant";
+import { useQueryParams } from "./useQueryParams";
 
 export function useFilterVariants() {
-  const searchParams = useSearchParams();
-  const path = usePathname();
-  const params = parsePathParams(path);
+  const { path, searchParams, params } = useQueryParams();
   const [filteredVariants, setFilteredVariants] = useState<Variant[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [error, setError] = useState<string>("");

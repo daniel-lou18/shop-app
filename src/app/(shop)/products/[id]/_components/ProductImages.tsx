@@ -1,5 +1,6 @@
 "use client";
 
+import Wrapper from "@/components/layout/Wrapper";
 import { Button } from "@/components/ui/button";
 import { ProductVariant } from "@prisma/client";
 import Image from "next/image";
@@ -17,7 +18,7 @@ function ProductImages({
     const activeThumbnail =
       thumbnailContainer.current?.querySelector<HTMLDivElement>(".active");
     if (activeThumbnail && thumbnailContainer.current) {
-      const offset = 100; // Adjust this value as needed
+      const offset = 100;
       const containerTop = thumbnailContainer.current.scrollTop;
       const elementTop = activeThumbnail.offsetTop;
       const offsetTop = elementTop - containerTop - offset;
@@ -35,7 +36,7 @@ function ProductImages({
         ref={thumbnailContainer}
       >
         {availableSizes.at(0)?.images.map((image, idx) => (
-          <div className="p-1" key={idx}>
+          <Wrapper className="p-1" key={idx}>
             <Button
               variant="default"
               onClick={() => setSelectedImage(idx)}
@@ -54,10 +55,10 @@ function ProductImages({
                 width="300"
               />
             </Button>
-          </div>
+          </Wrapper>
         ))}
       </div>
-      <div className="col-span-4 md:sticky md:top-[104px] md:h-[600px] md:max-h-screen overflow-hidden rounded-sm">
+      <Wrapper className="col-span-4 md:sticky md:top-[104px] md:h-[600px] md:max-h-screen overflow-hidden rounded-sm">
         <Image
           alt="Product image"
           className="h-auto w-full object-cover object-top"
@@ -67,7 +68,7 @@ function ProductImages({
           }
           width="600"
         />
-      </div>
+      </Wrapper>
     </>
   );
 }

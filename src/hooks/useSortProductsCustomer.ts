@@ -1,17 +1,15 @@
 import { useState } from "react";
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { useQueryParams } from "./useQueryParams";
 
 export function useSortProductsCustomer(hashMap: { [key: string]: string }) {
-  const searchParams = useSearchParams();
-  const pathname = usePathname();
-  const router = useRouter();
+  const { path, searchParams, router } = useQueryParams();
   const [value, setValue] = useState<string>(searchParams.get("sort") || "");
 
   function handleSelect(type: string, value: string) {
     const newQueryString = new URLSearchParams(searchParams);
     newQueryString.set(type, hashMap[value]);
     setValue(value);
-    router.push(`${pathname}?${newQueryString.toString()}`);
+    router.push(`${path}?${newQueryString.toString()}`);
   }
 
   return { value, setValue, handleSelect };

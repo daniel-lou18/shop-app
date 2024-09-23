@@ -3,10 +3,9 @@ import { Params, SearchParams } from "@/db/queries/products";
 import { formatSlugToTitle } from "@/lib/parsers";
 import ProductsContainer from "./_components/ProductsContainer";
 import { Suspense } from "react";
-import Loader from "@/components/ui/Loader";
 import { Breadcrumbs } from "@/components/ui/Breadcrumbs";
-import { SkeletonCard } from "@/components/skeletons/SkeletonCard";
 import ProductsContainerSkeleton from "../../../../components/skeletons/ProductsContainerSkeleton";
+import Wrapper from "@/components/layout/Wrapper";
 
 export type StoreProps = {
   params: Params;
@@ -18,13 +17,13 @@ export default async function ProductsBySlug({
   searchParams,
 }: StoreProps) {
   return (
-    <div className="p-4 sm:px-16 sm:pt-8 sm:pb-12">
+    <Wrapper className="p-4 sm:px-16 sm:pt-8 sm:pb-12">
       <Breadcrumbs slug={params.slug} />
       <PageHeading1>{formatSlugToTitle(params.slug)}</PageHeading1>
       <Suspense fallback={<ProductsContainerSkeleton />}>
         <ProductsContainer params={params} searchParams={searchParams} />
       </Suspense>
-    </div>
+    </Wrapper>
   );
 }
 

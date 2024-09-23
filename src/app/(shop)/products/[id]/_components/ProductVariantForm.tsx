@@ -20,6 +20,7 @@ import { VariantsWithProduct } from "@/db/queries/variants";
 import ButtonSubmit from "@/components/ui/ButtonSubmit";
 import ProductImages from "./ProductImages";
 import { useSearchParams } from "next/navigation";
+import Wrapper from "@/components/layout/Wrapper";
 
 type ProductVariantFormProps = {
   variants: VariantsWithProduct;
@@ -78,17 +79,21 @@ function ProductVariantForm({ variants }: ProductVariantFormProps) {
   }
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-8 gap-8">
+    <Wrapper className="grid grid-cols-1 md:grid-cols-8 gap-8">
       <ProductImages availableSizes={availableSizes} />
       <Card className="border-0 shadow-none flex-1 col-span-3">
         <CardHeader className="p-0">
-          <CardTitle>{variants[0]?.product.brand.name.toUpperCase()}</CardTitle>
-          <h1 className="text-2xl font-bold">{variants[0]?.product.name}</h1>
+          <CardTitle className="uppercase">
+            {variants[0]?.product.brand.name}
+          </CardTitle>
+          <Wrapper element="h1" className="text-2xl font-bold">
+            {variants[0]?.product.name}
+          </Wrapper>
         </CardHeader>
         <CardContent className="px-0 py-4 grid grid-cols-1 gap-4">
-          <p className="text-xl text-gray-950 font-semibold">
+          <Wrapper element="p" className="text-xl text-gray-950 font-semibold">
             {centsToEuros(availableSizes[0]?.price || 0)}
-          </p>
+          </Wrapper>
           <ProductColors
             value={selectedColor}
             onValueChange={handleColorChange}
@@ -114,7 +119,7 @@ function ProductVariantForm({ variants }: ProductVariantFormProps) {
           <ProductAccordeon />
         </CardFooter>
       </Card>
-    </div>
+    </Wrapper>
   );
 }
 

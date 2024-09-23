@@ -1,3 +1,4 @@
+import Wrapper from "@/components/layout/Wrapper";
 import React from "react";
 
 function ProductDescription({
@@ -5,7 +6,11 @@ function ProductDescription({
 }: {
   productDescription: string | undefined;
 }) {
-  return <p className="text-base text-gray-700">{productDescription}</p>;
+  return (
+    <Wrapper element="p" className="text-base text-gray-700">
+      {productDescription}
+    </Wrapper>
+  );
 }
 
 export default ProductDescription;

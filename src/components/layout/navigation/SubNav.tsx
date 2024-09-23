@@ -27,7 +27,9 @@ function SubNav({ section }: SubNavProps) {
             className="text-gray-500 text-sm hover:text-gray-950 w-fit"
             key={item.id}
           >
-            {capitalizeString(item.name)}
+            {section.id === "categories"
+              ? capitalizeString(item.name)
+              : item.name}
           </NavLink>
         ))}
       </ul>
