@@ -10,7 +10,7 @@ function Topbar() {
   const message = mapCartPriceToMessage(totalPrice);
 
   return (
-    <section className="text-white bg-primary w-full h-10 flex gap-2 justify-center items-center">
+    <section className="text-white text-sm md:text-base bg-primary w-full h-10 flex gap-2 justify-center items-center">
       <span>{message}</span>
     </section>
   );
