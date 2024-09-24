@@ -13,7 +13,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { ProductVariant } from "@prisma/client";
 import ProductsTableItemDelete from "./ProductsTableItemDelete";
-import { centsToEuros } from "@/helpers/helpers";
+import { centsToEuros } from "@/lib/helpers";
 import { ProductWithData } from "@/db/queries/products";
 import { Suspense } from "react";
 

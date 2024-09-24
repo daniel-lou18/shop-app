@@ -8,7 +8,7 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import { capitalizeString } from "@/lib/parsers";
-import { navigationInitialData } from "@/helpers/constants";
+import { navigationInitialData } from "@/lib/constants";
 import { Dispatch, SetStateAction } from "react";
 import { paths } from "@/lib/paths";
 

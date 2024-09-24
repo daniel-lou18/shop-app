@@ -1,7 +1,7 @@
 import { render, screen } from "@testing-library/react";
 import "@testing-library/jest-dom/extend-expect";
 import BannerTop from "../BannerTop";
-import { mainHero } from "@/helpers/constants";
+import { mainHero } from "@/lib/constants";
 
 test("should render description and image", () => {
   render(<BannerTop data={mainHero} />);

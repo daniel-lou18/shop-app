@@ -4,7 +4,7 @@ import {
   DropdownMenu,
   DropdownMenuContent,
 } from "@/components/ui/dropdown-menu";
-import { hashMap } from "@/helpers/helpers";
+import { hashMap } from "@/lib/helpers";
 import { Brand, Category } from "@prisma/client";
 import CheckboxItem from "./CheckboxItem";
 import DropdownTrigger from "./DropdownTrigger";

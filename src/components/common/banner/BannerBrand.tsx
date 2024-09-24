@@ -2,7 +2,7 @@
 
 // I had to create a separate client component to wrap the Banner compound component, otherwise Next will throw an error when rendering it on the page server component
 
-import { brandBanner } from "@/helpers/constants";
+import { brandBanner } from "@/lib/constants";
 import Banner from "./Banner";
 
 export default function BannerBrand() {

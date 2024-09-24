@@ -20,6 +20,7 @@ import ButtonSignOut from "@/components/ui/ButtonSignOut";
 import { User } from "@prisma/client";
 import Search from "../search/Search";
 import BaseComponent from "@/components/ui/BaseComponent";
+import { calculateTotalCartItems } from "@/lib/helpers";
 
 type HeaderCustomerRightProps = {
   currentUser: User | null;
@@ -28,6 +29,7 @@ type HeaderCustomerRightProps = {
 function HeaderCustomerRight({ currentUser }: HeaderCustomerRightProps) {
   const [cartOpen, setCartOpen] = useState<boolean>(false);
   const { items } = useCart();
+  const totalCartItems = calculateTotalCartItems(items);
 
   function toggleCart() {
     setCartOpen((prevState) => !prevState);
@@ -97,7 +99,7 @@ function HeaderCustomerRight({ currentUser }: HeaderCustomerRightProps) {
         <ShoppingBagIcon strokeWidth={1.25} className="h-7 w-7" />
         <span className="sr-only">Toggle panier</span>
         {items.length > 0 && (
-          <span className="cart-count bg-primary">{items.length}</span>
+          <span className="cart-count bg-primary">{totalCartItems}</span>
         )}
       </Button>
       <Example open={cartOpen} setOpen={setCartOpen} />

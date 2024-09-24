@@ -9,7 +9,7 @@ import { Separator } from "@/components/ui/separator";
 import { fetchOrder } from "@/db/queries/order";
 import { CreditCard } from "lucide-react";
 import OrderSummaryItemAdmin from "./_components/OrderSummaryItemAdmin";
-import { calculateOrderPrice } from "@/helpers/helpers";
+import { calculateOrderPrice } from "@/lib/helpers";
 import { fetchUserWithOrdersById } from "@/db/queries/user";
 import OrderProductsTableAdmin from "./_components/OrderProductsTableAdmin";
 import OrderCustomerTableAdmin from "./_components/OrderCustomerTableAdmin";

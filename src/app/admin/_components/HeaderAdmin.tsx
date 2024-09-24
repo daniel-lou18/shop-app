@@ -7,7 +7,7 @@ import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { paths } from "@/lib/paths";
 import HeaderAdminDropdown from "./HeaderAdminDropdown";
 import HeaderLogo from "@/components/ui/HeaderLogo";
-import { headerAdminLinks } from "@/helpers/constants";
+import { headerAdminLinks } from "@/lib/constants";
 import NavLink from "@/components/layout/navigation/NavLink";
 
 function HeaderAdmin() {

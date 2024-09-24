@@ -8,6 +8,7 @@ import {
 import ProductsCarouselItems from "../../../../components/common/carousel/ProductsCarouselItems";
 import { Breadcrumbs } from "@/components/ui/Breadcrumbs";
 import { Slug } from "@/types";
+import BaseComponent from "@/components/ui/BaseComponent";
 
 type ProductDetailsCustomerPageProps = {
   params: {
@@ -37,7 +38,7 @@ async function ProductDetailsCustomerPage({
   ];
 
   return (
-    <div className="max-w-7xl mx-auto p-4 md:px-0 md:pt-8 md:pb-16">
+    <BaseComponent className="max-w-7xl mx-auto p-4 md:pt-8 md:pb-16">
       <Breadcrumbs slug={slug as Slug} type="long" />
       <ProductVariantForm variants={variants} key={searchParams.color} />
       <ProductsCarouselItems
@@ -46,7 +47,7 @@ async function ProductDetailsCustomerPage({
         displayTabs={false}
         className="sm:p-0 md:mt-20"
       />
-    </div>
+    </BaseComponent>
   );
 }
 

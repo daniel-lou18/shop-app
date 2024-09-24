@@ -7,7 +7,7 @@ import { UsersWithOrders } from "@/db/queries/users";
 import {
   tableHeaderItemsCustomers,
   tabsTriggersCustomers,
-} from "@/helpers/constants";
+} from "@/lib/constants";
 import Loader from "@/components/ui/Loader";
 import { useSort } from "@/hooks/useSort";
 

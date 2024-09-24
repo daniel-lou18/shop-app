@@ -3,8 +3,8 @@ import { Category, Sex } from "@prisma/client";
 import { FetchResult } from "./products";
 import { handleFetchError } from "@/lib/errors";
 import { fetchBrands } from "./brands";
-import { createNavigationData } from "@/helpers/helpers";
-import { navigationInitialData } from "@/helpers/constants";
+import { createNavigationData } from "@/lib/helpers";
+import { navigationInitialData } from "@/lib/constants";
 
 export type AllCategories = Category[];
 

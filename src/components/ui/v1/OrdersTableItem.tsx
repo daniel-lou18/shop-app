@@ -16,7 +16,7 @@ import Image from "next/image";
 import { Suspense } from "react";
 import { paths } from "@/lib/paths";
 import { OrderWithItemsAndUser } from "@/db/queries/orders";
-import { calculateOrderPrice, centsToEuros } from "@/helpers/helpers";
+import { calculateOrderPrice, centsToEuros } from "@/lib/helpers";
 import { usePathname, useRouter } from "next/navigation";
 
 type OrdersTableItemProps = { order: OrderWithItemsAndUser };

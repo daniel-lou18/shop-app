@@ -1,6 +1,6 @@
 import { screen, render, within } from "@testing-library/react";
 import ProductFilters from "../ProductFilters";
-import { testFilterData } from "@/helpers/testData";
+import { testFilterData } from "@/lib/testData";
 import { usePathname, useSearchParams } from "next/navigation";
 
 jest.mock("next/navigation");

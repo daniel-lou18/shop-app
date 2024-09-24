@@ -5,7 +5,7 @@ import {
   NavigationMenuList,
 } from "@/components/layout/navigation/navigation-menu";
 import HeaderLogo from "@/components/ui/HeaderLogo";
-import { createNavigationData } from "@/helpers/helpers";
+import { createNavigationData } from "@/lib/helpers";
 import { AllCategories } from "@/db/queries/categories";
 import { useEffect, useRef } from "react";
 import { AllBrands } from "@/db/queries/brands";

@@ -1,7 +1,7 @@
 import { OrderWithOrderItemsAndVariants } from "@/db/queries/users";
 import { AllBrands } from "@/db/queries/brands";
 import { AllCategories } from "@/db/queries/categories";
-import { navigationInitialData } from "@/helpers/constants";
+import { navigationInitialData } from "./constants";
 import { CartItem } from "@/context/cart-context";
 
 export function centsToEuros(priceInCents: number) {
@@ -28,6 +28,10 @@ export function calculateOrdersPrice(orders: OrderWithOrderItemsAndVariants[]) {
 
 export function calculateTotalCartPrice(cartItems: CartItem[]) {
   return cartItems.reduce((acc, item) => acc + item.price, 0);
+}
+
+export function calculateTotalCartItems(cartItems: CartItem[]) {
+  return cartItems.reduce((acc, item) => acc + item.orderQuantity, 0);
 }
 
 export function mapCartPriceToMessage(price: number) {

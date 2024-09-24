@@ -9,7 +9,7 @@ import { Separator } from "@/components/ui/separator";
 import { fetchOrder } from "@/db/queries/order";
 import { CreditCard } from "lucide-react";
 import OrderSummaryItem from "./_components/OrderSummaryItem";
-import { calculateOrderPrice, centsToEuros } from "@/helpers/helpers";
+import { calculateOrderPrice, centsToEuros } from "@/lib/helpers";
 import { fetchUserById } from "@/db/queries/user";
 
 async function OrderSummary({ params }: { params: { id: string } }) {

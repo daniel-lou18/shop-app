@@ -1,6 +1,6 @@
 import { render, screen } from "@testing-library/react";
 import ProductsCarouselItems from "./ProductsCarouselItems";
-import { testVariantsWithProductWomen } from "@/helpers/testData";
+import { testVariantsWithProductWomen } from "@/lib/testData";
 
 function renderComponent() {
   render(

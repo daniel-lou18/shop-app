@@ -11,7 +11,7 @@ import {
 } from "@/components/ui/card";
 import { Table } from "@/components/ui/table";
 import { UserWithOrders } from "@/db/queries/users";
-import { tableHeaderItemsCustomers } from "@/helpers/constants";
+import { tableHeaderItemsCustomers } from "@/lib/constants";
 
 function OrderCustomerTableAdmin({ user }: { user: UserWithOrders }) {
   return (

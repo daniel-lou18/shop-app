@@ -1,6 +1,6 @@
 import { screen, render } from "@testing-library/react";
 import "@testing-library/jest-dom/extend-expect";
-import { testVariantsWithProductMen } from "@/helpers/testData";
+import { testVariantsWithProductMen } from "@/lib/testData";
 import { usePathname, useSearchParams } from "next/navigation";
 import ProductsList from "../ProductsList";
 

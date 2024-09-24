@@ -8,7 +8,7 @@ import {
 import { Separator } from "@/components/ui/separator";
 import { CreditCard } from "lucide-react";
 import OrderSummaryItem from "./[id]/_components/OrderSummaryItem";
-import { calculateOrderPrice, centsToEuros } from "@/helpers/helpers";
+import { calculateOrderPrice, centsToEuros } from "@/lib/helpers";
 import { fetchUserById } from "@/db/queries/user";
 import { fetchAllOrders } from "@/db/queries/orders";
 

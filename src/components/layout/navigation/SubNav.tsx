@@ -1,5 +1,5 @@
 import { capitalizeString } from "@/lib/parsers";
-import { navigationInitialData } from "@/helpers/constants";
+import { navigationInitialData } from "@/lib/constants";
 import Link from "next/link";
 import {
   NavigationMenuItem,

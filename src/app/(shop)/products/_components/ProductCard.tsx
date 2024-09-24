@@ -1,7 +1,7 @@
 import { Card, CardContent, CardFooter, CardTitle } from "@/components/ui/card";
 import Image from "next/image";
 import Link from "next/link";
-import { centsToEuros } from "@/helpers/helpers";
+import { centsToEuros } from "@/lib/helpers";
 import { paths } from "@/lib/paths";
 import { BrandSquare } from "@/types";
 import { cn } from "@/lib/utils";

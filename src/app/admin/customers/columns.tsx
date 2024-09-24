@@ -17,7 +17,7 @@ import { DataTableColumnHeader } from "@/components/admin/DataTableColumnHeader"
 import { Badge } from "@/components/ui/badge";
 import Link from "next/link";
 import { paths } from "@/lib/paths";
-import { calculateOrderPrice, calculateOrdersPrice } from "@/helpers/helpers";
+import { calculateOrderPrice, calculateOrdersPrice } from "@/lib/helpers";
 import { UserWithOrders } from "@/db/queries/users";
 
 export type UsersTableData = UserWithOrders;

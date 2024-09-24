@@ -3,7 +3,7 @@
 import { ExtendedUser } from "@/auth";
 import ButtonSubmit from "@/components/ui/ButtonSubmit";
 import { useCart } from "@/context/cart-context";
-import { centsToEuros } from "@/helpers/helpers";
+import { centsToEuros } from "@/lib/helpers";
 import { paths } from "@/lib/paths";
 import { useRouter, useSearchParams } from "next/navigation";
 import { FormEvent, MouseEvent, useEffect } from "react";

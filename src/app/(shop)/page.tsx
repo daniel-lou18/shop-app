@@ -1,5 +1,5 @@
 import React, { Suspense } from "react";
-import { mainHero, brandsMen, brandsWomen } from "@/helpers/constants";
+import { mainHero, brandsMen, brandsWomen } from "@/lib/constants";
 import BannerTop from "../../components/common/banner/BannerTop";
 import BrandsCards from "../../components/common/card/BrandsCards";
 import ButtonsGender from "../../components/common/banner/ButtonsGender";

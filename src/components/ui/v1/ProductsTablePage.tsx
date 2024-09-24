@@ -7,7 +7,7 @@ import Loader from "@/components/ui/Loader";
 import {
   tableHeaderItemsProducts,
   tabsTriggersProducts,
-} from "@/helpers/constants";
+} from "@/lib/constants";
 import { useSort } from "@/hooks/useSort";
 
 function filterProducts(products: ProductsWithStock, value: string) {

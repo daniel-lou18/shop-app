@@ -18,7 +18,7 @@ import { Badge } from "@/components/ui/badge";
 import Link from "next/link";
 import { paths } from "@/lib/paths";
 import { OrderWithItemsAndUser } from "@/db/queries/orders";
-import { calculateOrderPrice } from "@/helpers/helpers";
+import { calculateOrderPrice } from "@/lib/helpers";
 
 export type OrdersTableData = OrderWithItemsAndUser;
 

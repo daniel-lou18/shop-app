@@ -6,7 +6,7 @@ import { Menu } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import HeaderLogo from "@/components/ui/HeaderLogo";
 import { useState } from "react";
-import { createNavigationData } from "@/helpers/helpers";
+import { createNavigationData } from "@/lib/helpers";
 import NavbarMobileSheet from "./NavbarMobileSheet";
 
 function NavbarMobile({

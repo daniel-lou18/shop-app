@@ -1,5 +1,5 @@
 import { ExtendedOrderItem, OrderWithItems } from "@/db/queries/orders";
-import { centsToEuros } from "@/helpers/helpers";
+import { centsToEuros } from "@/lib/helpers";
 
 function OrderSummaryItemAdmin({ item }: { item: ExtendedOrderItem }) {
   return (

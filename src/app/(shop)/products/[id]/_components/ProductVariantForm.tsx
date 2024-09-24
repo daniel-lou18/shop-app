@@ -7,7 +7,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { centsToEuros } from "@/helpers/helpers";
+import { centsToEuros } from "@/lib/helpers";
 import { ProductVariant } from "@prisma/client";
 import { useState } from "react";
 import ProductSizes from "./ProductSizes";

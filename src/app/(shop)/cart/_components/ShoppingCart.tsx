@@ -7,7 +7,7 @@ import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { paths } from "@/lib/paths";
 import { useToast } from "@/components/ui/use-toast";
-import { centsToEuros } from "@/helpers/helpers";
+import { centsToEuros } from "@/lib/helpers";
 
 type ShoppingCartProps = {
   open: boolean;

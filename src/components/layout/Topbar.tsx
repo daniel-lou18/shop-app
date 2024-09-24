@@ -1,7 +1,7 @@
 "use client";
 
 import { useCart } from "@/context/cart-context";
-import { mapCartPriceToMessage } from "@/helpers/helpers";
+import { mapCartPriceToMessage } from "@/lib/helpers";
 import React from "react";
 
 function Topbar() {

@@ -3,7 +3,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "./textarea";
 import { capitalizeString, strNoAccent } from "@/lib/parsers";
-import { mapToFrench } from "@/helpers/helpers";
+import { mapToFrench } from "@/lib/helpers";
 
 export type InputFieldProps = {
   variant: "input" | "textarea" | "number" | "email" | "password";

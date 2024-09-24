@@ -1,4 +1,3 @@
-import { Params } from "@/db/queries/products";
 import { Slug } from "@/types";
 
 export function splitCapitalizeUri(uri: string) {

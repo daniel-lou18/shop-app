@@ -15,7 +15,7 @@ import { Suspense } from "react";
 import CustomersTableItemDelete from "./CustomersTableItemDelete";
 import { paths } from "@/lib/paths";
 import { UserWithOrders } from "@/db/queries/users";
-import { calculateOrdersPrice, centsToEuros } from "@/helpers/helpers";
+import { calculateOrdersPrice, centsToEuros } from "@/lib/helpers";
 
 type CustomersTableItemProps = UserWithOrders;
 

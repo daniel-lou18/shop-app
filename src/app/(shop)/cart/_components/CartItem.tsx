@@ -1,5 +1,5 @@
 import { useCart, type CartItem as Item } from "@/context/cart-context";
-import { centsToEuros } from "@/helpers/helpers";
+import { centsToEuros } from "@/lib/helpers";
 import Image from "next/image";
 import React from "react";
 

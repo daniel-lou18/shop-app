@@ -2,7 +2,7 @@
 
 import React from "react";
 import Banner from "./Banner";
-import { oceanBanner } from "@/helpers/constants";
+import { oceanBanner } from "@/lib/constants";
 
 export default function BannerMission() {
   return (
