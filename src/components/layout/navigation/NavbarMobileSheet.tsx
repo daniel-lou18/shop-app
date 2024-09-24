@@ -18,7 +18,7 @@ type NavbarMobileSheetProps = {
 };
 
 function NavbarMobileSheet({ data, setIsOpen }: NavbarMobileSheetProps) {
-  const { id, name, featured, sections } = data;
+  const { id, name, sections } = data;
 
   if (!id || !name || !sections?.length) return null;
 

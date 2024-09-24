@@ -28,7 +28,7 @@ function NavbarMobile({
       </SheetTrigger>
       <SheetContent side="left">
         <nav className="grid gap-6 text-lg font-medium">
-          <HeaderLogo className="mb-4" />
+          <HeaderLogo className="mb-4" onClick={() => setIsOpen(false)} />
           <Link href="/products/categories/new">NOUVEAUTÉS</Link>
           {data.map((dataElement) => (
             <NavbarMobileSheet
