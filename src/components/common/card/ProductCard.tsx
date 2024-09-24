@@ -39,7 +39,7 @@ function ProductCard({ type, item, className }: ProductCardProps) {
       {type === "variant" && (
         <Button
           variant="ghost"
-          className="absolute right-2 top-2 text-gray-500 z-[5] hover:bg-transparent"
+          className="absolute py-0 px-1 sm:p-2 right-2 top-2 text-gray-500 z-[5] hover:bg-transparent"
           onClick={handleWishlist}
         >
           <Heart
