@@ -3,6 +3,16 @@ import user from "@testing-library/user-event";
 import BrandsCards from "../BrandsCards";
 import "@testing-library/jest-dom/extend-expect";
 
+jest.mock("../../../../context/wishlist-context", () => ({
+  useWishlist: jest.fn().mockReturnValue({
+    wishlist: [],
+    addToWishlist: jest.fn(),
+    removeFromWishlist: jest.fn(),
+  }),
+}));
+
+beforeEach(() => jest.clearAllMocks());
+
 test("should render the title and no cards", () => {
   render(<BrandsCards title="My Title" items={[]} />);
   const title = screen.getByText("My Title");
@@ -68,7 +78,7 @@ test("should render information contained in the items correctly", () => {
       element = screen.getByRole("img");
       expect(element).toHaveAttribute("alt", "Product image");
     } else {
-      element = screen.getByText(new RegExp(value.toString()));
+      element = screen.getAllByText(new RegExp(value.toString()))[0];
     }
     expect(element).toBeInTheDocument();
   }

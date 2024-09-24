@@ -27,9 +27,10 @@
     "**/*.tsx",
     ".next/types/**/*.ts",
     "src/app/(shop)/products/[id]/_components/__tests__/ProductColors.test.jsx",
-    "src/components/common/carousel/ProductsCarouselItems.test.jsx",
+    "src/components/common/carousel/ProductsCarouselItems._test.tsx",
     "src/app/(shop)/store/[...slug]/_components/__tests__/ProductFilters.test.jsx",
-    "jest.polyfills.js"
+    "jest.polyfills.js",
+    "src/components/common/carousel/ProductsCarouselItems._test.jsx"
   ],
   "exclude": ["node_modules"]
 }
