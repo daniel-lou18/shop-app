@@ -1,6 +1,8 @@
 import BaseComponent from "@/components/ui/BaseComponent";
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
-import { ProductVariant } from "@prisma/client";
+import { sizesTable } from "@/lib/constants";
+import { orderSizes } from "@/lib/helpers";
+import { ProductVariantWithValidSizes } from "@/types";
 
 function ProductSizes({
   value,
@@ -9,8 +11,11 @@ function ProductSizes({
 }: {
   value: string;
   onValueChange: (value: string) => void;
-  availableSizes: ProductVariant[];
+  availableSizes: ProductVariantWithValidSizes[];
 }) {
+  const orderedSizes = orderSizes(availableSizes, sizesTable);
+  console.log(orderedSizes);
+
   return (
     <BaseComponent className="grid grid-cols-1 gap-2">
       <BaseComponent tag="p">Votre taille</BaseComponent>

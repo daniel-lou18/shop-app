@@ -21,6 +21,7 @@ import ButtonSubmit from "@/components/ui/ButtonSubmit";
 import ProductImages from "./ProductImages";
 import { useSearchParams } from "next/navigation";
 import BaseComponent from "@/components/ui/BaseComponent";
+import { ProductVariantWithValidSizes } from "@/types";
 
 type ProductVariantFormProps = {
   variants: VariantsWithProduct;
@@ -105,7 +106,7 @@ function ProductVariantForm({ variants }: ProductVariantFormProps) {
           <ProductSizes
             value={selectedSize}
             onValueChange={handleSizeChange}
-            availableSizes={availableSizes}
+            availableSizes={availableSizes as ProductVariantWithValidSizes[]}
           />
         </CardContent>
         <CardFooter className="flex-col items-start px-0 py-4 gap-8">

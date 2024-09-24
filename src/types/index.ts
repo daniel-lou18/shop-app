@@ -1,6 +1,7 @@
 import { AllBrands } from "@/db/queries/brands";
 import { AllCategories } from "@/db/queries/categories";
-import { Sex } from "@prisma/client";
+import { sizesTable } from "@/lib/constants";
+import { ProductVariant, Sex } from "@prisma/client";
 
 export type Slug = [Sex, string | undefined, string | undefined];
 
@@ -23,3 +24,7 @@ export type NavigationSections = {
   name: string;
   items: AllCategories | AllBrands;
 }[];
+
+export type ProductVariantWithValidSizes = Omit<ProductVariant, "size"> & {
+  size: keyof typeof sizesTable;
+};

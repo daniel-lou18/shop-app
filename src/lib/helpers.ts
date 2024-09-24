@@ -1,8 +1,10 @@
 import { OrderWithOrderItemsAndVariants } from "@/db/queries/users";
 import { AllBrands } from "@/db/queries/brands";
 import { AllCategories } from "@/db/queries/categories";
-import { navigationInitialData } from "./constants";
+import { navigationInitialData, sizesTable } from "./constants";
 import { CartItem } from "@/context/cart-context";
+import { ProductVariant } from "@prisma/client";
+import { ProductVariantWithValidSizes } from "@/types";
 
 export function centsToEuros(priceInCents: number) {
   return (priceInCents / 100).toLocaleString("fr-FR", {
@@ -87,4 +89,13 @@ export function createNavigationData(
     };
   });
   return result;
+}
+
+export function orderSizes(
+  availableSizes: ProductVariantWithValidSizes[],
+  sizesOrderTable: typeof sizesTable
+) {
+  return availableSizes.sort(
+    (a, b) => sizesOrderTable[a.size] - sizesOrderTable[b.size]
+  );
 }

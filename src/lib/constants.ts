@@ -1,5 +1,6 @@
 import { paths } from "@/lib/paths";
 import { NavigationSections } from "@/types";
+import { ProductVariant } from "@prisma/client";
 
 export const BRANDS = {
   men: [
@@ -252,3 +253,12 @@ export const navigationInitialData = [
     sections: [] as NavigationSections,
   },
 ];
+
+export const sizesTable = {
+  XS: 1,
+  S: 2,
+  M: 3,
+  L: 4,
+  XL: 5,
+  XXL: 6,
+};
