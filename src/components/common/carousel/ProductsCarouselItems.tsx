@@ -16,6 +16,7 @@ import { cn } from "@/lib/utils";
 import { VariantWithProduct, VariantsWithProduct } from "@/db/queries/variants";
 import VariantCard from "../card/VariantCard";
 import { dtosToVariants } from "@/features/variants/transformDto";
+import BaseComponent from "@/components/ui/BaseComponent";
 
 export type ProductsCarouselItemsProps = {
   title: string;
@@ -43,11 +44,9 @@ function ProductsCarouselItems({
     content = displayedProducts.map((item, index) => (
       <CarouselItem
         key={index}
-        className={`basis-1/2 lg:basis-[375px] shadow-md`}
+        className={`basis-1/2 lg:basis-[375px] shadow-md bg-white`}
       >
-        <div>
-          <VariantCard item={item} />
-        </div>
+        <VariantCard item={item} />
       </CarouselItem>
     ));
   }
@@ -58,7 +57,7 @@ function ProductsCarouselItems({
   return (
     <div className={cn("p-4 sm:px-16 sm:py-8 w-full mt-4 md:mt-12", className)}>
       <Tabs value={selectedSex} className="w-full">
-        <div className="flex items-center justify-between gap-8 mb-4">
+        <BaseComponent className="flex items-center justify-between gap-8 mb-4">
           <PageHeading1 className="mb-0">{title}</PageHeading1>
           {displayTabs && (
             <TabsList className="grid w-64 grid-cols-2">
@@ -74,16 +73,16 @@ function ProductsCarouselItems({
               ))}
             </TabsList>
           )}
-        </div>
+        </BaseComponent>
         <TabsContent value={selectedSex}>
           <Carousel
             opts={{
               align: "start",
             }}
           >
-            <ul>
+            <BaseComponent tag="ul">
               <CarouselContent>{content}</CarouselContent>
-            </ul>
+            </BaseComponent>
             <>
               <CarouselPrevious className="w-12 h-12" />
               <CarouselNext className="w-12 h-12" />

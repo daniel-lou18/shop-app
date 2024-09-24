@@ -13,6 +13,12 @@ export function centsToEuros(priceInCents: number) {
   });
 }
 
+export function shortenText(text: string, maxLetters: number = 15) {
+  return text.length > maxLetters
+    ? text.slice(0, maxLetters - 3) + "..."
+    : text;
+}
+
 export function calculateOrderPrice(order: OrderWithOrderItemsAndVariants) {
   const totalPrice = order.orderItems.reduce((acc, item) => {
     return acc + item.quantity * item.variant.price;

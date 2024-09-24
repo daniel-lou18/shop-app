@@ -1,11 +1,12 @@
 import { Card, CardContent, CardFooter, CardTitle } from "@/components/ui/card";
 import Image from "next/image";
 import Link from "next/link";
-import { centsToEuros } from "@/lib/helpers";
+import { centsToEuros, shortenText } from "@/lib/helpers";
 import { cn } from "@/lib/utils";
 import { Heart } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useWishlist } from "@/context/wishlist-context";
+import BaseComponent from "@/components/ui/BaseComponent";
 
 export type ProductCardItem = {
   id: string;
@@ -35,7 +36,7 @@ function ProductCard({ type, item, className }: ProductCardProps) {
   }
 
   return (
-    <li className="text-decoration-none relative">
+    <BaseComponent tag="li" className="text-decoration-none relative h-full">
       {type === "variant" && (
         <Button
           variant="ghost"
@@ -49,7 +50,7 @@ function ProductCard({ type, item, className }: ProductCardProps) {
         </Button>
       )}
       <Link href={href}>
-        <article className="h-full">
+        <BaseComponent tag="article" className="h-full">
           <Card
             className={cn(
               "border-0 shadow-none overflow-hidden h-full",
@@ -67,27 +68,32 @@ function ProductCard({ type, item, className }: ProductCardProps) {
                 width="400"
               />
             </CardContent>
-            <CardFooter className="flex-col items-start py-4 px-4 text-lg">
-              <CardTitle className="text-lg text-gray-950 font-bold uppercase">
-                {title}
+            <CardFooter className="flex-col items-start p-2 text-lg">
+              <CardTitle className="text-gray-950 font-bold uppercase">
+                <BaseComponent tag="span" className="block sm:hidden text-sm">
+                  {shortenText(title)}
+                </BaseComponent>
+                <BaseComponent tag="span" className="hidden sm:block text-lg">
+                  {title}
+                </BaseComponent>
               </CardTitle>
-              <div
+              <BaseComponent
                 className={`${
                   type === "square" ? "hidden md:block" : ""
                 } text-sm md:text-base text-gray-950 mb-2`}
               >
-                {description}
-              </div>
+                {shortenText(description, 21)}
+              </BaseComponent>
               {item?.price && (
-                <div className="text-base font-semibold text-gray-950">
+                <BaseComponent className="text-base font-semibold text-gray-950">
                   {centsToEuros(item.price)}
-                </div>
+                </BaseComponent>
               )}
             </CardFooter>
           </Card>
-        </article>
+        </BaseComponent>
       </Link>
-    </li>
+    </BaseComponent>
   );
 }
 
