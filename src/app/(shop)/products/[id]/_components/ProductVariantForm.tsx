@@ -79,7 +79,7 @@ function ProductVariantForm({ variants }: ProductVariantFormProps) {
   }
 
   return (
-    <BaseComponent className="grid grid-cols-1 md:grid-cols-8 gap-8">
+    <BaseComponent className="grid grid-cols-1 md:grid-cols-8 md:gap-8">
       <ProductImages availableSizes={availableSizes} />
       <Card className="border-0 shadow-none flex-1 col-span-3">
         <CardHeader className="p-0">

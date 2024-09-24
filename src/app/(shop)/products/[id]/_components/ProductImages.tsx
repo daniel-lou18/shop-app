@@ -58,7 +58,7 @@ function ProductImages({
           </BaseComponent>
         ))}
       </div>
-      <BaseComponent className="col-span-4 md:sticky md:top-[104px] md:h-[600px] md:max-h-screen overflow-hidden rounded-sm">
+      <BaseComponent className="hidden md:block col-span-4 md:sticky md:top-[104px] md:h-[600px] md:max-h-screen overflow-hidden rounded-sm">
         <Image
           alt="Product image"
           className="h-auto w-full object-cover object-top"
