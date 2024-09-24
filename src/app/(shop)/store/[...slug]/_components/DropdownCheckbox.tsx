@@ -10,7 +10,7 @@ import CheckboxItem from "./CheckboxItem";
 import DropdownTrigger from "./DropdownTrigger";
 import { Dispatch, SetStateAction } from "react";
 import { useCheckProductsCustomer } from "@/hooks/useCheckProductsCustomer";
-import Wrapper from "@/components/layout/Wrapper";
+import BaseComponent from "@/components/ui/BaseComponent";
 
 type SelectFilterProps = { setIsLoading: Dispatch<SetStateAction<boolean>> } & (
   | {
@@ -50,7 +50,7 @@ function DropdownCheckbox({
   }
 
   return (
-    <Wrapper className="dropdown-container relative">
+    <BaseComponent className="dropdown-container relative">
       <DropdownMenu modal={false}>
         <DropdownTrigger style="check" checkedValues={checkedValues}>
           {hashMap[type]}
@@ -76,7 +76,7 @@ function DropdownCheckbox({
           ))}
         </DropdownMenuContent>
       </DropdownMenu>
-    </Wrapper>
+    </BaseComponent>
   );
 }
 

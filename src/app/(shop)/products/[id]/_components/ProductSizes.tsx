@@ -1,4 +1,4 @@
-import Wrapper from "@/components/layout/Wrapper";
+import BaseComponent from "@/components/ui/BaseComponent";
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
 import { ProductVariant } from "@prisma/client";
 
@@ -12,8 +12,8 @@ function ProductSizes({
   availableSizes: ProductVariant[];
 }) {
   return (
-    <Wrapper className="grid grid-cols-1 gap-2">
-      <Wrapper element="p">Votre taille</Wrapper>
+    <BaseComponent className="grid grid-cols-1 gap-2">
+      <BaseComponent tag="p">Votre taille</BaseComponent>
       <ToggleGroup
         type="single"
         variant="outline"
@@ -32,7 +32,7 @@ function ProductSizes({
           </ToggleGroupItem>
         ))}
       </ToggleGroup>
-    </Wrapper>
+    </BaseComponent>
   );
 }
 

@@ -7,10 +7,11 @@ import ProductsCarousel from "../../components/common/carousel/ProductsCarousel"
 import CarouselSkeleton from "../../components/skeletons/CarouselSkeleton";
 import BannerBrand from "../../components/common/banner/BannerBrand";
 import BannerMission from "../../components/common/banner/BannerMission";
+import BaseComponent from "@/components/ui/BaseComponent";
 
 async function MainContent() {
   return (
-    <div className="bg-gray-50 pb-16">
+    <BaseComponent className="bg-gray-50 pb-16">
       <BannerTop data={mainHero}>
         <ButtonsGender data={mainHero.buttonsData} />
       </BannerTop>
@@ -24,7 +25,7 @@ async function MainContent() {
       />
       <BannerMission />
       <ProductsCarousel title="Nos bestsellers" />
-    </div>
+    </BaseComponent>
   );
 }
 

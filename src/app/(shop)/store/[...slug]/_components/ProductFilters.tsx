@@ -7,7 +7,7 @@ import DropdownTrigger from "./DropdownTrigger";
 import { Dispatch, SetStateAction } from "react";
 import { Slug } from "@/types";
 import { AvailableData } from "./ProductsPage";
-import Wrapper from "@/components/layout/Wrapper";
+import BaseComponent from "@/components/ui/BaseComponent";
 
 type ProductFiltersProps = {
   data: AvailableData;
@@ -38,7 +38,7 @@ function ProductFilters({ data, setIsLoading, slug }: ProductFiltersProps) {
   const showBrandFilter = !brand;
   return (
     <>
-      <Wrapper className="hidden md:flex lg:gap-4">
+      <BaseComponent className="hidden md:flex lg:gap-4">
         <DropdownCheckbox
           type="color"
           data={availableColors}
@@ -67,8 +67,8 @@ function ProductFilters({ data, setIsLoading, slug }: ProductFiltersProps) {
             setIsLoading={setIsLoading}
           />
         )}
-      </Wrapper>
-      <Wrapper className="block md:hidden">
+      </BaseComponent>
+      <BaseComponent className="block md:hidden">
         <DropdownMenu>
           <DropdownTrigger style="normal" variant="chevron">
             Filtres
@@ -104,7 +104,7 @@ function ProductFilters({ data, setIsLoading, slug }: ProductFiltersProps) {
             )}
           </DropdownMenuContent>
         </DropdownMenu>
-      </Wrapper>
+      </BaseComponent>
     </>
   );
 }

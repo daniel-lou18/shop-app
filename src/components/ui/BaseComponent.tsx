@@ -1,18 +1,18 @@
 import { cn } from "@/lib/utils";
 import { ComponentPropsWithoutRef, ElementType, ReactElement } from "react";
 
-type WrapperProps<T extends ElementType> = {
+type BaseComponentProps<T extends ElementType> = {
   className?: string;
-  element?: T;
+  tag?: T;
 } & ComponentPropsWithoutRef<T>;
 
-function Wrapper<T extends ElementType = "div">({
-  element,
+function BaseComponent<T extends ElementType = "div">({
+  tag,
   className,
   children,
   ...props
-}: WrapperProps<T>) {
-  const Component = element || "div";
+}: BaseComponentProps<T>) {
+  const Component = tag || "div";
 
   return (
     <Component className={cn(className)} {...props}>
@@ -21,4 +21,4 @@ function Wrapper<T extends ElementType = "div">({
   );
 }
 
-export default Wrapper;
+export default BaseComponent;

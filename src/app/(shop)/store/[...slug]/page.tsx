@@ -5,7 +5,7 @@ import ProductsContainer from "./_components/ProductsContainer";
 import { Suspense } from "react";
 import { Breadcrumbs } from "@/components/ui/Breadcrumbs";
 import ProductsContainerSkeleton from "../../../../components/skeletons/ProductsContainerSkeleton";
-import Wrapper from "@/components/layout/Wrapper";
+import BaseComponent from "@/components/ui/BaseComponent";
 
 export type StoreProps = {
   params: Params;
@@ -17,13 +17,13 @@ export default async function ProductsBySlug({
   searchParams,
 }: StoreProps) {
   return (
-    <Wrapper className="p-4 sm:px-16 sm:pt-8 sm:pb-12">
+    <BaseComponent className="p-4 sm:px-16 sm:pt-8 sm:pb-12">
       <Breadcrumbs slug={params.slug} />
       <PageHeading1>{formatSlugToTitle(params.slug)}</PageHeading1>
       <Suspense fallback={<ProductsContainerSkeleton />}>
         <ProductsContainer params={params} searchParams={searchParams} />
       </Suspense>
-    </Wrapper>
+    </BaseComponent>
   );
 }
 

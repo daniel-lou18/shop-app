@@ -1,4 +1,4 @@
-import Wrapper from "@/components/layout/Wrapper";
+import BaseComponent from "@/components/ui/BaseComponent";
 import {
   Accordion,
   AccordionContent,
@@ -14,13 +14,13 @@ function ProductAccordeon() {
           Livraison et retours gratuits
         </AccordionTrigger>
         <AccordionContent>
-          <Wrapper element="ul">
-            <Wrapper element="li">Livraison standard gratuite</Wrapper>
-            <Wrapper element="li">
+          <BaseComponent tag="ul">
+            <BaseComponent tag="li">Livraison standard gratuite</BaseComponent>
+            <BaseComponent tag="li">
               Vous pouvez retourner votre commande gratuitement, dans un délai
               de 30 jours.
-            </Wrapper>
-          </Wrapper>
+            </BaseComponent>
+          </BaseComponent>
         </AccordionContent>
       </AccordionItem>
       <AccordionItem value="item-2">
@@ -28,21 +28,21 @@ function ProductAccordeon() {
           Taille et coupe
         </AccordionTrigger>
         <AccordionContent>
-          <Wrapper element="ul">
-            <Wrapper element="li">
+          <BaseComponent tag="ul">
+            <BaseComponent tag="li">
               Taille grand : on te conseille de commander une demi-pointure
               au-dessous
-            </Wrapper>
-            <Wrapper element="li">
+            </BaseComponent>
+            <BaseComponent tag="li">
               Coupe standard : classique et facile à porter
-            </Wrapper>
-            <Wrapper element="li">
+            </BaseComponent>
+            <BaseComponent tag="li">
               Si tu portes généralement des modèles pour homme, choisis ta
               taille habituelle. Si tu portes généralement des modèles pour
               femme, choisis une taille inférieure à ta taille habituelle.
-            </Wrapper>
-            <Wrapper>Guide des tailles</Wrapper>
-          </Wrapper>
+            </BaseComponent>
+            <BaseComponent>Guide des tailles</BaseComponent>
+          </BaseComponent>
         </AccordionContent>
       </AccordionItem>
       <AccordionItem value="item-3">

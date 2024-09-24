@@ -1,6 +1,6 @@
 "use client";
 
-import Wrapper from "@/components/layout/Wrapper";
+import BaseComponent from "@/components/ui/BaseComponent";
 import { Button } from "@/components/ui/button";
 import { ProductVariant } from "@prisma/client";
 import Image from "next/image";
@@ -36,7 +36,7 @@ function ProductImages({
         ref={thumbnailContainer}
       >
         {availableSizes.at(0)?.images.map((image, idx) => (
-          <Wrapper className="p-1" key={idx}>
+          <BaseComponent className="p-1" key={idx}>
             <Button
               variant="default"
               onClick={() => setSelectedImage(idx)}
@@ -55,10 +55,10 @@ function ProductImages({
                 width="300"
               />
             </Button>
-          </Wrapper>
+          </BaseComponent>
         ))}
       </div>
-      <Wrapper className="col-span-4 md:sticky md:top-[104px] md:h-[600px] md:max-h-screen overflow-hidden rounded-sm">
+      <BaseComponent className="col-span-4 md:sticky md:top-[104px] md:h-[600px] md:max-h-screen overflow-hidden rounded-sm">
         <Image
           alt="Product image"
           className="h-auto w-full object-cover object-top"
@@ -68,7 +68,7 @@ function ProductImages({
           }
           width="600"
         />
-      </Wrapper>
+      </BaseComponent>
     </>
   );
 }

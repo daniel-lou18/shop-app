@@ -4,7 +4,7 @@ import { TAKE } from "@/db/queries/products";
 import { SkeletonCard } from "@/components/skeletons/SkeletonCard";
 import { Variant } from "@/features/variants/Variant";
 import VariantCard from "@/components/common/card/VariantCard";
-import Wrapper from "@/components/layout/Wrapper";
+import BaseComponent from "@/components/ui/BaseComponent";
 
 type ProductsListProps = {
   data: Variant[];
@@ -13,8 +13,8 @@ type ProductsListProps = {
 
 function ProductsList({ data, isLoading }: ProductsListProps) {
   return (
-    <Wrapper
-      element="ul"
+    <BaseComponent
+      tag="ul"
       className={`${
         isLoading ? "opacity-30" : ""
       } grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-x-4 gap-y-8`}
@@ -30,7 +30,7 @@ function ProductsList({ data, isLoading }: ProductsListProps) {
           />
         ))}
       {data?.length === 0 && !isLoading && <p>Aucun produit à afficher</p>}
-    </Wrapper>
+    </BaseComponent>
   );
 }
 

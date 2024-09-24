@@ -1,4 +1,4 @@
-import Wrapper from "@/components/layout/Wrapper";
+import BaseComponent from "@/components/ui/BaseComponent";
 import React from "react";
 
 function ProductDescription({
@@ -7,9 +7,9 @@ function ProductDescription({
   productDescription: string | undefined;
 }) {
   return (
-    <Wrapper element="p" className="text-base text-gray-700">
+    <BaseComponent tag="p" className="text-base text-gray-700">
       {productDescription}
-    </Wrapper>
+    </BaseComponent>
   );
 }
 

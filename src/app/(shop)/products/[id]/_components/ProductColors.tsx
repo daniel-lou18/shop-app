@@ -1,4 +1,4 @@
-import Wrapper from "@/components/layout/Wrapper";
+import BaseComponent from "@/components/ui/BaseComponent";
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
 import { VariantsWithProduct } from "@/db/queries/variants";
 import Image from "next/image";
@@ -12,11 +12,11 @@ type ProductColorsProps = {
 function ProductColors({ value, onValueChange, variants }: ProductColorsProps) {
   const colors = Array.from(new Set(variants.map((variant) => variant.color)));
   return (
-    <Wrapper className="grid grid-cols-1 gap-1">
-      <Wrapper
-        element="p"
+    <BaseComponent className="grid grid-cols-1 gap-1">
+      <BaseComponent
+        tag="p"
         className="mb-1"
-      >{`${colors?.length} couleurs disponibles :`}</Wrapper>
+      >{`${colors?.length} couleurs disponibles :`}</BaseComponent>
       <ToggleGroup
         type="single"
         variant="default"
@@ -47,10 +47,10 @@ function ProductColors({ value, onValueChange, variants }: ProductColorsProps) {
           </ToggleGroupItem>
         ))}
       </ToggleGroup>
-      <Wrapper element="p" className="text-sm">
+      <BaseComponent tag="p" className="text-sm">
         Couleur : {value.toUpperCase()}
-      </Wrapper>
-    </Wrapper>
+      </BaseComponent>
+    </BaseComponent>
   );
 }
 

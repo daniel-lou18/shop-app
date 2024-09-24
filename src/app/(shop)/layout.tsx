@@ -1,4 +1,4 @@
-import { ReactNode, Suspense } from "react";
+import { ReactNode } from "react";
 import HeaderCustomer from "../../components/layout/navigation/HeaderCustomer";
 import { CartContextProvider } from "@/context/cart-context";
 import Topbar from "../../components/layout/Topbar";
