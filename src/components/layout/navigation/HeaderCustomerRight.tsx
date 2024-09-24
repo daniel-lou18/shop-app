@@ -19,6 +19,7 @@ import { paths } from "@/lib/paths";
 import ButtonSignOut from "@/components/ui/ButtonSignOut";
 import { User } from "@prisma/client";
 import Search from "../search/Search";
+import BaseComponent from "@/components/ui/BaseComponent";
 
 type HeaderCustomerRightProps = {
   currentUser: User | null;
@@ -33,7 +34,7 @@ function HeaderCustomerRight({ currentUser }: HeaderCustomerRightProps) {
   }
 
   return (
-    <div className="flex items-center justify-end gap-4 md:gap-2 lg:gap-4 w-[60%] md:mr-16">
+    <BaseComponent className="flex flex-1 sm:flex-initial items-center justify-end gap-4 md:gap-2 lg:gap-4 w-[60%] md:mr-16">
       <Search />
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
@@ -100,7 +101,7 @@ function HeaderCustomerRight({ currentUser }: HeaderCustomerRightProps) {
         )}
       </Button>
       <Example open={cartOpen} setOpen={setCartOpen} />
-    </div>
+    </BaseComponent>
   );
 }
 
