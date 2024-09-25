@@ -74,10 +74,16 @@ function ProductCard({ type, item, className }: ProductCardProps) {
                     {title}
                   </BaseComponent>
                 </CardTitle>
-                <BaseComponent className="text-sm md:hidden text-gray-950 mb-2">
+                <BaseComponent
+                  tag="p"
+                  className="text-sm md:hidden text-gray-950 mb-2"
+                >
                   {shortenText(description, 21)}
                 </BaseComponent>
-                <BaseComponent className="hidden md:block text-base text-gray-950 mb-2">
+                <BaseComponent
+                  tag="p"
+                  className="hidden md:block text-base text-gray-950 mb-2"
+                >
                   {description}
                 </BaseComponent>
                 {item?.price && (
@@ -120,7 +126,10 @@ function ProductCard({ type, item, className }: ProductCardProps) {
                   {title}
                 </BaseComponent>
               </CardTitle>
-              <BaseComponent className="hidden md:block text-sm md:text-base text-gray-950 mb-2">
+              <BaseComponent
+                tag="p"
+                className="hidden md:block text-sm md:text-base text-gray-950 mb-2"
+              >
                 {description}
               </BaseComponent>
             </CardFooter>

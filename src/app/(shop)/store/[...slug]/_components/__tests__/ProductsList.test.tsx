@@ -1,4 +1,4 @@
-import { screen, render, Variant } from "@testing-library/react";
+import { screen, render } from "@testing-library/react";
 import "@testing-library/jest-dom/extend-expect";
 import { testVariantsWithProductMenFlattened } from "@/lib/testData";
 import ProductsList from "../ProductsList";
@@ -11,15 +11,6 @@ jest.mock("../../../../../../context/wishlist-context", () => ({
     removeFromWishlist: jest.fn(),
   }),
 }));
-
-const readOnlyURLSearchParams = {
-  getAll: () => ({}),
-  get: (key: string) => undefined,
-  entries: () => [],
-  keys: () => [],
-  values: () => [],
-  has: (key: string) => false,
-};
 
 test("should render 3 product cards", () => {
   render(

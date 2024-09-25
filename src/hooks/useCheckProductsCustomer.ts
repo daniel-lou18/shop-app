@@ -1,13 +1,11 @@
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { Dispatch, SetStateAction } from "react";
+import { useQueryParams } from "./useQueryParams";
 
 export function useCheckProductsCustomer(
   type: "color" | "category" | "brand" | "size",
   setIsLoading: Dispatch<SetStateAction<boolean>>
 ) {
-  const searchParams = useSearchParams();
-  const pathname = usePathname();
-  const router = useRouter();
+  const { searchParams, path, router } = useQueryParams();
   const checkedValues = searchParams.getAll(type);
 
   function handleCheckBox(
@@ -21,7 +19,7 @@ export function useCheckProductsCustomer(
     action === "append"
       ? newQueryString.append(type, value)
       : newQueryString.delete(type, value);
-    router.push(`${pathname}?${newQueryString.toString()}`);
+    router.push(`${path}?${newQueryString.toString()}`);
   }
 
   function handleCheck(type: string, value: string) {
