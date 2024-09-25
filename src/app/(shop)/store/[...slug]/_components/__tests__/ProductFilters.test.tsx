@@ -2,35 +2,37 @@ import { screen, render, within } from "@testing-library/react";
 import ProductFilters from "../ProductFilters";
 import { testFilterData } from "@/lib/testData";
 import { usePathname, useSearchParams } from "next/navigation";
+import { AvailableData } from "../ProductsPage";
+import { Slug } from "@/types";
 
 jest.mock("next/navigation");
 
 function renderComponent(
-  pathname = "/store/homme",
-  data = [],
-  slug = ["homme", undefined, undefined]
+  pathname: string,
+  data: AvailableData,
+  slug: Slug = ["homme", undefined, undefined]
 ) {
   const mockFn = jest.fn();
-  usePathname.mockReturnValue(pathname);
-  useSearchParams.mockReturnValue({
+  (usePathname as jest.Mock).mockReturnValue(pathname);
+  (useSearchParams as jest.Mock).mockReturnValue({
     getAll: () => ({}),
-    get: (key) => undefined,
+    get: (key: string) => undefined,
     entries: () => [],
     keys: () => [],
     values: () => [],
-    has: (key) => false,
+    has: (key: string) => false,
   });
   render(<ProductFilters data={data} setIsLoading={mockFn} slug={slug} />);
 }
 
 test("should render no checkboxes when filterData is empty", () => {
-  renderComponent();
+  renderComponent("/store/homme", []);
   const buttons = screen.queryAllByRole("button");
   expect(buttons).toHaveLength(0);
 });
 
 test("should render 4 checkboxes when url is '/store/homme'", () => {
-  renderComponent(null, testFilterData);
+  renderComponent("/store/homme", testFilterData);
   const buttons = screen.queryAllByRole("button");
   expect(within(buttons[0]).getByText(/couleur/i)).toBeInTheDocument();
   expect(within(buttons[1]).getByText(/taille/i)).toBeInTheDocument();
