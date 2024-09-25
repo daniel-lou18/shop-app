@@ -28,7 +28,7 @@
     ".next/types/**/*.ts",
     "src/app/(shop)/products/[id]/_components/__tests__/ProductColors.test.jsx",
     "src/components/common/carousel/ProductsCarouselItems._test.tsx",
-    "src/app/(shop)/store/[...slug]/_components/__tests__/ProductFilters.test.jsx",
+    "src/app/(shop)/store/[...slug]/_components/__tests__/ProductFilters.test.tsx",
     "jest.polyfills.js",
     "src/components/common/carousel/ProductsCarouselItems._test.jsx"
   ],

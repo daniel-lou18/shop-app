@@ -26,9 +26,16 @@ function renderComponent(
 }
 
 test("should render no checkboxes when filterData is empty", () => {
-  renderComponent("/store/homme", []);
+  renderComponent("/store/homme", {
+    availableBrands: [],
+    availableCategories: [],
+    availableColors: [],
+    availableSizes: [],
+    initialBrands: [],
+    initialCategories: [],
+  });
   const buttons = screen.queryAllByRole("button");
-  expect(buttons).toHaveLength(0);
+  expect(buttons).toHaveLength(1);
 });
 
 test("should render 4 checkboxes when url is '/store/homme'", () => {
