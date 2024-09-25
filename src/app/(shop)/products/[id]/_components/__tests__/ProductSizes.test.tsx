@@ -1,5 +1,6 @@
 import { render, screen } from "@testing-library/react";
 import ProductSizes from "../ProductSizes";
+import userEvent from "@testing-library/user-event";
 
 const mockData = [
   {
@@ -124,5 +125,25 @@ describe("ProductSizes component", () => {
     expect(tabs[0]).toHaveAttribute("aria-checked", "false");
     expect(tabs[1]).toHaveAttribute("aria-checked", "false");
     expect(tabs[2]).toHaveAttribute("aria-checked", "true");
+  });
+
+  test("a click on a tab executes the function passed to the onValueChange prop and passes the size as an argument to this function", async () => {
+    const mockFunction = jest.fn();
+
+    render(
+      <ProductSizes
+        value=""
+        availableSizes={mockData}
+        onValueChange={mockFunction}
+      />
+    );
+
+    const user = userEvent.setup();
+
+    const tabs = screen.getAllByRole("radio");
+
+    await user.click(tabs[1]);
+
+    expect(mockFunction).toHaveBeenCalledWith("S");
   });
 });

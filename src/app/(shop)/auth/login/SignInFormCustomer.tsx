@@ -11,8 +11,6 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import * as actions from "@/actions";
-import Profile from "./_components/Profile";
-import ButtonLogin from "./_components/ButtonLogin";
 import ButtonSubmit from "@/components/ui/ButtonSubmit";
 import { useFormState } from "react-dom";
 import FormFieldError from "@/components/error/FormFieldError";
@@ -20,6 +18,7 @@ import { paths } from "@/lib/paths";
 import { useSearchParams } from "next/navigation";
 import { toast } from "sonner";
 import { useEffect } from "react";
+import BaseComponent from "@/components/ui/BaseComponent";
 
 function SignInFormCustomer() {
   const [formState, action] = useFormState(
@@ -41,7 +40,7 @@ function SignInFormCustomer() {
 
   return (
     <form className="flex flex-col items-center pt-32 w-full min-h-screen">
-      <Card className="mx-auto max-w-sm">
+      <Card className="border-transparent shadow-none sm:shadow-sm sm:border-gray-200 mx-auto max-w-sm">
         <CardHeader>
           <CardTitle className="text-2xl">Connexion</CardTitle>
           <CardDescription>
@@ -51,8 +50,8 @@ function SignInFormCustomer() {
           </CardDescription>
         </CardHeader>
         <CardContent>
-          <div className="grid gap-4">
-            <div className="grid gap-2">
+          <BaseComponent className="grid gap-4">
+            <BaseComponent className="grid gap-2">
               <Label htmlFor="email">Email</Label>
               <Input
                 name="email"
@@ -63,9 +62,9 @@ function SignInFormCustomer() {
               <FormFieldError>
                 {formState?.errors?.email?.join(", ")}
               </FormFieldError>
-            </div>
-            <div className="grid gap-2">
-              <div className="flex items-center">
+            </BaseComponent>
+            <BaseComponent className="grid gap-2">
+              <BaseComponent className="flex items-center">
                 <Label htmlFor="password">Mot de passe</Label>
                 <Link
                   href="#"
@@ -73,7 +72,7 @@ function SignInFormCustomer() {
                 >
                   Mot de passe oublié ?
                 </Link>
-              </div>
+              </BaseComponent>
               <Input
                 name="password"
                 id="password"
@@ -83,21 +82,21 @@ function SignInFormCustomer() {
               <FormFieldError>
                 {formState?.errors?.password?.join(", ")}
               </FormFieldError>
-            </div>
+            </BaseComponent>
             <ButtonSubmit className="w-full" formAction={action}>
               Login
             </ButtonSubmit>
-            {/* <div className="pointer-events-none opacity-50">
+            {/* <BaseComponent className="pointer-events-none opacity-50">
               <ButtonLogin variant="outline" />
-            </div> */}
-          </div>
-          <div className="mt-4 text-center text-sm">
+            </BaseComponent> */}
+          </BaseComponent>
+          <BaseComponent className="mt-4 text-center text-sm">
             Vous n&apos;avez pas encore de compte ?{" "}
             <Link href={paths.customerSignUp()} className="underline">
               Créer votre compte
             </Link>
-          </div>
-          <Profile />
+          </BaseComponent>
+          {/* <Profile /> */}
         </CardContent>
       </Card>
     </form>
