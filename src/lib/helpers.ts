@@ -101,7 +101,8 @@ export function orderSizes(
   availableSizes: ProductVariantWithValidSizes[],
   sizesOrderTable: typeof sizesTable
 ) {
-  return availableSizes.sort(
+  // use shallow copy to avoid mutating original array
+  return [...availableSizes].sort(
     (a, b) => sizesOrderTable[a.size] - sizesOrderTable[b.size]
   );
 }

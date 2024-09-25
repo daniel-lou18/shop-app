@@ -3,6 +3,7 @@ import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
 import { sizesTable } from "@/lib/constants";
 import { orderSizes } from "@/lib/helpers";
 import { ProductVariantWithValidSizes } from "@/types";
+import { useMemo } from "react";
 
 function ProductSizes({
   value,
@@ -13,8 +14,10 @@ function ProductSizes({
   onValueChange: (value: string) => void;
   availableSizes: ProductVariantWithValidSizes[];
 }) {
-  const orderedSizes = orderSizes(availableSizes, sizesTable);
-  console.log(orderedSizes);
+  const orderedSizes = useMemo(
+    () => orderSizes(availableSizes, sizesTable),
+    [availableSizes]
+  );
 
   return (
     <BaseComponent className="grid grid-cols-1 gap-2">
@@ -26,7 +29,7 @@ function ProductSizes({
         value={value}
         onValueChange={onValueChange}
       >
-        {availableSizes.map((item) => (
+        {orderedSizes.map((item) => (
           <ToggleGroupItem
             value={item.size}
             key={item.id}
