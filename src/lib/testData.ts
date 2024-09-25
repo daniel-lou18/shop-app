@@ -1557,9 +1557,11 @@ export const testVariantsWithProductMenFlattened = [
   {
     id: "clxoylywc001bcxplmisp6e86",
     productId: "clxoylypw001acxpl1a5ad68t",
+    name: "Pull en cotton bio",
     size: "XS",
     color: "blanc",
     price: 332550,
+    image: "/sweat_blanc_1.jpg",
     images: [
       "/sweat_blanc_1.jpg",
       "/sweat_blanc_2.jpg",
@@ -1578,9 +1580,11 @@ export const testVariantsWithProductMenFlattened = [
   {
     id: "clxoym0hh001ocxplmjoezzcd",
     productId: "clxoym0b3001ncxplryudtybu",
+    name: "Pull en cotton bio",
     size: "XS",
     color: "blanc",
     price: 97950,
+    image: "/sweat_blanc_1.jpg",
     images: [
       "/sweat_blanc_1.jpg",
       "/sweat_blanc_2.jpg",
@@ -1599,9 +1603,11 @@ export const testVariantsWithProductMenFlattened = [
   {
     id: "clxoym22o0021cxplvppetwou",
     productId: "clxoym1wc0020cxplx5hsu95m",
+    name: "Pull en cotton bio",
     size: "XS",
     color: "blanc",
     price: 170800,
+    image: "/sweat_blanc_1.jpg",
     images: [
       "/sweat_blanc_1.jpg",
       "/sweat_blanc_2.jpg",
