@@ -86,7 +86,6 @@ export function WishlistContextProvider({
 }) {
   const [{ wishlist }, dispatch] = useReducer(reducer, initialState);
   const router = useRouter();
-  console.log({ wishlist });
 
   useEffect(() => {
     if (!user) return;

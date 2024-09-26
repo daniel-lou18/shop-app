@@ -27,7 +27,7 @@ function BannerTop({ children, data, className }: BannerTopProps) {
           src={imagePath}
           width={1280}
           height={500}
-          className="w-full h-full object-cover object-top"
+          className="w-full h-full object-cover object-center"
           alt="main hero image"
           priority
         />
