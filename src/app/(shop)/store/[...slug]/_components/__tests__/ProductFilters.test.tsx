@@ -1,11 +1,11 @@
+jest.mock("next/navigation");
+
 import { screen, render, within } from "@testing-library/react";
 import ProductFilters from "../ProductFilters";
 import { testFilterData } from "@/lib/testData";
 import { usePathname, useSearchParams } from "next/navigation";
 import { AvailableData } from "../ProductsPage";
 import { Slug } from "@/types";
-
-jest.mock("next/navigation");
 
 function renderComponent(
   pathname: string,

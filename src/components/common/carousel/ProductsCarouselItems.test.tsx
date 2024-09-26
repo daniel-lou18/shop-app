@@ -1,11 +1,11 @@
+jest.mock("../../../context/wishlist-context", () => ({
+  useWishlist: jest.fn(),
+}));
+
 import { render, screen } from "@testing-library/react";
 import ProductsCarouselItems from "./ProductsCarouselItems";
 import { testVariantsWithProductWomen } from "@/lib/testData";
 import { useWishlist } from "@/context/wishlist-context";
-
-jest.mock("../../../context/wishlist-context", () => ({
-  useWishlist: jest.fn(),
-}));
 
 const mockedReturnValue = {
   wishlist: [],

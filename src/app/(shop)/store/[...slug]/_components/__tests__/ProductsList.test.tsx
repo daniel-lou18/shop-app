@@ -1,8 +1,3 @@
-import { screen, render } from "@testing-library/react";
-import "@testing-library/jest-dom/extend-expect";
-import { testVariantsWithProductMenFlattened } from "@/lib/testData";
-import ProductsList from "../ProductsList";
-
 jest.mock("../ProductFilters", () => () => "Mocked ProductFilters");
 jest.mock("../../../../../../context/wishlist-context", () => ({
   useWishlist: jest.fn().mockReturnValue({
@@ -11,6 +6,11 @@ jest.mock("../../../../../../context/wishlist-context", () => ({
     removeFromWishlist: jest.fn(),
   }),
 }));
+
+import { screen, render } from "@testing-library/react";
+import "@testing-library/jest-dom/extend-expect";
+import { testVariantsWithProductMenFlattened } from "@/lib/testData";
+import ProductsList from "../ProductsList";
 
 test("should render 3 product cards", () => {
   render(

@@ -1,8 +1,3 @@
-import { render, screen, within } from "@testing-library/react";
-import user from "@testing-library/user-event";
-import BrandsCards from "../BrandsCards";
-import "@testing-library/jest-dom/extend-expect";
-
 jest.mock("../../../../context/wishlist-context", () => ({
   useWishlist: jest.fn().mockReturnValue({
     wishlist: [],
@@ -10,6 +5,11 @@ jest.mock("../../../../context/wishlist-context", () => ({
     removeFromWishlist: jest.fn(),
   }),
 }));
+
+import { render, screen, within } from "@testing-library/react";
+import user from "@testing-library/user-event";
+import BrandsCards from "../BrandsCards";
+import "@testing-library/jest-dom/extend-expect";
 
 beforeEach(() => jest.clearAllMocks());
 

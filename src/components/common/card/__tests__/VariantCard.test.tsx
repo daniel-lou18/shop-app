@@ -1,7 +1,3 @@
-import { render, screen } from "@testing-library/react";
-import VariantCard from "../VariantCard";
-import { testVariantsWithProductMenFlattened } from "@/lib/testData";
-
 jest.mock("../../../../context/wishlist-context", () => ({
   useWishlist: jest.fn().mockReturnValue({
     wishlist: [],
@@ -9,6 +5,10 @@ jest.mock("../../../../context/wishlist-context", () => ({
     removeFromWishlist: jest.fn(),
   }),
 }));
+
+import { render, screen } from "@testing-library/react";
+import VariantCard from "../VariantCard";
+import { testVariantsWithProductMenFlattened } from "@/lib/testData";
 
 beforeEach(() => jest.clearAllMocks());
 
