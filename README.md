@@ -24,6 +24,11 @@
 - Génération automatique de factures en cours de finalisation.
 - Suivi des paiements intégré en cours de finalisation.
 
+### Tests automatisés et CI/CD :
+
+- Mise en place de tests unitaires et tests d'intégration avec Jest et React Testing Library
+- Intégration d'un workflow CI avec GitHub Actions pour l'exécution automatique des tests à chaque push
+
 ## Prochaines étapes immédiates :
 
 1. **Finaliser la sécurité :**
