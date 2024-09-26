@@ -19,6 +19,7 @@ import { useSearchParams } from "next/navigation";
 import { toast } from "sonner";
 import { useEffect } from "react";
 import BaseComponent from "@/components/ui/BaseComponent";
+import SignInInputFields from "./_components/SignInInputFields";
 
 function SignInFormCustomer() {
   const [formState, action] = useFormState(
@@ -51,38 +52,7 @@ function SignInFormCustomer() {
         </CardHeader>
         <CardContent>
           <BaseComponent className="grid gap-4">
-            <BaseComponent className="grid gap-2">
-              <Label htmlFor="email">Email</Label>
-              <Input
-                name="email"
-                id="email"
-                type="email"
-                placeholder="loutje@mail.com"
-              />
-              <FormFieldError>
-                {formState?.errors?.email?.join(", ")}
-              </FormFieldError>
-            </BaseComponent>
-            <BaseComponent className="grid gap-2">
-              <BaseComponent className="flex items-center">
-                <Label htmlFor="password">Mot de passe</Label>
-                <Link
-                  href="#"
-                  className="ml-auto inline-block text-sm underline"
-                >
-                  Mot de passe oublié ?
-                </Link>
-              </BaseComponent>
-              <Input
-                name="password"
-                id="password"
-                type="password"
-                placeholder="123123123"
-              />
-              <FormFieldError>
-                {formState?.errors?.password?.join(", ")}
-              </FormFieldError>
-            </BaseComponent>
+            <SignInInputFields formState={formState} />
             <ButtonSubmit className="w-full" formAction={action}>
               Login
             </ButtonSubmit>

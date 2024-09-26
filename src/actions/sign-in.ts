@@ -7,7 +7,7 @@ import { signInSchema } from "@/lib/schemas";
 import { revalidatePath } from "next/cache";
 import { UserRole } from "@prisma/client";
 
-type SignInSchemaType = {
+export type SignInSchemaType = {
   errors?: {
     email?: string[];
     password?: string[];
