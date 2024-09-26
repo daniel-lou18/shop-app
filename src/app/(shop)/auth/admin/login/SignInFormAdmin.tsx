@@ -42,7 +42,7 @@ function SignInFormAdmin() {
   return (
     <main className="flex flex-col items-center pt-32 w-full min-h-screen">
       <form action={action}>
-        <Card className="mx-auto max-w-sm">
+        <Card className="border-transparent shadow-none sm:shadow-sm sm:border-gray-200 mx-auto max-w-sm">
           <CardHeader className="">
             <CardTitle className="text-2xl">Connexion Espace Pro</CardTitle>
             <CardDescription>
@@ -94,7 +94,7 @@ function SignInFormAdmin() {
                 Créer votre compte
               </Link>
             </div>
-            <Profile />
+            {/* <Profile /> */}
           </CardContent>
         </Card>
       </form>

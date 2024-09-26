@@ -26,7 +26,10 @@ function SignUpFormAdmin() {
   }, [formState]);
 
   return (
-    <form action={action} className="mx-auto max-w-[59rem] flex flex-col">
+    <form
+      action={action}
+      className="mx-auto max-w-[60rem] flex flex-col px-8 my-8"
+    >
       <h2 className="text-xl font-semibold leading-7 text-gray-900">
         Créer mon compte
       </h2>
