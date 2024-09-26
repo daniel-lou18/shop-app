@@ -27,7 +27,10 @@ function SignUpFormCustomer() {
   }, [formState]);
 
   return (
-    <form action={action} className="mx-auto max-w-[59rem] flex flex-col my-8">
+    <form
+      action={action}
+      className="mx-auto max-w-[60rem] flex flex-col px-8 my-8"
+    >
       <PageHeading1>Creer mon compte</PageHeading1>
       <p className="text-sm leading-6 text-gray-600">
         Veuillez saisir vos informations personnelles
