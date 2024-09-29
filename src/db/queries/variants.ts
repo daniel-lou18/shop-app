@@ -120,6 +120,11 @@ export async function fetchVariantsByProductId(
   }
 }
 
+/* We need to retrieve the variants with the corresponding referenced products
+ * If no color name is provided, the query will return 1 result per unique productId
+ * If a color name is provided, the query will return 1 result per unique color
+ */
+
 export async function searchVariantsWithProduct(
   slug: Slug,
   searchParams: SearchParams

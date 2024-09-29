@@ -3,6 +3,12 @@ import variantService from "@/features/variants";
 import { Variant } from "@/features/variants/Variant";
 import { useQueryParams } from "./useQueryParams";
 
+/*Custom hook to fetch variants based on params and search params
+* It calls the variantService that will call an API route,
+which in turn will call a query function that gets the filtered variants from the database.
+The actual filtering happens in the query function.
+*/
+
 export function useFilterVariants() {
   const { path, searchParams, params } = useQueryParams();
   const [filteredVariants, setFilteredVariants] = useState<Variant[]>([]);

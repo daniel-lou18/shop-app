@@ -1,25 +1,23 @@
 import { searchVariantsWithProduct } from "@/db/queries/variants";
-import { parseApiParams, parseApiSearchParams } from "@/lib/parsers";
+import { parseApiSearchParams } from "@/lib/parsers";
 import { Slug } from "@/types";
 import { NextRequest, NextResponse } from "next/server";
 
 /*This is the API route handler that handles the filtering of variants.
- * It receives dynamic catch-all segments [...slug] from the URL and parses them.
+ * It receives the dynamic catch-all segments [...slug] route parameters, for example: ['femme', 'brandstore', 'Maje'].
  * It also receives search params from the URL and parses them.
- * It then calls a query function that fetches filtered variants from the database.
+ * It then calls a query function that gets the filtered variants from the database.
  */
 
-export async function GET(request: NextRequest) {
-  const { pathname, searchParams } = request.nextUrl;
-  const parsedParams = parseApiParams(pathname) as Slug;
-  console.log("parsedParams", parsedParams);
+export async function GET(
+  request: NextRequest,
+  { params: { slug } }: { params: { slug: Slug } }
+) {
+  const { searchParams } = request.nextUrl;
   const parsedSearchParams = parseApiSearchParams(searchParams);
 
   try {
-    const result = await searchVariantsWithProduct(
-      parsedParams,
-      parsedSearchParams
-    );
+    const result = await searchVariantsWithProduct(slug, parsedSearchParams);
     if (!result.success) {
       throw new Error(result.error);
     }
