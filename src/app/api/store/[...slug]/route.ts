@@ -3,9 +3,16 @@ import { parseApiParams, parseApiSearchParams } from "@/lib/parsers";
 import { Slug } from "@/types";
 import { NextRequest, NextResponse } from "next/server";
 
+/*This is the API route handler that handles the filtering of variants.
+ * It receives dynamic catch-all segments [...slug] from the URL and parses them.
+ * It also receives search params from the URL and parses them.
+ * It then calls a query function that fetches filtered variants from the database.
+ */
+
 export async function GET(request: NextRequest) {
   const { pathname, searchParams } = request.nextUrl;
   const parsedParams = parseApiParams(pathname) as Slug;
+  console.log("parsedParams", parsedParams);
   const parsedSearchParams = parseApiSearchParams(searchParams);
 
   try {

@@ -32,6 +32,10 @@ export async function signIn(
     };
   }
 
+  /*Use the signIn function provided by NextAuth:
+   * this call will trigger the authorize function defined inside the Credentials provider
+   * it will pass the second argument to the authorize function */
+
   try {
     await auth.signIn("credentials", {
       email: result.data.email,

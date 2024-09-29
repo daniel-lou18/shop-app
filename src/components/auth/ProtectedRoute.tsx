@@ -1,6 +1,5 @@
 "use client";
 
-import { useSession } from "next-auth/react";
 import { ReactNode } from "react";
 import ErrorPage from "../error/ErrorPage";
 import { UserRole } from "@prisma/client";
@@ -12,9 +11,12 @@ type ProtectedRouteProps = {
   allowedRole: UserRole;
 };
 
+/*The only task of this component is to check if the user is authenticated and if the user has the correct role.
+ * If the user is not authenticated or does not have the correct role, it displays an error page.
+ * If the user is authenticated and has the correct role, it renders the children.
+ * This is a client component but it can pass server components as children.
+ */
 function ProtectedRoute({ children, user, allowedRole }: ProtectedRouteProps) {
-  const session = useSession();
-
   if (!user || user.role !== allowedRole) {
     return (
       <ErrorPage

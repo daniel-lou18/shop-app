@@ -8,7 +8,7 @@ datasource db {
   directUrl = env("POSTGRES_URL_NON_POOLING") // uses a direct connection
 }
 
-// Auth
+// Auth : recommended naming conventions and models from Auth.js docs for Prisma
 
 model Account {
   id                String  @id @default(cuid())

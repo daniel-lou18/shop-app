@@ -7,26 +7,17 @@ export default auth((req) => {
   const isLoggedIn = !!session;
   console.log(isLoggedIn);
   if (pathName.startsWith("/api/auth")) return null;
+  // Redirect to admin dashboard if user is logged in and tries to access login page
   if (pathName === paths.adminSignIn()) {
     if (isLoggedIn && session.user.role === "ADMIN") {
       return Response.redirect(new URL(paths.adminProducts(), req.nextUrl));
     }
     return null;
   }
+  // Redirect users to admin login page if they try to access admin pages without being logged in
   if (pathName.startsWith(paths.adminHome()) && !isLoggedIn) {
     return Response.redirect(new URL(paths.adminSignIn(), req.nextUrl));
   }
-
-  // if (
-  //   isLoggedIn &&
-  //   session.user.role === "USER" &&
-  //   pathName.startsWith(paths.adminHome()) &&
-  //   pathName !== paths.adminSignIn() &&
-  //   pathName !== paths.adminSignUp()
-  // ) {
-  //   return Response.redirect(new URL(paths.customerHome(), req.nextUrl));
-  // }
-
   return null;
 });
 
