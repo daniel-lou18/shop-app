@@ -18,6 +18,7 @@ type ProductDetailsCustomerPageProps = {
     color: string;
   };
 };
+
 async function ProductDetailsCustomerPage({
   params,
   searchParams,
@@ -25,6 +26,7 @@ async function ProductDetailsCustomerPage({
   if (!params.id) notFound();
   const variantsResult = await fetchVariantsByProductId(params.id);
   const variants = variantsResult.success ? variantsResult.data : [];
+  // fetch related variants to personalize the carousel
   const relatedVariantsResult = await fetchVariants<VariantsWithProduct>({
     where: {
       product: { categoryId: variants[0]?.product.categoryId },

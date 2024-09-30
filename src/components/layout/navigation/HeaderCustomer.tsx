@@ -5,6 +5,11 @@ import NavbarMobile from "@/components/layout/navigation/NavbarMobile";
 import { auth } from "@/auth";
 import { fetchUserById } from "@/db/queries/user";
 
+/* Get userId from user object in session
+ * Fetch user from database with this userId
+ * Pass current user to HeaderCustomerRight to display personalized message
+ */
+
 async function HeaderCustomer() {
   const session = await auth();
   const navigationData = await fetchCategoriesAndBrands();
