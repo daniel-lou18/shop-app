@@ -22,9 +22,9 @@ type WishlistState = {
 };
 
 type Action =
-  | { type: "LOAD_WISHLIST"; payload: string[] }
-  | { type: "ADD_ITEM"; payload: string }
-  | { type: "REMOVE_ITEM"; payload: string };
+  | { type: "LOADED_WISHLIST"; payload: string[] }
+  | { type: "ADDED_ITEM"; payload: string }
+  | { type: "REMOVED_ITEM"; payload: string };
 
 type WishlistContextValueType = WishlistState & {
   addToWishlist: (productId: string) => void;
@@ -36,14 +36,14 @@ const WishlistContext = createContext<WishlistContextValueType | null>(null);
 async function loadWishlist(userId: string, dispatch: Dispatch<Action>) {
   try {
     const result = await getWishlistService(userId);
-    dispatch({ type: "LOAD_WISHLIST", payload: result.productIds });
+    dispatch({ type: "LOADED_WISHLIST", payload: result.productIds });
   } catch (err) {
     console.log(
       err instanceof Error
         ? err.message
         : "Erreur lors du chargement de la liste de souhaits"
     );
-    dispatch({ type: "LOAD_WISHLIST", payload: [] });
+    dispatch({ type: "LOADED_WISHLIST", payload: [] });
   }
 }
 
@@ -53,18 +53,18 @@ const initialState: WishlistState = {
 
 function reducer(state: WishlistState, action: Action) {
   switch (action.type) {
-    case "LOAD_WISHLIST": {
+    case "LOADED_WISHLIST": {
       return { wishlist: action.payload };
     }
 
-    case "ADD_ITEM": {
+    case "ADDED_ITEM": {
       if (state.wishlist.includes(action.payload)) {
         return state;
       }
       return { wishlist: [...state.wishlist, action.payload] };
     }
 
-    case "REMOVE_ITEM": {
+    case "REMOVED_ITEM": {
       if (!state.wishlist.includes(action.payload)) {
         return state;
       }
@@ -106,7 +106,7 @@ export function WishlistContextProvider({
       if (!isSignedIn()) return;
       try {
         await addToWishlistService((user as ExtendedUser).id, productId);
-        dispatch({ type: "ADD_ITEM", payload: productId });
+        dispatch({ type: "ADDED_ITEM", payload: productId });
       } catch (err) {
         console.log(
           err instanceof Error
@@ -119,7 +119,7 @@ export function WishlistContextProvider({
       if (!isSignedIn()) return;
       try {
         await removeFromWishlistService((user as ExtendedUser).id, productId);
-        dispatch({ type: "REMOVE_ITEM", payload: productId });
+        dispatch({ type: "REMOVED_ITEM", payload: productId });
       } catch (err) {
         console.log(
           err instanceof Error

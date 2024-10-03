@@ -34,6 +34,7 @@ function ProductSizes({
             value={item.size}
             key={item.id}
             className="w-16"
+            // disable specific size toggle button if the variant is out of stock
             disabled={item.stockQuantity === 0}
           >
             {item.size}

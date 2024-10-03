@@ -12,6 +12,10 @@ export type StoreProps = {
   searchParams: SearchParams;
 };
 
+/* The dynamic catch-all segments [...slug] route parameters, for example: ['femme', 'brandstore', 'Maje'],
+ * can be accessed with params.slug.
+ */
+
 export default async function ProductsBySlug({
   params,
   searchParams,

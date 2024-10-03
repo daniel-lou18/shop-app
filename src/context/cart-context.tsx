@@ -2,8 +2,6 @@
 
 import { VariantWithProduct } from "@/db/queries/variants";
 import { ReactNode, createContext, useContext, useReducer } from "react";
-import { calculateTotalCartPrice } from "@/lib/helpers";
-import { totalmem } from "os";
 
 export type CartItem = VariantWithProduct & {
   orderQuantity: number;

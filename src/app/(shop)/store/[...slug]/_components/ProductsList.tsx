@@ -11,6 +11,10 @@ type ProductsListProps = {
   isLoading: boolean;
 };
 
+/* Presentational component:
+ * presenting a list of products
+ */
+
 function ProductsList({ data, isLoading }: ProductsListProps) {
   return (
     <BaseComponent

@@ -27,6 +27,10 @@ type ProductsPageProps = {
   filterData: AvailableData;
 };
 
+/* Higher-order component managing state and coordinating child components,
+ *  with more specialized presentational components handling specific parts of the UI
+ */
+
 function ProductsPage({ filterData, count }: ProductsPageProps) {
   const { filteredVariants, isLoading, setIsLoading, error, params } =
     useFilterVariants();
