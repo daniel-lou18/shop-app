@@ -7,13 +7,13 @@ function ProductsContainerSkeleton() {
     <>
       <div className="w-full flex justify-between my-6">
         <div className="flex gap-4">
-          <Skeleton className="h-10 w-32 bg-gray-300 py-2" />
-          <Skeleton className="h-10 w-32 bg-gray-300 py-2" />
-          <Skeleton className="h-10 w-32 bg-gray-300 py-2" />
+          <Skeleton className="h-10 w-24 md:w-32 bg-gray-300 py-2" />
+          <Skeleton className="hidden md:block h-10 w-32 bg-gray-300 py-2" />
+          <Skeleton className="hidden md:block h-10 w-32 bg-gray-300 py-2" />
         </div>
         <div className="flex gap-4">
-          <Skeleton className="h-10 w-28 bg-gray-300 py-2" />
-          <Skeleton className="h-10 w-28 bg-gray-300 py-2" />
+          <Skeleton className="h-10 w-24 md:w-28 bg-gray-300 py-2" />
+          <Skeleton className="h-10 w-24 md:w-28 bg-gray-300 py-2" />
         </div>
       </div>
       <ul
