@@ -9,6 +9,7 @@ import ProductsCarouselItems from "../../../../components/common/carousel/Produc
 import { Breadcrumbs } from "@/components/ui/Breadcrumbs";
 import { Slug } from "@/types";
 import BaseComponent from "@/components/ui/BaseComponent";
+import ProductsLoading from "./loading";
 
 type ProductDetailsCustomerPageProps = {
   params: {
